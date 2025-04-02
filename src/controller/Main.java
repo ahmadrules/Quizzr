@@ -1,3 +1,7 @@
+package controller;
+
+import view.QuizzrExample;
+
 import javax.swing.*;
 
 public class Main {

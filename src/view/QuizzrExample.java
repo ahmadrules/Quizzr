@@ -1,6 +1,7 @@
+package view;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class QuizzrExample implements Runnable {
         JLabel programsLabel = new JLabel(" Programs");
         programsLabel.setFont(new Font("Arial", Font.BOLD, 14));
 
-        // Main List (Programs)
+        // controller.Main List (Programs)
         String[] categories = {"Program 1", "Program 2", "Program 3"};
         DefaultListModel<String> mainListModel = new DefaultListModel<String>();
         for (String category : categories) mainListModel.addElement(category);
@@ -96,7 +97,7 @@ public class QuizzrExample implements Runnable {
 
         // ======= EVENT HANDLERS =======
 
-        // Handle Main List Selection (Show Sublist Below Selected Item)
+        // Handle controller.Main List Selection (Show Sublist Below Selected Item)
         mainList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selectedCategory = mainList.getSelectedValue();
