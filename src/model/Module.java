@@ -7,7 +7,7 @@ public class Module {
     private String name;
     //private ArrayList<Quiz> quizzes ;
     private ArrayList<FlashCard> flashCards;
-    private final String quizFileName = "src/files/recent_quiz.dat";
+    private final String quizFileName = "src/model/files/recent_quiz.dat";
     private Quiz currentQuiz;
     private final String matchingFileName = "matching_questions.txt";
     private final String multiChoiceFileName = "multiChoice_questions.txt";
