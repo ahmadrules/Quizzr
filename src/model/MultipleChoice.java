@@ -5,11 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MultipleChoice extends Question {
-    protected String correctAnswer;
 
     public MultipleChoice(String question, List<String> alternatives , String correctAnswer, int points) {
-        super(question,alternatives,points);
-        this.correctAnswer = correctAnswer;
+        super(question,alternatives,points, correctAnswer);
     }
     public void addAlternative(String alternative) {
         this.alternatives.add(alternative);

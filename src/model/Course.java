@@ -1,18 +1,21 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Course {
     private String name;
-    private ArrayList<Module> modules;
+    private List<Module> modules;
+
     public Course(String name, ArrayList<Module> modules) {
         this.name = name;
         this.modules = modules;
     }
+
     public String getName() {
         return name;
     }
-    public ArrayList<Module> getModules() {
+    public List<Module> getModules() {
         return modules;
     }
     public void setModules(ArrayList<Module> modules) {

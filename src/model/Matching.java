@@ -9,8 +9,8 @@ public class Matching extends Question implements Savable {
     private List<String> matches;
     private HashMap<String, Integer> correctMatches;
 
-    public Matching(String question, List<String> alternatives,List<String> matches, HashMap<String,Integer> correctMatches ,int points) {
-        super(question,alternatives,points);
+    public Matching(String question, List<String> statements,List<String> matches, HashMap<String,Integer> correctMatches ,int points) {
+        super(question, statements, points);
         this.matches = matches;
         this.correctMatches = correctMatches;
     }
@@ -26,7 +26,6 @@ public class Matching extends Question implements Savable {
 
     @Override
     public boolean checkAnswer(String usersAnswer) {
-        
         return false;
     }
 

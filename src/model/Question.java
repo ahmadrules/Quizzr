@@ -8,11 +8,19 @@ public abstract class Question implements Savable, Serializable {
     protected String question;
     protected List<String> alternatives;
     protected int points;
+    protected String correctAnswer;
 
     public Question(String question,List<String> alternatives,int points) {
         this.question = question;
         this.alternatives = alternatives;
         this.points = points;
+    }
+
+    public Question(String question,List<String> alternatives,int points, String correctAnswer) {
+        this.question = question;
+        this.alternatives = alternatives;
+        this.points = points;
+        this.correctAnswer = correctAnswer;
     }
 
     public String getQuestion() {

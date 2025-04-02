@@ -5,11 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TrueOrFalse extends Question {
-    private boolean correctAnswer;
 
-    public TrueOrFalse(String question, List<String> alternatives, int points, Boolean answer) {
-        super(question,alternatives, points);
-        this.correctAnswer = answer;
+    public TrueOrFalse(String question, List<String> alternatives, int points, String correctAnswer) {
+        super(question,alternatives, points, correctAnswer);
     }
 
     @Override
@@ -26,7 +24,7 @@ public class TrueOrFalse extends Question {
         }
         String question = parts[0].trim();
         List<String> alternatives = Arrays.asList(parts[1], parts[2]);
-        boolean correctAnswer = Boolean.parseBoolean(parts[3].trim());
+        String correctAnswer = parts[3];
         int points = Integer.parseInt(parts[4]);
         return new TrueOrFalse(question, alternatives, points, correctAnswer);
     }

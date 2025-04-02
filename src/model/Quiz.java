@@ -4,37 +4,24 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Quiz implements Savable, Serializable {
+public class Quiz implements Serializable {
     private List<Question> questions;
     private List<String> userAnswers;
-    private String MultipleChoiceFile;
-    private String TrueOrFalseFile;
-    private String matchingFile;
+    private String name;
 
-    public Quiz() {
+    public Quiz(String name) {
         this.questions = new ArrayList<>();
+        this.name = name;
     }
     public int CalculateScore(){
         int sum = 0;
 
         return sum;
     }
-    public void generateGeneralQuiz(){
-
-    }
-    public void generateMultipleChoiceQuiz(){}
-    public void generateTrueOrFalseQuiz(){}
-    public void generateMatchingQuiz(){}
     public int correctAnswer(){
         return 0;
     }
-    @Override
-    public void saveToFile(String filename) {
-
-    }
-
-    @Override
-    public Quiz loadFromFile(String filename) {
-    return null;
+    public void addQuestion(Question question){
+        questions.add(question);
     }
 }
