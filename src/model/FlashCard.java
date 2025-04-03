@@ -1,5 +1,7 @@
 package model;
 
+import java.io.*;
+
 public class FlashCard implements Savable {
     private String content;
 
@@ -14,12 +16,28 @@ public class FlashCard implements Savable {
     }
 
     @Override
-    public void saveToFile(String filename) {
-
+    public void saveToFile(String filename, Object content) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(content);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public Object loadFromFile(String filename) {
-        return null;
+    public FlashCard loadFromFile(String filename) {
+        FlashCard flashCard = null;
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename)) ) {
+          flashCard=(FlashCard) ois.readObject();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return flashCard;
     }
 }

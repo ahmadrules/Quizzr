@@ -1,14 +1,20 @@
 package model;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MultipleChoice extends Question {
+public class MultipleChoice extends Question{
 
     public MultipleChoice(String question, List<String> alternatives , String correctAnswer, int points) {
         super(question,alternatives,points, correctAnswer);
     }
+    public MultipleChoice(){
+        super();
+        ;
+    }
+
     public void addAlternative(String alternative) {
         this.alternatives.add(alternative);
     }
@@ -32,19 +38,10 @@ public class MultipleChoice extends Question {
         if (parts.length <5) {
             throw new IllegalArgumentException("Wrong number of parts: " + parts.length);
         }
-        String question = parts[0];
-        List<String> alternatives = Arrays.asList(parts[1], parts[2], parts[3]);
-        String correctAnswer = parts[4];
-        int points = Integer.parseInt(parts[5]);
+        String question = parts[0].trim();
+        List<String> alternatives = Arrays.asList(parts[1].trim(), parts[2].trim(), parts[3].trim());
+        String correctAnswer = parts[4].trim();
+        int points = Integer.parseInt(parts[5].trim());
         return new MultipleChoice(question, alternatives, correctAnswer,points);
-    }
-    @Override
-    public void saveToFile(String filename) {
-
-    }
-
-    @Override
-    public Object loadFromFile(String filename) {
-        return null;
     }
 }
