@@ -25,7 +25,7 @@ public class QuizzrExample implements Runnable {
         // ======= LEFT PANEL =======
         LeftPanel leftPanel = new LeftPanel(rightPanel);
 
-        //Label for top of right panel
+        //Label and list for top of right panel
         JPanel rightContainer = new JPanel(new BorderLayout());
         rightContainer.add(topPanel, BorderLayout.NORTH);
         rightContainer.add(rightPanel, BorderLayout.CENTER);
