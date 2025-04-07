@@ -6,8 +6,12 @@ public class FlashcardPanel {
     private JFrame flashcardFrame;
     private String chosenModule;
 
-    public void panelOpened(String chosenModule) {
+    public FlashcardPanel(String chosenModule) {
         this.chosenModule = chosenModule;
+        createFrame();
+    }
+
+    public void createFrame() {
         JFrame flashcardFrame = new JFrame("FlashCards Options");
         flashcardFrame.setSize(300, 200);
         flashcardFrame.setLocationRelativeTo(null);

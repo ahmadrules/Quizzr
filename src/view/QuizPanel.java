@@ -6,8 +6,12 @@ public class QuizPanel {
     private JFrame quizFrame;
     private String chosenModule;
 
-    public void panelOpened(String chosenModule) {
+    public QuizPanel(String chosenModule) {
         this.chosenModule = chosenModule;
+        createFrame();
+    }
+
+    public void createFrame() {
         JFrame quizFrame = new JFrame("Quiz Options");
         quizFrame.setSize(300, 200);
         quizFrame.setLocationRelativeTo(null);
