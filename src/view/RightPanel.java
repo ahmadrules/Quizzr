@@ -94,13 +94,13 @@ public class RightPanel extends JPanel {
 
     public void addEventListener() {
         flashcardsButton.addActionListener(e -> {
-            FlashcardPanel flashcardPanel = new FlashcardPanel();
-            flashcardPanel.panelOpened(chosenModule);
+            FlashcardPanel flashcardPanel = new FlashcardPanel(chosenModule);
+            flashcardPanel.createFrame();
         });
 
         quizButton.addActionListener(e -> {
-            QuizPanel quizPanel = new QuizPanel();
-            quizPanel.panelOpened(chosenModule);
+            QuizPanel quizPanel = new QuizPanel(chosenModule);
+            quizPanel.createFrame();
         });
 
         moduleList.addListSelectionListener(e -> {
