@@ -25,12 +25,13 @@ public class QuizzrExample implements Runnable {
         // ======= LEFT PANEL =======
         LeftPanel leftPanel = new LeftPanel(rightPanel);
 
-        //Label and list for top of right panel
+        //Label and list of right panel
         JPanel rightContainer = new JPanel(new BorderLayout());
         rightContainer.add(topPanel, BorderLayout.NORTH);
         rightContainer.add(rightPanel, BorderLayout.CENTER);
 
         // ======= LAYOUT SETUP =======
+        // rightContainer holds top and right panel
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightContainer);
         splitPane.setDividerLocation(200);
 
