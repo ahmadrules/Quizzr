@@ -5,7 +5,7 @@ Detta README fil genererades [2025-04-02] by Sara Sheikho
 
 Information om versionen:
 - Projekt: QuizR
-- Länk till repository: 
+- Länk till repository: https://github.com/ahmadrules/Quizzr
 - Version som ska granskas: 
 
 Instruktioner för att köra koden:

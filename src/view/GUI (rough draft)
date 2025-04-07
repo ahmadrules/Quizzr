@@ -51,11 +51,7 @@ public class QuizzrExample implements Runnable {
         // ======= RIGHT PANEL =======
         JPanel rightPanel = new JPanel(new BorderLayout());
 
-        DefaultListModel<String> relatedListModel = new DefaultListModel<>();
-        JList<String> relatedList = new JList<>(relatedListModel);
-        relatedList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane relatedListScrollPane = new JScrollPane(relatedList);
-        relatedListScrollPane.setVisible(false);
+
 
         JLabel displayLabel = new JLabel("Available quizzes", SwingConstants.CENTER);
         rightPanel.add(displayLabel, BorderLayout.NORTH);

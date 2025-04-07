@@ -6,167 +6,29 @@ import java.util.Map;
 
 public class QuizzrExample implements Runnable {
 
+    private JPanel topPanel;
+    private LeftPanel leftPanel;
+    private RightPanel rightPanel;
+    private HashMap<String, String[]> moduleList;
+
     private static void createAndShowGUI() {
         JFrame frame = new JFrame("Three-Level List Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 400);
 
         // ======= TOP PANEL =======
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBackground(new Color(230, 230, 230));
-
-        JLabel topLabel = new JLabel("Select a program from the left", SwingConstants.LEFT);
-        topLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        topPanel.add(topLabel, BorderLayout.WEST);
-        topPanel.add(new JSeparator(), BorderLayout.SOUTH);
-
-        // ======= LEFT PANEL =======
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-
-        JLabel programsLabel = new JLabel(" Programs");
-        programsLabel.setFont(new Font("Arial", Font.BOLD, 14));
-
-        String[] categories = {"Program 1", "Program 2", "Program 3"};
-        DefaultListModel<String> mainListModel = new DefaultListModel<>();
-        for (String category : categories) mainListModel.addElement(category);
-        JList<String> mainList = new JList<>(mainListModel);
-        mainList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane mainListScrollPane = new JScrollPane(mainList);
-
-        JLabel coursesLabel = new JLabel(" Courses");
-        coursesLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        coursesLabel.setVisible(false);
-
-        DefaultListModel<String> sublistModel = new DefaultListModel<>();
-        JList<String> sublist = new JList<>(sublistModel);
-        sublist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane sublistScrollPane = new JScrollPane(sublist);
-        sublistScrollPane.setVisible(false);
-
-        leftPanel.add(programsLabel);
-        leftPanel.add(mainListScrollPane);
-        leftPanel.add(coursesLabel);
-        leftPanel.add(sublistScrollPane);
+        JPanel topPanel = new TopPanel();
 
         // ======= RIGHT PANEL =======
-        JPanel rightPanel = new JPanel(new BorderLayout());
+        RightPanel rightPanel = new RightPanel();
 
-        DefaultListModel<String> relatedListModel = new DefaultListModel<>();
-        JList<String> relatedList = new JList<>(relatedListModel);
-        relatedList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane relatedListScrollPane = new JScrollPane(relatedList);
-        relatedListScrollPane.setVisible(false);
+        // ======= LEFT PANEL =======
+        LeftPanel leftPanel = new LeftPanel(rightPanel);
 
-        JLabel displayLabel = new JLabel("Available quizzes", SwingConstants.CENTER);
-        rightPanel.add(displayLabel, BorderLayout.NORTH);
-        rightPanel.add(relatedListScrollPane, BorderLayout.CENTER);
-
-        // === NY KOD: Knappar längst ner i högerpanelen ===
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        JButton quizButton = new JButton("Quiz");
-        JButton flashcardsButton = new JButton("FlashCards");
-        quizButton.setEnabled(false);
-        flashcardsButton.setEnabled(false);
-        buttonPanel.add(quizButton);
-        buttonPanel.add(flashcardsButton);
-        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
-        // === SLUT PÅ NY KOD ===
-
+        //Label for top of right panel
         JPanel rightContainer = new JPanel(new BorderLayout());
         rightContainer.add(topPanel, BorderLayout.NORTH);
         rightContainer.add(rightPanel, BorderLayout.CENTER);
-
-        // ======= DATA =======
-        Map<String, String[]> sublistData = new HashMap<>();
-        sublistData.put("Program 1", new String[]{"Course A1", "Course A2", "Course A3"});
-        sublistData.put("Program 2", new String[]{"Course B1", "Course B2", "Course B3"});
-        sublistData.put("Program 3", new String[]{"Course C1", "Course C2", "Course C3"});
-
-        Map<String, String[]> relatedListData = new HashMap<>();
-        relatedListData.put("Course A1", new String[]{"Module A1-1", "Module A1-2", "Module A1-3"});
-        relatedListData.put("Course A2", new String[]{"Module A2-1", "Module A2-2", "Module A2-3"});
-        relatedListData.put("Course A3", new String[]{"Module A3-1", "Module A3-2", "Module A3-3"});
-
-        relatedListData.put("Course B1", new String[]{"Module B1-1", "Module B1-2", "Module B1-3"});
-        relatedListData.put("Course B2", new String[]{"Module B2-1", "Module B2-2", "Module B2-3"});
-        relatedListData.put("Course B3", new String[]{"Module B3-1", "Module B3-2", "Module B3-3"});
-
-        relatedListData.put("Course C1", new String[]{"Module C1-1", "Module C1-2", "Module C1-3"});
-        relatedListData.put("Course C2", new String[]{"Module C2-1", "Module C2-2", "Module C2-3"});
-        relatedListData.put("Course C3", new String[]{"Module C3-1", "Module C3-2", "Module C3-3"});
-
-        // ======= EVENT HANDLERS =======
-        mainList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                String selectedCategory = mainList.getSelectedValue();
-                if (selectedCategory != null) {
-                    sublistModel.clear();
-                    for (String item : sublistData.getOrDefault(selectedCategory, new String[]{})) {
-                        sublistModel.addElement(item);
-                    }
-                    sublistScrollPane.setVisible(true);
-                    coursesLabel.setVisible(true);
-                    relatedListScrollPane.setVisible(false);
-                    // === NY KOD ===
-                    quizButton.setEnabled(false);
-                    flashcardsButton.setEnabled(false);
-                    // === SLUT PÅ NY KOD ===
-                    leftPanel.revalidate();
-                    leftPanel.repaint();
-                }
-            }
-        });
-
-        sublist.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                String selectedSubItem = sublist.getSelectedValue();
-                if (selectedSubItem != null) {
-                    relatedListModel.clear();
-                    for (String item : relatedListData.getOrDefault(selectedSubItem, new String[]{})) {
-                        relatedListModel.addElement(item);
-                    }
-                    relatedListScrollPane.setVisible(true);
-                    // === NY KOD ===
-                    quizButton.setEnabled(false);
-                    flashcardsButton.setEnabled(false);
-                    // === SLUT PÅ NY KOD ===
-                    rightPanel.revalidate();
-                    rightPanel.repaint();
-                }
-            }
-        });
-
-        relatedList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                String selected = relatedList.getSelectedValue();
-                if (selected != null) {
-                    displayLabel.setText("Selected: " + selected);
-                    // === NY KOD ===
-                    quizButton.setEnabled(true);
-                    flashcardsButton.setEnabled(true);
-                    // === SLUT PÅ NY KOD ===
-                }
-            }
-        });
-
-        // === NY KOD: Klick på knappar öppnar nytt fönster ===
-        quizButton.addActionListener(e -> {
-            JFrame quizFrame = new JFrame("Quiz Options");
-            quizFrame.setSize(300, 200);
-            quizFrame.setLocationRelativeTo(null);
-            quizFrame.add(new JLabel("List of quizzes goes here...", SwingConstants.CENTER));
-            quizFrame.setVisible(true);
-        });
-
-        flashcardsButton.addActionListener(e -> {
-            JFrame flashcardFrame = new JFrame("FlashCards Options");
-            flashcardFrame.setSize(300, 200);
-            flashcardFrame.setLocationRelativeTo(null);
-            flashcardFrame.add(new JLabel("List of flashcards goes here...", SwingConstants.CENTER));
-            flashcardFrame.setVisible(true);
-        });
-        // === SLUT PÅ NY KOD ===
 
         // ======= LAYOUT SETUP =======
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightContainer);
@@ -181,6 +43,7 @@ public class QuizzrExample implements Runnable {
         createAndShowGUI();
     }
 }
+
 
 
 
