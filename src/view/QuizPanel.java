@@ -4,8 +4,10 @@ import javax.swing.*;
 
 public class QuizPanel {
     private JFrame quizFrame;
+    private String chosenModule;
 
-    public void panelOpened() {
+    public void panelOpened(String chosenModule) {
+        this.chosenModule = chosenModule;
         JFrame quizFrame = new JFrame("Quiz Options");
         quizFrame.setSize(300, 200);
         quizFrame.setLocationRelativeTo(null);
