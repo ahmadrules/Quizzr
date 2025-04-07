@@ -14,6 +14,7 @@ public class RightPanel extends JPanel {
     private DefaultListModel<String> moduleListModel;
     private JList<String> moduleList;
     private JScrollPane moduleScrollPane;
+    private String chosenModule;
 
 
     public RightPanel() {
@@ -23,6 +24,7 @@ public class RightPanel extends JPanel {
         JLabel displayLabel = new JLabel("Available quizzes", SwingConstants.CENTER);
         add(displayLabel, BorderLayout.NORTH);
         add(moduleScrollPane, BorderLayout.CENTER);
+        chosenModule = "";
 
         createButtons();
         addEventListener();
@@ -93,18 +95,18 @@ public class RightPanel extends JPanel {
     public void addEventListener() {
         flashcardsButton.addActionListener(e -> {
             FlashcardPanel flashcardPanel = new FlashcardPanel();
-            flashcardPanel.panelOpened();
+            flashcardPanel.panelOpened(chosenModule);
         });
 
         quizButton.addActionListener(e -> {
             QuizPanel quizPanel = new QuizPanel();
-            quizPanel.panelOpened();
+            quizPanel.panelOpened(chosenModule);
         });
 
         moduleList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                String selectedModule = moduleList.getSelectedValue();
-                if (selectedModule != null) {
+                chosenModule = moduleList.getSelectedValue();
+                if (chosenModule != null) {
                     enableButtons();
                 }
             }

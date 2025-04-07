@@ -4,8 +4,10 @@ import javax.swing.*;
 
 public class FlashcardPanel {
     private JFrame flashcardFrame;
+    private String chosenModule;
 
-    public void panelOpened() {
+    public void panelOpened(String chosenModule) {
+        this.chosenModule = chosenModule;
         JFrame flashcardFrame = new JFrame("FlashCards Options");
         flashcardFrame.setSize(300, 200);
         flashcardFrame.setLocationRelativeTo(null);
