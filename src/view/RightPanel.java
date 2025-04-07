@@ -1,10 +1,10 @@
 package view;
 
+import model.Quiz;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-
 
 public class RightPanel extends JPanel {
     private JPanel buttonPanel;
@@ -51,10 +51,6 @@ public class RightPanel extends JPanel {
         moduleScrollPane.setVisible(false);
     }
 
-    public HashMap<String, String[]> getModuleListMap() {
-        return moduleListMap;
-    }
-
     public void disableButtons() {
         quizButton.setEnabled(false);
         flashcardsButton.setEnabled(false);
@@ -63,11 +59,6 @@ public class RightPanel extends JPanel {
     public void disableScrollPane() {
         moduleScrollPane.setVisible(false);
     }
-
-    public void moduleChosen() {
-
-    }
-
 
     public void courseChosen(String courseName) {
         moduleListModel.clear();
@@ -101,19 +92,13 @@ public class RightPanel extends JPanel {
 
     public void addEventListener() {
         flashcardsButton.addActionListener(e -> {
-            JFrame flashcardFrame = new JFrame("FlashCards Options");
-            flashcardFrame.setSize(300, 200);
-            flashcardFrame.setLocationRelativeTo(null);
-            flashcardFrame.add(new JLabel("List of flashcards goes here...", SwingConstants.CENTER));
-            flashcardFrame.setVisible(true);
+            FlashcardPanel flashcardPanel = new FlashcardPanel();
+            flashcardPanel.panelOpened();
         });
 
         quizButton.addActionListener(e -> {
-            JFrame quizFrame = new JFrame("Quiz Options");
-            quizFrame.setSize(300, 200);
-            quizFrame.setLocationRelativeTo(null);
-            quizFrame.add(new JLabel("List of quizzes goes here...", SwingConstants.CENTER));
-            quizFrame.setVisible(true);
+            QuizPanel quizPanel = new QuizPanel();
+            quizPanel.panelOpened();
         });
 
         moduleList.addListSelectionListener(e -> {
@@ -124,17 +109,5 @@ public class RightPanel extends JPanel {
                 }
             }
         });
-
-
-        /*coursesList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                String selectedSubItem = coursesList.getSelectedValue();
-                if (selectedSubItem != null) {
-                    rightPanel.courseChosen(selectedSubItem);
-                }
-            }
-        });
-
-         */
     }
 }
