@@ -21,7 +21,7 @@ public class RightPanel extends JPanel {
         setLayout(new BorderLayout());
         createDataList();
 
-        JLabel displayLabel = new JLabel("Available quizzes", SwingConstants.CENTER);
+        JLabel displayLabel = new JLabel("Available modules", SwingConstants.CENTER);
         add(displayLabel, BorderLayout.NORTH);
         add(moduleScrollPane, BorderLayout.CENTER);
         chosenModule = "";

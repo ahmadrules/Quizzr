@@ -12,7 +12,7 @@ public class QuizzrExample implements Runnable {
     private HashMap<String, String[]> moduleList;
 
     private static void createAndShowGUI() {
-        JFrame frame = new JFrame("Three-Level List Example");
+        JFrame frame = new JFrame("Quizzr");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 400);
 
