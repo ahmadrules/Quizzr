@@ -1,4 +1,4 @@
-package view;
+package view.subPanels;
 
 import javax.swing.*;
 

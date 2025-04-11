@@ -1,10 +1,10 @@
-package view;
+package view.main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Map;
 
-public class QuizzrExample implements Runnable {
+public class MainFrame implements Runnable {
 
     private JPanel topPanel;
     private LeftPanel leftPanel;
@@ -34,6 +34,7 @@ public class QuizzrExample implements Runnable {
         // rightContainer holds top and right panel
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightContainer);
         splitPane.setDividerLocation(200);
+
 
         frame.add(splitPane);
         frame.setVisible(true);

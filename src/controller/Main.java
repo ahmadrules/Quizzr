@@ -1,12 +1,12 @@
 package controller;
 
-import view.QuizzrExample;
+import view.main.MainFrame;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        QuizzrExample quiz = new QuizzrExample();
+        MainFrame quiz = new MainFrame();
         SwingUtilities.invokeLater(quiz);
 
         //test test
