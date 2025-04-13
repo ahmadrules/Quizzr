@@ -51,22 +51,6 @@ public class RightPanel extends JPanel {
     public void createDataList() {
         //List of available modules for the chosen course. This will be fetched from Controller
         moduleListMap = new HashMap<>();
-
-        /*
-        //Example values added here
-        moduleListMap.put("Course A1", new String[]{"Module A1-1", "Module A1-2", "Module A1-3"});
-        moduleListMap.put("Course A2", new String[]{"Module A2-1", "Module A2-2", "Module A2-3"});
-        moduleListMap.put("Course A3", new String[]{"Module A3-1", "Module A3-2", "Module A3-3"});
-
-        moduleListMap.put("Course B1", new String[]{"Module B1-1", "Module B1-2", "Module B1-3"});
-        moduleListMap.put("Course B2", new String[]{"Module B2-1", "Module B2-2", "Module B2-3"});
-        moduleListMap.put("Course B3", new String[]{"Module B3-1", "Module B3-2", "Module B3-3"});
-
-        moduleListMap.put("Course C1", new String[]{"Module C1-1", "Module C1-2", "Module C1-3"});
-        moduleListMap.put("Course C2", new String[]{"Module C2-1", "Module C2-2", "Module C2-3"});
-        moduleListMap.put("Course C3", new String[]{"Module C3-1", "Module C3-2", "Module C3-3"});
-         */
-
     }
 
     public void courseChosen(String courseName) {
