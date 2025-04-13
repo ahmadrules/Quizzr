@@ -1,0 +1,7 @@
+question; alternative 1; correct answer; points
+
+The keyword "throws" is used along with a method's signature, allowing you to avoid using try-catch inside the method.; False; True; 5
+Exceptions are used to handle errors that may occur during program execution.; False; True; 5
+You can have multiple catch blocks to handle different types of exceptions.; False; True; 5
+"finally" executes, only if exception is thrown.; True; False; 5
+Unchecked exceptions (like NullPointerException) do not need to be explicitly handled.; False; True; 5

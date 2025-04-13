@@ -1,5 +1,0 @@
-question1; alternative1; alternative2; alternative3; correctAnswer; 3
-question2; alternative1; alternative2; alternative3; correctAnswer; 3
-question3; alternative1; alternative2; alternative3; correctAnswer; 3
-question4; alternative1; alternative2; alternative3; correctAnswer; 3
-question5; alternative1; alternative2; alternative3; correctAnswer; 3

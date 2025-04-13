@@ -1,0 +1,6 @@
+question; alternative1; alternative2; alternative3; correctAnswer; points
+
+What is the purpose of the try block in Java?; It defines the class that will handle the exception.; It handles the exception after it occurs.; It ensures code will execute regardless of exceptions.; It contains the code that might throw an exception.; 3
+Which keyword is used to catch an exception in Java?; handle; throw; exception; catch; 3
+What is the correct way to declare that a method can throw an exception?; public void myMethod() catch Exception {}; public void myMethod() throw Exception {}; public void myMethod() throws CatchException {}; public void myMethod() throws Exception {}; 3
+Which type of exception does not need to be explicitly handled?; Checked exceptions; Custom exceptions; All exceptions need to be handled; Unchecked exceptions; 3
