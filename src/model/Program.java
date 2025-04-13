@@ -6,9 +6,15 @@ import java.util.List;
 public class Program {
     private String name;
     private List<Course> courses;
+
     public Program(String name, ArrayList<Course> courses) {
         this.name = name;
         this.courses = courses;
+    }
+
+    public Program(String name){
+        this.name = name;
+        courses = new ArrayList<>();
     }
     public String getName() {
         return name;

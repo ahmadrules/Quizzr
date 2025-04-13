@@ -1,5 +1,8 @@
 package view.main;
 
+import controller.Controller;
+import controller.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -26,9 +29,11 @@ public class LeftPanel extends JPanel {
     private JButton addProgramButton;
     private JButton removeProgramButton;
     private JButton editProgramButton;
+    private MainFrame mainFrame;
 
-    public LeftPanel(RightPanel rightPanel) {
+    public LeftPanel(RightPanel rightPanel, MainFrame mainFrame) {
         this.rightPanel = rightPanel;
+        this.mainFrame = mainFrame;
 
         createDataComponents();
         createDataLists();
@@ -45,7 +50,7 @@ public class LeftPanel extends JPanel {
 
     public void createDataComponents() {
         //Program data model, program list and program scrollPane created
-        String[] categories = {"Program 1", "Program 2", "Program 3"};
+        String[] categories = mainFrame.getProgramsNames();
         programListModel = new DefaultListModel<>();
         for (String category : categories) programListModel.addElement(category);
         programList = new JList<>(programListModel);
@@ -106,11 +111,6 @@ public class LeftPanel extends JPanel {
     public void createDataLists() {
         //List of available courses. This will be fetched from the Controller.
         coursesListMap = new HashMap<>();
-
-        //Example values added here.
-        coursesListMap.put("Program 1", new String[]{"Course A1", "Course A2", "Course A3"});
-        coursesListMap.put("Program 2", new String[]{"Course B1", "Course B2", "Course B3"});
-        coursesListMap.put("Program 3", new String[]{"Course C1", "Course C2", "Course C3"});
     }
 
     private void addEventListeners() {
@@ -126,7 +126,8 @@ public class LeftPanel extends JPanel {
 
                     //-------------------------------------------------------------------
                     //Here we contact the Controller to fetch the available list of courses for the chosen program
-                    for (String item : coursesListMap.getOrDefault(selectedProgram, new String[]{})) {
+                    String[] coursesNames = mainFrame.getCoursesNames(selectedProgram);
+                    for (String item : coursesListMap.getOrDefault(selectedProgram, coursesNames)) {
                         coursesListModel.addElement(item);
                     }
                     //--------------------------------------------------------------------
@@ -148,7 +149,5 @@ public class LeftPanel extends JPanel {
                 }
             }
         });
-
-
     }
 }

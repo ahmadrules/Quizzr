@@ -1,5 +1,7 @@
 package view.main;
 
+import controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -10,8 +12,13 @@ public class MainFrame implements Runnable {
     private LeftPanel leftPanel;
     private RightPanel rightPanel;
     private HashMap<String, String[]> moduleList;
+    private Controller controller;
 
-    private static void createAndShowGUI() {
+    public MainFrame(Controller controller){
+        this.controller = controller;
+    }
+
+    private void createAndShowGUI() {
         JFrame frame = new JFrame("Quizzr");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(700, 400);
@@ -20,10 +27,10 @@ public class MainFrame implements Runnable {
         JPanel topPanel = new TopPanel();
 
         // ======= RIGHT PANEL =======
-        RightPanel rightPanel = new RightPanel();
+        RightPanel rightPanel = new RightPanel(this);
 
         // ======= LEFT PANEL =======
-        LeftPanel leftPanel = new LeftPanel(rightPanel);
+        LeftPanel leftPanel = new LeftPanel(rightPanel, this);
 
         //Label and list of right panel
         JPanel rightContainer = new JPanel(new BorderLayout());
@@ -38,6 +45,18 @@ public class MainFrame implements Runnable {
 
         frame.add(splitPane);
         frame.setVisible(true);
+    }
+
+    public String[] getCoursesNames(String selectedProgramName){
+        return controller.getCoursesNames(selectedProgramName);
+    }
+
+    public String[] getProgramsNames(){
+        return controller.getProgramsNames();
+    }
+
+    public String[] getModulesNames(String selectedCourse){
+        return controller.getModulesNames(selectedCourse);
     }
 
     @Override

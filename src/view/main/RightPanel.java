@@ -17,9 +17,11 @@ public class RightPanel extends JPanel {
     private JList<String> moduleList;
     private JScrollPane moduleScrollPane;
     private String chosenModule;
+    private MainFrame mainFrame;
 
 
-    public RightPanel() {
+    public RightPanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
         createDataList();
         createDataComponents();
@@ -50,6 +52,7 @@ public class RightPanel extends JPanel {
         //List of available modules for the chosen course. This will be fetched from Controller
         moduleListMap = new HashMap<>();
 
+        /*
         //Example values added here
         moduleListMap.put("Course A1", new String[]{"Module A1-1", "Module A1-2", "Module A1-3"});
         moduleListMap.put("Course A2", new String[]{"Module A2-1", "Module A2-2", "Module A2-3"});
@@ -62,6 +65,8 @@ public class RightPanel extends JPanel {
         moduleListMap.put("Course C1", new String[]{"Module C1-1", "Module C1-2", "Module C1-3"});
         moduleListMap.put("Course C2", new String[]{"Module C2-1", "Module C2-2", "Module C2-3"});
         moduleListMap.put("Course C3", new String[]{"Module C3-1", "Module C3-2", "Module C3-3"});
+         */
+
     }
 
     public void courseChosen(String courseName) {
@@ -69,7 +74,7 @@ public class RightPanel extends JPanel {
 
         //-------------------------------------------------------------------
         //Here we contact the Controller to fetch the available list of modules for the chosen course
-        for (String item : moduleListMap.getOrDefault(courseName, new String[]{})) {
+        for (String item : moduleListMap.getOrDefault(courseName, mainFrame.getModulesNames(courseName))) {
             moduleListModel.addElement(item);
         }
         //-------------------------------------------------------------------

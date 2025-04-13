@@ -12,6 +12,11 @@ public class Course {
         this.modules = modules;
     }
 
+    public Course(String name){
+        this.name = name;
+        this.modules = new ArrayList<>();
+    }
+
     public String getName() {
         return name;
     }
