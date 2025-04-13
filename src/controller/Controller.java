@@ -35,7 +35,7 @@ public class Controller {
     }
 
     public void createAndAddCourses(){
-        //Creating test courses and adding them to the list and to the programs
+        //Creating courses and adding them to the list and to the programs
         Course DA339A = new Course("Object-Oriented Programming");
         Course DA343A = new Course("Object-Oriented Software Development, Threads and Data Communication");
         Course DA336A = new Course("System Development and project");
@@ -53,6 +53,7 @@ public class Controller {
         courses.add(DA343A);
         courses.add(DA336A);
 
+        
         //Adding the courses to the first program "Computer System Developer"
         List<Course> coursesSYS = new ArrayList<>();
         coursesSYS.add(DA339A);
