@@ -29,37 +29,48 @@ public class Controller {
 
     public void createAndAddPrograms(){
         //Creating test programs and adding them to the list
-        for (int i = 1; i <= 3; i++){
-            programs.add(new Program("Program " + i));
-        }
+        programs.add(new Program("Computer System Developer"));
+        programs.add(new Program("Game Development"));
+        programs.add(new Program("Data Technology"));
     }
 
     public void createAndAddCourses(){
-        //Creating test courses and adding them to the list and adding them to the programs
-        for (int i = 1; i <= 3; i++) {
-            Course course = new Course("Course A"+ i);
-            for(int m = 1; m <= 3; m++) {
-                course.addModule(new Module("Module A" + i + "-" + m));
-            }
-            courses.add(course);
-            programs.get(0).addNewCourse(course);
+        //Creating test courses and adding them to the list and to the programs
+        Course DA339A = new Course("Object-Oriented Programming");
+        Course DA343A = new Course("Object-Oriented Software Development, Threads and Data Communication");
+        Course DA336A = new Course("System Development and project");
+
+        for(int m = 1; m <= 3; m++) {
+            DA339A.addModule(new Module("Module A"+ m));
         }
-        for (int i = 1; i <= 3; i++) {
-            Course course = new Course("Course B"+ i);
-            for(int m = 1; m <= 3; m++) {
-                course.addModule(new Module("Module B" + i + "-" + m));
-            }
-            courses.add(course);
-            programs.get(1).addNewCourse(course);
+        for(int m = 1; m <= 3; m++) {
+            DA343A.addModule(new Module("Module B"+ m));
         }
-        for (int i = 1; i <= 3; i++) {
-            Course course = new Course("Course C"+ i);
-            for(int m = 1; m <= 3; m++) {
-                course.addModule(new Module("Module C" + i + "-" + m));
-            }
-            courses.add(course);
-            programs.get(2).addNewCourse(course);
+        for(int m = 1; m <= 3; m++) {
+            DA336A.addModule(new Module("Module C"+ m));
         }
+        courses.add(DA339A);
+        courses.add(DA343A);
+        courses.add(DA336A);
+
+        //Adding the courses to the first program "Computer System Developer"
+        List<Course> coursesSYS = new ArrayList<>();
+        coursesSYS.add(DA339A);
+        coursesSYS.add(DA343A);
+        coursesSYS.add(DA336A);
+        programs.get(0).setCourses(coursesSYS);
+
+        //Adding the courses to the second program "Game Development"
+        List<Course> coursesGD = new ArrayList<>();
+        coursesGD.add(DA336A);
+        programs.get(1).setCourses(coursesGD);
+
+        //Adding the courses to the third program "Data Technology"
+        List<Course> coursesDT = new ArrayList<>();
+        coursesDT.add(DA339A);
+        coursesDT.add(DA343A);
+        programs.get(2).setCourses(coursesDT);
+
     }
 
     public String[] getProgramsNames(){

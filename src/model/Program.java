@@ -25,4 +25,7 @@ public class Program {
     public void addNewCourse(Course newCourse){
         courses.add(newCourse);
     }
+    public void setCourses(List<Course> courses){
+        this.courses = courses;
+    }
 }
