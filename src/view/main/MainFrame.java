@@ -6,12 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
-public class MainFrame implements Runnable {
+public class MainFrame extends JFrame implements Runnable {
 
-    private JPanel topPanel;
+    private CenterPanel centerContainer;
     private LeftPanel leftPanel;
     private RightPanel rightPanel;
-    private HashMap<String, String[]> moduleList;
     private Controller controller;
 
     public MainFrame(Controller controller){
@@ -19,32 +18,40 @@ public class MainFrame implements Runnable {
     }
 
     private void createAndShowGUI() {
-        JFrame frame = new JFrame("Quizzr");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 400);
+        this.setTitle("Quizzr");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(900, 400);
 
-        // ======= TOP PANEL =======
-        JPanel topPanel = new TopPanel();
+        //Container for all the different panels in the center
+        //Which panel is displayed will depend on which tab is chosen in rightPanel
+        centerContainer = new CenterPanel(this);
 
-        // ======= RIGHT PANEL =======
-        RightPanel rightPanel = new RightPanel(this);
 
         // ======= LEFT PANEL =======
-        LeftPanel leftPanel = new LeftPanel(rightPanel, this);
+        LeftPanel leftPanel = new LeftPanel(centerContainer.getModulePanel(), this);
 
         //Label and list of right panel
-        JPanel rightContainer = new JPanel(new BorderLayout());
-        rightContainer.add(topPanel, BorderLayout.NORTH);
-        rightContainer.add(rightPanel, BorderLayout.CENTER);
+
+
+        rightPanel = new RightPanel(this, centerContainer);
+
+        // ======= LEFT PANEL =======
+        leftPanel = new LeftPanel(centerContainer.getModulePanel(), this);
+
+        rightPanel = new RightPanel(this, centerContainer);
+
+        // ======= LEFT PANEL =======
+        leftPanel = new LeftPanel(centerContainer.getModulePanel(), this);
+
 
         // ======= LAYOUT SETUP =======
-        // rightContainer holds top and right panel
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightContainer);
+        // centerContainer holds top and all center panels
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, centerContainer);
         splitPane.setDividerLocation(200);
 
-
-        frame.add(splitPane);
-        frame.setVisible(true);
+        this.add(splitPane, BorderLayout.CENTER);
+        this.add(rightPanel, BorderLayout.EAST);
+        this.setVisible(true);
     }
 
     public String[] getCoursesNames(String selectedProgramName){
