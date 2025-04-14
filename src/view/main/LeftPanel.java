@@ -1,13 +1,7 @@
 package view.main;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
-import view.main.CenterPanels.CenterModulePanel;
 
->>>>>>> Stashed changes
+import view.main.CenterPanels.CenterModulePanel;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -34,18 +28,11 @@ public class LeftPanel extends JPanel {
     private JButton addProgramButton;
     private JButton removeProgramButton;
     private JButton editProgramButton;
+    private MainFrame mainFrame;
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    public LeftPanel(RightPanel rightPanel) {
-        this.rightPanel = rightPanel;
-=======
-=======
->>>>>>> Stashed changes
     public LeftPanel(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
         this.centerModulePanel = centerModulePanel;
         this.mainFrame = mainFrame;
->>>>>>> Stashed changes
 
         createDataComponents();
         createDataLists();
@@ -62,7 +49,7 @@ public class LeftPanel extends JPanel {
 
     public void createDataComponents() {
         //Program data model, program list and program scrollPane created
-        String[] categories = {"Program 1", "Program 2", "Program 3"};
+        String[] categories = mainFrame.getProgramsNames();
         programListModel = new DefaultListModel<>();
         for (String category : categories) programListModel.addElement(category);
         programList = new JList<>(programListModel);
@@ -155,27 +142,6 @@ public class LeftPanel extends JPanel {
         removeCourseButton.setEnabled(false);
     }
 
-    public void enableProgramButtons() {
-        editProgramButton.setEnabled(true);
-        removeProgramButton.setEnabled(true);
-    }
-
-    public void disableProgramButtons() {
-        editProgramButton.setEnabled(false);
-        removeProgramButton.setEnabled(false);
-    }
-
-    public void enableCourseButtons() {
-        editCourseButton.setEnabled(true);
-        removeCourseButton.setEnabled(true);
-    }
-
-    public void disableCourseButtons() {
-        addCourseButton.setEnabled(false);
-        editCourseButton.setEnabled(false);
-        removeCourseButton.setEnabled(false);
-    }
-
     private void addEventListeners() {
         programList.addListSelectionListener(e -> {
             if (programList.getValueIsAdjusting()) {
@@ -189,8 +155,10 @@ public class LeftPanel extends JPanel {
                     selectedCourse = null;
                     //-------------------------------------------------------------------
                     //Here we contact the Controller to fetch the available list of courses for the chosen program
-                    for (String item : coursesListMap.getOrDefault(selectedProgram, new String[]{})) {
+                    String[] coursesNames = mainFrame.getCoursesNames(selectedProgram);
+                    for (String item : coursesListMap.getOrDefault(selectedProgram, coursesNames)) {
                         coursesListModel.addElement(item);
+                    }
                     }
                     //--------------------------------------------------------------------
 
@@ -202,7 +170,6 @@ public class LeftPanel extends JPanel {
                     this.revalidate();
                     this.repaint();
                 }
-            }
         });
 
         coursesList.addListSelectionListener(e -> {

@@ -1,11 +1,17 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Course {
     private String name;
     private List<Module> modules;
+
+    public Course(String name) {
+        this.name = name;
+        modules = new ArrayList<Module>();
+    }
 
     public Course(String name, ArrayList<Module> modules) {
         this.name = name;

@@ -6,6 +6,11 @@ import java.util.List;
 public class Program {
     private String name;
     private List<Course> courses;
+    public Program(String name) {
+        this.name = name;
+        courses = new ArrayList<Course>();
+    }
+
     public Program(String name, ArrayList<Course> courses) {
         this.name = name;
         this.courses = courses;
@@ -18,5 +23,9 @@ public class Program {
     }
     public void addNewCourse(Course newCourse){
         courses.add(newCourse);
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }
