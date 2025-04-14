@@ -1,6 +1,6 @@
 package model;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,4 +31,25 @@ public abstract class Question implements Serializable {
     }
     public abstract boolean checkAnswer(String usersAnswer);
     public abstract Question fromString(String line);
+    public void saveToFile(String filename, MultipleChoice multipleChoice) {
+        try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename,true))){
+            outputStream.writeObject(multipleChoice);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Question readFromFile(String filename) {
+        Question question1 = null;
+        File file = new File(filename);
+        try(ObjectInputStream objectInputStream= new ObjectInputStream(new FileInputStream(file))) {
+            question1= (Question) objectInputStream.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());;
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());;
+        }
+        ;return question1;
+    }
 }
