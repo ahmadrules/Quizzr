@@ -49,13 +49,13 @@ public class QuizzrExample implements Runnable {
         leftPanel.add(sublistScrollPane);
 
         // ======= RIGHT PANEL =======
-        JPanel rightPanel = new JPanel(new BorderLayout());
+        JPanel centerModulePanel = new JPanel(new BorderLayout());
 
 
 
         JLabel displayLabel = new JLabel("Available quizzes", SwingConstants.CENTER);
-        rightPanel.add(displayLabel, BorderLayout.NORTH);
-        rightPanel.add(relatedListScrollPane, BorderLayout.CENTER);
+        centerModulePanel.add(displayLabel, BorderLayout.NORTH);
+        centerModulePanel.add(relatedListScrollPane, BorderLayout.CENTER);
 
         // === NY KOD: Knappar längst ner i högerpanelen ===
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -65,12 +65,12 @@ public class QuizzrExample implements Runnable {
         flashcardsButton.setEnabled(false);
         buttonPanel.add(quizButton);
         buttonPanel.add(flashcardsButton);
-        rightPanel.add(buttonPanel, BorderLayout.SOUTH);
+        centerModulePanel.add(buttonPanel, BorderLayout.SOUTH);
         // === SLUT PÅ NY KOD ===
 
         JPanel rightContainer = new JPanel(new BorderLayout());
         rightContainer.add(topPanel, BorderLayout.NORTH);
-        rightContainer.add(rightPanel, BorderLayout.CENTER);
+        rightContainer.add(centerModulePanel, BorderLayout.CENTER);
 
         // ======= DATA =======
         Map<String, String[]> sublistData = new HashMap<>();
@@ -126,8 +126,8 @@ public class QuizzrExample implements Runnable {
                     quizButton.setEnabled(false);
                     flashcardsButton.setEnabled(false);
                     // === SLUT PÅ NY KOD ===
-                    rightPanel.revalidate();
-                    rightPanel.repaint();
+                    centerModulePanel.revalidate();
+                    centerModulePanel.repaint();
                 }
             }
         });

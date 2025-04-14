@@ -1,11 +1,11 @@
-package view.main;
+package view.main.CenterPanels;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class TopPanel extends JPanel {
+public class TopCenterPanel extends JPanel {
 
-    public TopPanel() {
+    public TopCenterPanel() {
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(230, 230, 230));
         JLabel topLabel = new JLabel("Select a program from the left", SwingConstants.LEFT);

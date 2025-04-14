@@ -1,5 +1,10 @@
 package view.main;
 
+<<<<<<< Updated upstream
+=======
+import view.main.CenterPanels.CenterModulePanel;
+
+>>>>>>> Stashed changes
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -12,7 +17,7 @@ public class LeftPanel extends JPanel {
     private JLabel coursesLabel;
     private DefaultListModel<String> coursesListModel;
     private JScrollPane coursesScrollPane;
-    private RightPanel rightPanel;
+    private CenterModulePanel centerModulePanel;
     private DefaultListModel<String> programListModel;
     private JScrollPane programScrollPane;
     private JLabel programsLabel;
@@ -27,8 +32,14 @@ public class LeftPanel extends JPanel {
     private JButton removeProgramButton;
     private JButton editProgramButton;
 
+<<<<<<< Updated upstream
     public LeftPanel(RightPanel rightPanel) {
         this.rightPanel = rightPanel;
+=======
+    public LeftPanel(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
+        this.centerModulePanel = centerModulePanel;
+        this.mainFrame = mainFrame;
+>>>>>>> Stashed changes
 
         createDataComponents();
         createDataLists();
@@ -82,6 +93,7 @@ public class LeftPanel extends JPanel {
         addProgramButton = new JButton("Add");
         removeProgramButton = new JButton("Delete");
         editProgramButton = new JButton("Edit");
+        disableProgramButtons();
 
         //Add buttons to panel
         programButtonPanel.add(addProgramButton);
@@ -96,6 +108,9 @@ public class LeftPanel extends JPanel {
         addCourseButton = new JButton("Add");
         removeCourseButton = new JButton("Delete");
         editCourseButton = new JButton("Edit");
+        addCourseButton.setEnabled(false);
+        removeCourseButton.setEnabled(false);
+        editCourseButton.setEnabled(false);
 
         //Add buttons to panel
         coursesButtonPanel.add(addCourseButton);
@@ -113,6 +128,27 @@ public class LeftPanel extends JPanel {
         coursesListMap.put("Program 3", new String[]{"Course C1", "Course C2", "Course C3"});
     }
 
+    public void enableProgramButtons() {
+        editProgramButton.setEnabled(true);
+        removeProgramButton.setEnabled(true);
+    }
+
+    public void disableProgramButtons() {
+        editProgramButton.setEnabled(false);
+        removeProgramButton.setEnabled(false);
+    }
+
+    public void enableCourseButtons() {
+        editCourseButton.setEnabled(true);
+        removeCourseButton.setEnabled(true);
+    }
+
+    public void disableCourseButtons() {
+        addCourseButton.setEnabled(false);
+        editCourseButton.setEnabled(false);
+        removeCourseButton.setEnabled(false);
+    }
+
     private void addEventListeners() {
         programList.addListSelectionListener(e -> {
             if (programList.getValueIsAdjusting()) {
@@ -123,7 +159,7 @@ public class LeftPanel extends JPanel {
 
                 if (selectedProgram != null) {
                     coursesListModel.clear();
-
+                    selectedCourse = null;
                     //-------------------------------------------------------------------
                     //Here we contact the Controller to fetch the available list of courses for the chosen program
                     for (String item : coursesListMap.getOrDefault(selectedProgram, new String[]{})) {
@@ -131,7 +167,11 @@ public class LeftPanel extends JPanel {
                     }
                     //--------------------------------------------------------------------
 
-                    rightPanel.disableButtons();
+                    centerModulePanel.disableButtons();
+                    centerModulePanel.clearModuleList();
+                    enableProgramButtons();
+                    disableCourseButtons();
+                    addCourseButton.setEnabled(true);
                     this.revalidate();
                     this.repaint();
                 }
@@ -144,7 +184,8 @@ public class LeftPanel extends JPanel {
                 if (selectedCourse != null) {
 
                     //rightPanel handles fetching a list of available modules for the selected course
-                    rightPanel.courseChosen(selectedCourse);
+                    centerModulePanel.courseChosen(selectedCourse);
+                    enableCourseButtons();
                 }
             }
         });

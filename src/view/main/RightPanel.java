@@ -1,13 +1,10 @@
 package view.main;
 
-import view.subPanels.FlashcardPanel;
-import view.subPanels.QuizPanel;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 public class RightPanel extends JPanel {
+<<<<<<< Updated upstream
     private JPanel buttonPanel;
     private JButton quizButton;
     private JButton flashcardsButton;
@@ -26,17 +23,43 @@ public class RightPanel extends JPanel {
         createButtons();
         addEventListener();
         setupLayout();
+=======
 
-        this.add(buttonPanel, BorderLayout.SOUTH);
+    private MainFrame mainFrame;
+    private CenterPanel centerContainer;
+    private String[] tabOptions;
+    private JList<String> listOfTabs;
+    private JScrollPane scrollPane;
 
+    public RightPanel(MainFrame mainFrame, CenterPanel centerContainer) {
+        this.mainFrame = mainFrame;
+        this.centerContainer = centerContainer;
+>>>>>>> Stashed changes
+
+        createList();
+
+        JButton logOutButton = new JButton("Log Out");
+        logOutButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel tabLabel = new JLabel(" Select a tab");
+        tabLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        tabLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        this.setLayout(new BorderLayout());
+        this.setSize(150, 400);
+
+        this.add(tabLabel, BorderLayout.NORTH);
+        this.add(scrollPane);
+        this.add(logOutButton, BorderLayout.SOUTH);
+        this.setVisible(true);
     }
 
-    public void setupLayout() {
-        JLabel displayLabel = new JLabel("Available modules", SwingConstants.CENTER);
-        add(displayLabel, BorderLayout.NORTH);
-        add(moduleScrollPane, BorderLayout.CENTER);
-    }
+    public void createList() {
+        //tabOptions will be fetched from controller
+        String[] tabOptions = { "Modules", "Account", "Quiz" };
+        //------------------------------------------
 
+<<<<<<< Updated upstream
     public void createDataComponents() {
         moduleListModel = new DefaultListModel<>();
         moduleList = new JList<>(moduleListModel);
@@ -71,58 +94,19 @@ public class RightPanel extends JPanel {
         //Here we contact the Controller to fetch the available list of modules for the chosen course
         for (String item : moduleListMap.getOrDefault(courseName, new String[]{})) {
             moduleListModel.addElement(item);
+=======
+        DefaultListModel listModel = new DefaultListModel();
+        for (String option : tabOptions) {
+            listModel.addElement(option);
+>>>>>>> Stashed changes
         }
-        //-------------------------------------------------------------------
 
-        moduleScrollPane.setVisible(true);
-        disableButtons();
-        addModuleButton.setEnabled(true);
-        revalidate();
-        repaint();
-    }
+        listOfTabs = new JList<>(tabOptions);
 
-    public void disableButtons() {
-        quizButton.setEnabled(false);
-        flashcardsButton.setEnabled(false);
-        addModuleButton.setEnabled(false);
-    }
+        listOfTabs.setFixedCellWidth(150);
+        listOfTabs.setFont(new Font("Arial", Font.ROMAN_BASELINE, 24));
 
-    public void enableButtons() {
-        quizButton.setEnabled(true);
-        flashcardsButton.setEnabled(true);
-        addModuleButton.setEnabled(true);
-    }
-
-    public void createButtons() {
-        buttonPanel = new JPanel(new FlowLayout());
-        quizButton = new JButton("Quiz");
-        flashcardsButton = new JButton("FlashCards");
-        addModuleButton = new JButton("Add module");
-        quizButton.setEnabled(false);
-        flashcardsButton.setEnabled(false);
-        addModuleButton.setEnabled(false);
-        buttonPanel.add(quizButton);
-        buttonPanel.add(flashcardsButton);
-        buttonPanel.add(addModuleButton);
-        buttonPanel.setVisible(true);
-    }
-
-    public void addEventListener() {
-        flashcardsButton.addActionListener(e -> {
-            FlashcardPanel flashcardPanel = new FlashcardPanel(chosenModule);
-        });
-
-        quizButton.addActionListener(e -> {
-            QuizPanel quizPanel = new QuizPanel(chosenModule);
-        });
-
-        moduleList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                chosenModule = moduleList.getSelectedValue();
-                if (chosenModule != null) {
-                    enableButtons();
-                }
-            }
-        });
+        scrollPane = new JScrollPane(listOfTabs);
+        scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
     }
 }
