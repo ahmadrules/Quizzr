@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class Matching extends Question implements Savable {
+public class Matching extends Question {
     private List<String> matches;
     private HashMap<String, Integer> correctMatches;
 
@@ -54,14 +54,5 @@ public class Matching extends Question implements Savable {
         }
         int points = Integer.parseInt(parts[4]);
         return new Matching(question,alternatives,matches,correctMatches,points);
-    }
-
-    @Override
-    public void saveToFile(String filename, Object Question) {
-
-    }
-    @Override
-    public Object loadFromFile(String filename) {
-        return null;
     }
 }

@@ -28,5 +28,4 @@ public class TrueOrFalse extends Question {
         int points = Integer.parseInt(parts[4]);
         return new TrueOrFalse(question, alternatives, points, correctAnswer);
     }
-
 }

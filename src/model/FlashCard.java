@@ -2,7 +2,7 @@ package model;
 
 import java.io.*;
 
-public class FlashCard implements Savable {
+public class FlashCard{
     private String content;
 
     public FlashCard(String content) {
@@ -14,8 +14,6 @@ public class FlashCard implements Savable {
     public void setContent(String content) {
         this.content = content;
     }
-
-    @Override
     public void saveToFile(String filename, Object content) {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
             oos.writeObject(content);
@@ -26,7 +24,6 @@ public class FlashCard implements Savable {
         }
     }
 
-    @Override
     public FlashCard loadFromFile(String filename) {
         FlashCard flashCard = null;
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename)) ) {
