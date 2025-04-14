@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class RightPanel extends JPanel {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private JPanel buttonPanel;
     private JButton quizButton;
     private JButton flashcardsButton;
@@ -38,6 +39,21 @@ public class RightPanel extends JPanel {
 
         createList();
 
+=======
+
+    private MainFrame mainFrame;
+    private CenterPanel centerContainer;
+    private String[] tabOptions;
+    private JList<String> listOfTabs;
+    private JScrollPane scrollPane;
+
+    public RightPanel(MainFrame mainFrame, CenterPanel centerContainer) {
+        this.mainFrame = mainFrame;
+        this.centerContainer = centerContainer;
+
+        createList();
+
+>>>>>>> Stashed changes
         JButton logOutButton = new JButton("Log Out");
         logOutButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -59,6 +75,7 @@ public class RightPanel extends JPanel {
         String[] tabOptions = { "Modules", "Account", "Quiz" };
         //------------------------------------------
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     public void createDataComponents() {
         moduleListModel = new DefaultListModel<>();
@@ -94,6 +111,11 @@ public class RightPanel extends JPanel {
         //Here we contact the Controller to fetch the available list of modules for the chosen course
         for (String item : moduleListMap.getOrDefault(courseName, new String[]{})) {
             moduleListModel.addElement(item);
+=======
+        DefaultListModel listModel = new DefaultListModel();
+        for (String option : tabOptions) {
+            listModel.addElement(option);
+>>>>>>> Stashed changes
 =======
         DefaultListModel listModel = new DefaultListModel();
         for (String option : tabOptions) {

@@ -1,7 +1,10 @@
 package view.main;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 import view.main.CenterPanels.CenterModulePanel;
 
 >>>>>>> Stashed changes
@@ -33,9 +36,12 @@ public class LeftPanel extends JPanel {
     private JButton editProgramButton;
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public LeftPanel(RightPanel rightPanel) {
         this.rightPanel = rightPanel;
 =======
+=======
+>>>>>>> Stashed changes
     public LeftPanel(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
         this.centerModulePanel = centerModulePanel;
         this.mainFrame = mainFrame;
@@ -126,6 +132,27 @@ public class LeftPanel extends JPanel {
         coursesListMap.put("Program 1", new String[]{"Course A1", "Course A2", "Course A3"});
         coursesListMap.put("Program 2", new String[]{"Course B1", "Course B2", "Course B3"});
         coursesListMap.put("Program 3", new String[]{"Course C1", "Course C2", "Course C3"});
+    }
+
+    public void enableProgramButtons() {
+        editProgramButton.setEnabled(true);
+        removeProgramButton.setEnabled(true);
+    }
+
+    public void disableProgramButtons() {
+        editProgramButton.setEnabled(false);
+        removeProgramButton.setEnabled(false);
+    }
+
+    public void enableCourseButtons() {
+        editCourseButton.setEnabled(true);
+        removeCourseButton.setEnabled(true);
+    }
+
+    public void disableCourseButtons() {
+        addCourseButton.setEnabled(false);
+        editCourseButton.setEnabled(false);
+        removeCourseButton.setEnabled(false);
     }
 
     public void enableProgramButtons() {
