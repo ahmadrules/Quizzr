@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Question implements Savable, Serializable {
+public abstract class Question implements Serializable {
     protected String question;
     protected List<String> alternatives;
     protected int points;

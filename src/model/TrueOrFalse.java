@@ -28,13 +28,4 @@ public class TrueOrFalse extends Question {
         int points = Integer.parseInt(parts[4]);
         return new TrueOrFalse(question, alternatives, points, correctAnswer);
     }
-    @Override
-    public void saveToFile(String filename) {
-
-    }
-
-    @Override
-    public Object loadFromFile(String filename) {
-        return null;
-    }
 }

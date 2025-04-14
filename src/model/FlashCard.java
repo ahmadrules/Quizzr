@@ -1,6 +1,6 @@
 package model;
 
-public class FlashCard implements Savable {
+public class FlashCard {
     private String content;
 
     public FlashCard(String content) {
@@ -13,13 +13,4 @@ public class FlashCard implements Savable {
         this.content = content;
     }
 
-    @Override
-    public void saveToFile(String filename) {
-
-    }
-
-    @Override
-    public Object loadFromFile(String filename) {
-        return null;
-    }
 }

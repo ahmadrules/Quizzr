@@ -38,13 +38,5 @@ public class MultipleChoice extends Question {
         int points = Integer.parseInt(parts[5]);
         return new MultipleChoice(question, alternatives, correctAnswer,points);
     }
-    @Override
-    public void saveToFile(String filename) {
 
-    }
-
-    @Override
-    public Object loadFromFile(String filename) {
-        return null;
-    }
 }
