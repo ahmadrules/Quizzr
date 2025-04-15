@@ -66,6 +66,16 @@ public class MainFrame extends JFrame implements Runnable {
         return controller.getModulesNames(selectedCourse);
     }
 
+    public boolean askForConfirmation() {
+        int choice = JOptionPane.showConfirmDialog(null, "Are you sure?");
+        if (choice == JOptionPane.YES_OPTION) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     @Override
     public void run() {
         createAndShowGUI();

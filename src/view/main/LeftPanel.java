@@ -36,8 +36,8 @@ public class LeftPanel extends JPanel {
 
         createDataComponents();
         createDataLists();
-        addEventListeners();
         setupLayout();
+        addEventListeners();
 
         this.add(programsLabel);
         this.add(programScrollPane);
@@ -182,6 +182,36 @@ public class LeftPanel extends JPanel {
                     enableCourseButtons();
                 }
             }
+        });
+
+        addProgramButton.addActionListener(e -> {
+            //Here we write what happens when we press the add button for the programs list
+        });
+
+        removeProgramButton.addActionListener(e -> {
+            //Here we write what happens when we press the delete button for the programs list when a program has been chosen
+            if (mainFrame.askForConfirmation() == true) {
+                //What happens if we confirm the "are you sure?" message
+            }
+        });
+
+        editProgramButton.addActionListener(e -> {
+            //Here we write what happens when we press the edit button for the programs list when a program has been chosen
+        });
+
+        addCourseButton.addActionListener(e -> {
+            //Here we write what happens when we press the add button for the course list
+        });
+
+        removeCourseButton.addActionListener(e -> {
+            //Here we write what happens when we press the delete button for the course list when a course has been chosen
+            if (mainFrame.askForConfirmation() == true) {
+                //What happens if we confirm the "are you sure?" message
+            }
+        });
+
+        editCourseButton.addActionListener(e -> {
+            //Here we write what happens when we press the edit button for the course list when a course has been chosen
         });
 
 

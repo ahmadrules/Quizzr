@@ -13,6 +13,8 @@ public class CenterModulePanel extends JPanel {
     private JButton quizButton;
     private JButton flashcardsButton;
     private JButton addModuleButton;
+    private JButton editModuleButton;
+    private JButton deleteModuleButton;
     private HashMap<String, String[]> moduleListMap;
     private DefaultListModel<String> moduleListModel;
     private JList<String> moduleList;
@@ -75,12 +77,16 @@ public class CenterModulePanel extends JPanel {
         quizButton.setEnabled(false);
         flashcardsButton.setEnabled(false);
         addModuleButton.setEnabled(false);
+        editModuleButton.setEnabled(false);
+        deleteModuleButton.setEnabled(false);
     }
 
     public void enableButtons() {
         quizButton.setEnabled(true);
         flashcardsButton.setEnabled(true);
         addModuleButton.setEnabled(true);
+        editModuleButton.setEnabled(true);
+        deleteModuleButton.setEnabled(true);
     }
 
     public void createButtons() {
@@ -88,12 +94,19 @@ public class CenterModulePanel extends JPanel {
         quizButton = new JButton("Quiz");
         flashcardsButton = new JButton("FlashCards");
         addModuleButton = new JButton("Add module");
+        editModuleButton = new JButton("Edit");
+        deleteModuleButton = new JButton("Delete");
+
         quizButton.setEnabled(false);
         flashcardsButton.setEnabled(false);
         addModuleButton.setEnabled(false);
+        editModuleButton.setEnabled(false);
+        deleteModuleButton.setEnabled(false);
         buttonPanel.add(quizButton);
         buttonPanel.add(flashcardsButton);
         buttonPanel.add(addModuleButton);
+        buttonPanel.add(editModuleButton);
+        buttonPanel.add(deleteModuleButton);
         buttonPanel.setVisible(true);
     }
 
@@ -103,15 +116,31 @@ public class CenterModulePanel extends JPanel {
 
     public void addEventListener() {
         flashcardsButton.addActionListener(e -> {
+            //Here we write what happens when we press the flashcard button
             FlashcardPanel flashcardPanel = new FlashcardPanel(chosenModule);
         });
 
         quizButton.addActionListener(e -> {
+            //Here we write what happens when we press the quiz button
             QuizPanel quizPanel = new QuizPanel(chosenModule);
+        });
+
+        addModuleButton.addActionListener(e -> {
+            //Here we write what happens when we press the add module button
+        });
+
+        editModuleButton.addActionListener(e -> {
+           //Here we write what happens when we press the edit button
+        });
+
+        deleteModuleButton.addActionListener(e -> {
+            //Here we write what happens when we press the delete button
+            mainFrame.askForConfirmation();
         });
 
         moduleList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
+                //Here we write what happens when we choose a module
                 chosenModule = moduleList.getSelectedValue();
                 if (chosenModule != null) {
                     enableButtons();
