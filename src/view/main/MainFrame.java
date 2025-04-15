@@ -26,18 +26,7 @@ public class MainFrame extends JFrame implements Runnable {
         //Which panel is displayed will depend on which tab is chosen in rightPanel
         centerContainer = new CenterPanel(this);
 
-
-        // ======= LEFT PANEL =======
-        LeftPanel leftPanel = new LeftPanel(centerContainer.getModulePanel(), this);
-
-        //Label and list of right panel
-
-
-        rightPanel = new RightPanel(this, centerContainer);
-
-        // ======= LEFT PANEL =======
-        leftPanel = new LeftPanel(centerContainer.getModulePanel(), this);
-
+        // ======= RIGHT PANEL =======
         rightPanel = new RightPanel(this, centerContainer);
 
         // ======= LEFT PANEL =======
@@ -66,8 +55,9 @@ public class MainFrame extends JFrame implements Runnable {
         return controller.getModulesNames(selectedCourse);
     }
 
-    public boolean askForConfirmation() {
-        int choice = JOptionPane.showConfirmDialog(null, "Are you sure?");
+    public boolean askForConfirmation(String selectedItem) {
+        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + selectedItem + "?");
+
         if (choice == JOptionPane.YES_OPTION) {
             return true;
         }

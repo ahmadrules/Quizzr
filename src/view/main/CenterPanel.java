@@ -1,5 +1,6 @@
 package view.main;
 
+import view.main.CenterPanels.CenterAccountPanel;
 import view.main.CenterPanels.CenterModulePanel;
 import view.main.CenterPanels.TopCenterPanel;
 
@@ -10,23 +11,36 @@ public class CenterPanel extends JPanel {
     MainFrame mainFrame;
     TopCenterPanel topPanel;
     CenterModulePanel centerModulePanel;
+    CenterAccountPanel centerAccountPanel;
 
     public CenterPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        this.setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
         topPanel = new TopCenterPanel();
         centerModulePanel = new CenterModulePanel(mainFrame);
+        centerAccountPanel = new CenterAccountPanel(mainFrame);
 
         //Default view is module tab
         setModuleLayout();
     }
 
     public void setModuleLayout() {
-        this.add(topPanel, BorderLayout.NORTH);
-        this.add(centerModulePanel, BorderLayout.CENTER);
+        removeAll();
+        revalidate();
+        repaint();
+        add(topPanel, BorderLayout.NORTH);
+        add(centerModulePanel, BorderLayout.CENTER);
+    }
+
+    public void setAccountLayout() {
+        removeAll();
+        revalidate();
+        repaint();
+        add(centerAccountPanel, BorderLayout.CENTER);
     }
 
     public CenterModulePanel getModulePanel() {
         return centerModulePanel;
     }
+
 }

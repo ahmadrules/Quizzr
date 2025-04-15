@@ -190,7 +190,7 @@ public class LeftPanel extends JPanel {
 
         removeProgramButton.addActionListener(e -> {
             //Here we write what happens when we press the delete button for the programs list when a program has been chosen
-            if (mainFrame.askForConfirmation() == true) {
+            if (mainFrame.askForConfirmation(selectedProgram) == true) {
                 //What happens if we confirm the "are you sure?" message
             }
         });
@@ -205,7 +205,7 @@ public class LeftPanel extends JPanel {
 
         removeCourseButton.addActionListener(e -> {
             //Here we write what happens when we press the delete button for the course list when a course has been chosen
-            if (mainFrame.askForConfirmation() == true) {
+            if (mainFrame.askForConfirmation(selectedCourse) == true) {
                 //What happens if we confirm the "are you sure?" message
             }
         });
@@ -213,7 +213,6 @@ public class LeftPanel extends JPanel {
         editCourseButton.addActionListener(e -> {
             //Here we write what happens when we press the edit button for the course list when a course has been chosen
         });
-
-
     }
+
 }

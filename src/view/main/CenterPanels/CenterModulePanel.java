@@ -19,7 +19,7 @@ public class CenterModulePanel extends JPanel {
     private DefaultListModel<String> moduleListModel;
     private JList<String> moduleList;
     private JScrollPane moduleScrollPane;
-    private String chosenModule;
+    private String selectedModule;
     private MainFrame mainFrame;
 
 
@@ -117,12 +117,12 @@ public class CenterModulePanel extends JPanel {
     public void addEventListener() {
         flashcardsButton.addActionListener(e -> {
             //Here we write what happens when we press the flashcard button
-            FlashcardPanel flashcardPanel = new FlashcardPanel(chosenModule);
+            FlashcardPanel flashcardPanel = new FlashcardPanel(selectedModule);
         });
 
         quizButton.addActionListener(e -> {
             //Here we write what happens when we press the quiz button
-            QuizPanel quizPanel = new QuizPanel(chosenModule);
+            QuizPanel quizPanel = new QuizPanel(selectedModule);
         });
 
         addModuleButton.addActionListener(e -> {
@@ -135,14 +135,14 @@ public class CenterModulePanel extends JPanel {
 
         deleteModuleButton.addActionListener(e -> {
             //Here we write what happens when we press the delete button
-            mainFrame.askForConfirmation();
+            mainFrame.askForConfirmation(selectedModule);
         });
 
         moduleList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 //Here we write what happens when we choose a module
-                chosenModule = moduleList.getSelectedValue();
-                if (chosenModule != null) {
+                selectedModule = moduleList.getSelectedValue();
+                if (selectedModule != null) {
                     enableButtons();
                 }
             }
