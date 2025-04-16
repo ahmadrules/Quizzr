@@ -9,7 +9,7 @@ public class Matching extends Question {
     private List<String> matches;
     private HashMap<String, Integer> correctMatches;
 
-    public Matching(String question, List<String> statements,List<String> matches, HashMap<String,Integer> correctMatches ,int points) {
+    public Matching(String question, List<String> statements,List<String> matches, int points,HashMap<String,Integer> correctMatches) {
         super(question, statements, points);
         this.matches = matches;
         this.correctMatches = correctMatches;
@@ -43,17 +43,31 @@ public class Matching extends Question {
     @Override
     public Question fromString(String line) {
         String[] parts = line.split(";");
-        String question = parts[0];
+        String question = parts[0].trim();
         List<String> alternatives = Arrays.asList(parts[1].split(","));
         List<String> matches = Arrays.asList(parts[2].split(","));
+        int points = Integer.parseInt(parts[3].trim());
+
         HashMap<String,Integer> correctMatches = new HashMap<>();
-        String[] correctPairs= parts[3].split(",");
+        String[] correctPairs= parts[4].split(",");
         for(String correctPair : correctPairs){
             String [] key = correctPair.split(":");
-            correctMatches.put(key[0],Integer.parseInt(key[1]));
+            correctMatches.put(key[0].trim(),Integer.parseInt(key[1].trim()));
         }
-        int points = Integer.parseInt(parts[4]);
-        return new Matching(question,alternatives,matches,correctMatches,points);
+        return new Matching(question,alternatives,matches,points,correctMatches);
+    }
+    @Override
+    public String toString() {
+        String alternativesStr = String.join(",",getAlternatives());
+        String matchesStr = String.join(",", matches);
+
+        List<String> correctList = new ArrayList<>();
+        for (String key : correctMatches.keySet()) {
+            correctList.add(key + ":" + correctMatches.get(key));
+        }
+        String correctMatchesStr = String.join(",", correctList);
+
+        return getQuestion() + ";" + alternativesStr + ";" + matchesStr + ";" + correctMatchesStr + ";" + getPoints();
     }
 
 }

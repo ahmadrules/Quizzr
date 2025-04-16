@@ -15,6 +15,9 @@ public abstract class Question implements Serializable {
         this.alternatives = alternatives;
         this.points = points;
     }
+    public List<String> getAlternatives() {
+        return alternatives;
+    }
 
     public Question(String question,List<String> alternatives,int points, String correctAnswer) {
         this.question = question;

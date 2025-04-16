@@ -34,9 +34,15 @@ public class MultipleChoice extends Question {
         }
         String question = parts[0];
         List<String> alternatives = Arrays.asList(parts[1], parts[2], parts[3]);
-        String correctAnswer = parts[4];
-        int points = Integer.parseInt(parts[5]);
+        int points = Integer.parseInt(parts[4]);
+        String correctAnswer = parts[5];
+
         return new MultipleChoice(question, alternatives, correctAnswer,points);
     }
-
+    public String toString() {
+        return "Question: " + question + "\n" +
+                "Alternatives: " + alternatives + "\n" +
+                "Correct Answer: " + correctAnswer + "\n" +
+                "Points: " + points + "\n";
+    }
 }

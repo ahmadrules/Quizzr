@@ -1,0 +1,3 @@
+Capital cities match;A. France,B. UK,C. Italy;Paris,London,Rome;5;A:1,B:2,C:3
+
+

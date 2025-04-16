@@ -1,6 +1,5 @@
-question; alternative 1; correct answer; points
-question 1; false; true; 5
-question 2; true; false; 5
-question 3; false; true; 5
-question 4; true; false; 5
-question 5; false; true; 5
+question 1;true;false;5;true
+
+question 2;true;false;5;false
+
+question 3;true;false;5;true

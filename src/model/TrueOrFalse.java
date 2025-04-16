@@ -24,8 +24,17 @@ public class TrueOrFalse extends Question {
         }
         String question = parts[0].trim();
         List<String> alternatives = Arrays.asList(parts[1], parts[2]);
-        String correctAnswer = parts[3];
-        int points = Integer.parseInt(parts[4]);
+        int points = Integer.parseInt(parts[3]) ;
+        String correctAnswer = parts[4].trim();
         return new TrueOrFalse(question, alternatives, points, correctAnswer);
     }
+    @Override
+    public String toString() {
+        return "Question: " + question + "\n" +
+                "Alternatives: " + alternatives + "\n" +
+                "Correct Answer: " + correctAnswer + "\n" +
+                "Points: " + points + "\n";
+    }
+
+
 }
