@@ -76,19 +76,19 @@ public class Controller {
         coursesDT.add(DA343A);
         programs.get(2).setCourses(coursesDT);
 
-        saveProgramsToFile(programsFileName);
+        saveProgramsToFile();
 
         //Getting the applications programs from the file
         programList = new ArrayList<>();
-        loadProgramsFromFile(programsFileName);
+        loadProgramsFromFile();
         for(Program program : programList){
             System.out.println(program.toString());
         }
     }
 
     //Method to get programs from file
-    public void loadProgramsFromFile(String fileName){
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))){
+    public void loadProgramsFromFile(){
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(programsFileName))){
             while (true) {
                 try {
                     Program program = (Program) ois.readObject();
@@ -104,14 +104,16 @@ public class Controller {
         }
     }
 
-    public void saveProgramsToFile(String fileName){
-        File file = new File(fileName);
+    //This method saves the head coded programs only once
+    public void saveProgramsToFile(){
+
+        File file = new File(programsFileName);
 
         if(file.exists() && file.length() > 0) {
             return;
         }
 
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))){
             for(Program program : programs){
                 oos.writeObject(program);
             }
@@ -172,18 +174,36 @@ public class Controller {
         return modulesNames;
     }
 
+    //This method adds a new program to the programList then to the file
     public void addProgramToProgramList(String programName){
+
         for (Program program : programList){
             if(program.getName().equals(programName)){
                 return;
             }
         }
         Program newProgram = new Program(programName);
+        programList.add(newProgram);
+        updateProgramsInFile();
+    }
+
+    public void deleteProgramFromFile(String programName){
+        for(int i = 0; i < programList.size(); i++){
+            if(programList.get(i).getName().equals(programName)){
+                programList.remove(programList.get(i));
+            }
+        }
+        updateProgramsInFile();
+    }
+
+    public void updateProgramsInFile(){
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))){
-                oos.writeObject(newProgram);
-                programList.add(newProgram);
+            for(Program program : programList){
+                oos.writeObject(program);
+            }
         }catch(IOException e){
             System.out.println(e.getMessage());;
         }
     }
+
 }

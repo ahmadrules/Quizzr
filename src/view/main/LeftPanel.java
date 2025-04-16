@@ -193,7 +193,7 @@ public class LeftPanel extends JPanel {
             //Here we write what happens when we press the delete button for the programs list when a program has been chosen
             if (mainFrame.deleteConfirmation(selectedProgram) == true) {
                 //TO DO: What happens if we confirm the "are you sure?" message
-
+                mainFrame.deleteProgram(selectedProgram);
                 revalidate();
                 repaint();
             }
