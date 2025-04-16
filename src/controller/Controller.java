@@ -133,7 +133,7 @@ public class Controller {
     public String[] getCoursesNames(String programName){
 
         //Search for the selected program by the programName
-        String[] coursesNames = null;
+        String[] coursesNames = new String[0];
         Program currentProgram = null;
 
         for(int i = 0; i < programList.size(); i++){

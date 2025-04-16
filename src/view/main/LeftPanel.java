@@ -10,6 +10,7 @@ public class LeftPanel extends JPanel {
 
     private JList<String> programList;
     private HashMap<String, String[]> coursesListMap;
+    private String[] programNames;
     private JList<String> coursesList;
     private JLabel coursesLabel;
     private DefaultListModel<String> coursesListModel;
@@ -29,6 +30,7 @@ public class LeftPanel extends JPanel {
     private JButton removeProgramButton;
     private JButton editProgramButton;
     private MainFrame mainFrame;
+    private String[] courseNames;
 
     public LeftPanel(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
         this.centerModulePanel = centerModulePanel;
@@ -49,9 +51,9 @@ public class LeftPanel extends JPanel {
 
     public void createDataComponents() {
         //Program data model, program list and program scrollPane created
-        String[] categories = mainFrame.getProgramsNames();
+        programNames = mainFrame.getProgramsNames();
         programListModel = new DefaultListModel<>();
-        for (String category : categories) programListModel.addElement(category);
+        for (String category : programNames) programListModel.addElement(category);
         programList = new JList<>(programListModel);
         programList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         programScrollPane = new JScrollPane(programList);
@@ -64,6 +66,22 @@ public class LeftPanel extends JPanel {
         coursesScrollPane = new JScrollPane(coursesList);
         coursesScrollPane.setVisible(true);
         coursesScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+    }
+
+    public void updateLists() {
+        programNames = mainFrame.getProgramsNames();
+        programListModel.clear();
+        for (String category : programNames) {
+            programListModel.addElement(category);
+        }
+
+        if (selectedProgram != null || courseNames != null) {
+            courseNames = mainFrame.getCoursesNames(selectedProgram);
+            coursesListModel.clear();
+            for (String item : coursesListMap.getOrDefault(selectedProgram, courseNames)) {
+                coursesListModel.addElement(item);
+            }
+        }
     }
 
     public void setupLayout() {
@@ -155,8 +173,8 @@ public class LeftPanel extends JPanel {
                     selectedCourse = null;
                     //-------------------------------------------------------------------
                     //Here we contact the Controller to fetch the available list of courses for the chosen program
-                    String[] coursesNames = mainFrame.getCoursesNames(selectedProgram);
-                    for (String item : coursesListMap.getOrDefault(selectedProgram, coursesNames)) {
+                    courseNames = mainFrame.getCoursesNames(selectedProgram);
+                    for (String item : coursesListMap.getOrDefault(selectedProgram, courseNames)) {
                         coursesListModel.addElement(item);
                     }
                 }
@@ -195,6 +213,7 @@ public class LeftPanel extends JPanel {
                 //TO DO: What happens if we confirm the "are you sure?" message
                 mainFrame.deleteProgram(selectedProgram);
                 //TODO repaint() method does not work! the updates come when the application restarts
+                updateLists();
                 revalidate();
                 repaint();
             }
@@ -215,6 +234,7 @@ public class LeftPanel extends JPanel {
             if (mainFrame.deleteConfirmation(selectedCourse) == true) {
                 //TO DO: What happens if we confirm the "are you sure?" message
 
+                updateLists();
                 revalidate();
                 repaint();
             }
@@ -232,6 +252,7 @@ public class LeftPanel extends JPanel {
         if (programName != null) {
             //TO DO: Code to add program to list of available programs
             mainFrame.addProgramToProgramList(programName);
+            updateLists();
         }
         revalidate();
         repaint();
@@ -241,6 +262,7 @@ public class LeftPanel extends JPanel {
         String courseName = JOptionPane.showInputDialog("Please enter a course name");
         if (courseName != null) {
             //TO DO: Code to add program to list of available programs. Get selected program with selectedProgram
+            updateLists();
         }
         revalidate();
         repaint();
@@ -251,6 +273,7 @@ public class LeftPanel extends JPanel {
         if (programName != null) {
             //TO DO: Code to edit name of selected program
             selectedProgram = null;
+            updateLists();
         }
         revalidate();
         repaint();
@@ -261,6 +284,7 @@ public class LeftPanel extends JPanel {
         if (courseName != null) {
             //TO DO: Code to edit name of selected course
             selectedCourse = null;
+            updateLists();
         }
         revalidate();
         repaint();
