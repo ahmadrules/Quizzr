@@ -28,7 +28,7 @@ public class QuizPanel {
         if (quiz == null) {
             quizFrame.add(new JLabel("No quiz found for this module.", SwingConstants.CENTER));
         } else {
-            // Hämtar frågorna från quizet
+            // Hämtar frågorna från quizet det (getQuestions() läggas till i quiz?)
             List<Question> questions = quiz.getQuestions();
 
             // Skapar array med frågetexter
