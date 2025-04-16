@@ -10,7 +10,6 @@ import java.util.List;
 public class Program implements Serializable {
     private String name;
     private List<Course> courses;
-    private final String fileName = "src/model/files/programs.dat";
 
     public Program(String name, ArrayList<Course> courses) {
         this.name = name;
@@ -34,9 +33,6 @@ public class Program implements Serializable {
         this.courses = courses;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
     @Override
     public String toString(){
         return "Program name: " + name;

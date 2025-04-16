@@ -227,8 +227,10 @@ public class LeftPanel extends JPanel {
 
     public void addProgram() {
         String programName = JOptionPane.showInputDialog("Please enter a program name");
+        //TODO Tell the user that the program is already there if the name is in the program list (in GUI)
         if (programName != null) {
             //TO DO: Code to add program to list of available programs
+            mainFrame.addProgramToProgramList(programName);
         }
         revalidate();
         repaint();

@@ -14,6 +14,7 @@ public class Controller {
     private List<Program> programs; //Hard coding initial  programs
     private List<Course> courses;
     private List<Program> programList;  //All the applications programs (from the file)
+    private final String programsFileName = "src/model/files/programs.dat";
 
 
     public Controller(){
@@ -75,11 +76,11 @@ public class Controller {
         coursesDT.add(DA343A);
         programs.get(2).setCourses(coursesDT);
 
-        saveToFile(programs.get(0).getFileName());
+        saveProgramsToFile(programsFileName);
 
         //Getting the applications programs from the file
         programList = new ArrayList<>();
-        loadProgramsFromFile(programs.get(0).getFileName());
+        loadProgramsFromFile(programsFileName);
         for(Program program : programList){
             System.out.println(program.toString());
         }
@@ -103,12 +104,13 @@ public class Controller {
         }
     }
 
-    public void saveToFile(String fileName){
+    public void saveProgramsToFile(String fileName){
         File file = new File(fileName);
 
         if(file.exists() && file.length() > 0) {
             return;
         }
+
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))){
             for(Program program : programs){
                 oos.writeObject(program);
@@ -168,5 +170,20 @@ public class Controller {
             modulesNames[i] = currentModule.getName();
         }
         return modulesNames;
+    }
+
+    public void addProgramToProgramList(String programName){
+        for (Program program : programList){
+            if(program.getName().equals(programName)){
+                return;
+            }
+        }
+        Program newProgram = new Program(programName);
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))){
+                oos.writeObject(newProgram);
+                programList.add(newProgram);
+        }catch(IOException e){
+            System.out.println(e.getMessage());;
+        }
     }
 }
