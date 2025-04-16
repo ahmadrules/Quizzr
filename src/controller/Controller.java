@@ -5,13 +5,16 @@ import model.Module;
 import view.main.*;
 
 import javax.swing.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
     private MainFrame view;
-    private List<Program> programs;
+    private List<Program> programs; //Hard coding initial  programs
     private List<Course> courses;
+    private List<Program> programList;  //All the applications programs (from the file)
+
 
     public Controller(){
 
@@ -72,12 +75,53 @@ public class Controller {
         coursesDT.add(DA343A);
         programs.get(2).setCourses(coursesDT);
 
+        saveToFile(programs.get(0).getFileName());
+
+        //Getting the applications programs from the file
+        programList = new ArrayList<>();
+        loadProgramsFromFile(programs.get(0).getFileName());
+        for(Program program : programList){
+            System.out.println(program.toString());
+        }
+    }
+
+    //Method to get programs from file
+    public void loadProgramsFromFile(String fileName){
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))){
+            while (true) {
+                try {
+                    Program program = (Program) ois.readObject();
+                    programList.add(program);
+                } catch (EOFException exc) {
+                    break;
+                }
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }catch (ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void saveToFile(String fileName){
+        File file = new File(fileName);
+
+        if(file.exists() && file.length() > 0) {
+            return;
+        }
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))){
+            for(Program program : programs){
+                oos.writeObject(program);
+            }
+        }catch(IOException e){
+            System.out.println(e.getMessage());;
+        }
     }
 
     public String[] getProgramsNames(){
-        String[] programsNames = new String[programs.size()];
-        for(int i = 0; i < programs.size(); i++){
-            programsNames[i] = programs.get(i).getName();
+        String[] programsNames = new String[programList.size()];
+        for(int i = 0; i < programList.size(); i++){
+            programsNames[i] = programList.get(i).getName();
         }
         return programsNames;
     }
@@ -88,8 +132,8 @@ public class Controller {
         String[] coursesNames = null;
         Program currentProgram = null;
 
-        for(int i = 0; i < programs.size(); i++){
-            currentProgram = programs.get(i);
+        for(int i = 0; i < programList.size(); i++){
+            currentProgram = programList.get(i);
             if(programName.equals(currentProgram.getName())){
                 coursesNames = new String[currentProgram.getCourses().size()];
                 break;
@@ -125,5 +169,4 @@ public class Controller {
         }
         return modulesNames;
     }
-
 }

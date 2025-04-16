@@ -2,7 +2,7 @@ package model;
 
 import java.io.*;
 
-public class FlashCard {
+public class FlashCard implements Serializable{
     private String content;
 
     public FlashCard(String content) {
