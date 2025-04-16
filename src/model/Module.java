@@ -2,6 +2,8 @@ package model;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class Module {
@@ -77,13 +79,25 @@ public class Module {
 
     }
 
-    private void generateMultipleChoiceQuiz(String fileName){
+    private ArrayList<Question> generateMultipleChoiceQuiz(String fileName){
 
         currentQuiz = new Quiz("multiChoiceQuiz");
-
+        MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
+        ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(fileName,multipleChoice);
+        return multipleChoiceQuestion;
 
     }
-    private void generateTrueOrFalseQuiz(String fileName){}
-    private void generateMatchingQuiz(String fileName){}
+    private ArrayList<Question> generateTrueOrFalseQuiz(String fileName){
+        currentQuiz = new Quiz("trueOrFalseQuiz");
+        TrueOrFalse trueOrFalse= new TrueOrFalse("", Collections.singletonList(""),0,"");
+        ArrayList<Question> trueOrFalseQuestion = fileHandler.loadQuestions(fileName,trueOrFalse);
+        return trueOrFalseQuestion;
+    }
+    private ArrayList<Question> generateMatchingQuiz(String fileName){
+        HashMap<String,Integer> matches=new HashMap<>();
+        Matching matching= new Matching("", Collections.singletonList(""), Collections.singletonList(""),0 ,matches);
+        ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(fileName,matching);
+        return matchingQuestion;
+    }
 
 }
