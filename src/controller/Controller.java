@@ -14,7 +14,6 @@ public class Controller {
     private List<Course> courses;
 
     public Controller(){
-
         programs = new ArrayList<>();
         courses = new ArrayList<>();
 

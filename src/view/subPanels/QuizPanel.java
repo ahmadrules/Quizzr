@@ -10,7 +10,7 @@ import java.util.List;
 public class QuizPanel {
     private JFrame quizFrame;
     private Module selectedModule;
-
+/**
     public QuizPanel(Module selectedModule) {
         this.selectedModule = selectedModule;
         createFrame();
@@ -46,5 +46,5 @@ public class QuizPanel {
         }
 
         quizFrame.setVisible(true);
-    }
+    }*/
 }
