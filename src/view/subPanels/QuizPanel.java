@@ -1,21 +1,50 @@
 package view.subPanels;
 
+import model.Module;
+import model.Question;
+import model.Quiz;
+
 import javax.swing.*;
+import java.util.List;
 
 public class QuizPanel {
     private JFrame quizFrame;
-    private String chosenModule;
+    private Module selectedModule;
 
-    public QuizPanel(String chosenModule) {
-        this.chosenModule = chosenModule;
+    public QuizPanel(Module selectedModule) {
+        this.selectedModule = selectedModule;
         createFrame();
     }
 
     public void createFrame() {
-        JFrame quizFrame = new JFrame("Quiz Options");
-        quizFrame.setSize(300, 200);
+        quizFrame = new JFrame("Quiz for " + selectedModule.getName());
+        quizFrame.setSize(400, 300);
         quizFrame.setLocationRelativeTo(null);
-        quizFrame.add(new JLabel("List of quizzes goes here...", SwingConstants.CENTER));
+
+        // Laddar quiz från fil genom modulen
+        selectedModule.loadQuizFromFile();
+        Quiz quiz = selectedModule.currentQuiz;
+
+        if (quiz == null) {
+            quizFrame.add(new JLabel("No quiz found for this module.", SwingConstants.CENTER));
+        } else {
+            // Hämtar frågorna från quizet
+            List<Question> questions = quiz.getQuestions();
+
+            // Skapar array med frågetexter
+            String[] questionTexts = new String[questions.size()];
+            for (int i = 0; i < questions.size(); i++) {
+                questionTexts[i] = questions.get(i).getQuestion();
+            }
+
+            // Visar frågorna i en JList
+            JList<String> quizList = new JList<>(questionTexts);
+            quizList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            JScrollPane scrollPane = new JScrollPane(quizList);
+
+            quizFrame.add(scrollPane);
+        }
+
         quizFrame.setVisible(true);
     }
 }
