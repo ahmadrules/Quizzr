@@ -30,13 +30,13 @@ public class Main {
         for (Question question : questions) {
             System.out.println(question);
         }*/
-        String filePath= "src/model/files/course2/module1/matching_questions.txt";
+      /**  String filePath= "src/model/files/course2/module1/matching_questions.txt";
         List<Matching> questions3 = new ArrayList<>();
         HashMap<String,Integer> matches = new HashMap<>();
         Matching matching= new Matching("",Collections.singletonList(""),Collections.singletonList(""),0,matches);
         questions3= fileHandler.loadQuestions(filePath, matching);
         for (Question question : questions3) {
             System.out.printf("Question: %s\n",question);
-        }
+        }*/
     }
 }
