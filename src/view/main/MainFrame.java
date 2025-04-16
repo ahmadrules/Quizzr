@@ -4,7 +4,6 @@ import controller.Controller;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 public class MainFrame extends JFrame implements Runnable {
 
@@ -21,6 +20,8 @@ public class MainFrame extends JFrame implements Runnable {
         this.setTitle("Quizzr");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 400);
+
+        //LogInFrame logInFrame = new LogInFrame(this);
 
         //Container for all the different panels in the center
         //Which panel is displayed will depend on which tab is chosen in rightPanel
@@ -55,8 +56,8 @@ public class MainFrame extends JFrame implements Runnable {
         return controller.getModulesNames(selectedCourse);
     }
 
-    public boolean askForConfirmation(String selectedItem) {
-        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + selectedItem + "?");
+    public boolean deleteConfirmation(String selectedItem) {
+        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + selectedItem + "?", "Please confirm", JOptionPane.YES_NO_OPTION);
 
         if (choice == JOptionPane.YES_OPTION) {
             return true;

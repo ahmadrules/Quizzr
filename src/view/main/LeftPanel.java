@@ -186,33 +186,81 @@ public class LeftPanel extends JPanel {
 
         addProgramButton.addActionListener(e -> {
             //Here we write what happens when we press the add button for the programs list
+            addProgram();
         });
 
         removeProgramButton.addActionListener(e -> {
             //Here we write what happens when we press the delete button for the programs list when a program has been chosen
-            if (mainFrame.askForConfirmation(selectedProgram) == true) {
-                //What happens if we confirm the "are you sure?" message
+            if (mainFrame.deleteConfirmation(selectedProgram) == true) {
+                //TO DO: What happens if we confirm the "are you sure?" message
+
+                revalidate();
+                repaint();
             }
         });
 
         editProgramButton.addActionListener(e -> {
             //Here we write what happens when we press the edit button for the programs list when a program has been chosen
+            editProgram();
         });
 
         addCourseButton.addActionListener(e -> {
             //Here we write what happens when we press the add button for the course list
+            addCourse();
         });
 
         removeCourseButton.addActionListener(e -> {
             //Here we write what happens when we press the delete button for the course list when a course has been chosen
-            if (mainFrame.askForConfirmation(selectedCourse) == true) {
-                //What happens if we confirm the "are you sure?" message
+            if (mainFrame.deleteConfirmation(selectedCourse) == true) {
+                //TO DO: What happens if we confirm the "are you sure?" message
+
+                revalidate();
+                repaint();
             }
         });
 
         editCourseButton.addActionListener(e -> {
             //Here we write what happens when we press the edit button for the course list when a course has been chosen
+            editCourse();
         });
+    }
+
+    public void addProgram() {
+        String programName = JOptionPane.showInputDialog("Please enter a program name");
+        if (programName != null) {
+            //TO DO: Code to add program to list of available programs
+        }
+        revalidate();
+        repaint();
+    }
+
+    public void addCourse() {
+        String courseName = JOptionPane.showInputDialog("Please enter a course name");
+        if (courseName != null) {
+            //TO DO: Code to add program to list of available programs. Get selected program with selectedProgram
+        }
+        revalidate();
+        repaint();
+    }
+
+    public void editProgram() {
+        String programName = JOptionPane.showInputDialog("Please enter new program name", selectedProgram);
+        if (programName != null) {
+            //TO DO: Code to edit name of selected program
+            selectedProgram = null;
+        }
+        revalidate();
+        repaint();
+    }
+
+    public void editCourse() {
+        String courseName = JOptionPane.showInputDialog("Please enter new course name", selectedCourse);
+        if (courseName != null) {
+            //TO DO: Code to edit name of selected course
+            selectedCourse = null;
+        }
+        revalidate();
+        repaint();
     }
 
 }
