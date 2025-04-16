@@ -25,6 +25,7 @@ public class CenterModulePanel extends JPanel {
 
     public CenterModulePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
+
         setLayout(new BorderLayout());
         createDataList();
         createDataComponents();
@@ -33,7 +34,6 @@ public class CenterModulePanel extends JPanel {
         setupLayout();
 
         this.add(buttonPanel, BorderLayout.SOUTH);
-
     }
 
     public void setupLayout() {
