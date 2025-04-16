@@ -194,6 +194,7 @@ public class LeftPanel extends JPanel {
             if (mainFrame.deleteConfirmation(selectedProgram) == true) {
                 //TO DO: What happens if we confirm the "are you sure?" message
                 mainFrame.deleteProgram(selectedProgram);
+                //TODO repaint() method does not work! the updates come when the application restarts
                 revalidate();
                 repaint();
             }
