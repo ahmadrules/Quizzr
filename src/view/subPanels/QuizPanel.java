@@ -23,6 +23,7 @@ public class QuizPanel {
 
         // Laddar quiz från fil genom modulen
         selectedModule.loadQuizFromFile();
+        /*
         Quiz quiz = selectedModule.currentQuiz;
 
         if (quiz == null) {
@@ -46,5 +47,7 @@ public class QuizPanel {
         }
 
         quizFrame.setVisible(true);
+
+         */
     }
 }
