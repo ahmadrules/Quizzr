@@ -7,7 +7,7 @@ import javax.swing.*;
 public class LogInFrame extends JFrame {
 
     public LogInFrame(MainFrame mainFrame) {
-     setSize(300,300);
+     setSize(400,200);
      setVisible(true);
     }
 

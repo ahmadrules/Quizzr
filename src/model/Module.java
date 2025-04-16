@@ -18,6 +18,7 @@ public class Module {
         this.name = name;
         this.flashCards = new ArrayList<>();
     }
+
     public String getName() {
         return name;
     }
@@ -67,6 +68,7 @@ public class Module {
     private void generateGeneralQuiz(){
 
     }
+
     private void generateMultipleChoiceQuiz(String fileName){
         currentQuiz = new Quiz("multiChoiceQuiz");
     }

@@ -127,15 +127,18 @@ public class CenterModulePanel extends JPanel {
 
         addModuleButton.addActionListener(e -> {
             //Here we write what happens when we press the add module button
+            addModule();
         });
 
         editModuleButton.addActionListener(e -> {
            //Here we write what happens when we press the edit button
+            editModule();
         });
 
         deleteModuleButton.addActionListener(e -> {
-            //Here we write what happens when we press the delete button
-            mainFrame.askForConfirmation(selectedModule);
+            if (mainFrame.deleteConfirmation(selectedModule) == true) {
+                //Here we write what happens when we press the delete button
+            };
         });
 
         moduleList.addListSelectionListener(e -> {
@@ -147,5 +150,25 @@ public class CenterModulePanel extends JPanel {
                 }
             }
         });
+    }
+
+    public void addModule() {
+        String moduleName = JOptionPane.showInputDialog("Please enter a module name");
+        if (moduleName != null) {
+            //TO DO: Code to add module to list of available module
+
+            revalidate();
+            repaint();
+        }
+    }
+
+    public void editModule() {
+        String moduleName = JOptionPane.showInputDialog("Please enter a module name", selectedModule);
+        if (moduleName != null) {
+            //TO DO: Code to edit name of selected module
+
+            revalidate();
+            repaint();
+        }
     }
 }
