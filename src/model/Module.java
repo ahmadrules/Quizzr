@@ -12,11 +12,19 @@ public class Module {
     private final String matchingFileName = "matching_questions.txt";
     private final String multiChoiceFileName = "multiChoice_questions.txt";
     private final String trueOrFalseFileName = "trueFalse_questions.txt";
-
+    private List<Question> allQuestions;
+    private List<Matching> matchingQuestions;
+    private List<MultipleChoice> multiChoiceQuestions;
+    private List<TrueOrFalse> trueOrFalseQuestions;
+    FileHandler fileHandler = new FileHandler();
 
     public Module(String name) {
         this.name = name;
         this.flashCards = new ArrayList<>();
+        this.allQuestions = new ArrayList<>();
+        this.matchingQuestions = new ArrayList<>();
+        this.multiChoiceQuestions = new ArrayList<>();
+        this.trueOrFalseQuestions = new ArrayList<>();
     }
 
     public String getName() {
@@ -70,7 +78,10 @@ public class Module {
     }
 
     private void generateMultipleChoiceQuiz(String fileName){
+
         currentQuiz = new Quiz("multiChoiceQuiz");
+
+
     }
     private void generateTrueOrFalseQuiz(String fileName){}
     private void generateMatchingQuiz(String fileName){}

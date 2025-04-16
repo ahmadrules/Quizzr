@@ -67,7 +67,7 @@ public class Matching extends Question {
         }
         String correctMatchesStr = String.join(",", correctList);
 
-        return getQuestion() + ";" + alternativesStr + ";" + matchesStr + ";" + correctMatchesStr + ";" + getPoints();
+        return getQuestion() + "\n" + alternativesStr + "\n" + matchesStr + "\n" + correctMatchesStr + "\n" + getPoints();
     }
 
 }

@@ -49,10 +49,10 @@ public abstract class Question implements Serializable {
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (IOException e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
         }
-        ;return question1;
+        return question1;
     }
 }
