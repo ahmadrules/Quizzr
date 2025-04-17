@@ -31,6 +31,8 @@ public class LeftPanel extends JPanel {
     private JButton editProgramButton;
     private MainFrame mainFrame;
     private String[] courseNames;
+    private int selectedProgramIndex = -1;
+    private int selectedCourseIndex = -1;
 
     public LeftPanel(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
         this.centerModulePanel = centerModulePanel;
@@ -75,13 +77,23 @@ public class LeftPanel extends JPanel {
             programListModel.addElement(category);
         }
 
-        if (selectedProgram != null || courseNames != null) {
+        if (selectedProgram != null) {
             courseNames = mainFrame.getCoursesNames(selectedProgram);
             coursesListModel.clear();
             for (String item : coursesListMap.getOrDefault(selectedProgram, courseNames)) {
                 coursesListModel.addElement(item);
             }
         }
+
+        else {
+            coursesListModel.clear();
+        }
+
+        programList.setSelectedIndex(selectedProgramIndex);
+        coursesList.setSelectedIndex(selectedCourseIndex);
+
+        revalidate();
+        repaint();
     }
 
     public void setupLayout() {
@@ -150,6 +162,7 @@ public class LeftPanel extends JPanel {
     }
 
     public void enableCourseButtons() {
+        addProgramButton.setEnabled(true);
         editCourseButton.setEnabled(true);
         removeCourseButton.setEnabled(true);
     }
@@ -162,13 +175,15 @@ public class LeftPanel extends JPanel {
 
     private void addEventListeners() {
         programList.addListSelectionListener(e -> {
-            if (programList.getValueIsAdjusting()) {
+            if (!e.getValueIsAdjusting()) {
 
                 //Selected program is decided here
                 //Use selectedProgram for communication with Controller
                 selectedProgram = programList.getSelectedValue();
-
                 if (selectedProgram != null) {
+                    selectedCourseIndex = -1;
+                    selectedProgramIndex = programList.getSelectedIndex();
+                    System.out.println("Selected program index: " + selectedProgramIndex);
                     coursesListModel.clear();
                     selectedCourse = null;
                     //-------------------------------------------------------------------
@@ -182,11 +197,12 @@ public class LeftPanel extends JPanel {
 
                 centerModulePanel.disableButtons();
                 centerModulePanel.clearModuleList();
-                enableProgramButtons();
-                disableCourseButtons();
-                addCourseButton.setEnabled(true);
-                this.revalidate();
-                this.repaint();
+                
+                if (selectedProgramIndex != -1) {
+                    enableProgramButtons();
+                    disableCourseButtons();
+                    addCourseButton.setEnabled(true);
+                }
             }
         });
 
@@ -194,6 +210,8 @@ public class LeftPanel extends JPanel {
             if (!e.getValueIsAdjusting()) {
                 selectedCourse = coursesList.getSelectedValue();
                 if (selectedCourse != null) {
+                    selectedCourseIndex = coursesList.getSelectedIndex();
+                    System.out.println("Selected course index: " + selectedCourseIndex);
 
                     //rightPanel handles fetching a list of available modules for the selected course
                     centerModulePanel.courseChosen(selectedCourse);
@@ -209,13 +227,7 @@ public class LeftPanel extends JPanel {
 
         removeProgramButton.addActionListener(e -> {
             //Here we write what happens when we press the delete button for the programs list when a program has been chosen
-            if (mainFrame.deleteConfirmation(selectedProgram) == true) {
-                //TO DO: What happens if we confirm the "are you sure?" message
-                mainFrame.deleteProgram(selectedProgram);
-                updateLists();
-                revalidate();
-                repaint();
-            }
+            removeProgram();
         });
 
         editProgramButton.addActionListener(e -> {
@@ -230,14 +242,7 @@ public class LeftPanel extends JPanel {
 
         removeCourseButton.addActionListener(e -> {
             //Here we write what happens when we press the delete button for the course list when a course has been chosen
-            if (mainFrame.deleteConfirmation(selectedCourse) == true) {
-                //TO DO: What happens if we confirm the "are you sure?" message
-                mainFrame.deleteCourse(selectedProgram, selectedCourse);
-
-                updateLists();
-                revalidate();
-                repaint();
-            }
+            removeCourse();
         });
 
         editCourseButton.addActionListener(e -> {
@@ -254,8 +259,6 @@ public class LeftPanel extends JPanel {
             mainFrame.addProgramToProgramList(programName);
             updateLists();
         }
-        revalidate();
-        repaint();
     }
 
     public void addCourse() {
@@ -266,8 +269,6 @@ public class LeftPanel extends JPanel {
             //TODO Tell the user that the course is already there if the name is in the course list (in GUI)
             updateLists();
         }
-        revalidate();
-        repaint();
     }
 
     public void editProgram() {
@@ -275,11 +276,9 @@ public class LeftPanel extends JPanel {
         if (programName != null) {
             //TO DO: Code to edit name of selected program
             mainFrame.editProgramName(selectedProgram, programName);
-            selectedProgram = null;
             updateLists();
+            selectedProgram = programName;
         }
-        revalidate();
-        repaint();
     }
 
     public void editCourse() {
@@ -287,11 +286,30 @@ public class LeftPanel extends JPanel {
         if (courseName != null) {
             //TO DO: Code to edit name of selected course
             mainFrame.editCourseName(selectedCourse, courseName);
-            selectedCourse = null;
             updateLists();
+            selectedCourse = courseName;
         }
-        revalidate();
-        repaint();
     }
 
+    public void removeProgram() {
+        if (mainFrame.deleteConfirmation(selectedProgram) == true) {
+            mainFrame.deleteProgram(selectedProgram);
+            selectedProgram = null;
+            selectedProgramIndex = -1;
+            disableProgramButtons();
+            disableCourseButtons();
+            updateLists();
+        }
+    }
+
+    public void removeCourse() {
+        if (mainFrame.deleteConfirmation(selectedCourse) == true) {
+            mainFrame.deleteCourse(selectedProgram, selectedCourse);
+            selectedCourse = null;
+            selectedCourseIndex = -1;
+            disableCourseButtons();
+            addCourseButton.setEnabled(true);
+            updateLists();
+        }
+    }
 }
