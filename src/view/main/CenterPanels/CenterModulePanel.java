@@ -141,6 +141,7 @@ public class CenterModulePanel extends JPanel {
             if (mainFrame.deleteConfirmation(selectedModule) == true) {
                 //Here we write what happens when we press the delete button
                 mainFrame.deleteModule(selectedCourse, selectedModule);
+                //TODO The module list must be updated after deleting the module
             };
         });
 
@@ -160,6 +161,7 @@ public class CenterModulePanel extends JPanel {
         if (moduleName != null) {
             //TO DO: Code to add module to list of available module
             mainFrame.addNewModule(selectedCourse, selectedModule);
+            //TODO The module list must be updated after adding the new module
             revalidate();
             repaint();
         }
@@ -169,7 +171,7 @@ public class CenterModulePanel extends JPanel {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name", selectedModule);
         if (moduleName != null) {
             //TO DO: Code to edit name of selected module
-
+            //TODO The module list must be updated after editing the module
             revalidate();
             repaint();
         }

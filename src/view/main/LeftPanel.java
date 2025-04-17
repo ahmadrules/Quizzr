@@ -190,6 +190,7 @@ public class LeftPanel extends JPanel {
             }
         });
 
+        //TODO when trying to delete a course it does not delete the course for the first time! There is a problem with courseList only delete button
         coursesList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 selectedCourse = coursesList.getSelectedValue();
