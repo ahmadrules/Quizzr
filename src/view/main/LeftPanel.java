@@ -189,7 +189,7 @@ public class LeftPanel extends JPanel {
                 this.repaint();
             }
         });
-        
+
         coursesList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 selectedCourse = coursesList.getSelectedValue();
@@ -286,6 +286,7 @@ public class LeftPanel extends JPanel {
         String courseName = JOptionPane.showInputDialog("Please enter new course name", selectedCourse);
         if (courseName != null) {
             //TO DO: Code to edit name of selected course
+            mainFrame.editCourseName(selectedCourse, courseName);
             selectedCourse = null;
             updateLists();
         }

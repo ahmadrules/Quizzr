@@ -160,7 +160,7 @@ public class CenterModulePanel extends JPanel {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name");
         if (moduleName != null) {
             //TO DO: Code to add module to list of available module
-            mainFrame.addNewModule(selectedCourse, selectedModule);
+            mainFrame.addNewModule(selectedCourse, moduleName);
             //TODO The module list must be updated after adding the new module
             revalidate();
             repaint();
@@ -171,6 +171,7 @@ public class CenterModulePanel extends JPanel {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name", selectedModule);
         if (moduleName != null) {
             //TO DO: Code to edit name of selected module
+            mainFrame.editModuleName(selectedCourse, selectedModule, moduleName);
             //TODO The module list must be updated after editing the module
             revalidate();
             repaint();
