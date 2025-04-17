@@ -217,12 +217,22 @@ public class Controller {
     }
 
     public void addNewModule(String courseName, String moduleName){
+        for(int i = 0; i < programList.size(); i++){
+            for(int c = 0; c < programList.get(i).getCourses().size(); c++){
+                if(programList.get(i).getCourses().get(c).getName().equals(courseName)){
+                    Module newModule = new Module(moduleName);
+                    programList.get(i).getCourses().get(c).addModule(newModule);
+                }
+            }
+        }
+        //Edit courses
         for(int i = 0; i < courses.size(); i++){
             if(courses.get(i).getName().equals(courseName)){
                 Module newModule = new Module(moduleName);
                 courses.get(i).addModule(newModule);
             }
         }
+
         updateProgramsInFile();
     }
 
@@ -231,9 +241,11 @@ public class Controller {
             Program currentProgram = programList.get(i);
             if(currentProgram.getName().equals(programName)){
                 for(int c = 0; c <currentProgram.getCourses().size(); c++){
+                    Course currentCourse = currentProgram.getCourses().get(c);
                     if(currentProgram.getCourses().get(c).getName().equals(courseName)){
                         currentProgram.getCourses().remove(c);
-                        courses.remove(currentProgram.getCourses().get(c));
+                        courses.remove(currentCourse);
+                        break;
                     }
                 }
             }
@@ -242,17 +254,41 @@ public class Controller {
     }
 
     public void deleteModule(String courseName, String moduleName){
-        for(int i = 0; i < courses.size(); i++){
-            Course currentCourse = courses.get(i);
-            if(currentCourse.getName().equals(courseName)){
-                for(int m = 0; m <currentCourse.getModules().size(); m++){
-                    if(currentCourse.getModules().get(m).getName().equals(moduleName)){
-                        currentCourse.getModules().remove(m);
+        for(int i = 0; i < programList.size(); i++){
+            for(int c = 0; c < programList.get(i).getCourses().size(); c++){
+                if(programList.get(i).getCourses().get(c).getName().equals(courseName)){
+                    for(int m = 0; m < programList.get(i).getCourses().get(c).getModules().size(); m++) {
+                        if(programList.get(i).getCourses().get(c).getModules().get(m).getName().equals(moduleName)){
+                            programList.get(i).getCourses().get(c).getModules().remove(m);
+                        }
                     }
                 }
             }
         }
+        //Edit courses
+        for(int i = 0; i < courses.size(); i++){
+            if(courses.get(i).getName().equals(courseName)){
+                for(int m = 0; m < courses.get(i).getModules().size(); m++) {
+                    if(courses.get(i).getModules().get(m).getName().equals(moduleName)) {
+                        courses.remove(m);
+                    }
+                }
+            }
+        }
+
         updateProgramsInFile();
+    }
+
+    public void editProgramName(String oldProgramName, String updatedProgramName){
+        for (int i = 0; i < programList.size(); i++) {
+            if(programList.get(i).getName().equals(oldProgramName)){
+                programList.get(i).setName(updatedProgramName);
+            }
+        }
+        updateProgramsInFile();
+    }
+    public void editCourseName(String oldCourseName, String updatedCourseName){
+
     }
 
 }

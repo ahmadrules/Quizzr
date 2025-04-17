@@ -189,8 +189,7 @@ public class LeftPanel extends JPanel {
                 this.repaint();
             }
         });
-
-        //TODO when trying to delete a course it does not delete the course for the first time! There is a problem with courseList only delete button
+        
         coursesList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 selectedCourse = coursesList.getSelectedValue();
@@ -275,6 +274,7 @@ public class LeftPanel extends JPanel {
         String programName = JOptionPane.showInputDialog("Please enter new program name", selectedProgram);
         if (programName != null) {
             //TO DO: Code to edit name of selected program
+            mainFrame.editProgramName(selectedProgram, programName);
             selectedProgram = null;
             updateLists();
         }
