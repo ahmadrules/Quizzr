@@ -57,13 +57,13 @@ public class CenterModulePanel extends JPanel {
         moduleListMap = new HashMap<>();
     }
 
-    public void courseChosen(String courseName) {
-        this.selectedCourse = courseName;
+    public void courseChosen(String selectedCourse) {
+        this.selectedCourse = selectedCourse;
         clearModuleList();
 
         //-------------------------------------------------------------------
         //Here we contact the Controller to fetch the available list of modules for the chosen course
-        for (String item : moduleListMap.getOrDefault(courseName, mainFrame.getModulesNames(courseName))) {
+        for (String item : moduleListMap.getOrDefault(selectedCourse, mainFrame.getModulesNames(selectedCourse))) {
             moduleListModel.addElement(item);
         }
         //-------------------------------------------------------------------
@@ -116,6 +116,15 @@ public class CenterModulePanel extends JPanel {
         moduleListModel.clear();
     }
 
+    public void updateList() {
+        clearModuleList();
+        for (String item : moduleListMap.getOrDefault(selectedCourse, mainFrame.getModulesNames(selectedCourse))) {
+            moduleListModel.addElement(item);
+        }
+        revalidate();
+        repaint();
+    }
+
     public void addEventListener() {
         flashcardsButton.addActionListener(e -> {
             //Here we write what happens when we press the flashcard button
@@ -130,18 +139,20 @@ public class CenterModulePanel extends JPanel {
         addModuleButton.addActionListener(e -> {
             //Here we write what happens when we press the add module button
             addModule();
+            updateList();
         });
 
         editModuleButton.addActionListener(e -> {
            //Here we write what happens when we press the edit button
             editModule();
+            updateList();
         });
 
         deleteModuleButton.addActionListener(e -> {
             if (mainFrame.deleteConfirmation(selectedModule) == true) {
                 //Here we write what happens when we press the delete button
                 mainFrame.deleteModule(selectedCourse, selectedModule);
-                //TODO The module list must be updated after deleting the module
+                updateList();
             };
         });
 
@@ -161,9 +172,6 @@ public class CenterModulePanel extends JPanel {
         if (moduleName != null) {
             //TO DO: Code to add module to list of available module
             mainFrame.addNewModule(selectedCourse, moduleName);
-            //TODO The module list must be updated after adding the new module
-            revalidate();
-            repaint();
         }
     }
 
@@ -172,9 +180,6 @@ public class CenterModulePanel extends JPanel {
         if (moduleName != null) {
             //TO DO: Code to edit name of selected module
             mainFrame.editModuleName(selectedCourse, selectedModule, moduleName);
-            //TODO The module list must be updated after editing the module
-            revalidate();
-            repaint();
         }
     }
 }
