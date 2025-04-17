@@ -67,11 +67,11 @@ public class Module {
                 break;
         }
     }
-    private ArrayList<Question> generateGeneralQuiz(String multipleChoiceFile,String matchingFilePath, String trueOrFalseFilePath , int numberOfQuestions) {
+    public ArrayList<Question> generateGeneralQuiz(String multipleChoiceFile,String matchingFilePath, String trueOrFalseFilePath , int numberOfQuestions) {
         ArrayList<Question> allQuestions= new ArrayList<>();
-        ArrayList<Question> mc= generateMultipleChoiceQuiz(multipleChoiceFile,numberOfQuestions);
-        ArrayList<Question> matching= generateMatchingQuiz(matchingFilePath, numberOfQuestions);
-        ArrayList<Question> tf= generateTrueOrFalseQuiz(trueOrFalseFilePath, numberOfQuestions);
+        ArrayList<Question> mc= generateMultipleChoiceQuiz(multipleChoiceFile,numberOfQuestions/3);
+        ArrayList<Question> matching= generateMatchingQuiz(matchingFilePath, numberOfQuestions/3);
+        ArrayList<Question> tf= generateTrueOrFalseQuiz(trueOrFalseFilePath, numberOfQuestions/3);
         allQuestions.addAll(mc);
         allQuestions.addAll(matching);
         allQuestions.addAll(tf);

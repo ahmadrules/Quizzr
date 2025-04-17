@@ -1,4 +1,4 @@
-Capital cities match;A. France,B. UK,C. Italy;Paris,London,Rome;5;A:1,B:2,C:3
+Capital cities match;A. France,B. UK,C. Italy;1. Paris,2. London,3. Rome;5;A:1,B:2,C:3
 
 Programming languages origin;A. Python,B. Java,C. C++;USA,Netherlands,Canada;5;A:2,B:1,C:3
 
