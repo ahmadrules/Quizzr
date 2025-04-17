@@ -214,7 +214,7 @@ public class LeftPanel extends JPanel {
                     System.out.println("Selected course index: " + selectedCourseIndex);
 
                     //rightPanel handles fetching a list of available modules for the selected course
-                    centerModulePanel.courseChosen(selectedCourse);
+                    centerModulePanel.courseChosen(selectedProgram, selectedCourse);
                     enableCourseButtons();
                 }
             }
@@ -287,8 +287,9 @@ public class LeftPanel extends JPanel {
                 mainFrame.editProgramName(selectedProgram, programName);
                 updateLists();
                 selectedProgram = programName;
-            }
-            else {
+            } else if (programName.equals(selectedProgram)) {
+                //Do nothing if name not changed
+            } else {
                 JOptionPane.showMessageDialog(null, programName +" already exists! Choose a different program name");
             }
         }
@@ -301,6 +302,9 @@ public class LeftPanel extends JPanel {
                 mainFrame.editCourseName(selectedCourse, courseName);
                 updateLists();
                 selectedCourse = courseName;
+            }
+            else if (courseName.equals(selectedCourse)) {
+                //Do nothing if name not changed
             }
             else {
                 JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");

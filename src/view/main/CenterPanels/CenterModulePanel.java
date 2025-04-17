@@ -19,9 +19,10 @@ public class CenterModulePanel extends JPanel {
     private DefaultListModel<String> moduleListModel;
     private JList<String> moduleList;
     private JScrollPane moduleScrollPane;
-    private String selectedModule;
     private MainFrame mainFrame;
+    private String selectedModule;
     private String selectedCourse;
+    private String selectedProgram;
 
 
     public CenterModulePanel(MainFrame mainFrame) {
@@ -57,7 +58,8 @@ public class CenterModulePanel extends JPanel {
         moduleListMap = new HashMap<>();
     }
 
-    public void courseChosen(String selectedCourse) {
+    public void courseChosen(String selectedProgram, String selectedCourse) {
+        this.selectedProgram = selectedProgram;
         this.selectedCourse = selectedCourse;
         clearModuleList();
 
@@ -170,17 +172,26 @@ public class CenterModulePanel extends JPanel {
     public void addModule() {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name");
         if (moduleName != null) {
-            //TO DO: Code to add module to list of available module
-            mainFrame.addNewModule(selectedCourse, moduleName);
+            if (mainFrame.checkIfModuleExists(selectedProgram, selectedCourse, moduleName) == false) {
+                mainFrame.addNewModule(selectedCourse, moduleName);
+            }
+            else {
+                JOptionPane.showMessageDialog(null, moduleName + " already exists for " + selectedCourse + "! Please choose another module name.");
+            }
+
         }
     }
 
     public void editModule() {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name", selectedModule);
         if (moduleName != null) {
-
-            //TO DO: Code to edit name of selected module
-            mainFrame.editModuleName(selectedCourse, selectedModule, moduleName);
+            if (mainFrame.checkIfModuleExists(selectedProgram, selectedCourse, moduleName) == false) {
+                mainFrame.editModuleName(selectedCourse, selectedModule, moduleName);
+            } else if (moduleName.equals(selectedModule)) {
+                //Do nothing if name not changed
+            } else {
+                JOptionPane.showMessageDialog(null, moduleName + " already exists for " + selectedCourse + "! Please choose another module name.");
+            }
         }
     }
 }
