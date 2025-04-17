@@ -164,19 +164,19 @@ public class Controller {
                 }
             }
         }
-
+        
         //Fill the list with modules names for the selected course
         for (int m = 0; m < modulesNames.length; m++) {
             Module currentModule = currentCourse.getModules().get(m);
             modulesNames[m] = currentModule.getName();
         }
 
+
         return modulesNames;
     }
 
     //This method adds a new program to the programList then to the file
     public void addProgramToProgramList(String programName){
-
         for (Program program : programList){
             if(program.getName().equals(programName)){
                 return;
@@ -205,6 +205,7 @@ public class Controller {
             System.out.println(e.getMessage());;
         }
     }
+
     public void addNewCourse(String programName, String courseName){
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -343,4 +344,42 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    public boolean checkIfProgramExists(String programName){
+        for (Program program:programList) {
+            if (program.getName().equals(programName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkIfCourseExists(String programName, String courseName){
+        for (Program program:programList) {
+            if (program.getName().equals(programName)) {
+                for (Course course:program.getCourses()) {
+                    if (course.getName().equals(courseName)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkIfModuleExists(String programName, String courseName, String moduleName){
+        for (Program program:programList) {
+            if (program.getName().equals(programName)) {
+                for (Course course:program.getCourses()) {
+                    if (course.getName().equals(courseName)) {
+                        for (Module module:course.getModules()) {
+                            if (module.getName().equals(moduleName)) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -255,39 +255,56 @@ public class LeftPanel extends JPanel {
         String programName = JOptionPane.showInputDialog("Please enter a program name");
         //TODO Tell the user that the program is already there if the name is in the program list (in GUI)
         if (programName != null) {
-            //TO DO: Code to add program to list of available programs
-            mainFrame.addProgramToProgramList(programName);
-            updateLists();
+            if (mainFrame.checkIfProgramExists(programName) == false) {
+                mainFrame.addProgramToProgramList(programName);
+                updateLists();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, programName + " already exists");
+            }
         }
     }
 
     public void addCourse() {
         String courseName = JOptionPane.showInputDialog("Please enter a course name");
         if (courseName != null) {
-            mainFrame.addNewCourse(selectedProgram, courseName);
+            if (mainFrame.checkIfCourseExists(selectedProgram, courseName) == false) {
+                mainFrame.addNewCourse(selectedProgram, courseName);
+                updateLists();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");
+            }
             //TO DO: Code to add program to list of available programs. Get selected program with selectedProgram
             //TODO Tell the user that the course is already there if the name is in the course list (in GUI)
-            updateLists();
         }
     }
 
     public void editProgram() {
         String programName = JOptionPane.showInputDialog("Please enter new program name", selectedProgram);
         if (programName != null) {
-            //TO DO: Code to edit name of selected program
-            mainFrame.editProgramName(selectedProgram, programName);
-            updateLists();
-            selectedProgram = programName;
+            if (mainFrame.checkIfProgramExists(selectedProgram) == false) {
+                mainFrame.editProgramName(selectedProgram, programName);
+                updateLists();
+                selectedProgram = programName;
+            }
+            else {
+                JOptionPane.showMessageDialog(null, programName +" already exists! Choose a different program name");
+            }
         }
     }
 
     public void editCourse() {
         String courseName = JOptionPane.showInputDialog("Please enter new course name", selectedCourse);
         if (courseName != null) {
-            //TO DO: Code to edit name of selected course
-            mainFrame.editCourseName(selectedCourse, courseName);
-            updateLists();
-            selectedCourse = courseName;
+            if (mainFrame.checkIfCourseExists(selectedProgram, courseName) == false) {
+                mainFrame.editCourseName(selectedCourse, courseName);
+                updateLists();
+                selectedCourse = courseName;
+            }
+            else {
+                JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");
+            }
         }
     }
 

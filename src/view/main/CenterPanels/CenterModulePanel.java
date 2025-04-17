@@ -178,6 +178,7 @@ public class CenterModulePanel extends JPanel {
     public void editModule() {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name", selectedModule);
         if (moduleName != null) {
+
             //TO DO: Code to edit name of selected module
             mainFrame.editModuleName(selectedCourse, selectedModule, moduleName);
         }
