@@ -1,41 +1,38 @@
 package view.subPanels;
 
-import model.FlashCard;
-import model.Module;
+import controller.Controller;
 
 import javax.swing.*;
-import java.util.List;
 
-public class FlashcardPanel {
-    private JFrame flashcardFrame;
-    private Module selectedModule;
+public class QuizPanel {
+    private JFrame quizFrame;
+    private String selectedModuleName;
+    private Controller controller;
 
-    public FlashcardPanel(Module selectedModule) {
-        this.selectedModule = selectedModule;
+    public QuizPanel(String selectedModuleName, Controller controller) {
+        this.selectedModuleName = selectedModuleName;
+        this.controller = controller;
         createFrame();
     }
 
     public void createFrame() {
-        flashcardFrame = new JFrame("Flashcards for " + selectedModule.getName());
-        flashcardFrame.setSize(400, 300);
-        flashcardFrame.setLocationRelativeTo(null);
+        quizFrame = new JFrame("Quizzes for " + selectedModuleName);
+        quizFrame.setSize(400, 300);
+        quizFrame.setLocationRelativeTo(null);
 
-        // Hämtar flashcards från modulen
-        List<FlashCard> flashCards = selectedModule.getFlashCards();
+        // Hämtar quiz-namn från controller
+        String[] quizNames = controller.getQuizNamesForModule(selectedModuleName);
 
-        // Omvandlar flashcards till en array med innehåll för visning
-        String[] cardContents = new String[flashCards.size()];
-        for (int i = 0; i < flashCards.size(); i++) {
-            cardContents[i] = flashCards.get(i).getContent();
+        if (quizNames == null || quizNames.length == 0) {
+            quizFrame.add(new JLabel("No quizzes found for this module.", SwingConstants.CENTER));
+        } else {
+            // Visar quiz-namn i en lista
+            JList<String> quizList = new JList<>(quizNames);
+            quizList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            JScrollPane scrollPane = new JScrollPane(quizList);
+            quizFrame.add(scrollPane);
         }
 
-        // Skapar och visar listan i ett scrollfönster
-        JList<String> flashcardList = new JList<>(cardContents);
-        flashcardList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane scrollPane = new JScrollPane(flashcardList);
-
-        flashcardFrame.add(scrollPane);
-        flashcardFrame.setVisible(true);
+        quizFrame.setVisible(true);
     }
 }
-
