@@ -212,7 +212,6 @@ public class LeftPanel extends JPanel {
             if (mainFrame.deleteConfirmation(selectedProgram) == true) {
                 //TO DO: What happens if we confirm the "are you sure?" message
                 mainFrame.deleteProgram(selectedProgram);
-                //TODO repaint() method does not work! the updates come when the application restarts
                 updateLists();
                 revalidate();
                 repaint();
@@ -233,6 +232,7 @@ public class LeftPanel extends JPanel {
             //Here we write what happens when we press the delete button for the course list when a course has been chosen
             if (mainFrame.deleteConfirmation(selectedCourse) == true) {
                 //TO DO: What happens if we confirm the "are you sure?" message
+                mainFrame.deleteCourse(selectedProgram, selectedCourse);
 
                 updateLists();
                 revalidate();
@@ -261,7 +261,9 @@ public class LeftPanel extends JPanel {
     public void addCourse() {
         String courseName = JOptionPane.showInputDialog("Please enter a course name");
         if (courseName != null) {
+            mainFrame.addNewCourse(selectedProgram, courseName);
             //TO DO: Code to add program to list of available programs. Get selected program with selectedProgram
+            //TODO Tell the user that the course is already there if the name is in the course list (in GUI)
             updateLists();
         }
         revalidate();

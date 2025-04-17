@@ -62,6 +62,18 @@ public class MainFrame extends JFrame implements Runnable {
     public void deleteProgram(String programName){
         controller.deleteProgramFromFile(programName);
     }
+    public void addNewCourse(String selectedProgram, String courseName){
+        controller.addNewCourse(selectedProgram, courseName);
+    }
+    public void addNewModule(String courseName, String moduleName){
+        controller.addNewModule(courseName, moduleName);
+    }
+    public void deleteCourse(String programName, String courseName){
+        controller.deleteCourse(programName, courseName);
+    }
+    public void deleteModule(String courseName, String moduleName){
+        controller.deleteModule(courseName, moduleName);
+    }
 
     public boolean deleteConfirmation(String selectedItem) {
         int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + selectedItem + "?", "Please confirm", JOptionPane.YES_NO_OPTION);

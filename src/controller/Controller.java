@@ -205,5 +205,54 @@ public class Controller {
             System.out.println(e.getMessage());;
         }
     }
+    public void addNewCourse(String programName, String courseName){
+        for (int i = 0; i < programList.size(); i++) {
+            if(programList.get(i).getName().equals(programName)){
+                Course newCourse = new Course(courseName);
+                programList.get(i).addNewCourse(newCourse);
+                courses.add(newCourse);
+            }
+        }
+        updateProgramsInFile();
+    }
+
+    public void addNewModule(String courseName, String moduleName){
+        for(int i = 0; i < courses.size(); i++){
+            if(courses.get(i).getName().equals(courseName)){
+                Module newModule = new Module(moduleName);
+                courses.get(i).addModule(newModule);
+            }
+        }
+        updateProgramsInFile();
+    }
+
+    public void deleteCourse(String programName,String courseName){
+        for (int i = 0; i < programList.size(); i++){
+            Program currentProgram = programList.get(i);
+            if(currentProgram.getName().equals(programName)){
+                for(int c = 0; c <currentProgram.getCourses().size(); c++){
+                    if(currentProgram.getCourses().get(c).getName().equals(courseName)){
+                        currentProgram.getCourses().remove(c);
+                        courses.remove(currentProgram.getCourses().get(c));
+                    }
+                }
+            }
+        }
+        updateProgramsInFile();
+    }
+
+    public void deleteModule(String courseName, String moduleName){
+        for(int i = 0; i < courses.size(); i++){
+            Course currentCourse = courses.get(i);
+            if(currentCourse.getName().equals(courseName)){
+                for(int m = 0; m <currentCourse.getModules().size(); m++){
+                    if(currentCourse.getModules().get(m).getName().equals(moduleName)){
+                        currentCourse.getModules().remove(m);
+                    }
+                }
+            }
+        }
+        updateProgramsInFile();
+    }
 
 }

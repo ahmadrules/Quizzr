@@ -21,6 +21,7 @@ public class CenterModulePanel extends JPanel {
     private JScrollPane moduleScrollPane;
     private String selectedModule;
     private MainFrame mainFrame;
+    private String selectedCourse;
 
 
     public CenterModulePanel(MainFrame mainFrame) {
@@ -57,6 +58,7 @@ public class CenterModulePanel extends JPanel {
     }
 
     public void courseChosen(String courseName) {
+        this.selectedCourse = courseName;
         clearModuleList();
 
         //-------------------------------------------------------------------
@@ -138,6 +140,7 @@ public class CenterModulePanel extends JPanel {
         deleteModuleButton.addActionListener(e -> {
             if (mainFrame.deleteConfirmation(selectedModule) == true) {
                 //Here we write what happens when we press the delete button
+                mainFrame.deleteModule(selectedCourse, selectedModule);
             };
         });
 
@@ -156,7 +159,7 @@ public class CenterModulePanel extends JPanel {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name");
         if (moduleName != null) {
             //TO DO: Code to add module to list of available module
-
+            mainFrame.addNewModule(selectedCourse, selectedModule);
             revalidate();
             repaint();
         }
