@@ -63,7 +63,7 @@ public class Module {
                 generateMultipleChoiceQuiz(filePath+matchingFileName, numberOfQuestions);
                 break;
             default:
-                generateGeneralQuiz();
+                //generateGeneralQuiz();
                 break;
         }
     }
