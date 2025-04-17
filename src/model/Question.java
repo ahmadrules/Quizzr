@@ -34,9 +34,9 @@ public abstract class Question implements Serializable {
     }
     public abstract boolean checkAnswer(String usersAnswer);
     public abstract Question fromString(String line);
-    public void saveToFile(String filename, MultipleChoice multipleChoice) {
+    public void saveToFile(String filename, Question question) {
         try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename,true))){
-            outputStream.writeObject(multipleChoice);
+            outputStream.writeObject(question);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

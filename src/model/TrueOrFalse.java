@@ -36,5 +36,4 @@ public class TrueOrFalse extends Question {
                 "Points: " + points + "\n";
     }
 
-
 }

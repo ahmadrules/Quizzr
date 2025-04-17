@@ -1,9 +1,19 @@
-question1;alternative1;alternative2;alternative3;3;correstAnswer
+What is the capital of France?;A.Rome;B.Paris;C.Madrid;3;Paris
 
-question2;alternative1;alternative2;alternative3;3;correstAnswer
+Which planet is known as the Red Planet?;Mars;Jupiter;Venus;3;Mars
 
-question3;alternative1;alternative2;alternative3;3;correstAnswer
+What is the largest ocean on Earth?;Indian Ocean;Atlantic Ocean;Pacific Ocean;3;Pacific Ocean
 
-question4;alternative1;alternative2;alternative3;3;correstAnswer
+Who wrote 'Hamlet'?;Charles Dickens;William Shakespeare;Mark Twain;3;William Shakespeare
 
-question5;alternative1;alternative2;alternative3;3;correstAnswer
+What is the square root of 64?;6;8;10;2;8
+
+Which gas do plants absorb from the atmosphere?;Oxygen;Nitrogen;Carbon Dioxide;2;Carbon Dioxide
+
+What is the smallest prime number?;1;2;3;2;2
+
+What year did the World War II end?;1940;1945;1950;3;1945
+
+Which instrument has keys, pedals, and strings?;Guitar;Piano;Drum;2;Piano
+
+What is H2O commonly known as?;Salt;Oxygen;Water;1;Water

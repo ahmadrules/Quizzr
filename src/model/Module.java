@@ -15,18 +15,11 @@ public class Module {
     private final String multiChoiceFileName = "multiChoice_questions.txt";
     private final String trueOrFalseFileName = "trueFalse_questions.txt";
     private List<Question> allQuestions;
-    private List<Matching> matchingQuestions;
-    private List<MultipleChoice> multiChoiceQuestions;
-    private List<TrueOrFalse> trueOrFalseQuestions;
     FileHandler fileHandler = new FileHandler();
 
     public Module(String name) {
         this.name = name;
         this.flashCards = new ArrayList<>();
-        this.allQuestions = new ArrayList<>();
-        this.matchingQuestions = new ArrayList<>();
-        this.multiChoiceQuestions = new ArrayList<>();
-        this.trueOrFalseQuestions = new ArrayList<>();
     }
 
     public String getName() {
@@ -59,16 +52,16 @@ public class Module {
             e.printStackTrace();
         }
     }
-    public void generateQuiz(String quizType, String filePath){
+    public void generateQuiz(String quizType, String filePath, int numberOfQuestions) {
         switch (quizType){
             case "Matching":
-                generateMatchingQuiz(filePath+matchingFileName);
+               ArrayList<Question> MatchingQuiz= generateMatchingQuiz(filePath+matchingFileName, numberOfQuestions);
                 break;
             case "TrueOrFalse":
-                generateTrueOrFalseQuiz(filePath+matchingFileName);
+                generateTrueOrFalseQuiz(filePath+matchingFileName,numberOfQuestions);
                 break;
             case "MultipleChoice":
-                generateMultipleChoiceQuiz(filePath+matchingFileName);
+                generateMultipleChoiceQuiz(filePath+matchingFileName, numberOfQuestions);
                 break;
             default:
                 generateGeneralQuiz();
@@ -79,25 +72,27 @@ public class Module {
 
     }
 
-    private ArrayList<Question> generateMultipleChoiceQuiz(String fileName){
-
+    public ArrayList<Question> generateMultipleChoiceQuiz(String fileName, int numberOfQuestions) {
         currentQuiz = new Quiz("multiChoiceQuiz");
         MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
         ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(fileName,multipleChoice);
-        return multipleChoiceQuestion;
-
+        return generateRandomQuiz(multipleChoiceQuestion,numberOfQuestions);
     }
-    private ArrayList<Question> generateTrueOrFalseQuiz(String fileName){
+    public ArrayList<Question> generateTrueOrFalseQuiz(String fileName, int numberOfQuestions){
         currentQuiz = new Quiz("trueOrFalseQuiz");
         TrueOrFalse trueOrFalse= new TrueOrFalse("", Collections.singletonList(""),0,"");
         ArrayList<Question> trueOrFalseQuestion = fileHandler.loadQuestions(fileName,trueOrFalse);
-        return trueOrFalseQuestion;
+        return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
     }
-    private ArrayList<Question> generateMatchingQuiz(String fileName){
+    public ArrayList<Question> generateMatchingQuiz(String fileName, int numberOfQuestions){
         HashMap<String,Integer> matches=new HashMap<>();
         Matching matching= new Matching("", Collections.singletonList(""), Collections.singletonList(""),0 ,matches);
         ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(fileName,matching);
-        return matchingQuestion;
+        return generateRandomQuiz(matchingQuestion,numberOfQuestions);
+    }
+    private ArrayList<Question> generateRandomQuiz(ArrayList<Question> questions, int numberOfQuestions){
+        Collections.shuffle(questions);
+        return new ArrayList<>(questions.subList(0, Math.min(numberOfQuestions, questions.size())));
     }
 
 }
