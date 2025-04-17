@@ -1,53 +1,39 @@
 package view.subPanels;
 
-import model.Module;
-import model.Question;
-import model.Quiz;
+import controller.Controller;
 
 import javax.swing.*;
-import java.util.List;
 
 public class QuizPanel {
     private JFrame quizFrame;
-    private Module selectedModule;
+    private String selectedModuleName;
+    private Controller controller;
 
-    public QuizPanel(Module selectedModule) {
-        this.selectedModule = selectedModule;
+    public QuizPanel(String selectedModuleName, Controller controller) {
+        this.selectedModuleName = selectedModuleName;
+        this.controller = controller;
         createFrame();
     }
 
     public void createFrame() {
-        quizFrame = new JFrame("Quiz for " + selectedModule.getName());
+        quizFrame = new JFrame("Quizzes for " + selectedModuleName);
         quizFrame.setSize(400, 300);
         quizFrame.setLocationRelativeTo(null);
 
-        // Laddar quiz från fil genom modulen
-        selectedModule.loadQuizFromFile();
-        /*
-        Quiz quiz = selectedModule.currentQuiz;
+        // Hämtar quiz-namn från controller
+        String[] quizNames = controller.getQuizNamesForModule(selectedModuleName);
 
-        if (quiz == null) {
-            quizFrame.add(new JLabel("No quiz found for this module.", SwingConstants.CENTER));
+        if (quizNames == null || quizNames.length == 0) {
+            quizFrame.add(new JLabel("No quizzes found for this module.", SwingConstants.CENTER));
         } else {
-            // Hämtar frågorna från quizet det (getQuestions() läggas till i quiz?)
-            List<Question> questions = quiz.getQuestions();
-
-            // Skapar array med frågetexter
-            String[] questionTexts = new String[questions.size()];
-            for (int i = 0; i < questions.size(); i++) {
-                questionTexts[i] = questions.get(i).getQuestion();
-            }
-
-            // Visar frågorna i en JList
-            JList<String> quizList = new JList<>(questionTexts);
+            // Visar quiz-namn i en lista
+            JList<String> quizList = new JList<>(quizNames);
             quizList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             JScrollPane scrollPane = new JScrollPane(quizList);
-
             quizFrame.add(scrollPane);
         }
 
         quizFrame.setVisible(true);
-
-         */
     }
 }
+
