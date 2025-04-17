@@ -14,7 +14,6 @@ public class Module {
     private final String matchingFileName = "matching_questions.txt";
     private final String multiChoiceFileName = "multiChoice_questions.txt";
     private final String trueOrFalseFileName = "trueFalse_questions.txt";
-    private List<Question> allQuestions;
     FileHandler fileHandler = new FileHandler();
 
     public Module(String name) {
@@ -68,8 +67,15 @@ public class Module {
                 break;
         }
     }
-    private void generateGeneralQuiz(){
-
+    private ArrayList<Question> generateGeneralQuiz(String multipleChoiceFile,String matchingFilePath, String trueOrFalseFilePath , int numberOfQuestions) {
+        ArrayList<Question> allQuestions= new ArrayList<>();
+        ArrayList<Question> mc= generateMultipleChoiceQuiz(multipleChoiceFile,numberOfQuestions);
+        ArrayList<Question> matching= generateMatchingQuiz(matchingFilePath, numberOfQuestions);
+        ArrayList<Question> tf= generateTrueOrFalseQuiz(trueOrFalseFilePath, numberOfQuestions);
+        allQuestions.addAll(mc);
+        allQuestions.addAll(matching);
+        allQuestions.addAll(tf);
+        return allQuestions;
     }
 
     public ArrayList<Question> generateMultipleChoiceQuiz(String fileName, int numberOfQuestions) {
