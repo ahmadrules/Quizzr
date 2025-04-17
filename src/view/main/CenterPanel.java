@@ -26,17 +26,20 @@ public class CenterPanel extends JPanel {
 
     public void setModuleLayout() {
         removeAll();
-        revalidate();
-        repaint();
+        topPanel.setModuleTopLabel();
         add(topPanel, BorderLayout.NORTH);
         add(centerModulePanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 
     public void setAccountLayout() {
         removeAll();
+        topPanel.setAccountTopLabel();
+        add(topPanel, BorderLayout.NORTH);
+        add(centerAccountPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
-        add(centerAccountPanel, BorderLayout.CENTER);
     }
 
     public CenterModulePanel getModulePanel() {
