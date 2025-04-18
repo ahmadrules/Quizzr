@@ -84,16 +84,16 @@ public class MainFrame extends JFrame implements Runnable {
         controller.editModuleName(courseName, oldModuleName, updatedModuleName);
     }
 
-    public boolean checkIfProgramExists(String programName){
-        return controller.checkIfProgramExists(programName);
+    public boolean ifProgramExists(String programName){
+        return controller.ifProgramExists(programName);
     }
 
-    public boolean checkIfCourseExists(String programName, String courseName){
-        return controller.checkIfCourseExists(programName, courseName);
+    public boolean ifCourseExists(String programName, String courseName){
+        return controller.ifCourseExists(programName, courseName);
     }
 
-    public boolean checkIfModuleExists(String programName, String courseName, String moduleName){
-        return controller.checkIfModuleExists(programName, courseName, moduleName);
+    public boolean ifModuleExists(String programName, String courseName, String moduleName){
+        return controller.ifModuleExists(programName, courseName, moduleName);
     }
 
     public boolean deleteConfirmation(String selectedItem) {

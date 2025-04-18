@@ -10,7 +10,7 @@ public class LeftPanel extends JPanel {
 
     private JList<String> programList;
     private HashMap<String, String[]> coursesListMap;
-    private String[] programNames;
+
     private JList<String> coursesList;
     private JLabel coursesLabel;
     private DefaultListModel<String> coursesListModel;
@@ -31,6 +31,7 @@ public class LeftPanel extends JPanel {
     private JButton editProgramButton;
     private MainFrame mainFrame;
     private String[] courseNames;
+    private String[] programNames;
     private int selectedProgramIndex = -1;
     private int selectedCourseIndex = -1;
 
@@ -211,8 +212,6 @@ public class LeftPanel extends JPanel {
                 selectedCourse = coursesList.getSelectedValue();
                 if (selectedCourse != null) {
                     selectedCourseIndex = coursesList.getSelectedIndex();
-                    System.out.println("Selected course index: " + selectedCourseIndex);
-
                     //rightPanel handles fetching a list of available modules for the selected course
                     centerModulePanel.courseChosen(selectedProgram, selectedCourse);
                     enableCourseButtons();
@@ -253,14 +252,13 @@ public class LeftPanel extends JPanel {
 
     public void addProgram() {
         String programName = JOptionPane.showInputDialog("Please enter a program name");
-        //TODO Tell the user that the program is already there if the name is in the program list (in GUI)
         if (programName != null) {
-            if (mainFrame.checkIfProgramExists(programName) == false) {
-                mainFrame.addProgramToProgramList(programName);
-                updateLists();
+            if (mainFrame.ifProgramExists(programName)) {
+                JOptionPane.showMessageDialog(null, programName + " already exists");
             }
             else {
-                JOptionPane.showMessageDialog(null, programName + " already exists");
+                mainFrame.addProgramToProgramList(programName);
+                updateLists();
             }
         }
     }
@@ -268,29 +266,27 @@ public class LeftPanel extends JPanel {
     public void addCourse() {
         String courseName = JOptionPane.showInputDialog("Please enter a course name");
         if (courseName != null) {
-            if (mainFrame.checkIfCourseExists(selectedProgram, courseName) == false) {
+            if (mainFrame.ifCourseExists(selectedProgram, courseName)) {
+                JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");
+            }
+            else {
                 mainFrame.addNewCourse(selectedProgram, courseName);
                 updateLists();
             }
-            else {
-                JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");
-            }
-            //TO DO: Code to add program to list of available programs. Get selected program with selectedProgram
-            //TODO Tell the user that the course is already there if the name is in the course list (in GUI)
         }
     }
 
     public void editProgram() {
         String programName = JOptionPane.showInputDialog("Please enter new program name", selectedProgram);
         if (programName != null) {
-            if (mainFrame.checkIfProgramExists(selectedProgram) == false) {
+            if (programName.equals(selectedProgram)) {
+                //Do nothing if name not changed
+            } else if (mainFrame.ifProgramExists(programName)) {
+                JOptionPane.showMessageDialog(null, programName +" already exists! Choose a different program name");
+            } else {
                 mainFrame.editProgramName(selectedProgram, programName);
                 updateLists();
                 selectedProgram = programName;
-            } else if (programName.equals(selectedProgram)) {
-                //Do nothing if name not changed
-            } else {
-                JOptionPane.showMessageDialog(null, programName +" already exists! Choose a different program name");
             }
         }
     }
@@ -298,16 +294,16 @@ public class LeftPanel extends JPanel {
     public void editCourse() {
         String courseName = JOptionPane.showInputDialog("Please enter new course name", selectedCourse);
         if (courseName != null) {
-            if (mainFrame.checkIfCourseExists(selectedProgram, courseName) == false) {
+            if (courseName.equals(selectedCourse)) {
+                //Do nothing if name not changed
+            }
+            else if (mainFrame.ifCourseExists(selectedProgram, courseName)) {
+                JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");
+            }
+            else {
                 mainFrame.editCourseName(selectedCourse, courseName);
                 updateLists();
                 selectedCourse = courseName;
-            }
-            else if (courseName.equals(selectedCourse)) {
-                //Do nothing if name not changed
-            }
-            else {
-                JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");
             }
         }
     }
