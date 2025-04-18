@@ -1,8 +1,6 @@
 package view.main.CenterPanels;
 
 import view.main.MainFrame;
-import view.subPanels.FlashcardPanel;
-import view.subPanels.QuizPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -141,21 +139,15 @@ public class CenterModulePanel extends JPanel {
         addModuleButton.addActionListener(e -> {
             //Here we write what happens when we press the add module button
             addModule();
-            updateList();
         });
 
         editModuleButton.addActionListener(e -> {
            //Here we write what happens when we press the edit button
             editModule();
-            updateList();
         });
 
         deleteModuleButton.addActionListener(e -> {
-            if (mainFrame.deleteConfirmation(selectedModule) == true) {
-                //Here we write what happens when we press the delete button
-                mainFrame.deleteModule(selectedCourse, selectedModule);
-                updateList();
-            };
+            removeModule();
         });
 
         moduleList.addListSelectionListener(e -> {
@@ -172,8 +164,11 @@ public class CenterModulePanel extends JPanel {
     public void addModule() {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name");
         if (moduleName != null) {
-            if (mainFrame.checkIfModuleExists(selectedProgram, selectedCourse, moduleName) == false) {
+            if (mainFrame.ifModuleExists(selectedProgram, selectedCourse, moduleName) == false) {
                 mainFrame.addNewModule(selectedCourse, moduleName);
+                disableButtons();
+                addModuleButton.setEnabled(true);
+                updateList();
             }
             else {
                 JOptionPane.showMessageDialog(null, moduleName + " already exists for " + selectedCourse + "! Please choose another module name.");
@@ -185,13 +180,26 @@ public class CenterModulePanel extends JPanel {
     public void editModule() {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name", selectedModule);
         if (moduleName != null) {
-            if (mainFrame.checkIfModuleExists(selectedProgram, selectedCourse, moduleName) == false) {
-                mainFrame.editModuleName(selectedCourse, selectedModule, moduleName);
-            } else if (moduleName.equals(selectedModule)) {
+            if (moduleName.equals(selectedModule)) {
                 //Do nothing if name not changed
-            } else {
+            } else if (mainFrame.ifModuleExists(selectedProgram, selectedCourse, moduleName)) {
                 JOptionPane.showMessageDialog(null, moduleName + " already exists for " + selectedCourse + "! Please choose another module name.");
+            } else {
+                mainFrame.editModuleName(selectedCourse, selectedModule, moduleName);
+                disableButtons();
+                addModuleButton.setEnabled(true);
+                updateList();
             }
         }
+    }
+
+    public void removeModule() {
+        if (mainFrame.deleteConfirmation(selectedModule) == true) {
+            //Here we write what happens when we press the delete button
+            mainFrame.deleteModule(selectedCourse, selectedModule);
+            disableButtons();
+            addModuleButton.setEnabled(true);
+            updateList();
+        };
     }
 }

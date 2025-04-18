@@ -344,7 +344,7 @@ public class Controller {
         updateProgramsInFile();
     }
 
-    public boolean checkIfProgramExists(String programName){
+    public boolean ifProgramExists(String programName){
         for (Program program:programList) {
             if (program.getName().equals(programName)) {
                 return true;
@@ -353,7 +353,7 @@ public class Controller {
         return false;
     }
 
-    public boolean checkIfCourseExists(String programName, String courseName){
+    public boolean ifCourseExists(String programName, String courseName){
         for (Program program:programList) {
             if (program.getName().equals(programName)) {
                 for (Course course:program.getCourses()) {
@@ -366,7 +366,7 @@ public class Controller {
         return false;
     }
 
-    public boolean checkIfModuleExists(String programName, String courseName, String moduleName){
+    public boolean ifModuleExists(String programName, String courseName, String moduleName){
         for (Program program:programList) {
             if (program.getName().equals(programName)) {
                 for (Course course:program.getCourses()) {
