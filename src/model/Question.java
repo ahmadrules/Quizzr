@@ -15,6 +15,9 @@ public abstract class Question implements Serializable {
         this.alternatives = alternatives;
         this.points = points;
     }
+    public List<String> getAlternatives() {
+        return alternatives;
+    }
 
     public Question(String question,List<String> alternatives,int points, String correctAnswer) {
         this.question = question;
@@ -31,9 +34,9 @@ public abstract class Question implements Serializable {
     }
     public abstract boolean checkAnswer(String usersAnswer);
     public abstract Question fromString(String line);
-    public void saveToFile(String filename, MultipleChoice multipleChoice) {
+    public void saveToFile(String filename, Question question) {
         try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename,true))){
-            outputStream.writeObject(multipleChoice);
+            outputStream.writeObject(question);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -46,10 +49,10 @@ public abstract class Question implements Serializable {
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         } catch (IOException e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());;
+            System.out.println(e.getMessage());
         }
-        ;return question1;
+        return question1;
     }
 }
