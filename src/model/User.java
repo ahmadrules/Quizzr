@@ -48,4 +48,11 @@ public class User {
     public void addToCreatedFlashcards(FlashCard newFlashcard){
         flashCards.add(newFlashcard);
     }
+
+    public String[] userInfoToString(){
+        String[] info = new String[2];
+        info[0] = name;
+        info[1] = email;
+        return info;
+    }
 }
