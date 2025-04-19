@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class Module {
+public class Module implements Serializable{
     private String name;
     private List<FlashCard> flashCards;
     private final String quizFileName = "src/files/recent_quiz.dat";
