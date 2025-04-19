@@ -20,6 +20,7 @@ public class QuizPanel {
         quizFrame.setSize(400, 300);
         quizFrame.setLocationRelativeTo(null);
 
+        /*
         // Hämtar quiz-namn från controller
         String[] quizNames = controller.getQuizNamesForModule(selectedModuleName);
 
@@ -33,6 +34,8 @@ public class QuizPanel {
             quizFrame.add(scrollPane);
         }
 
+
+         */
         quizFrame.setVisible(true);
     }
 }

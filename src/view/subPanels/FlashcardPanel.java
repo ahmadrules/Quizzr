@@ -19,7 +19,7 @@ public class FlashcardPanel {
         flashcardFrame = new JFrame("Flashcards for " + selectedModuleName);
         flashcardFrame.setSize(400, 300);
         flashcardFrame.setLocationRelativeTo(null);
-
+/*
         // Hämtar flashcard-innehåll från controller
         String[] flashcardTexts = controller.getFlashcardTextsForModule(selectedModuleName);
 
@@ -31,6 +31,8 @@ public class FlashcardPanel {
             JScrollPane scrollPane = new JScrollPane(flashcardList);
             flashcardFrame.add(scrollPane);
         }
+
+ */
 
         flashcardFrame.setVisible(true);
     }

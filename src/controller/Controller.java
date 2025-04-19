@@ -225,16 +225,21 @@ public class Controller {
     }
 
     public void addNewModule(String courseName, String moduleName){
+
+        Course requestedCourse = null;
         for(int p = 0; p < programList.size(); p++){
             Program currentProgram = programList.get(p);
             for(int c = 0; c < currentProgram.getCourses().size(); c++){
                 Course currentCourse = currentProgram.getCourses().get(c);
                 if(currentCourse.getName().equals(courseName)){
-                    Module newModule = new Module(moduleName);
-                    currentCourse.addModule(newModule);
+                    requestedCourse = currentCourse;
                     break;
                 }
             }
+        }
+        Module newModule = new Module(moduleName);
+        if(requestedCourse != null) {
+            requestedCourse.addModule(newModule);
         }
         updateProgramsInFile();
     }
