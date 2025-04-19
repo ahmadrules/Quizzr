@@ -2,6 +2,7 @@ package view.main;
 
 import controller.Controller;
 import model.User;
+import view.subPanels.LogInFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ public class MainFrame extends JFrame implements Runnable {
     private LeftPanel leftPanel;
     private RightPanel rightPanel;
     private Controller controller;
+    private boolean isLoggedIn = false;
 
     public MainFrame(Controller controller){
         this.controller = controller;
@@ -22,7 +24,7 @@ public class MainFrame extends JFrame implements Runnable {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 400);
 
-        //LogInFrame logInFrame = new LogInFrame(this);
+        LogInFrame logInFrame = new LogInFrame(this);
 
         //Container for all the different panels in the center
         //Which panel is displayed will depend on which tab is chosen in rightPanel
