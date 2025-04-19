@@ -1,6 +1,7 @@
 package view.main;
 
 import controller.Controller;
+import model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -105,6 +106,18 @@ public class MainFrame extends JFrame implements Runnable {
         else {
             return false;
         }
+    }
+
+    public String[] getCurrentUserInfo() {
+        return controller.getCurrentUserInfo();
+    }
+
+    public void setNewUsername(String username) {
+        controller.setNewUsername(username);
+    }
+
+    public void setNewEmail(String email) {
+        controller.setNewEmail(email);
     }
 
     @Override

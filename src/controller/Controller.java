@@ -15,12 +15,15 @@ public class Controller {
     private List<Course> courses;
     private List<Program> programList;  //All the applications programs (from the file)
     private final String programsFileName = "src/model/files/programs.dat";
+    private User currentUser;
 
 
     public Controller(){
 
         programs = new ArrayList<>();
         courses = new ArrayList<>();
+
+        currentUser = new User("TestUser" , "test123" , "TestUser@email.com");
 
         createAndAddPrograms();
         createAndAddCourses();
@@ -381,5 +384,17 @@ public class Controller {
             }
         }
         return false;
+    }
+
+    public String[] getCurrentUserInfo() {
+        return currentUser.userInfoToString();
+    }
+
+    public void setNewUsername(String username) {
+        currentUser.setName(username);
+    }
+
+    public void setNewEmail(String email) {
+        currentUser.setEmail(email);
     }
 }
