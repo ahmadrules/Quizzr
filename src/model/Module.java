@@ -75,6 +75,7 @@ public class Module {
         allQuestions.addAll(mc);
         allQuestions.addAll(matching);
         allQuestions.addAll(tf);
+        Collections.shuffle(allQuestions);
         return allQuestions;
     }
 

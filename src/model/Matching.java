@@ -65,9 +65,9 @@ public class Matching extends Question {
         for (String key : correctMatches.keySet()) {
             correctList.add(key + ":" + correctMatches.get(key));
         }
-        String correctMatchesStr = String.join(",", correctList);
+       // String correctMatchesStr = String.join(",", correctList);
 
-        return getQuestion() + "\n" + alternativesStr + "\n" + matchesStr + "\n" + correctMatchesStr + "\n" + getPoints();
+        return getQuestion() + "\n" + alternativesStr + "\n" + matchesStr + "\n" + getPoints()+"\n";
     }
 
 }

@@ -32,7 +32,6 @@ public class TrueOrFalse extends Question {
     public String toString() {
         return "Question: " + question + "\n" +
                 "Alternatives: " + alternatives + "\n" +
-                "Correct Answer: " + correctAnswer + "\n" +
                 "Points: " + points + "\n";
     }
 

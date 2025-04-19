@@ -15,9 +15,6 @@ public class MultipleChoice extends Question {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
-    public List<String> getAlternatives() {
-        return alternatives;
-    }
     // subString takes only the first letter from the correctAnswer
     // trim get rid of any extra space that might be in the start of users answer
     @Override
@@ -42,7 +39,6 @@ public class MultipleChoice extends Question {
     public String toString() {
         return "Question: " + question + "\n" +
                 "Alternatives: " + alternatives + "\n" +
-                "Correct Answer: " + correctAnswer + "\n" +
                 "Points: " + points + "\n";
     }
 }
