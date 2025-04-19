@@ -15,7 +15,7 @@ public class TrueOrFalse extends Question {
         return usersAnswer.trim().equalsIgnoreCase(String.valueOf(correctAnswer));
 
     }
-// parts [0] is the question, part[1] is the
+    // parts [0] is the question, part[1] is the
     @Override
     public Question fromString(String line) {
         String [] parts = line.split(";");
@@ -24,8 +24,15 @@ public class TrueOrFalse extends Question {
         }
         String question = parts[0].trim();
         List<String> alternatives = Arrays.asList(parts[1], parts[2]);
-        String correctAnswer = parts[3];
-        int points = Integer.parseInt(parts[4]);
+        int points = Integer.parseInt(parts[3]) ;
+        String correctAnswer = parts[4].trim();
         return new TrueOrFalse(question, alternatives, points, correctAnswer);
     }
+    @Override
+    public String toString() {
+        return "Question: " + question + "\n" +
+                "Alternatives: " + alternatives + "\n" +
+                "Points: " + points + "\n";
+    }
+
 }
