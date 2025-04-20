@@ -24,7 +24,7 @@ public class Controller {
         programs = new ArrayList<>();
         courses = new ArrayList<>();
 
-        currentUser = new User("TestUser" , "test123" , "TestUser@email.com");
+        currentUser = new User("User" , "test123" , "user@email.com");
 
         createAndAddPrograms();
         createAndAddCourses();
@@ -397,6 +397,10 @@ public class Controller {
 
     public void setNewEmail(String email) {
         currentUser.setEmail(email);
+    }
+
+    public void setNewPassword(String password) {
+        currentUser.setPassword(password);
     }
 
     //Code taken from https://www.geeksforgeeks.org/check-email-address-valid-not-java/
