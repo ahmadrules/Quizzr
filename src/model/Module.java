@@ -14,6 +14,7 @@ public class Module implements Serializable{
     private final String matchingFileName = "matching_questions.txt";
     private final String multiChoiceFileName = "multiChoice_questions.txt";
     private final String trueOrFalseFileName = "trueFalse_questions.txt";
+    private final String flashCardFileName = "flashCards.dat";
     FileHandler fileHandler = new FileHandler();
 
     public Module(String name) {
