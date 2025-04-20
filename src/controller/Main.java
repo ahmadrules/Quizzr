@@ -9,11 +9,6 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-      //  new Controller();
-        Module module= new Module("Module");
-        FlashCard flashCard= new FlashCard("Constructor","is used to create an object from a class");
-        module.addFlashCard(flashCard);
-       // module.saveFlashCardsToFile(fileName);
-
+        new Controller();
     }
 }

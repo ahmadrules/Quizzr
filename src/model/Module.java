@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Module implements Serializable{
     private String name;
-    private List<FlashCard> flashCards;
+    private ArrayList<FlashCard> flashCards;
     private final String quizFileName = "src/files/recent_quiz.dat";
     private Quiz currentQuiz;
     private final String matchingFileName = "matching_questions.txt";
@@ -33,9 +33,10 @@ public class Module implements Serializable{
     public void addFlashCard(FlashCard flashCard) {
         this.flashCards.add(flashCard);
     }
-    public void loadFlashCardsFromFile(String filename) {
+    public ArrayList<FlashCard> loadFlashCardsFromFile(String filename) {
         FlashCard flashCard=new FlashCard("","");
         this.flashCards= flashCard.loadFromFile(filename);
+        return flashCards;
     }
     public void saveFlashCardsToFile(String filename) {
         FlashCard flashCard=new FlashCard("","");
