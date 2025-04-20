@@ -35,10 +35,10 @@ public class FlashCard implements Serializable{
         }
     }
 
-    public List<FlashCard> loadFromFile(String filename) {
-        List<FlashCard> flashCards = new ArrayList<FlashCard>();
+    public ArrayList<FlashCard> loadFromFile(String filename) {
+        ArrayList<FlashCard> flashCards = new ArrayList<FlashCard>();
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename)) ) {
-            flashCards=(List<FlashCard>) ois.readObject();
+            flashCards=(ArrayList<FlashCard>) ois.readObject();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -48,4 +48,6 @@ public class FlashCard implements Serializable{
         }
         return flashCards;
     }
-}
+    public String toString(){
+        return getFrontContent()+" "+getBackContent();
+    }}
