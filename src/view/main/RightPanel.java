@@ -6,7 +6,6 @@ import java.awt.*;
 public class RightPanel extends JPanel {
     private MainFrame mainFrame;
     private CenterPanel centerContainer;
-    private String[] tabOptions;
     private JList<String> listOfTabs;
     private JScrollPane scrollPane;
     private String selectedTab;
@@ -24,13 +23,15 @@ public class RightPanel extends JPanel {
         tabLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         tabLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        this.setLayout(new BorderLayout());
-        this.setSize(150, 400);
+        setLayout(new BorderLayout());
+        setSize(150, 400);
 
-        this.add(tabLabel, BorderLayout.NORTH);
-        this.add(scrollPane);
-        this.add(logOutButton, BorderLayout.SOUTH);
-        this.setVisible(true);
+
+        add(tabLabel, BorderLayout.NORTH);
+        add(scrollPane);
+        add(logOutButton, BorderLayout.SOUTH);
+        add(new JSeparator(), BorderLayout.WEST);
+        setVisible(true);
     }
 
     public void createList() {
