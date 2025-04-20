@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FlashCard implements Serializable{
-    private String FrontContent;
+    private String frontContent;
     private String backContent;
 
     public FlashCard(String FrontContent, String backContent) {
-        this.FrontContent = FrontContent;
+        this.frontContent = FrontContent;
         this.backContent = backContent;
     }
     public void setBackContent(String content) {
@@ -19,10 +19,10 @@ public class FlashCard implements Serializable{
         return this.backContent;
     }
     public String getFrontContent() {
-        return FrontContent;
+        return frontContent;
     }
     public void setFrontContent(String frontContent) {
-        this.FrontContent = frontContent;
+        this.frontContent = frontContent;
     }
 
     public void saveToFile(String filename, List<FlashCard> flashCard) {
@@ -49,5 +49,5 @@ public class FlashCard implements Serializable{
         return flashCards;
     }
     public String toString(){
-        return getFrontContent()+" "+getBackContent();
+        return frontContent+" "+frontContent;
     }}
