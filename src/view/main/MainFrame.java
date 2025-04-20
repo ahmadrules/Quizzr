@@ -122,6 +122,10 @@ public class MainFrame extends JFrame implements Runnable {
         controller.setNewEmail(email);
     }
 
+    public boolean isEmailValid(String email) {
+        return controller.isEmailValid(email);
+    }
+
     @Override
     public void run() {
         createAndShowGUI();

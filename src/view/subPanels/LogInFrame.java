@@ -27,7 +27,6 @@ public class LogInFrame extends JFrame {
     private JPanel newPasswordPanel;
     private JPanel newEmailPanel;
     private JPanel registerButtonPanel;
-    private boolean registerValuesValid;
 
     public LogInFrame(MainFrame mainFrame) {
      this.mainFrame = mainFrame;
@@ -161,7 +160,7 @@ public class LogInFrame extends JFrame {
 
         createAccountButton.addActionListener(e -> {
             String newEmail = newEmailField.getText();
-            if (newEmail != null && !newEmail.isEmpty()) {
+            if (mainFrame.isEmailValid(newEmail)) {
                 String newUsername = newNameField.getText();
                 if (newUsername != null && !newUsername.isEmpty()) {
                     String newPassword = newPasswordField.getText();

@@ -80,7 +80,7 @@ public class CenterAccountPanel extends JPanel {
 
     public void changeEmail() {
         String newEmail = JOptionPane.showInputDialog("Please enter new email", currentUserInfo[1]);
-        if (newEmail != null) {
+        if (mainFrame.isEmailValid(newEmail)) {
             if (newEmail.equals(currentUserInfo[1])) {
                 //Do nothing if email not changed
             }
@@ -88,6 +88,9 @@ public class CenterAccountPanel extends JPanel {
                 mainFrame.setNewEmail(newEmail);
                 updateUserInfo();
             }
+        }
+        else {
+            JOptionPane.showMessageDialog(mainFrame, "Please enter a valid email");
         }
     }
 
