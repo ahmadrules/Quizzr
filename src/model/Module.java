@@ -30,10 +30,18 @@ public class Module implements Serializable{
     public List<FlashCard> getFlashCards() {
         return flashCards;
     }
-
     public void addFlashCard(FlashCard flashCard) {
         this.flashCards.add(flashCard);
     }
+    public void loadFlashCardsFromFile(String filename) {
+        FlashCard flashCard=new FlashCard("","");
+        this.flashCards= flashCard.loadFromFile(filename);
+    }
+    public void saveFlashCardsToFile(String filename) {
+        FlashCard flashCard=new FlashCard("","");
+        flashCard.saveToFile(filename, flashCards);
+    }
+
     public void saveQuiz(Quiz quiz){
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(quizFileName))){
             oos.writeObject(quiz);
@@ -51,6 +59,7 @@ public class Module implements Serializable{
             e.printStackTrace();
         }
     }
+
     public void generateQuiz(String quizType, String filePath, int numberOfQuestions) {
         switch (quizType){
             case "Matching":
