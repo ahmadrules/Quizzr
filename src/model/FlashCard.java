@@ -3,20 +3,28 @@ package model;
 import java.io.*;
 
 public class FlashCard implements Serializable{
-    private String content;
+    private String FrontContent;
+    private String BackContent;
 
     public FlashCard(String content) {
-        this.content = content;
+        this.FrontContent = content;
+        this.BackContent = content;
     }
-    public String getContent() {
-        return content;
+    public void setBackContent(String content) {
+        this.BackContent = content;
     }
-    public void setContent(String content) {
-        this.content = content;
+    public String getBackContent() {
+        return this.BackContent;
     }
-    public void saveToFile(String filename, Object content) {
+    public String getFrontContent() {
+        return FrontContent;
+    }
+    public void setFrontContent(String frontContent) {
+        this.FrontContent = frontContent;
+    }
+    public void saveToFile(String filename, FlashCard flashCard) {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-            oos.writeObject(content);
+            oos.writeObject(flashCard);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
