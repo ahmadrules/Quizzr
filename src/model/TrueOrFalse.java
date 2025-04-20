@@ -12,8 +12,7 @@ public class TrueOrFalse extends Question {
 
     @Override
     public boolean checkAnswer(String usersAnswer) {
-        return usersAnswer.trim().equalsIgnoreCase(String.valueOf(correctAnswer));
-
+        return usersAnswer.trim().equalsIgnoreCase(correctAnswer.trim());
     }
     // parts [0] is the question, part[1] is the
     @Override
