@@ -50,9 +50,10 @@ public class User {
     }
 
     public String[] userInfoToString(){
-        String[] info = new String[2];
+        String[] info = new String[3];
         info[0] = name;
         info[1] = email;
+        info[2] = password;
         return info;
     }
 }

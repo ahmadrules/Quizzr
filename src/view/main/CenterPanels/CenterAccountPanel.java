@@ -11,8 +11,11 @@ public class CenterAccountPanel extends JPanel {
     private String[] currentUserInfo;
     private JButton editNameButton;
     private JButton editEmailButton;
+    private JButton editPasswordButton;
     private JLabel nameLabel;
     private JLabel emailLabel;
+    private JLabel passwordLabel;
+    private JPanel emptyPanel;
 
     public CenterAccountPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -28,13 +31,17 @@ public class CenterAccountPanel extends JPanel {
         JLabel topLabel = new JLabel("Account information", SwingConstants.CENTER);
         add(topLabel, BorderLayout.NORTH);
         add(accountInformationPanel, BorderLayout.CENTER);
+        add(emptyPanel, BorderLayout.SOUTH);
     }
 
     public void createAccountInformationPanel() {
+        emptyPanel = new JPanel();
+        emptyPanel.setBackground(new Color(238, 238, 238));
+
         accountInformationPanel = new JPanel();
         accountInformationPanel.setLayout(new BoxLayout(accountInformationPanel, BoxLayout.Y_AXIS));
-        accountInformationPanel.setBackground(new Color(230, 230, 230));
-        accountInformationPanel.setBorder(BorderFactory.createLoweredBevelBorder());
+        accountInformationPanel.setBackground(new Color(255, 255, 255));
+        accountInformationPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         nameLabel = new JLabel("Username: " + currentUserInfo[0]);
         nameLabel.setAlignmentX(LEFT_ALIGNMENT);
@@ -44,15 +51,25 @@ public class CenterAccountPanel extends JPanel {
         emailLabel.setAlignmentX(LEFT_ALIGNMENT);
         emailLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
+        passwordLabel = new JLabel("Password: ●●●●●●●");
+        passwordLabel.setAlignmentX(LEFT_ALIGNMENT);
+        passwordLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+
         editNameButton = new JButton("Edit username");
         editNameButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         editEmailButton = new JButton("Edit email");
         editEmailButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        editPasswordButton = new JButton("Change password");
+        editPasswordButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         accountInformationPanel.add(nameLabel);
         accountInformationPanel.add(editNameButton);
         accountInformationPanel.add(emailLabel);
         accountInformationPanel.add(editEmailButton);
+        accountInformationPanel.add(passwordLabel);
+        accountInformationPanel.add(editPasswordButton);
     }
 
     public void getCurrentUserInfo() {
@@ -80,7 +97,7 @@ public class CenterAccountPanel extends JPanel {
 
     public void changeEmail() {
         String newEmail = JOptionPane.showInputDialog("Please enter new email", currentUserInfo[1]);
-        if (newEmail != null) {
+        if (mainFrame.isEmailValid(newEmail)) {
             if (newEmail.equals(currentUserInfo[1])) {
                 //Do nothing if email not changed
             }
@@ -88,6 +105,39 @@ public class CenterAccountPanel extends JPanel {
                 mainFrame.setNewEmail(newEmail);
                 updateUserInfo();
             }
+        }
+        else {
+            JOptionPane.showMessageDialog(mainFrame, "Please enter a valid email");
+        }
+    }
+
+    public void changePassword() {
+        String currentPassword = JOptionPane.showInputDialog(mainFrame, "Please enter your current password");
+
+        if (currentPassword.equals(currentUserInfo[2])) {
+            JTextField newPassword = new JPasswordField(10);
+            JTextField newConfirmPassword = new JPasswordField(10);
+            Object[] options = {"New password:", newPassword, "Confirm new password: ", newConfirmPassword};
+
+            boolean isFinished = false;
+
+            while(!isFinished) {
+                int choice = JOptionPane.showConfirmDialog(null, options, "Change password", JOptionPane.OK_CANCEL_OPTION);
+
+                if (choice == JOptionPane.OK_OPTION && newPassword.getText().equals(newConfirmPassword.getText())) {
+                    mainFrame.setNewPassword(newPassword.getText());
+                    isFinished = true;
+                    JOptionPane.showMessageDialog(mainFrame, "Password changed successfully");
+                    updateUserInfo();
+                } else if (choice == JOptionPane.CANCEL_OPTION) {
+                    //If cancel button clicked do nothing
+                } else {
+                    JOptionPane.showMessageDialog(mainFrame, "Passwords do not match. Try again.");
+                }
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(mainFrame, "Incorrect password");
         }
     }
 
@@ -98,6 +148,10 @@ public class CenterAccountPanel extends JPanel {
 
         editEmailButton.addActionListener(e -> {
             changeEmail();
+        });
+
+        editPasswordButton.addActionListener(e -> {
+            changePassword();
         });
     }
 }

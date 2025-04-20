@@ -22,12 +22,13 @@ public class LogInFrame extends JFrame {
     private JButton cancelButton;
     private JTextField newNameField;
     private JTextField newPasswordField;
+    private JTextField confirmPasswordField;
     private JTextField newEmailField;
     private JPanel newUserNamePanel;
     private JPanel newPasswordPanel;
+    private JPanel confirmPasswordPanel;
     private JPanel newEmailPanel;
     private JPanel registerButtonPanel;
-    private boolean registerValuesValid;
 
     public LogInFrame(MainFrame mainFrame) {
      this.mainFrame = mainFrame;
@@ -54,6 +55,7 @@ public class LogInFrame extends JFrame {
         registerPanel.add(newEmailPanel);
         registerPanel.add(newUserNamePanel);
         registerPanel.add(newPasswordPanel);
+        registerPanel.add(confirmPasswordPanel);
         registerPanel.add(registerButtonPanel);
     }
 
@@ -69,7 +71,8 @@ public class LogInFrame extends JFrame {
     }
 
     public void setRegisterLayout() {
-        setSize(250,200);
+        setSize(250,230);
+        setTitle("Register");
         mainPanel.removeAll();
         topLabel.setText("Register a new account");
         mainPanel.add(topLabel);
@@ -81,6 +84,7 @@ public class LogInFrame extends JFrame {
 
     public void setLoginLayout() {
         setSize(250,170);
+        setTitle("Login");
         mainPanel.removeAll();
         topLabel.setText("Enter login information below");
         mainPanel.add(topLabel);
@@ -95,13 +99,16 @@ public class LogInFrame extends JFrame {
         JLabel newEmailLabel = new JLabel("Enter email:");
         JLabel newUsernameLabel = new JLabel("Enter username:");
         JLabel newPasswordLabel = new JLabel("Enter password:");
+        JLabel confirmPasswordLabel = new JLabel("Confirm password:");
 
         newNameField = new JTextField(10);
-        newPasswordField = new JTextField(10);
+        newPasswordField = new JPasswordField(10);
+        confirmPasswordField = new JPasswordField(10);
         newEmailField = new JTextField(10);
 
         newUserNamePanel = new JPanel(new FlowLayout());
         newPasswordPanel = new JPanel(new FlowLayout());
+        confirmPasswordPanel = new JPanel(new FlowLayout());
         newEmailPanel = new JPanel(new FlowLayout());
         registerButtonPanel = new JPanel(new FlowLayout());
 
@@ -110,6 +117,9 @@ public class LogInFrame extends JFrame {
 
         newPasswordPanel.add(newPasswordLabel);
         newPasswordPanel.add(newPasswordField);
+
+        confirmPasswordPanel.add(confirmPasswordLabel);
+        confirmPasswordPanel.add(confirmPasswordField);
 
         newEmailPanel.add(newEmailLabel);
         newEmailPanel.add(newEmailField);
@@ -124,7 +134,7 @@ public class LogInFrame extends JFrame {
         JLabel passwordLabel = new JLabel("Password:");
 
         usernameField = new JTextField(10);
-        passwordField = new JTextField(10);
+        passwordField = new JPasswordField(10);
 
         usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameField);
@@ -161,12 +171,18 @@ public class LogInFrame extends JFrame {
 
         createAccountButton.addActionListener(e -> {
             String newEmail = newEmailField.getText();
-            if (newEmail != null && !newEmail.isEmpty()) {
+            if (mainFrame.isEmailValid(newEmail)) {
                 String newUsername = newNameField.getText();
                 if (newUsername != null && !newUsername.isEmpty()) {
                     String newPassword = newPasswordField.getText();
+                    String confirmedPassword = confirmPasswordField.getText();
                     if (newPassword != null && !newPassword.isEmpty()) {
-                        //@TODO Add function for creating new user
+                        if (newPassword.equals(confirmedPassword)) {
+                            //@TODO Add function for creating new user
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(mainFrame, "Passwords do not match");
+                        }
                     }
                     else {
                         JOptionPane.showMessageDialog(mainFrame, "Your password cannot be empty");

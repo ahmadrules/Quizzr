@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Controller {
     private MainFrame view;
@@ -23,7 +24,7 @@ public class Controller {
         programs = new ArrayList<>();
         courses = new ArrayList<>();
 
-        currentUser = new User("TestUser" , "test123" , "TestUser@email.com");
+        currentUser = new User("User" , "test123" , "user@email.com");
 
         createAndAddPrograms();
         createAndAddCourses();
@@ -399,5 +400,23 @@ public class Controller {
 
     public void setNewEmail(String email) {
         currentUser.setEmail(email);
+    }
+
+    public void setNewPassword(String password) {
+        currentUser.setPassword(password);
+    }
+
+    //Code taken from https://www.geeksforgeeks.org/check-email-address-valid-not-java/
+    public boolean isEmailValid(String email) {
+
+        // Regular expression to match valid email formats
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        // Compile the regex
+        Pattern p = Pattern.compile(emailRegex);
+
+        // Check if email matches the pattern
+        return email != null && p.matcher(email).matches();
     }
 }
