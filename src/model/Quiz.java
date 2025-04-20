@@ -1,10 +1,7 @@
 package model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Quiz implements Serializable {
     private List<Question> questions;
@@ -16,7 +13,7 @@ public class Quiz implements Serializable {
         this.questions = new ArrayList<>();
         this.name = name;
         this.result = 0;
-        this.userAnswers = new HashMap<>();
+        this.userAnswers = new LinkedHashMap<>();
     }
     public void setResult(int result) {
         this.result = result;
@@ -24,6 +21,7 @@ public class Quiz implements Serializable {
     public int getResult() {
         return result;
     }
+    // primärt 
     public int CalculateTestResult(){
         int total = 0;
         for (Question question : questions) {
@@ -40,4 +38,26 @@ public class Quiz implements Serializable {
     public void addQuestion(Question question){
         questions.add(question);
     }
+
+    public void addUserAnswer(Question question, String answer) {
+        userAnswers.put(question,answer);
+    }
+    public int getTotalPoints(){
+        int total = 0;
+        for (Question question : questions) {
+            total += question.getPoints();
+        }
+        return total;
+    }
+    public int getNumberOfCorrectAnswers() {
+        int correctAnswers = 0;
+        for (Question question : questions) {
+            if (question.checkAnswer("correct")) {
+                correctAnswers++;
+            }
+        }
+        return correctAnswers;
+    }
+
+
 }
