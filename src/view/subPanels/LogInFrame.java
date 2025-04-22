@@ -5,6 +5,12 @@ import view.main.MainFrame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class is responsible for offering and validating options
+ * to log in to and register an account.
+ * To validate the login information it calls on mainFrame which calls on controller.
+ * @author Ahmad Maarouf
+ */
 public class LogInFrame extends JFrame {
     private MainFrame mainFrame;
     private JTextField usernameField;
@@ -46,6 +52,10 @@ public class LogInFrame extends JFrame {
      setVisible(true);
     }
 
+    /**
+     * Creates the layout for the "Register" panel.
+     * @author Ahmad Maarouf
+     */
     public void createRegisterLayout() {
         registerPanel = new JPanel();
         registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.PAGE_AXIS));
@@ -59,6 +69,10 @@ public class LogInFrame extends JFrame {
         registerPanel.add(registerButtonPanel);
     }
 
+    /**
+     * Creates the layout for the "Login" panel.
+     * @author Ahmad Maarouf
+     */
     public void createLoginLayout() {
         loginPanel = new JPanel();
         loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.PAGE_AXIS));
@@ -70,6 +84,11 @@ public class LogInFrame extends JFrame {
         loginPanel.add(loginButtonPanel);
     }
 
+    /**
+     * Sets the layout to the "Register" layout.
+     * Called when the user presses the "Register" button.
+     * @author Ahmad Maarouf
+     */
     public void setRegisterLayout() {
         setSize(250,230);
         setTitle("Register");
@@ -82,6 +101,12 @@ public class LogInFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * Sets the layout to the "Login" layout.
+     * Called when the user first opens the program or
+     * if the users presses "Cancel" while on the "Register" layout.
+     * @author Ahmad Maarouf
+     */
     public void setLoginLayout() {
         setSize(250,170);
         setTitle("Login");
@@ -94,6 +119,12 @@ public class LogInFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * Creates the panels required to display the register layout correctly.
+     * The main panel uses flowlayout and the panels created here each account for
+     * one row in the main panel.
+     * @author Ahmad Maarouf
+     */
     public void createdNestedRegisterPanels() {
         topLabel.setText("Register a new user");
         JLabel newEmailLabel = new JLabel("Enter email:");
@@ -125,6 +156,12 @@ public class LogInFrame extends JFrame {
         newEmailPanel.add(newEmailField);
     }
 
+    /**
+     * Creates the panels required to display the login layout correctly.
+     * The main panel uses flowlayout and the panels created here each account for
+     * one row in the main panel.
+     * @author Ahmad Maarouf
+     */
     public void createNestedLoginPanels() {
         usernamePanel = new JPanel(new FlowLayout());
         passwordPanel = new JPanel(new FlowLayout());
@@ -143,6 +180,10 @@ public class LogInFrame extends JFrame {
         passwordPanel.add(passwordField);
     }
 
+    /**
+     * Creates the buttons required to display the login layout correctly.
+     * @author Ahmad Maarouf
+     */
     public void createLoginButtons() {
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
@@ -150,6 +191,10 @@ public class LogInFrame extends JFrame {
         loginButtonPanel.add(registerButton);
     }
 
+    /**
+     * Creates the buttons required to display the register layout correctly.
+     * @author Ahmad Maarouf
+     */
     public void createRegisterButtons() {
         createAccountButton = new JButton("Create");
         cancelButton = new JButton("Cancel");
@@ -157,6 +202,12 @@ public class LogInFrame extends JFrame {
         registerButtonPanel.add(cancelButton);
     }
 
+    /**
+     * Adds action listeners to the buttons pressed when the user
+     * wants to log in to an account or create a new one.
+     * Here we validate the input before sending it to mainFrame which sends it to controller.
+     * @author Ahmad Maarouf
+     */
     public void addActionListeners() {
         loginButton.addActionListener(e -> {
             String username = usernameField.getText();

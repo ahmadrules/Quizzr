@@ -5,6 +5,12 @@ import view.main.MainFrame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class is responsible for displaying account information in centerPanel
+ * for the currently logged in account.
+ * It is also responsible for giving options of changing email, username and password of the current user.
+ * @author Ahmad Maarouf
+ */
 public class CenterAccountPanel extends JPanel {
     private MainFrame mainFrame;
     private JPanel accountInformationPanel;
@@ -26,6 +32,10 @@ public class CenterAccountPanel extends JPanel {
         setVisible(true);
     }
 
+    /**
+     * Sets up the layout of the panel.
+     * @author Ahmad Maarouf
+     */
     public void setLayout() {
         setLayout(new BorderLayout());
         JLabel topLabel = new JLabel("Account information", SwingConstants.CENTER);
@@ -34,14 +44,22 @@ public class CenterAccountPanel extends JPanel {
         add(emptyPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Creates the panel displaying the information and all related
+     * components required.
+     * @author Ahmad Maarouf
+     */
     public void createAccountInformationPanel() {
+        //Panel to add space to bottom
         emptyPanel = new JPanel();
         emptyPanel.setBackground(new Color(238, 238, 238));
 
+        //Border displaying information
         accountInformationPanel = new JPanel();
         accountInformationPanel.setLayout(new BoxLayout(accountInformationPanel, BoxLayout.Y_AXIS));
         accountInformationPanel.setBackground(new Color(255, 255, 255));
         accountInformationPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+
 
         nameLabel = new JLabel("Username: " + currentUserInfo[0]);
         nameLabel.setAlignmentX(LEFT_ALIGNMENT);
@@ -72,16 +90,31 @@ public class CenterAccountPanel extends JPanel {
         accountInformationPanel.add(editPasswordButton);
     }
 
+    /**
+     * Fetches the current users information from the mainFrame
+     * which calls on controller.
+     * @author Ahmad Maarouf
+     */
     public void getCurrentUserInfo() {
         this.currentUserInfo = mainFrame.getCurrentUserInfo();
     }
 
+    /**
+     * Updates the current users' information.
+     * Called when email, username or password is edited.
+     * @author Ahmad Maarouf
+     */
     public void updateUserInfo() {
         getCurrentUserInfo();
         nameLabel.setText("Username: " + currentUserInfo[0]);
         emailLabel.setText("Email: " + currentUserInfo[1]);
     }
 
+    /**
+     * Changes the username according to what the user inputs.
+     * Also changes the username stored in a data file.
+     * @author Ahmad Maarouf
+     */
     public void changeUsername() {
         String newUsername = JOptionPane.showInputDialog("Please enter new username", currentUserInfo[0]);
         if (newUsername != null) {
@@ -95,6 +128,12 @@ public class CenterAccountPanel extends JPanel {
         }
     }
 
+    /**
+     * Changes the email according to what the user inputs.
+     * Also changes the email stored in a data file.
+     * New email must be a valid email.
+     * @author Ahmad Maarouf
+     */
     public void changeEmail() {
         String newEmail = JOptionPane.showInputDialog("Please enter new email", currentUserInfo[1]);
         if (mainFrame.isEmailValid(newEmail)) {
@@ -111,6 +150,11 @@ public class CenterAccountPanel extends JPanel {
         }
     }
 
+    /**
+     * Changes the password according to what the user inputs.
+     * Also changes the password stored in a data file.
+     * @author Ahmad Maarouf
+     */
     public void changePassword() {
         String currentPassword = JOptionPane.showInputDialog(mainFrame, "Please enter your current password");
 
@@ -132,6 +176,7 @@ public class CenterAccountPanel extends JPanel {
                 } else if (choice == JOptionPane.CANCEL_OPTION) {
                     isFinished = true;
                     //If cancel button clicked do nothing
+                    isFinished = true;
                 } else {
                     JOptionPane.showMessageDialog(mainFrame, "Passwords do not match. Try again.");
                 }
@@ -142,6 +187,10 @@ public class CenterAccountPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds action listeners to the buttons.
+     * @author Ahmad Maarouf
+     */
     public void addActionListeners() {
         editNameButton.addActionListener(e -> {
             changeUsername();
