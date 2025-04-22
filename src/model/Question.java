@@ -32,6 +32,7 @@ public abstract class Question implements Serializable {
     public int getPoints() {
         return points;
     }
+    public abstract int calculatePoints();
     public abstract boolean checkAnswer(String usersAnswer);
     public abstract Question fromString(String line);
     public void saveToFile(String filename, Question question) {
