@@ -36,6 +36,18 @@ public class Matching extends Question {
     }
 
     @Override
+    public int calculatePoints() {
+        if (numberOfWrongMatches == 0) {
+            return getPoints();
+        }else if (numberOfWrongMatches == 1) {
+            return 2*getPoints()/3;
+        }else if (numberOfWrongMatches == 2) {
+            return getPoints()/3;
+        }
+        return 0;
+    }
+
+    @Override
     public boolean checkAnswer(String usersAnswer) {
         HashMap<String, Integer> userAnswers = new HashMap<>();
         String [] parts = usersAnswer.split(",");
@@ -55,8 +67,11 @@ public class Matching extends Question {
 
         int numberOfWrongMatches=correctMatches.size()-totalCorrectAnswers;
         setNumberOfWrongMatches(numberOfWrongMatches);
-
-        return correctMatches.size() == totalCorrectAnswers;
+        if (numberOfWrongMatches == 3){
+            return false;
+        }else {
+            return true;
+        }
     }
     /**
      * This method is used to convert the question from the file into an object of matching question

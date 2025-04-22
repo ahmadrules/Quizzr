@@ -11,6 +11,11 @@ public class TrueOrFalse extends Question {
     }
 
     @Override
+    public int calculatePoints() {
+        return getPoints();
+    }
+
+    @Override
     public boolean checkAnswer(String usersAnswer) {
         return usersAnswer.trim().equalsIgnoreCase(correctAnswer.trim());
     }

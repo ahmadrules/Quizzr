@@ -28,14 +28,12 @@ public class Quiz implements Serializable {
             Question question = entry.getKey();
             String userAnswer = entry.getValue();
             if (question.checkAnswer(userAnswer)) {
-                total+=question.getPoints();
+                total+=question.calculatePoints();
             }
         }
         return total;
     }
-    public int correctAnswer(){
-        return 0;
-    }
+
     public void addQuestion(Question question){
         questions.add(question);
     }
@@ -52,8 +50,8 @@ public class Quiz implements Serializable {
     }
     public int getNumberOfCorrectAnswers() {
         int correctAnswers = 0;
-        for (Question question : questions) {
-            if (question.checkAnswer("correct")) {
+        for (Map.Entry<Question,String> entry : userAnswers.entrySet()) {
+            if (entry.getKey().checkAnswer(entry.getValue())) {
                 correctAnswers++;
             }
         }

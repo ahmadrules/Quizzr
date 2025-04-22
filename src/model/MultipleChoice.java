@@ -15,6 +15,12 @@ public class MultipleChoice extends Question {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
+
+    @Override
+    public int calculatePoints() {
+        return getPoints();
+    }
+
     // subString takes only the first letter from the correctAnswer
     // trim get rid of any extra space that might be in the start of users answer
     @Override
