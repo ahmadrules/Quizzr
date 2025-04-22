@@ -42,6 +42,7 @@ public class RightPanel extends JPanel {
 
         listOfTabs.setFixedCellWidth(150);
         listOfTabs.setFont(new Font("Arial", Font.ROMAN_BASELINE, 24));
+        listOfTabs.setSelectedIndex(0);
 
         scrollPane = new JScrollPane(listOfTabs);
         scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);

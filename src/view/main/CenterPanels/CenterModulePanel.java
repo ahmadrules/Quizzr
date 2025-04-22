@@ -6,6 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
+/**
+ * This class is responsible for showing a list of modules for the
+ * course selected in LeftPanel.
+ * It is also responsible for giving options to add,edit and remove modules.
+ * @author Ahmad Maarouf
+ */
 public class CenterModulePanel extends JPanel {
     private JPanel buttonPanel;
     private JButton quizButton;
@@ -25,24 +31,33 @@ public class CenterModulePanel extends JPanel {
 
     public CenterModulePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-
         setLayout(new BorderLayout());
-        createDataList();
+
         createDataComponents();
         createButtons();
         addEventListener();
         setupLayout();
 
-        this.add(buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Sets up the layout of the panel
+     * @author Ahmad Maarouf
+     */
     public void setupLayout() {
         JLabel displayLabel = new JLabel("Available modules", SwingConstants.CENTER);
         add(displayLabel, BorderLayout.NORTH);
         add(moduleScrollPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates the necessary data components used to show the list of modules.
+     * moduleListMap is used to link modules to a specific course.
+     * @author Ahmad Maarouf
+     */
     public void createDataComponents() {
+        moduleListMap = new HashMap<>();
         moduleListModel = new DefaultListModel<>();
         moduleList = new JList<>(moduleListModel);
         moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -51,11 +66,13 @@ public class CenterModulePanel extends JPanel {
     }
 
 
-    public void createDataList() {
-        //List of available modules for the chosen course. This will be fetched from Controller
-        moduleListMap = new HashMap<>();
-    }
-
+    /**
+     * Displays the modules available for a selected course within a selected program.
+     * Called by leftPanel when a course is selected.
+     * @param selectedProgram a string with the selected programs name
+     * @param selectedCourse a string with the selected courses name
+     * @author Ahmad Maarouf
+     */
     public void courseChosen(String selectedProgram, String selectedCourse) {
         this.selectedProgram = selectedProgram;
         this.selectedCourse = selectedCourse;
@@ -75,6 +92,10 @@ public class CenterModulePanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Disables module buttons when a module is not chosen.
+     * @author Ahmad Maarouf
+     */
     public void disableButtons() {
         quizButton.setEnabled(false);
         flashcardsButton.setEnabled(false);
@@ -83,6 +104,10 @@ public class CenterModulePanel extends JPanel {
         deleteModuleButton.setEnabled(false);
     }
 
+    /**
+     * Enables module buttons when a module is selected.
+     * @author Ahmad Maarouf
+     */
     public void enableButtons() {
         quizButton.setEnabled(true);
         flashcardsButton.setEnabled(true);
@@ -91,6 +116,11 @@ public class CenterModulePanel extends JPanel {
         deleteModuleButton.setEnabled(true);
     }
 
+    /**
+     * Creates the necessary buttons for opening quiz and flashcards for the selected module,
+     * as well as adding, editing and removing modules.
+     * @author Ahmad Maarouf
+     */
     public void createButtons() {
         buttonPanel = new JPanel(new FlowLayout());
         quizButton = new JButton("Quiz");
@@ -112,10 +142,19 @@ public class CenterModulePanel extends JPanel {
         buttonPanel.setVisible(true);
     }
 
+    /**
+     * Clears the module list.
+     * Called when the list of modules needs to be updated.
+     * @author Ahmad Maarouf
+     */
     public void clearModuleList() {
         moduleListModel.clear();
     }
 
+    /**
+     * Updates the current list of modules according to what course is selected in LeftPanel.
+     * @author Ahmad Maarouf
+     */
     public void updateList() {
         clearModuleList();
         for (String item : moduleListMap.getOrDefault(selectedCourse, mainFrame.getModulesNames(selectedCourse))) {
@@ -125,6 +164,10 @@ public class CenterModulePanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Adds event listeners to the buttons and the list.
+     * @author Ahmad Maarouf
+     */
     public void addEventListener() {
         flashcardsButton.addActionListener(e -> {
             //Here we write what happens when we press the flashcard button
@@ -161,6 +204,12 @@ public class CenterModulePanel extends JPanel {
         });
     }
 
+    /**
+     * Adds a module to the list of available modules for the selected course and also,
+     * in the file that stores modules.
+     * This is done through mainFrame which calls on controller.
+     * @author Ahmad Maarouf
+     */
     public void addModule() {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name");
         if (moduleName != null) {
@@ -177,6 +226,12 @@ public class CenterModulePanel extends JPanel {
         }
     }
 
+    /**
+     * Edits a module in the list of available modules for the selected course and also,
+     * in the file that stores modules.
+     * This is done through mainFrame which calls on controller.
+     * @author Ahmad Maarouf
+     */
     public void editModule() {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name", selectedModule);
         if (moduleName != null) {
@@ -193,6 +248,12 @@ public class CenterModulePanel extends JPanel {
         }
     }
 
+    /**
+     * Removes a module from the list of available modules for the selected course and also,
+     * from the file that stores modules.
+     * This is done through mainFrame which calls on controller.
+     * @author Ahmad Maarouf
+     */
     public void removeModule() {
         if (mainFrame.deleteConfirmation(selectedModule) == true) {
             //Here we write what happens when we press the delete button

@@ -7,6 +7,10 @@ import view.subPanels.LogInFrame;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+Main view-class responsible for initializing other view-classes and also responsible for contact with the Controller class.
+@author Ahmad Maarouf
+ */
 public class MainFrame extends JFrame implements Runnable {
 
     private CenterPanel centerContainer;
@@ -14,6 +18,7 @@ public class MainFrame extends JFrame implements Runnable {
     private RightPanel rightPanel;
     private Controller controller;
     private boolean isLoggedIn = false;
+
 
     public MainFrame(Controller controller){
         this.controller = controller;
@@ -24,21 +29,31 @@ public class MainFrame extends JFrame implements Runnable {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 400);
 
+        //Login page is initialized here.
         LogInFrame logInFrame = new LogInFrame(this);
 
-        //Container for all the different panels in the center
-        //Which panel is displayed will depend on which tab is chosen in rightPanel
+        /*
+        Container for all the different panels in the center is initialized here.
+        Which information is displayed will depend on which tab is chosen in rightPanel.
+         */
         centerContainer = new CenterPanel(this);
 
-        // ======= RIGHT PANEL =======
+        /*
+        Right panel containing the list of available tabs is initialized here.
+         */
         rightPanel = new RightPanel(this, centerContainer);
 
-        // ======= LEFT PANEL =======
+        /*
+        Left panel containing the list of available programs, as well as list of available courses is initialized here.
+        The panel displayed in the center when the "Modules" tab is chosen is sent in as a parameter.
+        This is because the information for the center panel is dependent on what course is chosen in the left panel.
+         */
         leftPanel = new LeftPanel(centerContainer.getModulePanel(), this);
 
-
-        // ======= LAYOUT SETUP =======
-        // centerContainer holds top and all center panels
+        /*
+        Here we create a JSplitPane to give some freedom of movement between the left panel and the center container.
+        CenterContainer holds all center panels.
+         */
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, centerContainer);
         splitPane.setDividerLocation(200);
 
