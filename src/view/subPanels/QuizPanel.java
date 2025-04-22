@@ -65,3 +65,36 @@ public class QuizPanel extends JPanel {
     }
 }
 
+
+/**
+    Metoder för controller:
+
+public ArrayList<Quiz> getQuizzesForModule(String moduleName) {
+    for (int i = 0; i < programList.size(); i++) {
+        Program program = programList.get(i);
+        List<Course> courses = program.getCourses();
+        for (int j = 0; j < courses.size(); j++) {
+            Course course = courses.get(j);
+            List<Module> modules = course.getModules();
+            for (int k = 0; k < modules.size(); k++) {
+                Module module = modules.get(k);
+                if (module.getName().equals(moduleName)) {
+                    ArrayList<Quiz> quizzes = new ArrayList<>();
+                    quizzes.add(module.getCurrentQuiz()); // Om fler quiz ska stödjas, ändra detta
+                    return quizzes;
+                }
+            }
+        }
+    }
+    return new ArrayList<>();
+}
+
+
+public void startQuizForModule(String moduleName, String quizName) {
+    // Här kan du visa ny vy för att genomföra quiz
+    System.out.println("Starting quiz: " + quizName + " in module: " + moduleName);
+}
+
+*/
+
+
