@@ -1,33 +1,44 @@
 package model;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FlashCard implements Serializable{
-    private String content;
+    private String frontContent;
+    private String backContent;
 
-    public FlashCard(String content) {
-        this.content = content;
+    public FlashCard(String FrontContent, String backContent) {
+        this.frontContent = FrontContent;
+        this.backContent = backContent;
     }
-    public String getContent() {
-        return content;
+    public void setBackContent(String content) {
+        this.backContent = content;
     }
-    public void setContent(String content) {
-        this.content = content;
+    public String getBackContent() {
+        return this.backContent;
     }
-    public void saveToFile(String filename, Object content) {
+    public String getFrontContent() {
+        return frontContent;
+    }
+    public void setFrontContent(String frontContent) {
+        this.frontContent = frontContent;
+    }
+
+    public void saveToFile(String filename, List<FlashCard> flashCard) {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-            oos.writeObject(content);
+            oos.writeObject(flashCard);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());;
         }
     }
 
-    public FlashCard loadFromFile(String filename) {
-        FlashCard flashCard = null;
+    public ArrayList<FlashCard> loadFromFile(String filename) {
+        ArrayList<FlashCard> flashCards = new ArrayList<FlashCard>();
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename)) ) {
-            flashCard=(FlashCard) ois.readObject();
+            flashCards=(ArrayList<FlashCard>) ois.readObject();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -35,6 +46,8 @@ public class FlashCard implements Serializable{
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return flashCard;
+        return flashCards;
     }
-}
+    public String toString(){
+        return frontContent+" "+frontContent;
+    }}

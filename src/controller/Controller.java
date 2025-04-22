@@ -156,22 +156,28 @@ public class Controller {
     public String[] getModulesNames(String courseName){
 
         String[] modulesNames = new String[0];
-        Course currentCourse = null;
+        Course selectedCourse = null;
+        boolean courseFound = false;
 
         for(int p = 0; p < programList.size(); p++){
             Program currentProgram = programList.get(p);
             for(int c = 0; c < currentProgram.getCourses().size(); c++){
-                currentCourse = currentProgram.getCourses().get(c);
+                Course currentCourse = currentProgram.getCourses().get(c);
                 if(currentCourse.getName().equals(courseName)){
+                    selectedCourse = currentCourse;
                     modulesNames = new String[currentCourse.getModules().size()];
+                    courseFound = true;
                     break;
                 }
+            }
+            if(courseFound){
+                break;
             }
         }
         
         //Fill the list with modules names for the selected course
         for (int m = 0; m < modulesNames.length; m++) {
-            Module currentModule = currentCourse.getModules().get(m);
+            Module currentModule = selectedCourse.getModules().get(m);
             modulesNames[m] = currentModule.getName();
         }
 
@@ -223,25 +229,22 @@ public class Controller {
     }
 
     public void addNewModule(String courseName, String moduleName){
+
+        Course requestedCourse = null;
         for(int p = 0; p < programList.size(); p++){
             Program currentProgram = programList.get(p);
             for(int c = 0; c < currentProgram.getCourses().size(); c++){
                 Course currentCourse = currentProgram.getCourses().get(c);
                 if(currentCourse.getName().equals(courseName)){
-                    Module newModule = new Module(moduleName);
-                    currentCourse.addModule(newModule);
+                    requestedCourse = currentCourse;
                     break;
                 }
             }
         }
-        //Edit courses
-        for(int c = 0; c < courses.size(); c++){
-            if(courses.get(c).getName().equals(courseName)){
-                Module newModule = new Module(moduleName);
-                courses.get(c).addModule(newModule);
-            }
+        Module newModule = new Module(moduleName);
+        if(requestedCourse != null) {
+            requestedCourse.addModule(newModule);
         }
-
         updateProgramsInFile();
     }
 

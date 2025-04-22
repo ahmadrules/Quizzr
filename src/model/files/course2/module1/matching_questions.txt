@@ -1,0 +1,19 @@
+Capital cities match;A. France,B. UK,C. Italy;1. Paris,2. London,3. Rome;6;A:1,B:2,C:3
+
+Programming languages origin;A. Python,B. Java,C. C++;1. USA,2. Netherlands,3. Canada;6;A:2,B:1,C:3
+
+Currency match;A. Japan,B. Germany,C. Canada;1. Yen,2. Euro,3. Canadian Dollar;6;A:1,B:2,C:3
+
+Planet match;A. Mars,B. Earth,C. Jupiter;1. Red Planet,2. Blue Planet,3. Gas Giant;6;A:1,B:2,C:3
+
+Inventor match;A. Telephone,B. Lightbulb,C. Airplane;1. Bell,2. Edison,3. Wright Brothers;6;A:1,B:2,C:3
+
+Country to continent;A. Egypt,B. Brazil,C. Australia;1. Africa,2. South America,3. Oceania;6;A:1,B:2,C:3
+
+Animal category;A. Eagle,B. Salmon,C. Lion;1. Bird,2. Fish,3. Mammal;6;A:1,B:2,C:3
+
+Famous books;A. 1984,B. Hamlet,C. The Hobbit;1. Orwell,2. Shakespeare,3. Tolkien;6;A:1,B:2,C:3
+
+Math match;A. Triangle,B. Circle,C. Square;1. 3 sides,2. Round,3. 4 equal sides;6;A:1,B:2,C:3
+
+Tech companies HQ;A. Google,B. Apple,C. Microsoft;1. Mountain View,2. Cupertino,3. Redmond;6;A:1,B:2,C:3

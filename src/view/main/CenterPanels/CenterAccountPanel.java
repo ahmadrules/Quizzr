@@ -174,6 +174,7 @@ public class CenterAccountPanel extends JPanel {
                     JOptionPane.showMessageDialog(mainFrame, "Password changed successfully");
                     updateUserInfo();
                 } else if (choice == JOptionPane.CANCEL_OPTION) {
+                    isFinished = true;
                     //If cancel button clicked do nothing
                     isFinished = true;
                 } else {

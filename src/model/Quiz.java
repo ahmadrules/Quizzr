@@ -21,7 +21,7 @@ public class Quiz implements Serializable {
     public int getResult() {
         return result;
     }
-    // primärt Räkna ut resultat
+    // primärt 
     public int CalculateTestResult(){
         int total = 0;
         for (Map.Entry<Question,String> entry : userAnswers.entrySet()) {
@@ -38,7 +38,6 @@ public class Quiz implements Serializable {
         questions.add(question);
     }
 
-    //Spara svar
     public void addUserAnswer(Question question, String answer) {
         userAnswers.put(question,answer);
     }
