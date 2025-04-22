@@ -21,16 +21,17 @@ public class Quiz implements Serializable {
     public int getResult() {
         return result;
     }
-    // primärt 
-    public int CalculateTestResult(){
+
+    public int calculateTestResult(){
         int total = 0;
         for (Map.Entry<Question,String> entry : userAnswers.entrySet()) {
             Question question = entry.getKey();
             String userAnswer = entry.getValue();
-            if (question.checkAnswer(userAnswer)) {
+            if (userAnswer!=null && question.checkAnswer(userAnswer)) {
                 total+=question.calculatePoints();
             }
         }
+        this.result = total;
         return total;
     }
 
