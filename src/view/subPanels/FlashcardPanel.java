@@ -53,3 +53,27 @@ public class FlashcardPanel extends JPanel {
         // TODO: Add, Edit och Delete-funktioner kan kopplas till controller-metoder
     }
 }
+
+
+/**
+Metod som ska vara i controller: 
+public ArrayList<FlashCard> getFlashcardsForModule(String moduleName) {
+    for (int i = 0; i < programList.size(); i++) {
+        Program program = programList.get(i);
+        List<Course> courses = program.getCourses();
+        for (int j = 0; j < courses.size(); j++) {
+            Course course = courses.get(j);
+            List<Module> modules = course.getModules();
+            for (int k = 0; k < modules.size(); k++) {
+                Module module = modules.get(k);
+                if (module.getName().equals(moduleName)) {
+                    return new ArrayList<>(module.getFlashCards());
+                }
+            }
+        }
+    }
+    return new ArrayList<>();
+}
+*/
+
+
