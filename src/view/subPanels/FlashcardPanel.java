@@ -1,40 +1,55 @@
 package view.subPanels;
 
 import controller.Controller;
+import model.FlashCard;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
-public class FlashcardPanel {
-    private JFrame flashcardFrame;
-    private String selectedModuleName;
+public class FlashcardPanel extends JPanel {  
     private Controller controller;
+    private String moduleName;
+    private JList<String> flashcardList;
+    private DefaultListModel<String> flashcardListModel;
 
-    public FlashcardPanel(String selectedModuleName, Controller controller) {
-        this.selectedModuleName = selectedModuleName;
+  
+
+    public FlashcardPanel(String moduleName, Controller controller) {
+        this.moduleName = moduleName;
         this.controller = controller;
-        createFrame();
+       
+        setLayout(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("Flashcards for module: " + moduleName, SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        add(titleLabel, BorderLayout.NORTH);
+
+           // === Lista med flashcards ===
+        flashcardListModel = new DefaultListModel<>();
+        flashcardList = new JList<>(flashcardListModel);
+        flashcardList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(flashcardList);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // === Hämta flashcards via controller ===
+        ArrayList<FlashCard> flashCards = controller.getFlashcardsForModule(moduleName);
+        for (int i = 0; i < flashCards.size(); i++) {
+                flashcardListModel.addElement(flashCards.get(i).getFrontContent());
+        }
     }
 
-    public void createFrame() {
-        flashcardFrame = new JFrame("Flashcards for " + selectedModuleName);
-        flashcardFrame.setSize(400, 300);
-        flashcardFrame.setLocationRelativeTo(null);
-/*
-        // Hämtar flashcard-innehåll från controller
-        String[] flashcardTexts = controller.getFlashcardTextsForModule(selectedModuleName);
+        // === Knappar längst ner ===
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton addButton = new JButton("Add");
+        JButton editButton = new JButton("Edit");
+        JButton deleteButton = new JButton("Delete");
 
-        if (flashcardTexts == null || flashcardTexts.length == 0) {
-            flashcardFrame.add(new JLabel("No flashcards found for this module.", SwingConstants.CENTER));
-        } else {
-            JList<String> flashcardList = new JList<>(flashcardTexts);
-            flashcardList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            JScrollPane scrollPane = new JScrollPane(flashcardList);
-            flashcardFrame.add(scrollPane);
-        }
+        buttonPanel.add(addButton);
+        buttonPanel.add(editButton);
+        buttonPanel.add(deleteButton);
+        add(buttonPanel, BorderLayout.SOUTH);
 
- */
-
-        flashcardFrame.setVisible(true);
+        // TODO: Add, Edit och Delete-funktioner kan kopplas till controller-metoder
     }
 }
-
