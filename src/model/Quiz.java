@@ -24,8 +24,9 @@ public class Quiz implements Serializable {
     // primärt 
     public int CalculateTestResult(){
         int total = 0;
-        for (Question question : questions) {
-            String userAnswer = userAnswers.get(question);
+        for (Map.Entry<Question,String> entry : userAnswers.entrySet()) {
+            Question question = entry.getKey();
+            String userAnswer = entry.getValue();
             if (question.checkAnswer(userAnswer)) {
                 total+=question.getPoints();
             }
