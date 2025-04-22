@@ -52,4 +52,8 @@ public abstract class Question implements Serializable {
         }
         ;return question1;
     }
+
+    public int calculatePoints() {
+        return 1;
+    }
 }

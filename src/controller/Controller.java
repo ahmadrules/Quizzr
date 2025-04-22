@@ -262,6 +262,23 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    public Module getModule(String programName, String courseName, String moduleName) {
+        for (Program program: programs) {
+            if (program.getName().equals(programName)) {
+                for (Course course: program.getCourses()) {
+                    if (course.getName().equals(courseName)) {
+                        for (Module module: course.getModules()) {
+                            if (module.getName().equals(moduleName)) {
+                                return module;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public void deleteModule(String courseName, String moduleName){
         for(int p = 0; p < programList.size(); p++){
             Program currentProgram = programList.get(p);

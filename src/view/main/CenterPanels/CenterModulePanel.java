@@ -1,6 +1,7 @@
 package view.main.CenterPanels;
 
 import view.main.MainFrame;
+import view.subPanels.QuizPanel2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -177,6 +178,7 @@ public class CenterModulePanel extends JPanel {
         quizButton.addActionListener(e -> {
             //Here we write what happens when we press the quiz button
             //QuizPanel quizPanel = new QuizPanel(selectedModule);
+            QuizPanel2 quizPanel2 = new QuizPanel2(selectedProgram, selectedCourse, selectedModule, mainFrame);
         });
 
         addModuleButton.addActionListener(e -> {

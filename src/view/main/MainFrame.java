@@ -1,6 +1,7 @@
 package view.main;
 
 import controller.Controller;
+import model.Module;
 import model.User;
 import view.subPanels.LogInFrame;
 
@@ -112,6 +113,10 @@ public class MainFrame extends JFrame implements Runnable {
 
     public boolean ifModuleExists(String programName, String courseName, String moduleName){
         return controller.ifModuleExists(programName, courseName, moduleName);
+    }
+
+    public Module getCurrentModule(String programName, String courseName, String moduleName){
+        return controller.getModule(programName, courseName, moduleName);
     }
 
     public boolean deleteConfirmation(String selectedItem) {
