@@ -1,42 +1,67 @@
 package view.subPanels;
 
 import controller.Controller;
+import model.Quiz;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
 
-public class QuizPanel {
-    private JFrame quizFrame;
-    private String selectedModuleName;
+public class QuizPanel extends JPanel {    
     private Controller controller;
+    private String moduleName;
+    private JList<String> quizList;
+    private DefaultListModel<String> quizListModel;
 
-    public QuizPanel(String selectedModuleName, Controller controller) {
-        this.selectedModuleName = selectedModuleName;
+
+    public QuizPanel(String moduleName, Controller controller) {
+        this.moduleName = moduleName;
         this.controller = controller;
-        createFrame();
+
+        setLayout(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("Quizzes for module: " + moduleName, SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        add(titleLabel, BorderLayout.NORTH);
+
+        // === Lista med quiz-namn ===
+        quizListModel = new DefaultListModel<>();
+        quizList = new JList<>(quizListModel);
+        quizList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollPane = new JScrollPane(quizList);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // === Hämta quizfrågor via controller ===
+        ArrayList<Question> questions = controller.getQuestionsForModule(moduleName);
+        for (int i = 0; i < questions.size(); i++) {
+            quizListModel.addElement(questions.get(i).getQuestion());
+}
+
+        
     }
 
-    public void createFrame() {
-        quizFrame = new JFrame("Quizzes for " + selectedModuleName);
-        quizFrame.setSize(400, 300);
-        quizFrame.setLocationRelativeTo(null);
+        // === Knappar längst ner ===
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton addButton = new JButton("Add");
+        JButton editButton = new JButton("Edit");
+        JButton deleteButton = new JButton("Delete");
+        JButton startButton = new JButton("Start Quiz");
 
-        /*
-        // Hämtar quiz-namn från controller
-        String[] quizNames = controller.getQuizNamesForModule(selectedModuleName);
+        buttonPanel.add(addButton);
+        buttonPanel.add(editButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(startButton);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        if (quizNames == null || quizNames.length == 0) {
-            quizFrame.add(new JLabel("No quizzes found for this module.", SwingConstants.CENTER));
-        } else {
-            // Visar quiz-namn i en lista
-            JList<String> quizList = new JList<>(quizNames);
-            quizList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-            JScrollPane scrollPane = new JScrollPane(quizList);
-            quizFrame.add(scrollPane);
-        }
+        // === Klick för att starta quiz ===
+        startButton.addActionListener(e -> {
+            String selectedQuizName = quizList.getSelectedValue();
+            if (selectedQuizName != null) {
+                controller.startQuizForModule(moduleName, selectedQuizName);
+            }
+        });
 
-
-         */
-        quizFrame.setVisible(true);
+        // TODO: Add, Edit och Delete-funktioner kan implementeras vid behov
     }
 }
 
