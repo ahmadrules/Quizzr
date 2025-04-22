@@ -9,10 +9,21 @@ public class Matching extends Question {
     private List<String> matches;
     private HashMap<String, Integer> correctMatches;
 
+    public int getNumberOfWrongMatches() {
+        return numberOfWrongMatches;
+    }
+
+    public void setNumberOfWrongMatches(int numberOfWrongMatches) {
+        this.numberOfWrongMatches = numberOfWrongMatches;
+    }
+
+    private int numberOfWrongMatches;
+
     public Matching(String question, List<String> statements,List<String> matches, int points,HashMap<String,Integer> correctMatches) {
         super(question, statements, points);
         this.matches = matches;
         this.correctMatches = correctMatches;
+        this.numberOfWrongMatches = 0;
     }
     public HashMap<String, Integer> getCorrectMatches() {
         return correctMatches;
@@ -26,9 +37,27 @@ public class Matching extends Question {
 
     @Override
     public boolean checkAnswer(String usersAnswer) {
-        return false;
-    }
+        HashMap<String, Integer> userAnswers = new HashMap<>();
+        String [] parts = usersAnswer.split(",");
+        for (String part : parts) {
+            String[] keyValue = part.split(":");
+            if(keyValue.length == 2) {
+                userAnswers.put(keyValue[0].trim(), Integer.parseInt(keyValue[1].trim()));
+            }
+        }
+        int totalCorrectAnswers = 0;
 
+        for (String key : correctMatches.keySet()) {
+            if (userAnswers.containsKey(key) && userAnswers.get(key).equals(correctMatches.get(key))) {
+                totalCorrectAnswers ++;
+            }
+        }
+
+        int numberOfWrongMatches=correctMatches.size()-totalCorrectAnswers;
+        setNumberOfWrongMatches(numberOfWrongMatches);
+
+        return correctMatches.size() == totalCorrectAnswers;
+    }
     /**
      * This method is used to convert the question from the file into an object of matching question
      * @param line
