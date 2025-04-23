@@ -52,8 +52,6 @@ public class FlashcardPanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
 
         // TODO: Add, Edit och Delete-funktioner kan kopplas till controller-metoder
-    }
-}
 
 
 /**

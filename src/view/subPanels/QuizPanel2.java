@@ -1,5 +1,6 @@
 package view.subPanels;
 
+import model.Matching;
 import model.Module;
 import model.Question;
 import model.Quiz;
@@ -9,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class QuizPanel2 extends JFrame {
@@ -21,6 +23,7 @@ public class QuizPanel2 extends JFrame {
     private JPanel buttonPanel;
     private JButton trueOrFalseButton;
     private JButton multiButton;
+    private JButton matchingButton;
     private ArrayList<Question> questionsList;
     private int timerAmount;
     private JFrame quizFrame;
@@ -62,9 +65,12 @@ public class QuizPanel2 extends JFrame {
 
         trueOrFalseButton = new JButton("Generate true/false quiz");
         multiButton = new JButton("Generate multiple choice quiz");
+        matchingButton = new JButton("Generate matching quiz");
+
 
         buttonPanel.add(trueOrFalseButton);
         buttonPanel.add(multiButton);
+        buttonPanel.add(matchingButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -74,6 +80,19 @@ public class QuizPanel2 extends JFrame {
         buttonGroups = new ArrayList<>();
 
         for (Question question : questionsList) {
+            if (question instanceof Matching) {
+                JPanel questionPanel = new JPanel(new GridLayout(0, 2));
+
+                ArrayList<String> matchAlternatives = ((Matching) question).getMatches();
+
+                for (String alternative : question.getAlternatives()) {
+                    JComboBox<String> comboBox = new JComboBox<>(new String[]{"A" , "B" , "C"});
+
+                }
+
+            }
+
+            else {
             JPanel questionPanel = new JPanel(new BorderLayout());
             questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
@@ -92,8 +111,11 @@ public class QuizPanel2 extends JFrame {
                 checkBox.setActionCommand(alternative);
                 buttonGroup.add(checkBox);
                 alternativesPanel.add(checkBox);
-            }
+                }
+
             quizPanel.add(questionPanel);
+
+            }
         }
         quizPanel.add(submitButton);
     }
@@ -103,7 +125,10 @@ public class QuizPanel2 extends JFrame {
         int counter = 0;
         for (ButtonGroup buttonGroup : buttonGroups) {
             Question currentQuestion = questionsList.get(counter);
-            String currentAnswer = buttonGroup.getSelection().getActionCommand();
+            String currentAnswer = "Empty";
+            if (buttonGroup.getSelection() != null) {
+                currentAnswer = buttonGroup.getSelection().getActionCommand();
+            }
 
             currentQuiz.addUserAnswer(currentQuestion, currentAnswer);
             counter++;
@@ -111,9 +136,9 @@ public class QuizPanel2 extends JFrame {
     }
 
     public void getTotalPoints() {
-        totalPoints = currentQuiz.getTotalPoints();
-        quizFrame.removeAll();
+        totalPoints = currentQuiz.CalculateTestResult();
 
+        quizFrame.getContentPane().removeAll();
 
         JPanel resultPanel = new JPanel(new BorderLayout());
         JLabel pointsLabel = new JLabel("Total Points: " + totalPoints, SwingConstants.CENTER);
@@ -150,13 +175,22 @@ public class QuizPanel2 extends JFrame {
 
     public void generateTrueOrFalse() {
         currentQuiz = new Quiz("True or False");
-        questionsList = currentModule.generateTrueOrFalseQuiz("C:\\Users\\ahmad\\Documents\\GitHub\\Quizzr\\src\\model\\files\\course2\\module1\\trueFalse_questions.txt",
+        questionsList = currentModule.generateTrueOrFalseQuiz("src/model/files/course2/module1/trueFalse_questions.txt",
                 10);
     }
 
     public void generateMultipleChoice() {
         currentQuiz = new Quiz("Multiple Choice");
-        questionsList = currentModule.generateMultipleChoiceQuiz("src/model/files/DA339A/inheritance_and_polymorphism/multiChoice-questions.txt", 10);
+        questionsList = currentModule.generateMultipleChoiceQuiz("src/model/files/course2/module1/multiChoice_questions.txt", 10);
+    }
+
+    public void generateMatching() {
+        currentQuiz = new Quiz("Matching");
+        questionsList = currentModule.generateMatchingQuiz("src/model/files/course2/module1/matching_questions.txt", 10);
+
+        for (Question question : questionsList) {
+            System.out.println(question.toString());
+        }
     }
 
     public void addActionListeners() {
@@ -172,6 +206,11 @@ public class QuizPanel2 extends JFrame {
 
         multiButton.addActionListener(e -> {
             generateMultipleChoice();
+            showQuiz();
+        });
+
+        matchingButton.addActionListener(e -> {
+            generateMatching();
             showQuiz();
         });
     }
