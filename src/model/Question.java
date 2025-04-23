@@ -25,6 +25,7 @@ public abstract class Question implements Serializable {
         this.points = points;
         this.correctAnswer = correctAnswer;
     }
+    public abstract List<String> getMatches();
 
     public String getQuestion() {
         return question;
