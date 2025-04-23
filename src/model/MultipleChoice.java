@@ -32,14 +32,13 @@ public class MultipleChoice extends Question {
     @Override
     public Question fromString(String line) {
         String [] parts = line.split(";");
-        if (parts.length <5) {
+        if (parts.length <6) {
             throw new IllegalArgumentException("Wrong number of parts: " + parts.length);
         }
-        String question = parts[0];
-        List<String> alternatives = Arrays.asList(parts[1], parts[2], parts[3]);
-        int points = Integer.parseInt(parts[4]);
-        String correctAnswer = parts[5];
-
+        String question = parts[0].trim();
+        List<String> alternatives = Arrays.asList(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim(), parts[5].trim());
+        String correctAnswer = parts[4].trim();
+        int points = Integer.parseInt(parts[5].trim());
         return new MultipleChoice(question, alternatives, correctAnswer,points);
     }
     public String toString() {
