@@ -9,17 +9,25 @@ import java.util.List;
 public class Module implements Serializable{
     private String name;
     private ArrayList<FlashCard> flashCards;
-    private final String quizFileName = "src/files/recent_quiz.dat";
     private Quiz currentQuiz;
     private final String matchingFileName = "matching_questions.txt";
     private final String multiChoiceFileName = "multiChoice_questions.txt";
     private final String trueOrFalseFileName = "trueFalse_questions.txt";
     private final String flashCardFileName = "flashCards.dat";
+    private final String quizFileName = "quiz.dat";
+    private File multiChoiceFile;
+    private File trueOrFalseFile;
+    private File matchingFile;
+    private File flashCardFile;
+    private File quizFile;
+    private File directory;
     FileHandler fileHandler = new FileHandler();
 
-    public Module(String name) {
+    public Module(String name, String coursePackageName) {
         this.name = name;
         this.flashCards = new ArrayList<>();
+        createPackage(coursePackageName);
+        createFiles();
     }
 
     public String getName() {
@@ -111,6 +119,19 @@ public class Module implements Serializable{
     private ArrayList<Question> generateRandomQuiz(ArrayList<Question> questions, int numberOfQuestions){
         Collections.shuffle(questions);
         return new ArrayList<>(questions.subList(0, Math.min(numberOfQuestions, questions.size())));
+    }
+    public void createPackage(String coursePackageName){
+        directory = new File("src/model/files/" + coursePackageName + "/" + name.trim());
+        if (!directory.exists()) {
+            boolean created = directory.mkdirs();
+        }
+    }
+    private void createFiles(){
+        this.multiChoiceFile = new File(directory, multiChoiceFileName);
+        this.trueOrFalseFile = new File(directory, trueOrFalseFileName);
+        this.matchingFile = new File(directory, matchingFileName);
+        this.flashCardFile = new File(directory, flashCardFileName);
+        this.quizFile = new File(directory, quizFileName);
     }
 
 }

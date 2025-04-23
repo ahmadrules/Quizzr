@@ -14,12 +14,14 @@ public class Program implements Serializable {
     public Program(String name, ArrayList<Course> courses) {
         this.name = name;
         this.courses = courses;
+
     }
 
     public Program(String name){
         this.name = name;
         courses = new ArrayList<>();
     }
+
     public String getName() {
         return name;
     }

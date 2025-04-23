@@ -44,18 +44,18 @@ public class Controller {
 
     public void createAndAddCourses(){
         //Creating courses and adding them to the list and to the programs
-        Course DA339A = new Course("Object-Oriented Programming");
-        Course DA343A = new Course("Object-Oriented Software Development, Threads and Data Communication");
-        Course DA336A = new Course("System Development and project");
+        Course DA339A = new Course("Object-Oriented Programming", "Object-OrientedProgramming");
+        Course DA343A = new Course("Object-Oriented Software Development, Threads And Data Communication", "Object-OrientedSoftwareDevelopment,ThreadsAndDataCommunication");
+        Course DA336A = new Course("System Development And project", "SystemDevelopmentAndProject");
 
         for(int m = 1; m <= 3; m++) {
-            DA339A.addModule(new Module("Module A"+ m));
+            DA339A.addModule(new Module("Module A"+ m, DA339A.getPackageName()));
         }
         for(int m = 1; m <= 3; m++) {
-            DA343A.addModule(new Module("Module B"+ m));
+            DA343A.addModule(new Module("Module B"+ m, DA343A.getPackageName()));
         }
         for(int m = 1; m <= 3; m++) {
-            DA336A.addModule(new Module("Module C"+ m));
+            DA336A.addModule(new Module("Module C"+ m, DA336A.getPackageName()));
         }
         courses.add(DA339A);
         courses.add(DA343A);
@@ -220,8 +220,9 @@ public class Controller {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
             if(currentProgram.getName().equals(programName)){
-                Course newCourse = new Course(courseName);
+                Course newCourse = new Course(courseName, courseName.trim());
                 currentProgram.addNewCourse(newCourse);
+                //TODO create a new package for the new course
                 courses.add(newCourse);
             }
         }
@@ -231,18 +232,20 @@ public class Controller {
     public void addNewModule(String courseName, String moduleName){
 
         Course requestedCourse = null;
+        Program requestedProgram = null;
         for(int p = 0; p < programList.size(); p++){
             Program currentProgram = programList.get(p);
             for(int c = 0; c < currentProgram.getCourses().size(); c++){
                 Course currentCourse = currentProgram.getCourses().get(c);
                 if(currentCourse.getName().equals(courseName)){
+                    requestedProgram = currentProgram;
                     requestedCourse = currentCourse;
                     break;
                 }
             }
         }
-        Module newModule = new Module(moduleName);
         if(requestedCourse != null) {
+            Module newModule = new Module(moduleName, requestedCourse.getPackageName());
             requestedCourse.addModule(newModule);
         }
         updateProgramsInFile();
@@ -256,6 +259,7 @@ public class Controller {
                     Course currentCourse = currentProgram.getCourses().get(c);
                     if(currentCourse.getName().equals(courseName)){
                         currentProgram.getCourses().remove(c);
+                        //TODO remove the package for the course
                         courses.remove(currentCourse);
                         break;
                     }

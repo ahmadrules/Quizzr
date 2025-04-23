@@ -55,8 +55,7 @@ public class FlashcardPanel extends JPanel {
 
          */
         // TODO: Add, Edit och Delete-funktioner kan kopplas till controller-metoder
-    }
-}
+
 
 
 /**

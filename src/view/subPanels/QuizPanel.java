@@ -67,12 +67,7 @@ public class QuizPanel extends JPanel {
          */
 
         // TODO: Add, Edit och Delete-funktioner kan implementeras vid behov
-    }
-}
 
-
-
- */
 /**
     Metoder för controller:
 
