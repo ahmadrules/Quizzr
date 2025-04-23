@@ -31,6 +31,7 @@ public class QuizPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(quizList);
         add(scrollPane, BorderLayout.CENTER);
 
+        /*
         // === Hämta quizfrågor via controller ===
         ArrayList<Question> questions = controller.getQuestionsForModule(moduleName);
         for (int i = 0; i < questions.size(); i++) {
@@ -60,6 +61,8 @@ public class QuizPanel extends JPanel {
                 controller.startQuizForModule(moduleName, selectedQuizName);
             }
         });
+
+         */
 
         // TODO: Add, Edit och Delete-funktioner kan implementeras vid behov
     }
