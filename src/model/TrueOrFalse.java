@@ -11,6 +11,11 @@ public class TrueOrFalse extends Question {
     }
 
     @Override
+    public List<String> getMatches() {
+        return null;
+    }
+
+    @Override
     public int calculatePoints() {
         return getPoints();
     }

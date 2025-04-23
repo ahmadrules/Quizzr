@@ -31,8 +31,8 @@ public class Matching extends Question {
     public void setCorrectMatches(HashMap<String, Integer> correctMatches) {
         this.correctMatches = correctMatches;
     }
-    public ArrayList<String> getMatches() {
-        return (ArrayList<String>) matches;
+    public List<String> getMatches() {
+        return  matches;
     }
 
     @Override

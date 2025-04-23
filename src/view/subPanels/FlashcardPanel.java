@@ -33,7 +33,6 @@ public class FlashcardPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(flashcardList);
         add(scrollPane, BorderLayout.CENTER);
 
-        /*
         // === Hämta flashcards via controller ===
         ArrayList<FlashCard> flashCards = controller.getFlashcardsForModule(moduleName);
         for (int i = 0; i < flashCards.size(); i++) {
@@ -52,10 +51,7 @@ public class FlashcardPanel extends JPanel {
         buttonPanel.add(deleteButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-
-         */
         // TODO: Add, Edit och Delete-funktioner kan kopplas till controller-metoder
-
 
 
 /**
