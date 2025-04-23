@@ -7,13 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class FlashcardPanel extends JPanel {  
+public class FlashcardPanel extends JPanel {
     private Controller controller;
     private String moduleName;
     private JList<String> flashcardList;
     private DefaultListModel<String> flashcardListModel;
+}
 
-  
+/*
 
     public FlashcardPanel(String moduleName, Controller controller) {
         this.moduleName = moduleName;
@@ -78,5 +79,6 @@ public ArrayList<FlashCard> getFlashcardsForModule(String moduleName) {
     return new ArrayList<>();
 }
 */
+
 
 

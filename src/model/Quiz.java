@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Quiz implements Serializable {
     private List<Question> questions;
-    private Map<Question,String> userAnswers;// här finns det en link mellan vilken fråga ställs och svaret som användaren anger
+    private Map<Question,String> userAnswers; //här finns det en link mellan vilken fråga ställs och svaret som användaren anger
     private String name;
     private int result;
 
@@ -15,13 +15,15 @@ public class Quiz implements Serializable {
         this.result = 0;
         this.userAnswers = new LinkedHashMap<>();
     }
+
     public void setResult(int result) {
         this.result = result;
     }
     public int getResult() {
         return result;
     }
-    // primärt 
+
+    // primärt
     public int CalculateTestResult(){
         int total = 0;
         for (Map.Entry<Question,String> entry : userAnswers.entrySet()) {

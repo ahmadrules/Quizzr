@@ -1,19 +1,21 @@
 package view.subPanels;
 
 import controller.Controller;
+import model.Question;
 import model.Quiz;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class QuizPanel extends JPanel {    
+public class QuizPanel extends JPanel {
     private Controller controller;
     private String moduleName;
     private JList<String> quizList;
     private DefaultListModel<String> quizListModel;
+}
 
-
+/*
     public QuizPanel(String moduleName, Controller controller) {
         this.moduleName = moduleName;
         this.controller = controller;
@@ -69,6 +71,8 @@ public class QuizPanel extends JPanel {
 }
 
 
+
+ */
 /**
     Metoder för controller:
 
