@@ -8,10 +8,11 @@ import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuizPanel2 extends JFrame {
     private Module currentModule;
@@ -30,8 +31,10 @@ public class QuizPanel2 extends JFrame {
     private int questionId;
     private JPanel quizPanel;
     private ArrayList<ButtonGroup> buttonGroups;
+    private ArrayList<JComboBox> comboBoxes;
     private int totalPoints;
     private JButton submitButton;
+    private HashMap<Integer, ArrayList<JComboBox>> comboBoxMap;
 
     public QuizPanel2(String selectedProgram, String selectedCourse, String selectedModule, MainFrame mainFrame) {
         this.selectedProgram = selectedProgram;
@@ -51,11 +54,10 @@ public class QuizPanel2 extends JFrame {
 
     public void setLayout() {
         setLayout(new BorderLayout());
-        setSize(400, 200);
+        setSize(700, 200);
 
         JLabel quizLabel = new JLabel("Available quiz", SwingConstants.CENTER);
         add(quizLabel, BorderLayout.NORTH);
-
     }
 
 
@@ -77,26 +79,63 @@ public class QuizPanel2 extends JFrame {
 
     public void setupQuestions() {
         questionId = 1;
+        int mapCounter = 0;
         buttonGroups = new ArrayList<>();
+        comboBoxes = new ArrayList<>();
+        comboBoxMap = new HashMap<Integer, ArrayList<JComboBox>>();
 
         for (Question question : questionsList) {
             if (question instanceof Matching) {
-                JPanel questionPanel = new JPanel(new GridLayout(0, 2));
+                int counter = 1;
+                comboBoxes = new ArrayList<>();
 
-                ArrayList<String> matchAlternatives = ((Matching) question).getMatches();
+                JPanel questionPanel = new JPanel(new BorderLayout());
+
+                JLabel query = new JLabel(questionId++ + ". " + question.getQuestion());
+                query.setFont(new Font("Arial", Font.BOLD, 16));
+
+                questionPanel.add(query, BorderLayout.NORTH);
+
+                JPanel alternativesPanel = new JPanel(new GridLayout(0, 2));
+
+                List<String> matchAlternatives = question.getMatches();
+
+                String[] letters = new String[]{"A" , "B" , "C"};
 
                 for (String alternative : question.getAlternatives()) {
-                    JComboBox<String> comboBox = new JComboBox<>(new String[]{"A" , "B" , "C"});
+                    JComboBox<String> comboBox = new JComboBox<>(letters);
+                    comboBoxes.add(comboBox);
+                    comboBox.setName(Integer.toString(counter));
+
+                    JPanel comboBoxPanel = new JPanel(new BorderLayout());
+
+                    JLabel alternativeLabel = new JLabel(alternative);
+                    alternativeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+
+                    JLabel matchLabel = new JLabel(matchAlternatives.get(counter++ - 1));
+                    matchLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+
+                    comboBoxPanel.add(comboBox, BorderLayout.WEST);
+
+                    comboBoxPanel.add(matchLabel, BorderLayout.CENTER);
+
+                    alternativesPanel.add(alternativeLabel);
+                    alternativesPanel.add(comboBoxPanel);
+                    alternativesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
                 }
-
+                comboBoxMap.put(mapCounter++, comboBoxes);
+                questionPanel.add(alternativesPanel);
+                quizPanel.add(questionPanel, BorderLayout.CENTER);
             }
 
             else {
+
             JPanel questionPanel = new JPanel(new BorderLayout());
             questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
             JLabel query = new JLabel(questionId++ + ". " + question.getQuestion());
+            query.setFont(new Font("Arial", Font.BOLD, 16));
             questionPanel.add(query, BorderLayout.NORTH);
 
             ButtonGroup buttonGroup = new ButtonGroup();
@@ -104,34 +143,53 @@ public class QuizPanel2 extends JFrame {
 
             JPanel alternativesPanel = new JPanel();
             alternativesPanel.setLayout(new BoxLayout(alternativesPanel, BoxLayout.Y_AXIS));
+            alternativesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
             questionPanel.add(alternativesPanel, BorderLayout.CENTER);
 
             for (String alternative : question.getAlternatives()) {
                 JRadioButton checkBox = new JRadioButton(alternative);
+                checkBox.setFont(new Font("Arial", Font.PLAIN, 14));
                 checkBox.setActionCommand(alternative);
                 buttonGroup.add(checkBox);
                 alternativesPanel.add(checkBox);
                 }
 
             quizPanel.add(questionPanel);
-
             }
         }
-        quizPanel.add(submitButton);
+        quizPanel.add(submitButton, BorderLayout.SOUTH);
     }
 
 
     public void getUserAnswers() {
-        int counter = 0;
-        for (ButtonGroup buttonGroup : buttonGroups) {
-            Question currentQuestion = questionsList.get(counter);
-            String currentAnswer = "Empty";
-            if (buttonGroup.getSelection() != null) {
-                currentAnswer = buttonGroup.getSelection().getActionCommand();
-            }
+        AtomicInteger counter = new AtomicInteger();
 
-            currentQuiz.addUserAnswer(currentQuestion, currentAnswer);
-            counter++;
+        if (buttonGroups != null && !buttonGroups.isEmpty()) {
+            for (ButtonGroup buttonGroup : buttonGroups) {
+                Question currentQuestion = questionsList.get(counter.get());
+                String currentAnswer = "Empty";
+                if (buttonGroup.getSelection() != null) {
+                    currentAnswer = buttonGroup.getSelection().getActionCommand();
+                }
+
+                currentQuiz.addUserAnswer(currentQuestion, currentAnswer);
+                counter.getAndIncrement();
+            }
+        }
+
+        else {
+            if (comboBoxes != null && !comboBoxes.isEmpty()) {
+                for (Map.Entry<Integer, ArrayList<JComboBox>> entry : comboBoxMap.entrySet()) {
+                    ArrayList<JComboBox> comboBoxes1 = entry.getValue();
+                    String currentAnswer = "";
+                    for (JComboBox comboBox : comboBoxes1) {
+                        currentAnswer = currentAnswer + comboBox.getSelectedItem() + ":" + comboBox.getName() + ",";
+                    }
+                    System.out.println(currentAnswer);
+                    currentQuiz.addUserAnswer(questionsList.get(counter.getAndIncrement()), currentAnswer);
+                }
+            }
         }
     }
 
@@ -157,7 +215,7 @@ public class QuizPanel2 extends JFrame {
     public void showQuiz() {
         quizFrame = new JFrame("The Quiz");
         quizFrame.setLayout(new BorderLayout());
-        quizFrame.setSize(500, 500);
+        quizFrame.setSize(400, 500);
 
         quizPanel = new JPanel();
         quizPanel.setLayout(new BoxLayout(quizPanel, BoxLayout.Y_AXIS));
