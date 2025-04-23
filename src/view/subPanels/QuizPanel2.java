@@ -42,7 +42,6 @@ public class QuizPanel2 extends JFrame {
         setLayout();
         fetchModule();
         createButtonPanel();
-        addEventListeners();
         addActionListeners();
         setVisible(true);
     }
@@ -56,12 +55,6 @@ public class QuizPanel2 extends JFrame {
 
     }
 
-    public void addEventListeners() {
-        trueOrFalseButton.addActionListener(e -> {
-           questionsList = generateTrueOrFalse();
-           showQuiz();
-        });
-    }
 
     public void createButtonPanel() {
         buttonPanel = new JPanel();
@@ -76,9 +69,9 @@ public class QuizPanel2 extends JFrame {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public void setupTrueOrFalseQuestions() {
+    public void setupQuestions() {
         questionId = 1;
-        buttonGroups = new ArrayList<ButtonGroup>();
+        buttonGroups = new ArrayList<>();
 
         for (Question question : questionsList) {
             JPanel questionPanel = new JPanel(new BorderLayout());
@@ -87,32 +80,24 @@ public class QuizPanel2 extends JFrame {
             JLabel query = new JLabel(questionId++ + ". " + question.getQuestion());
             questionPanel.add(query, BorderLayout.NORTH);
 
-            JPanel answerPanel = new JPanel();
-            answerPanel.setLayout(new BoxLayout(answerPanel, BoxLayout.Y_AXIS));
-
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroups.add(buttonGroup);
 
-            JRadioButton trueRadioButton = new JRadioButton("True");
-            trueRadioButton.setActionCommand("True");
-            buttonGroup.add(trueRadioButton);
+            JPanel alternativesPanel = new JPanel();
+            alternativesPanel.setLayout(new BoxLayout(alternativesPanel, BoxLayout.Y_AXIS));
+            questionPanel.add(alternativesPanel, BorderLayout.CENTER);
 
-            JRadioButton falseRadioButton = new JRadioButton("False");
-            falseRadioButton.setActionCommand("False");
-            buttonGroup.add(falseRadioButton);
-
-            answerPanel.add(trueRadioButton);
-            answerPanel.add(falseRadioButton);
-
-            questionPanel.add(answerPanel, BorderLayout.CENTER);
-
+            for (String alternative : question.getAlternatives()) {
+                JRadioButton checkBox = new JRadioButton(alternative);
+                checkBox.setActionCommand(alternative);
+                buttonGroup.add(checkBox);
+                alternativesPanel.add(checkBox);
+            }
             quizPanel.add(questionPanel);
         }
-
-
         quizPanel.add(submitButton);
-
     }
+
 
     public void getUserAnswers() {
         int counter = 0;
@@ -147,12 +132,12 @@ public class QuizPanel2 extends JFrame {
     public void showQuiz() {
         quizFrame = new JFrame("The Quiz");
         quizFrame.setLayout(new BorderLayout());
-        quizFrame.setSize(400, 200);
+        quizFrame.setSize(500, 500);
 
         quizPanel = new JPanel();
         quizPanel.setLayout(new BoxLayout(quizPanel, BoxLayout.Y_AXIS));
 
-        setupTrueOrFalseQuestions();
+        setupQuestions();
         JScrollPane scrollPane = new JScrollPane(quizPanel);
 
         quizFrame.add(scrollPane, BorderLayout.CENTER);
@@ -163,23 +148,31 @@ public class QuizPanel2 extends JFrame {
         currentModule = mainFrame.getCurrentModule(selectedProgram, selectedCourse, selectedModule);
     }
 
-    public ArrayList<Question> generateTrueOrFalse() {
+    public void generateTrueOrFalse() {
         currentQuiz = new Quiz("True or False");
-        ArrayList<Question> questions;
-        questions = currentModule.generateTrueOrFalseQuiz("C:\\Users\\ahmad\\Documents\\GitHub\\Quizzr\\src\\model\\files\\course2\\module1\\trueFalse_questions.txt",
+        questionsList = currentModule.generateTrueOrFalseQuiz("C:\\Users\\ahmad\\Documents\\GitHub\\Quizzr\\src\\model\\files\\course2\\module1\\trueFalse_questions.txt",
                 10);
+    }
 
-        for (Question question : questions) {
-            System.out.println(question);
-        }
-
-        return questions;
+    public void generateMultipleChoice() {
+        currentQuiz = new Quiz("Multiple Choice");
+        questionsList = currentModule.generateMultipleChoiceQuiz("src/model/files/DA339A/inheritance_and_polymorphism/multiChoice-questions.txt", 10);
     }
 
     public void addActionListeners() {
         submitButton.addActionListener(e -> {
             getUserAnswers();
             getTotalPoints();
+        });
+
+        trueOrFalseButton.addActionListener(e -> {
+            generateTrueOrFalse();
+            showQuiz();
+        });
+
+        multiButton.addActionListener(e -> {
+            generateMultipleChoice();
+            showQuiz();
         });
     }
 }
