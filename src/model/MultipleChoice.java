@@ -25,7 +25,7 @@ public class MultipleChoice extends Question {
     // trim get rid of any extra space that might be in the start of users answer
     @Override
     public boolean checkAnswer(String usersAnswer) {
-        return usersAnswer.trim().equalsIgnoreCase(correctAnswer.substring(0, 1));
+        return usersAnswer.trim().equalsIgnoreCase(correctAnswer);
     }
     // splits the String representing the question, alternativs and the correctAnswer
     //it returns an object of multiple choice question
