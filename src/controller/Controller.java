@@ -24,7 +24,7 @@ public class Controller {
         programs = new ArrayList<>();
         courses = new ArrayList<>();
 
-        currentUser = new User("User" , "test123" , "user@email.com");
+        currentUser = new User("admin" , "admin" , "admin@email.com");
 
         createAndAddPrograms();
         createAndAddCourses();

@@ -213,7 +213,19 @@ public class LogInFrame extends JFrame {
             String username = usernameField.getText();
             String password = passwordField.getText();
             if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-                //@TODO Add function for logging in
+                if (username.equals("admin")) {
+                    if (password.equals("admin")) {
+                        mainFrame.createAndShowGUI();
+                        setVisible(false);
+                    }
+
+                    else {
+                        JOptionPane.showMessageDialog(mainPanel, "Incorrect password");
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(mainFrame, "User does not exist");
+                }
             }
             else {
                 JOptionPane.showMessageDialog(mainFrame, "Username and password required");

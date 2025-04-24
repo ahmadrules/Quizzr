@@ -25,13 +25,10 @@ public class MainFrame extends JFrame implements Runnable {
         this.controller = controller;
     }
 
-    private void createAndShowGUI() {
-        this.setTitle("Quizzr");
+    public void createAndShowGUI() {
+        this.setTitle("QuizR");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 400);
-
-        //Login page is initialized here.
-        LogInFrame logInFrame = new LogInFrame(this);
 
         /*
         Container for all the different panels in the center is initialized here.
@@ -61,6 +58,11 @@ public class MainFrame extends JFrame implements Runnable {
         this.add(splitPane, BorderLayout.CENTER);
         this.add(rightPanel, BorderLayout.EAST);
         this.setVisible(true);
+    }
+
+    public void startLogin() {
+        //Login page is initialized here.
+        LogInFrame logInFrame = new LogInFrame(this);
     }
 
     public String[] getCoursesNames(String selectedProgramName){
@@ -152,7 +154,7 @@ public class MainFrame extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        createAndShowGUI();
+        startLogin();
     }
 }
 

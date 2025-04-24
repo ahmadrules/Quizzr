@@ -8,10 +8,15 @@ import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuizPanel2 extends JFrame {
@@ -35,6 +40,12 @@ public class QuizPanel2 extends JFrame {
     private int totalPoints;
     private JButton submitButton;
     private HashMap<Integer, ArrayList<JComboBox>> comboBoxMap;
+    private AtomicBoolean userInput = new AtomicBoolean(true);
+    private ItemListener comboBoxListener;
+    private ArrayList<JComboBox> allComboBoxes;
+    private ItemListener comboBoxListenerSelected;
+    private ItemListener comboBoxListenerDeselected;
+    private String previousItem;
 
     public QuizPanel2(String selectedProgram, String selectedCourse, String selectedModule, MainFrame mainFrame) {
         this.selectedProgram = selectedProgram;
@@ -42,9 +53,12 @@ public class QuizPanel2 extends JFrame {
         this.selectedModule = selectedModule;
         this.mainFrame = mainFrame;
 
+        allComboBoxes = new ArrayList<JComboBox>();
+
         submitButton = new JButton("Submit");
 
         setTitle("Quiz Panel");
+        createComboBoxListeners();
         setLayout();
         fetchModule();
         createButtonPanel();
@@ -85,6 +99,8 @@ public class QuizPanel2 extends JFrame {
         comboBoxMap = new HashMap<Integer, ArrayList<JComboBox>>();
 
         for (Question question : questionsList) {
+
+            //Matching questions are set up here.
             if (question instanceof Matching) {
                 int counter = 1;
                 comboBoxes = new ArrayList<>();
@@ -105,14 +121,22 @@ public class QuizPanel2 extends JFrame {
                 for (String alternative : question.getAlternatives()) {
                     JComboBox<String> comboBox = new JComboBox<>(letters);
                     comboBoxes.add(comboBox);
+
+                    //Set labels
                     comboBox.setName(Integer.toString(counter));
+                    comboBox.setSelectedIndex(counter - 1);
+                    comboBox.setActionCommand(Integer.toString(mapCounter));
+
+                    //Add listeners
+                    comboBox.addItemListener(comboBoxListenerSelected);
+                    comboBox.addItemListener(comboBoxListenerDeselected);
 
                     JPanel comboBoxPanel = new JPanel(new BorderLayout());
 
                     JLabel alternativeLabel = new JLabel(alternative);
                     alternativeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
-                    JLabel matchLabel = new JLabel(matchAlternatives.get(counter++ - 1));
+                    JLabel matchLabel = new JLabel(matchAlternatives.get(counter - 1));
                     matchLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
                     comboBoxPanel.add(comboBox, BorderLayout.WEST);
@@ -122,15 +146,16 @@ public class QuizPanel2 extends JFrame {
                     alternativesPanel.add(alternativeLabel);
                     alternativesPanel.add(comboBoxPanel);
                     alternativesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    counter++;
 
                 }
                 comboBoxMap.put(mapCounter++, comboBoxes);
                 questionPanel.add(alternativesPanel);
-                quizPanel.add(questionPanel, BorderLayout.CENTER);
+                quizPanel.add(questionPanel);
             }
 
+            //True/false and multiple choice questions are set up here.
             else {
-
             JPanel questionPanel = new JPanel(new BorderLayout());
             questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
@@ -267,5 +292,37 @@ public class QuizPanel2 extends JFrame {
             generateMatching();
             showQuiz();
         });
+    }
+
+    public void createComboBoxListeners () {
+        comboBoxListenerSelected = e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                JComboBox currentComboBox = (JComboBox) e.getSource();
+
+                String currentItem = (String) e.getItem();
+
+                int key = Integer.parseInt(currentComboBox.getActionCommand());
+
+                ArrayList<JComboBox> currentComboLists = comboBoxMap.get(key);
+
+                for (JComboBox currentBox : currentComboLists) {
+                    if (currentBox.getSelectedItem().equals(currentItem) && currentBox != currentComboBox) {
+                        currentBox.removeItemListener(comboBoxListenerSelected);
+                        currentBox.removeItemListener(comboBoxListenerDeselected);
+
+                        currentBox.setSelectedItem(previousItem);
+
+                        currentBox.addItemListener(comboBoxListenerSelected);
+                        currentBox.addItemListener(comboBoxListenerDeselected);
+                    }
+                }
+            }
+        };
+
+        comboBoxListenerDeselected = e -> {
+            if (e.getStateChange() == ItemEvent.DESELECTED) {
+                previousItem = (String) e.getItem();
+            }
+        };
     }
 }
