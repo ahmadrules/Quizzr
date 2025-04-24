@@ -26,7 +26,7 @@ public class MainFrame extends JFrame implements Runnable {
     }
 
     private void createAndShowGUI() {
-        this.setTitle("QuizR");
+        this.setTitle("Quizzr");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 400);
 

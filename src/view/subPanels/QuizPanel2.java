@@ -186,7 +186,7 @@ public class QuizPanel2 extends JFrame {
                     for (JComboBox comboBox : comboBoxes1) {
                         currentAnswer = currentAnswer + comboBox.getSelectedItem() + ":" + comboBox.getName() + ",";
                     }
-                    System.out.println(currentAnswer);
+                    //System.out.println(currentAnswer);
                     currentQuiz.addUserAnswer(questionsList.get(counter.getAndIncrement()), currentAnswer);
                 }
             }
@@ -245,10 +245,6 @@ public class QuizPanel2 extends JFrame {
     public void generateMatching() {
         currentQuiz = new Quiz("Matching");
         questionsList = currentModule.generateMatchingQuiz("src/model/files/course2/module1/matching_questions.txt", 10);
-
-        for (Question question : questionsList) {
-            System.out.println(question.toString());
-        }
     }
 
     public void addActionListeners() {

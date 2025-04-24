@@ -1,12 +1,10 @@
 # Quizzr
 Quizzr grupp 26 MAU
 
-Detta README fil genererades [2025-04-02] by Sara Sheikho
-
 Information om versionen:
 - Projekt: QuizR
 - Länk till repository: https://github.com/ahmadrules/Quizzr
-- Version som ska granskas: 
+- Version som ska granskas: Quizzr-2.0
 
 Instruktioner för att köra koden:
 1. Öppna projektet med Intellij IDEA (eller öppna `src`-filerna i en annan editor)
