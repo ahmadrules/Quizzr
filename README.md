@@ -2,7 +2,7 @@
 Quizzr grupp 26 MAU
 
 Information om versionen:
-- Projekt: QuizR
+- Projekt: Quizzr
 - Länk till repository: https://github.com/ahmadrules/Quizzr
 - Version som ska granskas: Quizzr-2.0
 
