@@ -48,7 +48,6 @@ public class MultipleChoice extends Question {
     }
     public String toString() {
         return "Question: " + question + "\n" +
-                "Alternatives: " + alternatives + "\n" +
-                "Points: " + points + "\n";
+                "Alternatives: " + alternatives + "\n" ;
     }
 }
