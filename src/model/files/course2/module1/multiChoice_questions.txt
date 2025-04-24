@@ -2,11 +2,20 @@ What is the capital of France?;Rome;Paris;Madrid;Paris;3
 
 Which planet is known as the Red Planet?;Mars;Jupiter;Venus;Mars;3
 
-Which planet is known as the Red Planet?;Mars;Jupiter;Venus;Mars;3
+What is the largest planet in our solar system?;Jupiter;Saturn;Mars;Jupiter;3
 
-Which planet is known as the Red Planet?;Mars;Jupiter;Venus;Mars;3
+Which element has the chemical symbol 'O'?;Oxygen;Gold;Iron;Oxygen;3
 
-Which planet is known as the Red Planet?;Mars;Jupiter;Venus;Mars;3
+What gas do plants absorb from the atmosphere?;Oxygen;Carbon Dioxide;Hydrogen;Carbon Dioxide;3
+
+Which ocean is the largest on Earth?;Atlantic;Indian;Pacific;Pacific;3
+
+What is the boiling point of water at sea level (in Celsius)?;90;100;110;100;2
+
+What is the smallest prime number?;0;1;2;2;3
+
+Who painted the Mona Lisa?;Da Vinci;Van Gogh;Picasso;Da Vinci;1
+
 
 
 

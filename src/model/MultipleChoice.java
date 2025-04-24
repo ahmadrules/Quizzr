@@ -41,14 +41,13 @@ public class MultipleChoice extends Question {
             throw new IllegalArgumentException("Wrong number of parts: " + parts.length);
         }
         String question = parts[0].trim();
-        List<String> alternatives = Arrays.asList(parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim(), parts[5].trim());
+        List<String> alternatives = Arrays.asList(parts[1].trim(), parts[2].trim(), parts[3].trim());
         String correctAnswer = parts[4].trim();
         int points = Integer.parseInt(parts[5].trim());
         return new MultipleChoice(question, alternatives, correctAnswer,points);
     }
     public String toString() {
         return "Question: " + question + "\n" +
-                "Alternatives: " + alternatives + "\n" +
-                "Points: " + points + "\n";
+                "Alternatives: " + alternatives + "\n" ;
     }
 }
