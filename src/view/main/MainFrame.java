@@ -154,7 +154,8 @@ public class MainFrame extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        startLogin();
+        //startLogin();
+        createAndShowGUI();
     }
 }
 
