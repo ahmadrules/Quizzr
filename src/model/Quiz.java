@@ -23,6 +23,10 @@ public class Quiz implements Serializable {
         return result;
     }
 
+    public String getName() {
+        return name;
+    }
+
     // primärt
     public int CalculateTestResult(){
         int total = 0;
@@ -34,6 +38,10 @@ public class Quiz implements Serializable {
             }
         }
         return total;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
     }
 
     public void addQuestion(Question question){

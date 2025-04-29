@@ -26,7 +26,7 @@ public class MainFrame extends JFrame implements Runnable {
     }
 
     public void createAndShowGUI() {
-        this.setTitle("Quizzr");
+        this.setTitle("QuizR");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 400);
 
@@ -154,7 +154,7 @@ public class MainFrame extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        //startLogin();
+        startLogin();
         createAndShowGUI();
     }
 }
