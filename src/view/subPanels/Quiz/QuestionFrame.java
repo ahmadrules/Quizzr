@@ -119,7 +119,7 @@ public class QuestionFrame extends JFrame {
 
                 JPanel questionPanel = new JPanel(new BorderLayout());
 
-                JLabel query = new JLabel(questionId++ + ". " + question.getQuestion());
+                JLabel query = new JLabel(questionId++ + ". " + question.getQuery());
                 query.setFont(new Font("Arial", Font.BOLD, 16));
 
                 questionPanel.add(query, BorderLayout.NORTH);
@@ -171,7 +171,7 @@ public class QuestionFrame extends JFrame {
                 JPanel questionPanel = new JPanel(new BorderLayout());
                 questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
-                JLabel query = new JLabel(questionId++ + ". " + question.getQuestion());
+                JLabel query = new JLabel(questionId++ + ". " + question.getQuery());
                 query.setFont(new Font("Arial", Font.BOLD, 16));
                 questionPanel.add(query, BorderLayout.NORTH);
 

@@ -111,7 +111,7 @@ public class Matching extends Question {
         }
         // String correctMatchesStr = String.join(",", correctList);
 
-        return getQuestion() + "\n" + alternativesStr + "\n" + matchesStr + "\n" + getPoints()+"\n";
+        return getQuery() + "\n" + alternativesStr + "\n" + matchesStr + "\n" + getPoints()+"\n";
     }
 
 }

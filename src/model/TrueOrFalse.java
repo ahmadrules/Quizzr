@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class TrueOrFalse extends Question {
     }
     @Override
     public String toString() {
-        return "Question: " + question + "\n" +
+        return "Question: " + query + "\n" +
                 "Alternatives: " + alternatives + "\n" +
                 "Points: " + points + "\n";
     }

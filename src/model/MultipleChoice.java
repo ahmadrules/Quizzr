@@ -1,37 +1,72 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Used to create a multiple choice question object and save information about it
+ * It inherits from the class Question
+ * @author Lilas Beirakdar
+ */
 public class MultipleChoice extends Question {
-
-    public MultipleChoice(String question, List<String> alternatives , String correctAnswer, int points) {
-        super(question,alternatives,points, correctAnswer);
+    /**
+     * A constructor used to create an object of multiple choice question
+     * @param query the part representing the question
+     * @param alternatives a list of available alternatives to choose from
+     * @param correctAnswer the correct answer of the question
+     * @param points number of points earned after answering the question correctly
+     */
+    public MultipleChoice(String query, List<String> alternatives , String correctAnswer, int points) {
+        super(query,alternatives,points, correctAnswer);
     }
     public void addAlternative(String alternative) {
         this.alternatives.add(alternative);
     }
+    /**
+     * Method used to retrieve the correct answer of a specific question
+     * @return correctAnswer a String representing the correct answer
+     * @author Lilas Beirakdar
+     */
     public String getCorrectAnswer() {
         return correctAnswer;
     }
-
+    /**
+     * Method used to retrieve a list of matches
+     * in the case of multiple choice question it will return null
+     * @return null value
+     */
     @Override
     public List<String> getMatches() {
         return null;
     }
-
+    /**
+     * Method used to calculate the number of points the user will get after answering the question
+     * In Multiple choice case it will return the number of points
+     * @return number of points
+     */
     @Override
     public int calculatePoints() {
         return getPoints();
     }
 
-    // subString takes only the first letter from the correctAnswer
-    // trim get rid of any extra space that might be in the start of users answer
+    /**
+     * Used to check users answer, returns true if the answer is equal to correct answer
+     * @param usersAnswer users answer as a String
+     * @return boolean indicating if users answer is right or wrong
+     * @author Lilas Beirakdar
+     */
     @Override
     public boolean checkAnswer(String usersAnswer) {
         return usersAnswer.trim().equalsIgnoreCase(correctAnswer);
     }
+
+    /**
+     * Creates a {@link MultipleChoice} question object from a semicolon-separated string.
+     * @param line  the semicolon-separated string representing a multiple choice question
+     * @return a new multiple choice question
+     * @throws IllegalArgumentException if the input line does not contain at least 6 parts
+     * @author Lilas Beirakdar
+     */
     // splits the String representing the question, alternativs and the correctAnswer
     //it returns an object of multiple choice question
     @Override
@@ -46,8 +81,13 @@ public class MultipleChoice extends Question {
         int points = Integer.parseInt(parts[5].trim());
         return new MultipleChoice(question, alternatives, correctAnswer,points);
     }
+    /**
+     * Returns a string representation of the question.
+     * @return a string describing the question and its alternatives
+     * @author Lilas Beirakdar
+     */
     public String toString() {
-        return "Question: " + question + "\n" +
+        return "Question: " + query + "\n" +
                 "Alternatives: " + alternatives + "\n" ;
     }
 }

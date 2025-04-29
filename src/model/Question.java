@@ -1,17 +1,16 @@
 package model;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Question implements Serializable {
-    protected String question;
+    protected String query;
     protected List<String> alternatives;
     protected int points;
     protected String correctAnswer;
 
     public Question(String question,List<String> alternatives,int points) {
-        this.question = question;
+        this.query = question;
         this.alternatives = alternatives;
         this.points = points;
     }
@@ -19,16 +18,16 @@ public abstract class Question implements Serializable {
         return alternatives;
     }
 
-    public Question(String question,List<String> alternatives,int points, String correctAnswer) {
-        this.question = question;
+    public Question(String query,List<String> alternatives,int points, String correctAnswer) {
+        this.query = query;
         this.alternatives = alternatives;
         this.points = points;
         this.correctAnswer = correctAnswer;
     }
     public abstract List<String> getMatches();
 
-    public String getQuestion() {
-        return question;
+    public String getQuery() {
+        return query;
     }
     public int getPoints() {
         return points;
