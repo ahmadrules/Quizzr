@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class QuestionFrame extends JFrame {
-    private ArrayList<Question> questionList;
+    private List<Question> questionList;
     private MainQuizFrame mainQuizFrame;
     private JPanel mainQuestionPanel;
     private ArrayList<ButtonGroup> buttonGroups;
@@ -26,7 +26,7 @@ public class QuestionFrame extends JFrame {
     private String previousItem;
     private Quiz currentQuiz;
 
-    public QuestionFrame(ArrayList<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame) {
+    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame) {
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
@@ -36,12 +36,9 @@ public class QuestionFrame extends JFrame {
         setSize(400, 500);
 
         createComboBoxListeners();
-        addListeners();
         setupPanel();
         setupQuestions();
-        JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
-
-        add(scrollPane, BorderLayout.CENTER);
+        addListeners();
         setVisible(true);
     }
 
@@ -98,12 +95,12 @@ public class QuestionFrame extends JFrame {
     
     public void setupPanel() {
         mainQuestionPanel = new JPanel();
-        setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
+        mainQuestionPanel.setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
         submitButton = new JButton("Submit");
 
         JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
 
-        add(scrollPane);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     public void setupQuestions() {
@@ -198,7 +195,7 @@ public class QuestionFrame extends JFrame {
                 mainQuestionPanel.add(questionPanel);
             }
         }
-        mainQuestionPanel.add(submitButton, BorderLayout.SOUTH);
+        mainQuestionPanel.add(submitButton);
     }
 
     public void createComboBoxListeners () {
