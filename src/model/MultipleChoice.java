@@ -10,11 +10,11 @@ import java.util.List;
  */
 public class MultipleChoice extends Question {
     /**
-     * A constructor used to create an object of multiple choice question
+     * Constructs a new multiple choice question
      * @param query the part representing the question
-     * @param alternatives a list of available alternatives to choose from
-     * @param correctAnswer the correct answer of the question
-     * @param points number of points earned after answering the question correctly
+     * @param alternatives alternatives the list of answer choices
+     * @param correctAnswer correctAnswer the correct answer among the alternatives
+     * @param points points the number of points awarded for a correct answer
      */
     public MultipleChoice(String query, List<String> alternatives , String correctAnswer, int points) {
         super(query,alternatives,points, correctAnswer);

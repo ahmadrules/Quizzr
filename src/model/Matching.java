@@ -5,36 +5,60 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+    /**
+     * Class used to create an object of Matching question
+     * @author Lilas Beirakdar
+     */
 public class Matching extends Question {
     private List<String> matches;
     private HashMap<String, Integer> correctMatches;
-
-    public int getNumberOfWrongMatches() {
-        return numberOfWrongMatches;
-    }
-
-    public void setNumberOfWrongMatches(int numberOfWrongMatches) {
-        this.numberOfWrongMatches = numberOfWrongMatches;
-    }
-
     private int numberOfWrongMatches;
 
-    public Matching(String question, List<String> statements,List<String> matches, int points,HashMap<String,Integer> correctMatches) {
-        super(question, statements, points);
+    /**
+     * Constructs a new matching question
+     * @param query the part representing the question
+     * @param statements a list of statements to be matched
+     * @param matches a list of statements or words that matches the statements
+     * @param points the number of points awarded for a correct answer
+     * @param correctMatches a Hashmap of the correct matches between statements and matches
+     * @author Lilas Beirakdar
+     */
+    public Matching(String query, List<String> statements,List<String> matches, int points,HashMap<String,Integer> correctMatches) {
+        super(query, statements, points);
         this.matches = matches;
         this.correctMatches = correctMatches;
         this.numberOfWrongMatches = 0;
     }
+    /**
+     * Returns the correct matches for the matching question.
+     * @return a Map where the key represents the statement and the values is the matching statement
+     * @author Lilas Beirakdar
+     */
     public HashMap<String, Integer> getCorrectMatches() {
         return correctMatches;
     }
+    /**
+     * Sets the correct matches of a matching question
+     * @param correctMatches a hashmap representing the correct matches
+     * @author Lilas Beirakdar
+     */
     public void setCorrectMatches(HashMap<String, Integer> correctMatches) {
         this.correctMatches = correctMatches;
     }
+    /**
+     * Returns the list of matches
+     * @return a list of matching statements
+     * @author Lilas Beirakdar
+     */
     public List<String> getMatches() {
         return  matches;
     }
-
+    /**
+     *Calculates the score for the matching question based on the number of incorrect matches
+     * @return the calculated score:
+     * for each wrong answer the user will lose 1/3 of the total mark
+     * @author Lilas Beirakdar
+     */
     @Override
     public int calculatePoints() {
         if (numberOfWrongMatches == 0) {
@@ -46,7 +70,26 @@ public class Matching extends Question {
         }
         return 0;
     }
-
+    /**
+     * Returns the number of incorrect matches made by the user.
+     * @return the number of wrong matches
+     */
+    public int getNumberOfWrongMatches() {
+        return numberOfWrongMatches;
+    }
+    /**
+     *Sets the number of incorrect matches made by the user
+     * @param numberOfWrongMatches numberOfWrongMatches the number of incorrect matches
+     */
+    public void setNumberOfWrongMatches(int numberOfWrongMatches) {
+        this.numberOfWrongMatches = numberOfWrongMatches;
+    }
+    /**
+     * Checks the user's answer compared to the correct answer
+     * @param usersAnswer  the user's submitted answer
+     * @return boolean values, true if the user made at least one right matching
+     * returns false if all user answers is wrong
+     */
     @Override
     public boolean checkAnswer(String usersAnswer) {
         HashMap<String, Integer> userAnswers = new HashMap<>();
@@ -100,6 +143,10 @@ public class Matching extends Question {
         }
         return new Matching(question,alternatives,matches,points,correctMatches);
     }
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         String alternativesStr = String.join(",",getAlternatives());
