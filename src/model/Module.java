@@ -86,6 +86,15 @@ public class Module implements Serializable{
                 break;
         }
     }
+
+    /**
+     * Generates a quiz that consists of all types of questions
+     * @param multipleChoiceFile the filepath of the file that includes multiple choice questions
+     * @param matchingFilePath the filepath of the file that includes matching questions
+     * @param trueOrFalseFilePath the filepath of the file that includes true or false questions
+     * @param numberOfQuestions the total number of questions the quiz will consist of
+     * @return a List of questions
+     */
     public ArrayList<Question> generateGeneralQuiz(String multipleChoiceFile,String matchingFilePath, String trueOrFalseFilePath , int numberOfQuestions) {
         ArrayList<Question> allQuestions= new ArrayList<>();
         ArrayList<Question> mc= generateMultipleChoiceQuiz(multipleChoiceFile,numberOfQuestions/3);
@@ -98,24 +107,52 @@ public class Module implements Serializable{
         return allQuestions;
     }
 
+    /**
+     * Generate a quiz that consists of multiple choice questions
+     * @param fileName fileName the path to the file that contains multiple choice questions
+     * @param numberOfQuestions the number of questions to include in the generated quiz
+     * @return  a List of questions
+     * @author Lilas Beirakdar
+     */
     public ArrayList<Question> generateMultipleChoiceQuiz(String fileName, int numberOfQuestions) {
         currentQuiz = new Quiz("multiChoiceQuiz");
         MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
         ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(fileName,multipleChoice);
         return generateRandomQuiz(multipleChoiceQuestion,numberOfQuestions);
     }
+    /**
+     * Generate a quiz that consists of true or false questions
+     * @param fileName fileName the path to the file that contains true or false questions
+     * @param numberOfQuestions the number of questions to include in the generated quiz
+     * @return  a List of questions
+     * @author Lilas Beirakdar
+     */
     public ArrayList<Question> generateTrueOrFalseQuiz(String fileName, int numberOfQuestions){
         currentQuiz = new Quiz("trueOrFalseQuiz");
         TrueOrFalse trueOrFalse= new TrueOrFalse("", Collections.singletonList(""),0,"");
         ArrayList<Question> trueOrFalseQuestion = fileHandler.loadQuestions(fileName,trueOrFalse);
         return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
     }
+    /**
+     * Generate a quiz that consists of matching questions
+     * @param fileName fileName the path to the file that contains matching questions
+     * @param numberOfQuestions the number of questions to include in the generated quiz
+     * @return  a List of questions
+     * @author Lilas Beirakdar
+     */
     public ArrayList<Question> generateMatchingQuiz(String fileName, int numberOfQuestions){
         HashMap<String,Integer> matches=new HashMap<>();
         Matching matching= new Matching("", Collections.singletonList(""), Collections.singletonList(""),0 ,matches);
         ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(fileName,matching);
         return generateRandomQuiz(matchingQuestion,numberOfQuestions);
     }
+
+    /**
+     *Generates a randomized quiz by shuffling the provided list of questions and selecting a subset.
+     * @param questions a list of questions to select from
+     * @param numberOfQuestions the total number of questions to include in the generated quiz
+     * @return a randomly selected list of questions with a maximum size of numberOfQuestions
+     */
     private ArrayList<Question> generateRandomQuiz(ArrayList<Question> questions, int numberOfQuestions){
         Collections.shuffle(questions);
         return new ArrayList<>(questions.subList(0, Math.min(numberOfQuestions, questions.size())));
