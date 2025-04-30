@@ -13,8 +13,8 @@ public class MultipleChoice extends Question {
      * Constructs a new multiple choice question
      * @param query the part representing the question
      * @param alternatives alternatives the list of answer choices
-     * @param correctAnswer correctAnswer the correct answer among the alternatives
-     * @param points points the number of points awarded for a correct answer
+     * @param correctAnswer the correct answer among the alternatives
+     * @param points the number of points awarded for a correct answer
      */
     public MultipleChoice(String query, List<String> alternatives , String correctAnswer, int points) {
         super(query,alternatives,points, correctAnswer);
@@ -31,16 +31,17 @@ public class MultipleChoice extends Question {
         return correctAnswer;
     }
     /**
-     * Method used to retrieve a list of matches
+     * Retrieves a list of matches
      * in the case of multiple choice question it will return null
      * @return null value
+     * @author Lilas Beirakdar
      */
     @Override
     public List<String> getMatches() {
         return null;
     }
     /**
-     * Method used to calculate the number of points the user will get after answering the question
+     * Calculates the number of points the user will get after answering the question
      * In Multiple choice case it will return the number of points
      * @return number of points
      */
@@ -50,7 +51,7 @@ public class MultipleChoice extends Question {
     }
 
     /**
-     * Used to check users answer, returns true if the answer is equal to correct answer
+     * Checks users answer, returns true if the answer is equal to the correct answer
      * @param usersAnswer users answer as a String
      * @return boolean indicating if users answer is right or wrong
      * @author Lilas Beirakdar
