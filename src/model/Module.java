@@ -86,6 +86,14 @@ public class Module implements Serializable{
                 break;
         }
     }
+    /**
+     * Generates a quiz that consists of all types of questions
+     * @param multipleChoiceFile the filepath of the file that contains multiple choice questions
+     * @param matchingFilePath the filepath of the file that contains matching questions
+     * @param trueOrFalseFilePath the filepath of the file that contains true or false questions
+     * @param numberOfQuestions the total number of questions the quiz will consist of
+     * @return a List of questions
+     */
     public ArrayList<Question> generateGeneralQuiz(String multipleChoiceFile,String matchingFilePath, String trueOrFalseFilePath , int numberOfQuestions) {
         ArrayList<Question> allQuestions= new ArrayList<>();
         ArrayList<Question> mc= generateMultipleChoiceQuiz(numberOfQuestions/3);
