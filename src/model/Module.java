@@ -118,6 +118,12 @@ public class Module implements Serializable{
         currentQuiz.setQuestions(multipleChoiceQuestion);
         return generateRandomQuiz(multipleChoiceQuestion,numberOfQuestions);
     }
+    /**
+     * Generate a quiz that consists of true or false questions
+     * @param numberOfQuestions the number of questions to include in the generated quiz
+     * @return  a List of questions
+     * @author Lilas Beirakdar
+     */
     public ArrayList<Question> generateTrueOrFalseQuiz(int numberOfQuestions){
         currentQuiz = new Quiz("trueOrFalseQuiz");
         TrueOrFalse trueOrFalse= new TrueOrFalse("", Collections.singletonList(""),0,"");
@@ -125,6 +131,7 @@ public class Module implements Serializable{
         currentQuiz.setQuestions(trueOrFalseQuestion);
         return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
     }
+    
     public ArrayList<Question> generateMatchingQuiz(int numberOfQuestions){
         currentQuiz = new Quiz("matching");
         HashMap<String,Integer> matches=new HashMap<>();
