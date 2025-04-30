@@ -105,7 +105,12 @@ public class Module implements Serializable{
         Collections.shuffle(allQuestions);
         return allQuestions;
     }
-
+    /**
+     * Generate a quiz that consists of multiple choice questions
+     * @param numberOfQuestions the number of questions to include in the generated quiz
+     * @return  a List of questions
+     * @author Lilas Beirakdar
+     */
     public ArrayList<Question> generateMultipleChoiceQuiz(int numberOfQuestions) {
         currentQuiz = new Quiz("multiChoiceQuiz");
         MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
