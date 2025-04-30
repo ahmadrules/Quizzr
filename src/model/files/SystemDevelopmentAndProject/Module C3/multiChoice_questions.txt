@@ -12,7 +12,7 @@ What is a "stub" in integration testing?;A full implementation;A driver program;
 
 Which of the following is true about inspections?;Inspections are more formal and systematic;Inspections are typically conducted by the author only;Inspections focus on understanding the code but not finding defects;Inspections are more formal and systematic;3
 
-What is the goal of a code review?;Improve execution speed;Improve code quality and catch errors early;Optimize UI design;Improve code quality and catch errors early;
+What is the goal of a code review?;Improve execution speed;Improve code quality and catch errors early;Optimize UI design;Improve code quality and catch errors early;3
 
 What’s typically included in a test case?;Code;Source files;Test inputs, steps, expected results;Test inputs, steps, expected results;3
 
