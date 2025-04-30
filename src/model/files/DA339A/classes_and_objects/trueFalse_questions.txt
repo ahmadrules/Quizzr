@@ -1,7 +1,0 @@
-question; alternative 1; correct answer; points
-
-The subclass's own constructor is always executed first, and then the super class's constructor is executed.; true; false; 5
-There can only be one association between two classes.; True; False; 5
-An object is an instance of a class.; False; True; 5
-The new keyword is used to create classes in Java.; True; False; 5
-Multiple objects can be created from the same class.; False; True; 5

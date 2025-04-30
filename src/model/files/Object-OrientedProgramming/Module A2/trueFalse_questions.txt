@@ -1,0 +1,19 @@
+The keyword "throws" is used along with a method's signature, allowing you to avoid using try-catch inside the method;True;False;5;True
+
+Exceptions are used to handle errors that may occur during program execution;True;False;5;True
+
+You can have multiple catch blocks to handle different types of exceptions;True;False;5;True
+
+"finally" executes, only if exception is thrown;True;False;5;False
+
+Unchecked exceptions (like NullPointerException) do not need to be explicitly handled;True;False;5;True
+
+An exception is an event that disrupts the normal flow of a program;True;False;5;True
+
+Custom exceptions can be created by extending the Exception class;True;False;5;True
+
+You cannot throw an exception manually in Java;True;False;5;False
+
+All errors are exceptions;True;False;5;False
+
+IOException is a checked exception;True;False;5;True

@@ -1,7 +1,0 @@
-question; alternative 1; correct answer; points
-
-The subclass's own constructor is always executed first, and then the super class's constructor is executed.; True; False; 5
-The keyword extends is used to implement an interface, and the keyword implements is used to inherit from a superclass.; True; False; 5
-When generalization is used, multiplicity should always be specified.; True; False; 5
-All methods in an interface are implicitly public and abstract.; False; True; 5
-A class A can be a superclass to one class B and a subclass to another class C at the same time.; False; True; 5

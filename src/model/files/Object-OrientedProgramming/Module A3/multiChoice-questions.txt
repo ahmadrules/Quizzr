@@ -1,0 +1,19 @@
+Which keyword is used to inherit from a superclass in Java?;implements;super;static;extends;3
+
+What is the key word that is used to call a superclass method from a subclass?;this;doesn't need a key word;call;super;3
+
+Which of the following is a characteristic of polymorphism?;The ability to inherit from multiple classes simultaneously;The ability to create multiple objects of the same class;The ability for a variable to hold only one object type;The ability to call the same method on objects of different classes and have them behave differently;3
+
+Which of the following statements about the super keyword is true in Java?;It is used to access private fields of the subclass;It is used to define a new class.; It is used to access the current class;It can be used to refer to the super class’s constructor;3
+
+What happens if a subclass does not override a method from its superclass?;The program will throw an exception;The subclass will not be able to compile;The subclass will ignore the superclass method;The subclass will automatically inherit the method from the superclass;3
+
+What does inheritance in Java allow you to do?;Call multiple classes at once;Create new data types;Execute code faster;Reuse code from an existing class;3
+
+What is the superclass in inheritance?;The class that inherits;A private class;A final class;The class that is inherited from;3
+
+What can an interface contain?;Only abstract methods;Constructors and instance variables;Static methods only;Abstract methods and default methods;3
+
+Which of the following is true about interfaces?;Interfaces can be instantiated;Interfaces can have constructors;Interfaces are used to create objects;Interfaces define behavior without implementation;3
+
+What is the purpose of an abstract class?;To create objects;To provide full implementations;To run Java programs;To be a base class that cannot be instantiated;3

@@ -1,7 +1,0 @@
-question1; alternative1; alternative2; alternative3; correctAnswer; points
-
-What happens when the following code is executed: Car myCar = new Car(); A new class is created.; The class Car is deleted.; A new package is imported.; A new object of the class Car is created.; 3
-Which keyword is used to create an object in Java?; create; make; class; new; 3
-What is an object in Java?; A method called from main; A type of file;  A variable with the value null; An instance of a class; 3
-Which of the following is NOT a characteristic of an object?; State; Behavior; Identity; Constructor; 3
-What is the purpose of the "this" keyword in a class?; To create a new object; To refer to the current class; To call another class; To refer to the current object; 3

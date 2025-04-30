@@ -1,0 +1,19 @@
+The subclass's own constructor is always executed first, and then the super class's constructor is executed;True;False;5;False
+
+There can only be one association between two classes;True;False;5;False
+
+An object is an instance of a class;True;False;5;True
+
+The new keyword is used to create classes in Java;True;False;5;False
+
+Multiple objects can be created from the same class;True;False;5;True
+
+An object is a static instance of a class;True;False;5;False
+
+In Java, every object must have a unique class;True;False;5;False
+
+A constructor in Java has the same name as the class;True;False;5;True
+
+You must always define a constructor in your class;True;False;5;False
+
+A class can have multiple constructors with different parameters;True;False;5;True
