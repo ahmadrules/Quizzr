@@ -1,0 +1,27 @@
+Unit tests are written by developers to test their own code;True;False;1;True
+
+Integration testing should be done before unit testing;True;False;1;False
+
+A test case should not include expected output;True;False;1;False
+
+System testing includes testing the entire software system as a whole;True;False;1;True
+
+Code reviews are only useful for detecting syntax errors;True;False;1;False
+
+A stub simulates the behavior of a missing or incomplete component;True;False;1;True
+
+Regression testing is used to ensure that bug fixes or changes didn’t introduce new bugs;True;False;1;True
+
+Integration testing is unnecessary if unit testing passes;True;False;1;False
+
+White-box testing requires detailed knowledge of the software’s code;True;False;1;True
+
+Black-box testing is useful for validating user interfaces and interactions;True;False;1;True
+
+Inspections are less formal than walkthroughs and focus on finding defects in the code;True;False;1;False
+
+Walkthroughs always involve a formal checklist of items to be reviewed;True;False;1;False
+
+Inspections typically involve a moderator to guide the review process and ensure proper documentation;True;False;1;True
+
+The primary goal of an inspection is to catch defects and improve code quality;True;False;1;True

@@ -1,0 +1,19 @@
+What is the main purpose of generics in Java?;To improve performance;To reduce code size;To allow reflection;To provide compile-time type safety;3
+
+Which of the following is a correct declaration of a generic class?;generic Box<T> { };Box<T> class { };class<T> Box { };class Box<T> { };3
+
+What does <T> represent in a generic class or method?;A class name;A primitive type;A constant;A placeholder for a type;3
+
+Which of the following is NOT a benefit of generics?;Type safety;Code reusability;Compile-time checking;Runtime casting;3
+
+Which of these statements will cause a compile-time error?;List<String> list = new ArrayList<>();Map<Integer, String> map = new HashMap<>();Set<Double> set = new HashSet<>();List<Object> list = new ArrayList<String>();3
+
+Which of the following is an interface in the collections framework?;TreeMap;ArrayList;HashSet;List;3
+
+Which class allows duplicate elements and maintains insertion order?;HashSet;TreeSet;HashMap;ArrayList;3
+
+What is the key difference between ArrayList and LinkedList?;ArrayList is synchronized;LinkedList stores data in contiguous memory;ArrayList allows duplicate keys;LinkedList allows faster insertion/removal in the middle;3
+
+Which collection would you use to store unique elements only?;ArrayList;HashMap;Vector;HashSet;3
+
+Which of these is NOT thread-safe by default?;Vector;Hashtable;ConcurrentHashMap;ArrayList;3

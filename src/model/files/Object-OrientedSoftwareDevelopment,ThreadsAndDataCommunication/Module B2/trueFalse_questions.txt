@@ -1,0 +1,21 @@
+The ArrayList class in Java is thread-safe;True;False;1;False
+
+Generics in Java allow type safety at compile time;True;False;1;True
+
+A Stack follows the LIFO (Last In, First Out) principle;True;False;1;True
+
+The Queue interface in Java guarantees elements are processed in LIFO order;True;False;1;False
+
+Vector is a thread-safe alternative to ArrayList;True;False;1;True
+
+You can create a generic method without declaring a generic class;True;False;1;True
+
+HashMap is synchronized and thread-safe by default;True;False;1;False
+
+LinkedList can be used both as a queue and a stack;True;False;1;True
+
+The ConcurrentLinkedQueue class is thread-safe;True;False;1;True
+
+Generics in Java can be used with primitive types like int and double;True;False;1;False
+
+You can define a class with multiple generic type parameters;True;False;1;True

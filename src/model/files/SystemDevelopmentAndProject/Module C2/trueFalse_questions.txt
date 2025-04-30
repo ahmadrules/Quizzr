@@ -1,0 +1,19 @@
+Low coupling and high cohesion is the ideal design principle;True;False;1;True
+
+Cyclomatic complexity of a program increases as the number of decision points increases;True;False;1;True
+
+Halstead's metrics are based on the number of functions and classes;True;False;1;False
+
+High cohesion makes code harder to maintain;True;False;1;False
+
+Fan-in means how many modules call a given module;True;False;1;True
+
+Data slicing focuses only on input/output variables;True;False;1;False
+
+A function with high cyclomatic complexity may be harder to test;True;False;1;True
+
+Coding guidelines help maintain consistency across a codebase;True;False;1;True
+
+Commenting every line of code is considered good practice;True;False;1;False
+
+Modules with low cohesion tend to do multiple unrelated tasks;True;False;1;True

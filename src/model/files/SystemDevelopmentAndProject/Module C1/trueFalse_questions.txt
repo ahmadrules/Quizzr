@@ -1,0 +1,23 @@
+The Waterfall model is considered an iterative approach;True;False;1;False
+
+Agile processes prioritize customer collaboration over contract negotiation;True;False;1;True
+
+In the Spiral model, development is done in distinct phases without feedback;True;False;1;False
+
+Extreme Programming (XP) emphasizes regular communication between developers and customers;True;False;1;True
+
+In the Scrum framework, the development team is responsible for managing project progress;True;False;1;False
+
+Kanban boards typically use columns to represent different stages of the workflow;True;False;1;True
+
+In the Spiral model, risk analysis is a key activity at each iteration;True;False;1;True
+
+The Waterfall model is ideal for projects where requirements are well understood and unlikely to change;True;False;1;True
+
+In the Incremental model, software is delivered to the user in chunks or increments, and each increment builds on the previous one;True;False;1;True
+
+Software maintenance is part of the software process and should be planned;True;False;1;True
+
+RUP divides the development process into four phases: Inception, Elaboration, Construction, and Transition;True;False;1;True
+
+In Kanban, work is divided into fixed-length sprints, just like in Scrum;True;False;1;False

@@ -1,0 +1,27 @@
+What is the primary focus of unit testing?;Testing the entire application;Testing user interface;Testing network security;Testing individual methods or functions;3
+
+Which testing technique uses inputs and expected outputs for small code blocks?;System test;Acceptance test;Manual review;Unit test;3
+
+What does integration testing primarily test?;Code documentation;Test cases;User interfaces;Interactions between modules;3
+
+Which type of testing simulates real-world scenarios across the full application?;Unit testing;Module testing;Code walkthrough;System testing;3
+
+In top-down integration testing, which component is tested first?;Low-level modules;Database;UI;High-level modules;3
+
+What is a "stub" in integration testing?;A full implementation;A driver program;A test plan;A placeholder for missing lower modules;3
+
+Which of the following is true about inspections?;Inspections are informal reviews;Inspections are typically conducted by the author only;Inspections focus on understanding the code but not finding defects;Inspections are more formal and systematic;3
+
+What is the goal of a code review?;Improve execution speed;Remove all comments:;Optimize UI design;Improve code quality and catch errors early;
+
+What’s typically included in a test case?;Code;Source files;API keys;Test inputs, steps, expected results;3
+
+Walkthroughs usually involve;A formal checklist;Multiple rounds of reviewing code;Detailed documentation of every defect found;An informal review where the author explains the code;3
+
+What is regression testing?;Testing with invalid inputs;Testing user interfaces;Skipping test steps;Retesting after code changes to ensure nothing broke;3
+
+Peer reviews in testing aim to;Skip unit tests;Automate testing;Remove QA involvement;Identify logical errors and enforce coding standards;3
+
+Which of the following is true about white-box testing?;It focuses on the user interface;It doesn't require knowledge of the code;It’s based on expected outputs only;It tests internal code and logic;3
+
+In which of the following cases is white-box testing not appropriate?;Functional testing;Security testing;Path testing;Unit testing;3

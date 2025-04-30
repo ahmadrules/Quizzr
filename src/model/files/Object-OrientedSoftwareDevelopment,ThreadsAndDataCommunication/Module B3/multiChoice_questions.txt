@@ -1,0 +1,19 @@
+What is the purpose of the ServerSocket class in Java?;To send messages to clients;To create HTTP requests;To open a file connection;To act as a server listening for client connections;3
+
+What does the Socket class in Java represent?;A physical device;A storage location;A thread pool;A connection between two machines;3
+
+Which streams are commonly used with sockets for communication?;FileInputStream and FileOutputStream;BufferedWriter and Scanner;ObjectInputStream and ObjectOutputStream;InputStream and OutputStream;3
+
+Which of the following is required to create a basic TCP client in Java?;new ServerSocket(port);bindSocket();openConnection();new Socket(host, port);3
+
+Which port number range is considered safe to use for custom applications?;0–1023;49152–65535;1–80;1024–49151;3
+
+Which protocol does Java socket programming primarily support by default?;UDP;FTP;HTTP;TCP;3
+
+What is a common issue when multiple threads access a socket object simultaneously?;Slower communication;Automatic synchronization;Improved performance;Data corruption or inconsistent results;3
+
+What does the TCP protocol ensure during communication?;Fast delivery without confirmation;One-way data flow only;Connectionless communication;Guaranteed, ordered, and error-checked delivery;3
+
+Which protocol is connectionless and used for fast, but unreliable communication?;TCP;FTP;HTTP;UDP;3
+
+Which communication model describes a system where one device requests and another responds?;Broadcast model;Peer-to-peer;Mesh network;Client-server;3

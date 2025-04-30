@@ -1,0 +1,21 @@
+The Observer pattern allows multiple objects to observe and react to changes in another object;True;False;1;True
+
+The Facade pattern increases the complexity of a system by exposing all internal classes;True;False;1;False
+
+In Java, a callback is typically implemented using interfaces or lambdas;True;False;1;True
+
+Callbacks in Java are always executed on a separate thread;True;False;1;False
+
+A callback can be used to notify a component when an asynchronous task completes;True;False;1;True
+
+In the MVC pattern, the View directly modifies the Model;True;False;1;False
+
+A Facade provides a simple interface to a complex subsystem;True;False;1;True
+
+In Java, callbacks can be used for event handling in GUI frameworks like Swing;True;False;1;True
+
+A callback function must always return a value;True;False;1;False
+
+The State pattern allows an object to alter its behavior when its internal state changes;True;False;1;True
+
+A callback can only be used in multithreaded programming;True;False;1;False

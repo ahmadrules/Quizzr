@@ -1,0 +1,23 @@
+TCP guarantees that all data packets arrive in order and without errors;True;False;1;True
+
+UDP is more reliable than TCP but slower;True;False;1;False
+
+In the client-server model, the client initiates the communication;True;False;1;True
+
+HTTP is a protocol based on TCP;True;False;1;True
+
+In Java, the ServerSocket class is used to create a client connection;True;False;1;False
+
+A port number identifies a specific application or process on a server;True;False;1;True
+
+The Socket class in Java is used on both the client and server sides for communication;True;False;1;True
+
+A single server can only handle one client at a time;True;False;1;False
+
+FTP is a protocol used to transfer files over a network;True;False;1;True
+
+UDP is commonly used in real-time applications like video streaming and online gaming;True;False;1;True
+
+HTTP uses port 80 by default;True;False;1;True
+
+A Java server can only communicate with one client unless it uses multithreading;True;False;1;True

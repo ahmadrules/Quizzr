@@ -1,0 +1,19 @@
+What is a callback in Java?;A method that is called repeatedly;A method used to return values;A Java built-in method;A function passed as an argument to another function, to be executed later;3
+
+How are callbacks commonly implemented in Java?;By using abstract classes;By using anonymous inner classes;By using reflection;By using interfaces;3
+
+Which Java feature introduced in Java 8 simplified callbacks?;Generics;Abstract classes;Streams;Lambda expressions;3
+
+What happens when the subject’s state changes (observer pattern)?;Only one observer is notified;The system crashes;The subject is deleted;All registered observers are notified;3
+
+In Java, a callback function is typically:;A static method;A class constructor;A thread;A method passed to another method to be executed later;3
+
+What is the role of an interface in a callback pattern?;To implement exception handling;To create new threads;To manage memory;To define the callback method signature;3
+
+Why are callbacks useful in event-driven programming?;They reduce memory usage;They eliminate the need for interfaces;They compile code faster;They allow a program to react to events asynchronously;3
+
+What is the main purpose of the Facade Pattern?;To manage concurrency;To create multiple instances of a class;To add new behaviors to objects dynamically;To simplify a complex system by providing a unified interface;3
+
+What is the main goal of the Observer Pattern?;To simplify interfaces;To clone objects;To encapsulate behavior;To notify dependent objects automatically when a state changes;3
+
+In the Observer Pattern, the "subject" is;The object that gets notified;A factory method;A utility class;The object being observed;3
