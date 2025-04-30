@@ -1,19 +1,19 @@
-What does high cohesion in a module typically indicate?;It has unrelated functions;It does many things;It relies heavily on other modules;It performs a single, well-defined task;3
+What does high cohesion in a module typically indicate?;It performs a single, well-defined task;It does many things;It relies heavily on other modules;It performs a single, well-defined task;3
 
-What is the main goal of reducing coupling?;To create long functions;To increase interdependence;To simplify user interface;To improve modularity and maintainability;3
+What is the main goal of reducing coupling?;To create long functions;To improve modularity and maintainability;To simplify user interface;To improve modularity and maintainability;3
 
-Which of the following is not part of Halstead's metrics?;Number of operators;Program length;Program volume;Cyclomatic complexity;3
+Which of the following is not part of Halstead's metrics?;Number of operators;Program length;Cyclomatic complexity;Cyclomatic complexity;3
 
-McCabe’s Cyclomatic Complexity measures;Lines of code;Number of classes;Data dependencies;Number of independent paths in a program;3
+McCabe’s Cyclomatic Complexity measures;Lines of code;Number of independent paths in a program;Data dependencies;Number of independent paths in a program;3
 
-What value does Halstead’s Difficulty metric try to estimate?;Number of developers;Number of user inputs;Test coverage;How hard the code is to understand or write;3
+What value does Halstead’s Difficulty metric try to estimate?;Number of developers;Number of user inputs;How hard the code is to understand or write;How hard the code is to understand or write;3
 
-Henry-Kafura metric combines;Cyclomatic complexity and data flow;Code comments and lines of code;Loop depth and nesting;Fan-in and fan-out of modules;3
+Henry-Kafura metric combines;Fan-in and fan-out of modules;Code comments and lines of code;Loop depth and nesting;Fan-in and fan-out of modules;3
 
-What is meant by a “data slice” in program slicing?;A part of code based on user input;Output results only;File storage division;Code that affects a particular variable's value;3
+What is meant by a “data slice” in program slicing?;Code that affects a particular variable's value;Output results only;File storage division;Code that affects a particular variable's value;3
 
-Which of the following is considered a good coding guideline?;Use global variables often;Avoid comments;Hardcode all values;Write small, focused functions;3
+Which of the following is considered a good coding guideline?;Use global variables often;Write small, focused functions;Hardcode all values;Write small, focused functions;3
 
-Which guideline helps improve readability?;Avoid indentation;Mixing tabs and spaces;Using one-letter names everywhere;Using descriptive variable names;3
+Which guideline helps improve readability?;Avoid indentation;Mixing tabs and spaces;Using descriptive variable names;Using descriptive variable names;3
 
-A cyclomatic complexity value of 10 suggests;There are 10 classes;There are 10 lines of code;The function must be rewritten;There are 10 possible execution paths;3
+A cyclomatic complexity value of 10 suggests;There are 10 classes;There are 10 possible execution paths;The function must be rewritten;There are 10 possible execution paths;3

@@ -1,19 +1,19 @@
-Which of the following is a characteristic of the Waterfall model?;Iterative development;Continuous integration;Flexible requirements;Strict sequential phases;3
+Which of the following is a characteristic of the Waterfall model?;Iterative development;Continuous integration;Strict sequential phases;Strict sequential phases;3
 
-Which process model emphasizes incremental development with feedback loops?;Waterfall;V-Model;RAD (Rapid Application Development);Spiral;3
+Which process model emphasizes incremental development with feedback loops?;Spiral;V-Model;RAD (Rapid Application Development);Spiral;3
 
-The "Iterative" model of software development involves;Completing all phases once;Completing phases in a strict order;Avoiding any phase repetition;Repeating phases to refine the product;3
+The "Iterative" model of software development involves;Completing all phases once;Repeating phases to refine the product;Avoiding any phase repetition;Repeating phases to refine the product;3
 
-What is the primary goal of the Extreme Programming (XP) methodology?;Large-scale project management;Minimizing cost over time;Detailed upfront documentation;Continuous customer feedback and rapid releases;3
+What is the primary goal of the Extreme Programming (XP) methodology?;Large-scale project management;Continuous customer feedback and rapid releases;Detailed upfront documentation;Continuous customer feedback and rapid releases;3
 
-In the Spiral model, the focus of each iteration is on;Continuous delivery;Building a single product version;Strict documentation;Risk management and refinement;3
+In the Spiral model, the focus of each iteration is on;Risk management and refinement;Building a single product version;Strict documentation;Risk management and refinement;3
 
-In the Agile approach, the typical duration of a Sprint is;12 months;1 month;6 months;2 to 4 weeks;3
+In the Agile approach, the typical duration of a Sprint is;12 months;2 to 4 weeks;6 months;2 to 4 weeks;3
 
-In the Waterfall model, the testing phase begins after;Requirements gathering;Design phase;Maintenance phase;Development phase;3
+In the Waterfall model, the testing phase begins after;Requirements gathering;Design phase;Development phase;Development phase;3
 
-Which software development model is most suitable for projects requiring high levels of documentation and regulatory compliance?;Agile;Scrum;XP;Waterfall;3
+Which software development model is most suitable for projects requiring high levels of documentation and regulatory compliance?;Waterfall;Scrum;XP;Waterfall;3
 
-In Scrum, who is responsible for defining the product backlog?;Scrum Master;Development Team;Client;Product Owner;3
+In Scrum, who is responsible for defining the product backlog?;Scrum Master;Product Owner;Client;Product Owner;3
 
-In the Incremental model:;You release the entire system at once;You skip maintenance;You wait to test until the end;You build small portions and release them in stages;3
+In the Incremental model:;You release the entire system at once;You skip maintenance;You build small portions and release them in stages;You build small portions and release them in stages;3
