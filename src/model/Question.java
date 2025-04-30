@@ -56,4 +56,8 @@ public abstract class Question implements Serializable {
         }
         return question1;
     }
+
+    public String getCorrectAnswer() {
+        return correctAnswer;
+    }
 }

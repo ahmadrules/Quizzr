@@ -23,6 +23,22 @@ public class Quiz implements Serializable {
         return result;
     }
 
+    public Map<Question, String> getUserAnswers() {
+        return userAnswers;
+    }
+
+    public void setUserAnswers(Map<Question, String> userAnswers) {
+        this.userAnswers = userAnswers;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

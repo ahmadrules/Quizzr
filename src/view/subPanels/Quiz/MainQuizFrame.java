@@ -112,7 +112,7 @@ public class MainQuizFrame extends JFrame {
         Quiz newQuiz = new Quiz(quizName);
         quizList.add(newQuiz);
 
-        questionsList = currentModule.generateTrueOrFalseQuiz("src/model/files/course2/module1/trueFalse_questions.txt", 10);
+        questionsList = currentModule.generateTrueOrFalseQuiz(10);
         questionsList.forEach(question -> {newQuiz.addQuestion(question);});
         quizQuestions.put(newQuiz, questionsList);
 
@@ -125,7 +125,7 @@ public class MainQuizFrame extends JFrame {
         Quiz newQuiz = new Quiz(quizName);
         quizList.add(newQuiz);
 
-        questionsList = currentModule.generateMultipleChoiceQuiz("src/model/files/course2/module1/multiChoice_questions.txt", 10);
+        questionsList = currentModule.generateMultipleChoiceQuiz(10);
         questionsList.forEach(question -> {newQuiz.addQuestion(question);});
         quizQuestions.put(newQuiz, questionsList);
 
@@ -139,7 +139,7 @@ public class MainQuizFrame extends JFrame {
         Quiz newQuiz = new Quiz(quizName);
         quizList.add(newQuiz);
 
-        questionsList = currentModule.generateMatchingQuiz("src/model/files/course2/module1/matching_questions.txt", 10);
+        questionsList = currentModule.generateMatchingQuiz(10);
         questionsList.forEach(question -> {newQuiz.addQuestion(question);});
         quizQuestions.put(newQuiz, questionsList);
 

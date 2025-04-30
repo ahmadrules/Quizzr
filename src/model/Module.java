@@ -13,7 +13,7 @@ public class Module implements Serializable{
     private final String matchingFileName = "matching_questions.txt";
     private final String multiChoiceFileName = "multiChoice_questions.txt";
     private final String trueOrFalseFileName = "trueFalse_questions.txt";
-    private final String flashCardFileName = "flashCards.dat";
+    private final String flashCardFileName = "flashcards.dat";
     private final String quizFileName = "quiz.dat";
     private File multiChoiceFile;
     private File trueOrFalseFile;
@@ -73,13 +73,13 @@ public class Module implements Serializable{
     public void generateQuiz(String quizType, String filePath, int numberOfQuestions) {
         switch (quizType){
             case "Matching":
-                ArrayList<Question> MatchingQuiz= generateMatchingQuiz(filePath+matchingFileName, numberOfQuestions);
+                ArrayList<Question> MatchingQuiz= generateMatchingQuiz(numberOfQuestions);
                 break;
             case "TrueOrFalse":
-                generateTrueOrFalseQuiz(filePath+matchingFileName,numberOfQuestions);
+                generateTrueOrFalseQuiz(numberOfQuestions);
                 break;
             case "MultipleChoice":
-                generateMultipleChoiceQuiz(filePath+matchingFileName, numberOfQuestions);
+                generateMultipleChoiceQuiz(numberOfQuestions);
                 break;
             default:
                 //generateGeneralQuiz();
@@ -88,9 +88,9 @@ public class Module implements Serializable{
     }
     public ArrayList<Question> generateGeneralQuiz(String multipleChoiceFile,String matchingFilePath, String trueOrFalseFilePath , int numberOfQuestions) {
         ArrayList<Question> allQuestions= new ArrayList<>();
-        ArrayList<Question> mc= generateMultipleChoiceQuiz(multipleChoiceFile,numberOfQuestions/3);
-        ArrayList<Question> matching= generateMatchingQuiz(matchingFilePath, numberOfQuestions/3);
-        ArrayList<Question> tf= generateTrueOrFalseQuiz(trueOrFalseFilePath, numberOfQuestions/3);
+        ArrayList<Question> mc= generateMultipleChoiceQuiz(numberOfQuestions/3);
+        ArrayList<Question> matching= generateMatchingQuiz(numberOfQuestions/3);
+        ArrayList<Question> tf= generateTrueOrFalseQuiz(numberOfQuestions/3);
         allQuestions.addAll(mc);
         allQuestions.addAll(matching);
         allQuestions.addAll(tf);
@@ -98,22 +98,26 @@ public class Module implements Serializable{
         return allQuestions;
     }
 
-    public ArrayList<Question> generateMultipleChoiceQuiz(String fileName, int numberOfQuestions) {
+    public ArrayList<Question> generateMultipleChoiceQuiz(int numberOfQuestions) {
         currentQuiz = new Quiz("multiChoiceQuiz");
         MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
-        ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(fileName,multipleChoice);
+        ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(multiChoiceFile.getPath(),multipleChoice);
+        currentQuiz.setQuestions(multipleChoiceQuestion);
         return generateRandomQuiz(multipleChoiceQuestion,numberOfQuestions);
     }
-    public ArrayList<Question> generateTrueOrFalseQuiz(String fileName, int numberOfQuestions){
+    public ArrayList<Question> generateTrueOrFalseQuiz(int numberOfQuestions){
         currentQuiz = new Quiz("trueOrFalseQuiz");
         TrueOrFalse trueOrFalse= new TrueOrFalse("", Collections.singletonList(""),0,"");
-        ArrayList<Question> trueOrFalseQuestion = fileHandler.loadQuestions(fileName,trueOrFalse);
+        ArrayList<Question> trueOrFalseQuestion = fileHandler.loadQuestions(trueOrFalseFile.getPath(),trueOrFalse);
+        currentQuiz.setQuestions(trueOrFalseQuestion);
         return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
     }
-    public ArrayList<Question> generateMatchingQuiz(String fileName, int numberOfQuestions){
+    public ArrayList<Question> generateMatchingQuiz(int numberOfQuestions){
+        currentQuiz = new Quiz("matching");
         HashMap<String,Integer> matches=new HashMap<>();
         Matching matching= new Matching("", Collections.singletonList(""), Collections.singletonList(""),0 ,matches);
-        ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(fileName,matching);
+        ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(matchingFile.getPath(),matching);
+        currentQuiz.setQuestions(matchingQuestion);
         return generateRandomQuiz(matchingQuestion,numberOfQuestions);
     }
     private ArrayList<Question> generateRandomQuiz(ArrayList<Question> questions, int numberOfQuestions){
@@ -131,7 +135,19 @@ public class Module implements Serializable{
         this.trueOrFalseFile = new File(directory, trueOrFalseFileName);
         this.matchingFile = new File(directory, matchingFileName);
         this.flashCardFile = new File(directory, flashCardFileName);
-        this.quizFile = new File(directory, quizFileName);
+        //this.quizFile = new File(directory, quizFileName);
+
+        try {
+            multiChoiceFile.createNewFile();
+            trueOrFalseFile.createNewFile();
+            matchingFile.createNewFile();
+            flashCardFile.createNewFile();
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 
+    public Quiz getCurrentQuiz() {
+        return currentQuiz;
+    }
 }

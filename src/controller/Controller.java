@@ -17,6 +17,7 @@ public class Controller {
     private List<Program> programList;  //All the applications programs (from the file)
     private final String programsFileName = "src/model/files/programs.dat";
     private User currentUser;
+    private Module currentModule;
 
 
     public Controller(){
@@ -439,5 +440,32 @@ public class Controller {
 
         // Check if email matches the pattern
         return email != null && p.matcher(email).matches();
+    }
+
+    public void generateTrueOrFalseQuiz(String selectedCourse, String selectedModule){
+        ArrayList<Question> questions = new ArrayList<>();
+        for(int p = 0; p < programList.size(); p++){
+            for(int c = 0 ; c < programList.get(p).getCourses().size(); c++){
+                Course currentCourse = programList.get(p).getCourses().get(c);
+                if(currentCourse.getName().equals(selectedCourse)){
+                    for(int m = 0; m < currentCourse.getModules().size(); m++){
+                        Module currentModule = currentCourse.getModules().get(m);
+                        if(currentModule.getName().equals(selectedModule)){
+                            this.currentModule = currentModule;
+                            questions = currentModule.generateTrueOrFalseQuiz(5);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public String[] getTrueOrFalseStatements(){
+        String[] trueOrFalseStatements = new String[currentModule.getCurrentQuiz().getQuestions().size()];
+        for(int i = 0; i < trueOrFalseStatements.length; i++){
+            trueOrFalseStatements[i] = currentModule.getCurrentQuiz().getQuestions().get(i).getQuery();
+        }
+        return trueOrFalseStatements;
     }
 }
