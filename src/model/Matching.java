@@ -118,15 +118,15 @@ public class Matching extends Question {
     }
     /**
      * This method is used to convert the question from the file into an object of matching question
-     * @param line
-     * @return
+     * part 0 represents the question
+     * part 1 represents a list of alternatives split by , [,,]
+     * part 2 represents a list of matches split by , [,,]
+     * part 4 represents the points earned after answering the question
+     * part 4 is an hashMap representing the correct solution as A:3, B:4, split by ,
+     * @param line a String expected to follow a specific format, with parts separated by semicolons
+     *
+     * @return a new object of matching question
      */
-    // split the line which is representing the question into an array consisting of parts
-    // Each part is an element in the array
-    // part 0 represents the question
-    // part 1 represents a list of alternatives split by , [,,]
-    // part 2 represents a list of matches split by , [,,]
-    // part 3 is an hashMap representing the correct solution as A:3, B:4, split by ,
     @Override
     public Question fromString(String line) {
         String[] parts = line.split(";");
@@ -134,7 +134,6 @@ public class Matching extends Question {
         List<String> alternatives = Arrays.asList(parts[1].split(","));
         List<String> matches = Arrays.asList(parts[2].split(","));
         int points = Integer.parseInt(parts[3].trim());
-
         HashMap<String,Integer> correctMatches = new HashMap<>();
         String[] correctPairs= parts[4].split(",");
         for(String correctPair : correctPairs){
@@ -144,8 +143,9 @@ public class Matching extends Question {
         return new Matching(question,alternatives,matches,points,correctMatches);
     }
     /**
-     *
-     * @return
+     * Returns a String representation of a matching question
+     * @return  a string describing the question, its alternatives, matches and its points
+     * @author Lilas Beirakdar
      */
     @Override
     public String toString() {
