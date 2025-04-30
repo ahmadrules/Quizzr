@@ -145,6 +145,12 @@ public class Module implements Serializable{
         currentQuiz.setQuestions(matchingQuestion);
         return generateRandomQuiz(matchingQuestion,numberOfQuestions);
     }
+    /**
+     *Generates a randomized quiz by shuffling the provided list of questions and selecting a subset.
+     * @param questions a list of questions to select from
+     * @param numberOfQuestions the total number of questions to include in the generated quiz
+     * @return a randomly selected list of questions with a maximum size of numberOfQuestions
+     */
     private ArrayList<Question> generateRandomQuiz(ArrayList<Question> questions, int numberOfQuestions){
         Collections.shuffle(questions);
         return new ArrayList<>(questions.subList(0, Math.min(numberOfQuestions, questions.size())));
