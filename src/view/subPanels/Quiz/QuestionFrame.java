@@ -30,31 +30,18 @@ public class QuestionFrame extends JFrame {
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
-    }
 
-    public void setOptions(String quizName, String amountOfQuestions, String timerAmount) {
-        this.currentQuiz
-    }
-
-    public void createQuiz() {
         setTitle("Quiz options");
         setLayout(new BorderLayout());
         setSize(400, 500);
 
-        setupQuizOptionsPanel();
-
         createComboBoxListeners();
-        //setupPanel();
-        //setupQuestions();
-        //addListeners();
+        setupPanel();
+        setupQuestions();
+        addListeners();
         setVisible(true);
     }
 
-    public void setupQuizOptionsPanel() {
-        QuizOptionsPanel quizOptionsPanel = new QuizOptionsPanel();
-        add(quizOptionsPanel, BorderLayout.CENTER);
-        setSize(200,170);
-    }
     public void getTotalPoints() {
         int totalPoints = currentQuiz.CalculateTestResult();
 
