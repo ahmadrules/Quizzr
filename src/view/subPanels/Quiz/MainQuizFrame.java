@@ -154,6 +154,7 @@ public class MainQuizFrame extends JFrame {
 
     public void addActionListeners() {
         trueOrFalseButton.addActionListener(e -> {
+            QuizOptionsPanel quizOptionsPanel = new QuizOptionsPanel();
             generateTrueOrFalse();
         });
 
@@ -185,6 +186,12 @@ public class MainQuizFrame extends JFrame {
         startQuizButton.addActionListener(e -> {
             showQuiz();
         });
+    }
+
+    public void createNewQuiz() {
+        String quizName = JOptionPane.showInputDialog("Enter quiz name");
+
+
     }
 
 }
