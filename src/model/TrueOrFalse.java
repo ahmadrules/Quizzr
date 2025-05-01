@@ -44,7 +44,13 @@ public class TrueOrFalse extends Question {
     public boolean checkAnswer(String usersAnswer) {
         return usersAnswer.trim().equalsIgnoreCase(correctAnswer.trim());
     }
-    // parts [0] is the question, part[1] is the
+
+    /**
+     * Creates a TrueOrFalse object from a semicolon-separated string
+     * @param line  the semicolon-separated string representing a true or false question
+     * @return a new TrueOrFalse object
+     * @author Lilas Beirakdar
+     */
     @Override
     public Question fromString(String line) {
         String [] parts = line.split(";");
@@ -57,6 +63,11 @@ public class TrueOrFalse extends Question {
         String correctAnswer = parts[4].trim();
         return new TrueOrFalse(question, alternatives, points, correctAnswer);
     }
+    /**
+     * Returns a string representation of the true or false question.
+     * @return a string describing the question, its alternatives and points
+     * @author Lilas Beirakdar
+     */
     @Override
     public String toString() {
         return "Question: " + query + "\n" +

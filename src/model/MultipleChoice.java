@@ -62,14 +62,12 @@ public class MultipleChoice extends Question {
     }
 
     /**
-     * Creates a {@link MultipleChoice} question object from a semicolon-separated string.
+     * Creates a multipleChoice question object from a semicolon-separated string.
      * @param line  the semicolon-separated string representing a multiple choice question
      * @return a new multiple choice question
      * @throws IllegalArgumentException if the input line does not contain at least 6 parts
      * @author Lilas Beirakdar
      */
-    // splits the String representing the question, alternativs and the correctAnswer
-    //it returns an object of multiple choice question
     @Override
     public Question fromString(String line) {
         String [] parts = line.split(";");
@@ -83,7 +81,7 @@ public class MultipleChoice extends Question {
         return new MultipleChoice(question, alternatives, correctAnswer,points);
     }
     /**
-     * Returns a string representation of the question.
+     * Returns a string representation of the multiple choice question.
      * @return a string describing the question and its alternatives
      * @author Lilas Beirakdar
      */
