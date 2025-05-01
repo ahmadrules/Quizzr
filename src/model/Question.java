@@ -1,6 +1,7 @@
 package model;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 
 public abstract class Question implements Serializable {

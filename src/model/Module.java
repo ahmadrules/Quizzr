@@ -70,31 +70,14 @@ public class Module implements Serializable{
         }
     }
 
-    public void generateQuiz(String quizType, String filePath, int numberOfQuestions) {
-        switch (quizType){
-            case "Matching":
-                ArrayList<Question> MatchingQuiz= generateMatchingQuiz(numberOfQuestions);
-                break;
-            case "TrueOrFalse":
-                generateTrueOrFalseQuiz(numberOfQuestions);
-                break;
-            case "MultipleChoice":
-                generateMultipleChoiceQuiz(numberOfQuestions);
-                break;
-            default:
-                //generateGeneralQuiz();
-                break;
-        }
-    }
     /**
      * Generates a quiz that consists of all types of questions
-     * @param multipleChoiceFile the filepath of the file that contains multiple choice questions
-     * @param matchingFilePath the filepath of the file that contains matching questions
-     * @param trueOrFalseFilePath the filepath of the file that contains true or false questions
+     *
      * @param numberOfQuestions the total number of questions the quiz will consist of
      * @return a List of questions
      */
-    public ArrayList<Question> generateGeneralQuiz(String multipleChoiceFile,String matchingFilePath, String trueOrFalseFilePath , int numberOfQuestions) {
+    public ArrayList<Question> generateGeneralQuiz(int numberOfQuestions) {
+        currentQuiz = new Quiz("General quiz");
         ArrayList<Question> allQuestions= new ArrayList<>();
         ArrayList<Question> mc= generateMultipleChoiceQuiz(numberOfQuestions/3);
         ArrayList<Question> matching= generateMatchingQuiz(numberOfQuestions/3);
@@ -103,6 +86,7 @@ public class Module implements Serializable{
         allQuestions.addAll(matching);
         allQuestions.addAll(tf);
         Collections.shuffle(allQuestions);
+        currentQuiz.setQuestions(allQuestions);
         return allQuestions;
     }
     /**
