@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Used to create a multiple choice question object and save information about it
+ * This class creates a multiple choice question object and saves information about it.
  * It inherits from the class Question
  * @author Lilas Beirakdar
  */

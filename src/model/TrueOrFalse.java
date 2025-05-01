@@ -3,6 +3,10 @@ package model;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class creates a TrueOrFalse question and saves information about it
+ * @auhtor Lilas Beirakdar
+ */
 public class TrueOrFalse extends Question {
     /**
      * Constructs a new true or false question

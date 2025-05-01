@@ -4,50 +4,66 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ A class that represents a flashcard with front and back content.
+ * @author Lilas Beirakdar
+ */
 public class FlashCard implements Serializable{
     private String frontContent;
     private String backContent;
 
-    public FlashCard(String FrontContent, String backContent) {
-        this.frontContent = FrontContent;
+    /**
+     * Constructs a flashcard object
+     * @param frontContent the String content of the front side of the flashcard
+     * @param backContent the String content of the back side of the flashcard
+     * @author Lilas Beirakdar
+     */
+    public FlashCard(String frontContent, String backContent) {
+        this.frontContent = frontContent;
         this.backContent = backContent;
     }
+
+    /**
+     * Sets the content of the backside of the flashcard
+     * @param content a String representation of the backside content
+     * @author Lilas Beirakdar
+     */
     public void setBackContent(String content) {
         this.backContent = content;
     }
+
+    /**
+     * Returns the content of the backside of the flashcard
+     * @return the backContent of the flashcard as String
+     * @author Lilas Beirakdar
+     */
     public String getBackContent() {
         return this.backContent;
     }
+
+    /**
+     * Returns the content of the front side of the flashcard
+     * @return the front contents of the flashcard as String
+     * @author Lilas Beirakdar
+     */
     public String getFrontContent() {
         return frontContent;
     }
+
+    /**
+     * Sets the front content of the front side of the flashcard
+     * @param frontContent a String representation of the backside content
+     * @author Lilas Beirakdar
+     */
     public void setFrontContent(String frontContent) {
         this.frontContent = frontContent;
     }
 
-    public void saveToFile(String filename, List<FlashCard> flashCard) {
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-            oos.writeObject(flashCard);
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());;
-        }
-    }
-
-    public ArrayList<FlashCard> loadFromFile(String filename) {
-        ArrayList<FlashCard> flashCards = new ArrayList<FlashCard>();
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename)) ) {
-            flashCards=(ArrayList<FlashCard>) ois.readObject();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return flashCards;
-    }
+    /**
+     * Returns a string representation of a flashcard.
+     * @return a String that contains the front content and back content of the flashcard
+     * @author Lilas Beirakdar
+     */
     public String toString(){
-        return frontContent+" "+frontContent;
+        return frontContent+" "+backContent;
     }}

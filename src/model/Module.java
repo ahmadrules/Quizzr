@@ -43,13 +43,13 @@ public class Module implements Serializable{
         this.flashCards.add(flashCard);
     }
     public ArrayList<FlashCard> loadFlashCardsFromFile(String filename) {
-        FlashCard flashCard=new FlashCard("","");
-        this.flashCards= flashCard.loadFromFile(filename);
+        FileHandler fileHandler = new FileHandler();
+        this.flashCards= fileHandler.loadFlashcardsFromFile(filename);
         return flashCards;
     }
     public void saveFlashCardsToFile(String filename) {
-        FlashCard flashCard=new FlashCard("","");
-        flashCard.saveToFile(filename, flashCards);
+        FileHandler fileHandler = new FileHandler();
+        fileHandler.saveFlashcardToFile(filename, flashCards);
     }
 
     public void saveQuiz(Quiz quiz){
@@ -75,6 +75,7 @@ public class Module implements Serializable{
      *
      * @param numberOfQuestions the total number of questions the quiz will consist of
      * @return a List of questions
+     * @author Lilas  Beirakdar
      */
     public ArrayList<Question> generateGeneralQuiz(int numberOfQuestions) {
         currentQuiz = new Quiz("General quiz");

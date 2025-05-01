@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class used to read files
+ * Class used to handle files, read from it and write to it
  * @author Lilas Beirakdar
  */
 public class FileHandler implements Serializable {
     /**
-     * a constructor to create an object of the filehandler class
+     * a constructor to create an object of the fileHandler class
      * @author Lilas Beirakdar
      */
     public FileHandler() {
@@ -62,4 +62,64 @@ public class FileHandler implements Serializable {
         return (ArrayList<T>) questions;
     }
 
+    /**
+     *
+     * @param filename
+     * @param question
+     */
+    public void saveQuestionToFile(String filename, Question question) {
+        try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename,true))){
+            outputStream.writeObject(question);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Question readQuestionFromFile(String filename) {
+        Question question1 = null;
+        File file = new File(filename);
+        try(ObjectInputStream objectInputStream= new ObjectInputStream(new FileInputStream(file))) {
+            question1= (Question) objectInputStream.readObject();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return question1;
+    }
+    /**
+     * Saves a flashcard object to a file
+     * @param filename the filepath of the file that will contain the flashcards
+     * @param flashCard a List of flashcards that will be saved to the file
+     * @author Lilas Beirakdar
+     */
+    public void saveFlashcardToFile(String filename, List<FlashCard> flashCard) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(flashCard);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());;
+        }
+    }
+    /**
+     *Loads a list of flashcards from a file
+     * @param filename  the filepath of the file that contains the flashcards
+     * @return a list of flashcards
+     * @author Lilas Beirakdar
+     */
+    public ArrayList<FlashCard> loadFlashcardsFromFile(String filename) {
+        ArrayList<FlashCard> flashCards = new ArrayList<FlashCard>();
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename)) ) {
+            flashCards=(ArrayList<FlashCard>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return flashCards;
+    }
 }
