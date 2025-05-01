@@ -89,6 +89,22 @@ public class Module implements Serializable{
         currentQuiz.setQuestions(allQuestions);
         return allQuestions;
     }
+
+    public ArrayList<Question> generateGeneralQuiz(Course selectedCourse, Module selectedModule, int numberOfQuestions) {
+        //Will be called by controller
+        currentQuiz = new Quiz("General quiz", selectedCourse, selectedModule);
+        ArrayList<Question> allQuestions= new ArrayList<>();
+        ArrayList<Question> mc= generateMultipleChoiceQuiz(selectedCourse, selectedModule, numberOfQuestions/3);
+        ArrayList<Question> matching= generateMatchingQuiz(selectedCourse, selectedModule, numberOfQuestions/3);
+        ArrayList<Question> tf= generateTrueOrFalseQuiz(selectedCourse, selectedModule, numberOfQuestions/3);
+        allQuestions.addAll(mc);
+        allQuestions.addAll(matching);
+        allQuestions.addAll(tf);
+        Collections.shuffle(allQuestions);
+        currentQuiz.setQuestions(allQuestions);
+        return allQuestions;
+    }
+
     /**
      * Generate a quiz that consists of multiple choice questions
      * @param numberOfQuestions the number of questions to include in the generated quiz
@@ -102,6 +118,16 @@ public class Module implements Serializable{
         currentQuiz.setQuestions(multipleChoiceQuestion);
         return generateRandomQuiz(multipleChoiceQuestion,numberOfQuestions);
     }
+
+    public ArrayList<Question> generateMultipleChoiceQuiz(Course selectedCourse,Module selectedModule, int numberOfQuestions) {
+        //Will be called by controller
+        currentQuiz = new Quiz("multiChoiceQuiz", selectedCourse, selectedModule);
+        MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
+        ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(multiChoiceFile.getPath(),multipleChoice);
+        currentQuiz.setQuestions(multipleChoiceQuestion);
+        return generateRandomQuiz(multipleChoiceQuestion,numberOfQuestions);
+    }
+
     /**
      * Generate a quiz that consists of true or false questions
      * @param numberOfQuestions the number of questions to include in the generated quiz
@@ -115,6 +141,15 @@ public class Module implements Serializable{
         currentQuiz.setQuestions(trueOrFalseQuestion);
         return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
     }
+
+    public ArrayList<Question> generateTrueOrFalseQuiz(Course selectedCourse, Module selectedModule, int numberOfQuestions){
+        //Will be called by controller
+        currentQuiz = new Quiz("trueOrFalseQuiz", selectedCourse, selectedModule);
+        TrueOrFalse trueOrFalse= new TrueOrFalse("", Collections.singletonList(""),0,"");
+        ArrayList<Question> trueOrFalseQuestion = fileHandler.loadQuestions(trueOrFalseFile.getPath(),trueOrFalse);
+        currentQuiz.setQuestions(trueOrFalseQuestion);
+        return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
+    }
     /**
      * Generate a quiz that consists of matching questions
      * @param numberOfQuestions the number of questions to include in the generated quiz
@@ -123,6 +158,16 @@ public class Module implements Serializable{
      */
     public ArrayList<Question> generateMatchingQuiz(int numberOfQuestions){
         currentQuiz = new Quiz("matching");
+        HashMap<String,Integer> matches=new HashMap<>();
+        Matching matching= new Matching("", Collections.singletonList(""), Collections.singletonList(""),0 ,matches);
+        ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(matchingFile.getPath(),matching);
+        currentQuiz.setQuestions(matchingQuestion);
+        return generateRandomQuiz(matchingQuestion,numberOfQuestions);
+    }
+
+    public ArrayList<Question> generateMatchingQuiz(Course selectedCourse, Module selectedModule, int numberOfQuestions){
+        //Will be called by controller
+        currentQuiz = new Quiz("matching", selectedCourse, selectedModule);
         HashMap<String,Integer> matches=new HashMap<>();
         Matching matching= new Matching("", Collections.singletonList(""), Collections.singletonList(""),0 ,matches);
         ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(matchingFile.getPath(),matching);

@@ -45,8 +45,17 @@ public class User {
     public void addToCreatedQuiz(Quiz newQuiz){
         createdQuiz.add(newQuiz);
     }
+
     public void addToCreatedFlashcards(FlashCard newFlashcard){
         flashCards.add(newFlashcard);
+    }
+
+    public List<Quiz> getCreatedQuiz() {
+        return createdQuiz;
+    }
+
+    public List<FlashCard> getFlashCards() {
+        return flashCards;
     }
 
     public String[] userInfoToString(){

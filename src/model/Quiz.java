@@ -8,6 +8,17 @@ public class Quiz implements Serializable {
     private Map<Question,String> userAnswers; //här finns det en link mellan vilken fråga ställs och svaret som användaren anger
     private String name;
     private int result;
+    private Module relatedModule;
+    private Course relatedCourse;
+
+    public Quiz(String name, Course relatedCourse, Module relatedModule) {
+        this.questions = new ArrayList<>();
+        this.name = name;
+        this.result = 0;
+        this.userAnswers = new LinkedHashMap<>();
+        this.relatedCourse = relatedCourse;
+        this.relatedModule = relatedModule;
+    }
 
     public Quiz(String name) {
         this.questions = new ArrayList<>();
@@ -84,5 +95,11 @@ public class Quiz implements Serializable {
         return correctAnswers;
     }
 
+    public Module getRelatedModule() {
+        return relatedModule;
+    }
 
+    public Course getRelatedCourse() {
+        return relatedCourse;
+    }
 }

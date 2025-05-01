@@ -18,14 +18,14 @@ public class Controller {
     private final String programsFileName = "src/model/files/programs.dat";
     private User currentUser;
     private Module currentModule;
+    private Quiz onGoingQuiz;
 
-
-    public Controller(){
+    public Controller() {
 
         programs = new ArrayList<>();
         courses = new ArrayList<>();
 
-        currentUser = new User("admin" , "admin" , "admin@email.com");
+        currentUser = new User("admin", "admin", "admin@email.com");
 
         createAndAddPrograms();
         createAndAddCourses();
@@ -36,33 +36,33 @@ public class Controller {
         SwingUtilities.invokeLater(view);
     }
 
-    public void createAndAddPrograms(){
+    public void createAndAddPrograms() {
         //Creating test programs and adding them to the list
         programs.add(new Program("Computer System Developer"));
         programs.add(new Program("Game Development"));
         programs.add(new Program("Data Technology"));
     }
 
-    public void createAndAddCourses(){
+    public void createAndAddCourses() {
         //Creating courses and adding them to the list and to the programs
         Course DA339A = new Course("Object-Oriented Programming", "Object-OrientedProgramming");
         Course DA343A = new Course("Object-Oriented Software Development, Threads And Data Communication", "Object-OrientedSoftwareDevelopment,ThreadsAndDataCommunication");
         Course DA336A = new Course("System Development And project", "SystemDevelopmentAndProject");
 
-        for(int m = 1; m <= 3; m++) {
-            DA339A.addModule(new Module("Module A"+ m, DA339A.getPackageName()));
+        for (int m = 1; m <= 3; m++) {
+            DA339A.addModule(new Module("Module A" + m, DA339A.getPackageName()));
         }
-        for(int m = 1; m <= 3; m++) {
-            DA343A.addModule(new Module("Module B"+ m, DA343A.getPackageName()));
+        for (int m = 1; m <= 3; m++) {
+            DA343A.addModule(new Module("Module B" + m, DA343A.getPackageName()));
         }
-        for(int m = 1; m <= 3; m++) {
-            DA336A.addModule(new Module("Module C"+ m, DA336A.getPackageName()));
+        for (int m = 1; m <= 3; m++) {
+            DA336A.addModule(new Module("Module C" + m, DA336A.getPackageName()));
         }
         courses.add(DA339A);
         courses.add(DA343A);
         courses.add(DA336A);
 
-        
+
         //Adding the courses to the first program "Computer System Developer"
         List<Course> coursesSYS = new ArrayList<>();
         coursesSYS.add(DA339A);
@@ -89,8 +89,8 @@ public class Controller {
     }
 
     //Method to get programs from file
-    public void loadProgramsFromFile(){
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(programsFileName))){
+    public void loadProgramsFromFile() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(programsFileName))) {
             while (true) {
                 try {
                     Program program = (Program) ois.readObject();
@@ -99,48 +99,49 @@ public class Controller {
                     break;
                 }
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }catch (ClassNotFoundException ex){
+        } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
     }
 
     //This method saves the head coded programs only once
-    public void saveProgramsToFile(){
+    public void saveProgramsToFile() {
 
         File file = new File(programsFileName);
 
-        if(file.exists() && file.length() > 0) {
+        if (file.exists() && file.length() > 0) {
             return;
         }
 
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))){
-            for(Program program : programs){
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))) {
+            for (Program program : programs) {
                 oos.writeObject(program);
             }
-        }catch(IOException e){
-            System.out.println(e.getMessage());;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            ;
         }
     }
 
-    public String[] getProgramsNames(){
+    public String[] getProgramsNames() {
         String[] programsNames = new String[programList.size()];
-        for(int p = 0; p < programList.size(); p++){
+        for (int p = 0; p < programList.size(); p++) {
             programsNames[p] = programList.get(p).getName();
         }
         return programsNames;
     }
 
-    public String[] getCoursesNames(String programName){
+    public String[] getCoursesNames(String programName) {
 
         //Search for the selected program by the programName
         String[] coursesNames = new String[0];
         Program currentProgram = null;
 
-        for(int p = 0; p < programList.size(); p++){
+        for (int p = 0; p < programList.size(); p++) {
             currentProgram = programList.get(p);
-            if(programName.equals(currentProgram.getName())){
+            if (programName.equals(currentProgram.getName())) {
                 coursesNames = new String[currentProgram.getCourses().size()];
                 break;
             }
@@ -154,28 +155,28 @@ public class Controller {
         return coursesNames;
     }
 
-    public String[] getModulesNames(String courseName){
+    public String[] getModulesNames(String courseName) {
 
         String[] modulesNames = new String[0];
         Course selectedCourse = null;
         boolean courseFound = false;
 
-        for(int p = 0; p < programList.size(); p++){
+        for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
-            for(int c = 0; c < currentProgram.getCourses().size(); c++){
+            for (int c = 0; c < currentProgram.getCourses().size(); c++) {
                 Course currentCourse = currentProgram.getCourses().get(c);
-                if(currentCourse.getName().equals(courseName)){
+                if (currentCourse.getName().equals(courseName)) {
                     selectedCourse = currentCourse;
                     modulesNames = new String[currentCourse.getModules().size()];
                     courseFound = true;
                     break;
                 }
             }
-            if(courseFound){
+            if (courseFound) {
                 break;
             }
         }
-        
+
         //Fill the list with modules names for the selected course
         for (int m = 0; m < modulesNames.length; m++) {
             Module currentModule = selectedCourse.getModules().get(m);
@@ -187,9 +188,9 @@ public class Controller {
     }
 
     //This method adds a new program to the programList then to the file
-    public void addProgramToProgramList(String programName){
-        for (Program program : programList){
-            if(program.getName().equals(programName)){
+    public void addProgramToProgramList(String programName) {
+        for (Program program : programList) {
+            if (program.getName().equals(programName)) {
                 return;
             }
         }
@@ -198,29 +199,30 @@ public class Controller {
         updateProgramsInFile();
     }
 
-    public void deleteProgramFromFile(String programName){
-        for(int p = 0; p < programList.size(); p++){
-            if(programList.get(p).getName().equals(programName)){
+    public void deleteProgramFromFile(String programName) {
+        for (int p = 0; p < programList.size(); p++) {
+            if (programList.get(p).getName().equals(programName)) {
                 programList.remove(programList.get(p));
             }
         }
         updateProgramsInFile();
     }
 
-    public void updateProgramsInFile(){
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))){
-            for(Program program : programList){
+    public void updateProgramsInFile() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))) {
+            for (Program program : programList) {
                 oos.writeObject(program);
             }
-        }catch(IOException e){
-            System.out.println(e.getMessage());;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            ;
         }
     }
 
-    public void addNewCourse(String programName, String courseName){
+    public void addNewCourse(String programName, String courseName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
-            if(currentProgram.getName().equals(programName)){
+            if (currentProgram.getName().equals(programName)) {
                 Course newCourse = new Course(courseName, courseName.trim());
                 currentProgram.addNewCourse(newCourse);
                 //TODO create a new package for the new course
@@ -230,35 +232,35 @@ public class Controller {
         updateProgramsInFile();
     }
 
-    public void addNewModule(String courseName, String moduleName){
+    public void addNewModule(String courseName, String moduleName) {
 
         Course requestedCourse = null;
         Program requestedProgram = null;
-        for(int p = 0; p < programList.size(); p++){
+        for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
-            for(int c = 0; c < currentProgram.getCourses().size(); c++){
+            for (int c = 0; c < currentProgram.getCourses().size(); c++) {
                 Course currentCourse = currentProgram.getCourses().get(c);
-                if(currentCourse.getName().equals(courseName)){
+                if (currentCourse.getName().equals(courseName)) {
                     requestedProgram = currentProgram;
                     requestedCourse = currentCourse;
                     break;
                 }
             }
         }
-        if(requestedCourse != null) {
+        if (requestedCourse != null) {
             Module newModule = new Module(moduleName, requestedCourse.getPackageName());
             requestedCourse.addModule(newModule);
         }
         updateProgramsInFile();
     }
 
-    public void deleteCourse(String programName,String courseName){
-        for (int p = 0; p < programList.size(); p++){
+    public void deleteCourse(String programName, String courseName) {
+        for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
-            if(currentProgram.getName().equals(programName)){
-                for(int c = 0; c <currentProgram.getCourses().size(); c++){
+            if (currentProgram.getName().equals(programName)) {
+                for (int c = 0; c < currentProgram.getCourses().size(); c++) {
                     Course currentCourse = currentProgram.getCourses().get(c);
-                    if(currentCourse.getName().equals(courseName)){
+                    if (currentCourse.getName().equals(courseName)) {
                         currentProgram.getCourses().remove(c);
                         //TODO remove the package for the course
                         courses.remove(currentCourse);
@@ -271,11 +273,11 @@ public class Controller {
     }
 
     public Module getModule(String programName, String courseName, String moduleName) {
-        for (Program program: programs) {
+        for (Program program : programs) {
             if (program.getName().equals(programName)) {
-                for (Course course: program.getCourses()) {
+                for (Course course : program.getCourses()) {
                     if (course.getName().equals(courseName)) {
-                        for (Module module: course.getModules()) {
+                        for (Module module : course.getModules()) {
                             if (module.getName().equals(moduleName)) {
                                 return module;
                             }
@@ -287,13 +289,13 @@ public class Controller {
         return null;
     }
 
-    public void deleteModule(String courseName, String moduleName){
-        for(int p = 0; p < programList.size(); p++){
+    public void deleteModule(String courseName, String moduleName) {
+        for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
-            for(int c = 0; c < currentProgram.getCourses().size(); c++){
-                if(currentProgram.getCourses().get(c).getName().equals(courseName)){
-                    for(int m = 0; m < currentProgram.getCourses().get(c).getModules().size(); m++) {
-                        if(currentProgram.getCourses().get(c).getModules().get(m).getName().equals(moduleName)){
+            for (int c = 0; c < currentProgram.getCourses().size(); c++) {
+                if (currentProgram.getCourses().get(c).getName().equals(courseName)) {
+                    for (int m = 0; m < currentProgram.getCourses().get(c).getModules().size(); m++) {
+                        if (currentProgram.getCourses().get(c).getModules().get(m).getName().equals(moduleName)) {
                             currentProgram.getCourses().get(c).getModules().remove(m);
                         }
                     }
@@ -301,10 +303,10 @@ public class Controller {
             }
         }
         //Edit courses
-        for(int c = 0; c < courses.size(); c++){
-            if(courses.get(c).getName().equals(courseName)) {
-                for(int m = 0; m < courses.get(c).getModules().size(); m++) {
-                    if(courses.get(c).getModules().get(m).getName().equals(moduleName)) {
+        for (int c = 0; c < courses.size(); c++) {
+            if (courses.get(c).getName().equals(courseName)) {
+                for (int m = 0; m < courses.get(c).getModules().size(); m++) {
+                    if (courses.get(c).getModules().get(m).getName().equals(moduleName)) {
                         courses.get(c).getModules().remove(m);
                     }
                 }
@@ -313,44 +315,45 @@ public class Controller {
         updateProgramsInFile();
     }
 
-    public void editProgramName(String oldProgramName, String updatedProgramName){
+    public void editProgramName(String oldProgramName, String updatedProgramName) {
         for (int p = 0; p < programList.size(); p++) {
-            if(programList.get(p).getName().equals(oldProgramName)){
+            if (programList.get(p).getName().equals(oldProgramName)) {
                 programList.get(p).setName(updatedProgramName);
             }
         }
         updateProgramsInFile();
     }
-    public void editCourseName(String oldCourseName, String updatedCourseName){
+
+    public void editCourseName(String oldCourseName, String updatedCourseName) {
 
         //Update for courses that belongs to programs
-        for (int p = 0; p < programList.size(); p++){
+        for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
-            for(int c = 0; c < currentProgram.getCourses().size(); c++) {
+            for (int c = 0; c < currentProgram.getCourses().size(); c++) {
                 Course currentCourse = programList.get(p).getCourses().get(c);
-                if(currentCourse.getName().equals(oldCourseName)){
+                if (currentCourse.getName().equals(oldCourseName)) {
                     currentCourse.setName(updatedCourseName);
                 }
             }
         }
 
-        for(int c = 0; c < courses.size(); c++){
-            if(courses.get(c).getName().equals(oldCourseName)){
+        for (int c = 0; c < courses.size(); c++) {
+            if (courses.get(c).getName().equals(oldCourseName)) {
                 courses.get(c).setName(updatedCourseName);
             }
         }
         updateProgramsInFile();
     }
 
-    public void editModuleName(String courseName, String oldModuleName, String updatedModuleName){
-        for(int p = 0; p < programList.size(); p++){
+    public void editModuleName(String courseName, String oldModuleName, String updatedModuleName) {
+        for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
-            for(int c = 0; c < currentProgram.getCourses().size(); c++){
+            for (int c = 0; c < currentProgram.getCourses().size(); c++) {
                 Course currentCourse = currentProgram.getCourses().get(c);
-                if(currentCourse.getName().equals(courseName)){
-                    for(int m = 0; m < currentCourse.getModules().size(); m++){
+                if (currentCourse.getName().equals(courseName)) {
+                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
                         Module currentModule = currentCourse.getModules().get(m);
-                        if(currentModule.getName().equals(oldModuleName)){
+                        if (currentModule.getName().equals(oldModuleName)) {
                             currentModule.setName(updatedModuleName);
                             break;
                         }
@@ -359,12 +362,12 @@ public class Controller {
             }
         }
 
-        for(int c = 0; c < courses.size(); c++){
+        for (int c = 0; c < courses.size(); c++) {
             Course currentCourse = courses.get(c);
-            if(courses.get(c).getName().equals(courseName)){
-                for(int m = 0; m < currentCourse.getModules().size(); m++){
+            if (courses.get(c).getName().equals(courseName)) {
+                for (int m = 0; m < currentCourse.getModules().size(); m++) {
                     Module currentModule = currentCourse.getModules().get(m);
-                    if(currentModule.getName().equals(oldModuleName)){
+                    if (currentModule.getName().equals(oldModuleName)) {
                         currentModule.setName(updatedModuleName);
                     }
                 }
@@ -373,8 +376,8 @@ public class Controller {
         updateProgramsInFile();
     }
 
-    public boolean ifProgramExists(String programName){
-        for (Program program:programList) {
+    public boolean ifProgramExists(String programName) {
+        for (Program program : programList) {
             if (program.getName().equals(programName)) {
                 return true;
             }
@@ -382,10 +385,10 @@ public class Controller {
         return false;
     }
 
-    public boolean ifCourseExists(String programName, String courseName){
-        for (Program program:programList) {
+    public boolean ifCourseExists(String programName, String courseName) {
+        for (Program program : programList) {
             if (program.getName().equals(programName)) {
-                for (Course course:program.getCourses()) {
+                for (Course course : program.getCourses()) {
                     if (course.getName().equals(courseName)) {
                         return true;
                     }
@@ -395,12 +398,12 @@ public class Controller {
         return false;
     }
 
-    public boolean ifModuleExists(String programName, String courseName, String moduleName){
-        for (Program program:programList) {
+    public boolean ifModuleExists(String programName, String courseName, String moduleName) {
+        for (Program program : programList) {
             if (program.getName().equals(programName)) {
-                for (Course course:program.getCourses()) {
+                for (Course course : program.getCourses()) {
                     if (course.getName().equals(courseName)) {
-                        for (Module module:course.getModules()) {
+                        for (Module module : course.getModules()) {
                             if (module.getName().equals(moduleName)) {
                                 return true;
                             }
@@ -442,17 +445,22 @@ public class Controller {
         return email != null && p.matcher(email).matches();
     }
 
-    public void generateTrueOrFalseQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions){
+    public void generateTrueOrFalseQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {
         ArrayList<Question> questions = new ArrayList<>();
-        for(int p = 0; p < programList.size(); p++){
-            for(int c = 0 ; c < programList.get(p).getCourses().size(); c++){
+        Course relatedCourse = null;
+        Module relatedModule = null;
+        for (int p = 0; p < programList.size(); p++) {
+            for (int c = 0; c < programList.get(p).getCourses().size(); c++) {
                 Course currentCourse = programList.get(p).getCourses().get(c);
-                if(currentCourse.getName().equals(selectedCourse)){
-                    for(int m = 0; m < currentCourse.getModules().size(); m++){
+                if (currentCourse.getName().equals(selectedCourse)) {
+                    relatedCourse = currentCourse;
+                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
                         Module currentModule = currentCourse.getModules().get(m);
-                        if(currentModule.getName().equals(selectedModule)){
+                        if (currentModule.getName().equals(selectedModule)) {
+                            relatedModule = currentModule;
                             this.currentModule = currentModule;
-                            questions = currentModule.generateTrueOrFalseQuiz(nbrOfQuestions);
+                            questions = currentModule.generateTrueOrFalseQuiz(relatedCourse, relatedModule, nbrOfQuestions);
+                            this.onGoingQuiz = currentModule.getCurrentQuiz();
                             break;
                         }
                     }
@@ -461,17 +469,22 @@ public class Controller {
         }
     }
 
-    public void generateMultipleChoiceQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions){
+    public void generateMultipleChoiceQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {
         ArrayList<Question> questions = new ArrayList<>();
-        for(int p = 0; p < programList.size(); p++){
-            for(int c = 0 ; c < programList.get(p).getCourses().size(); c++){
+        Course relatedCourse = null;
+        Module relatedModule = null;
+        for (int p = 0; p < programList.size(); p++) {
+            for (int c = 0; c < programList.get(p).getCourses().size(); c++) {
                 Course currentCourse = programList.get(p).getCourses().get(c);
-                if(currentCourse.getName().equals(selectedCourse)){
-                    for(int m = 0; m < currentCourse.getModules().size(); m++){
+                if (currentCourse.getName().equals(selectedCourse)) {
+                    relatedCourse = currentCourse;
+                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
                         Module currentModule = currentCourse.getModules().get(m);
-                        if(currentModule.getName().equals(selectedModule)){
+                        if (currentModule.getName().equals(selectedModule)) {
+                            relatedModule = currentModule;
                             this.currentModule = currentModule;
-                            questions = currentModule.generateMultipleChoiceQuiz(nbrOfQuestions);
+                            questions = currentModule.generateMultipleChoiceQuiz(relatedCourse, relatedModule, nbrOfQuestions);
+                            this.onGoingQuiz = currentModule.getCurrentQuiz();
                             break;
                         }
                     }
@@ -480,17 +493,22 @@ public class Controller {
         }
     }
 
-    public void generateMatchingQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions){
+    public void generateMatchingQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {
         ArrayList<Question> questions = new ArrayList<>();
-        for(int p = 0; p < programList.size(); p++){
-            for(int c = 0 ; c < programList.get(p).getCourses().size(); c++){
+        Course relatedCourse = null;
+        Module relatedModule = null;
+        for (int p = 0; p < programList.size(); p++) {
+            for (int c = 0; c < programList.get(p).getCourses().size(); c++) {
                 Course currentCourse = programList.get(p).getCourses().get(c);
-                if(currentCourse.getName().equals(selectedCourse)){
-                    for(int m = 0; m < currentCourse.getModules().size(); m++){
+                if (currentCourse.getName().equals(selectedCourse)) {
+                    relatedCourse = currentCourse;
+                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
                         Module currentModule = currentCourse.getModules().get(m);
-                        if(currentModule.getName().equals(selectedModule)){
+                        if (currentModule.getName().equals(selectedModule)) {
+                            relatedModule = currentModule;
                             this.currentModule = currentModule;
-                            questions = currentModule.generateMatchingQuiz(nbrOfQuestions);
+                            questions = currentModule.generateMatchingQuiz(relatedCourse, relatedModule, nbrOfQuestions);
+                            this.onGoingQuiz = currentModule.getCurrentQuiz();
                             break;
                         }
                     }
@@ -499,17 +517,22 @@ public class Controller {
         }
     }
 
-    public void generateGeneralQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions){
+    public void generateGeneralQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {
         ArrayList<Question> questions = new ArrayList<>();
-        for(int p = 0; p < programList.size(); p++){
-            for(int c = 0 ; c < programList.get(p).getCourses().size(); c++){
+        Course relatedCourse = null;
+        Module relatedModule = null;
+        for (int p = 0; p < programList.size(); p++) {
+            for (int c = 0; c < programList.get(p).getCourses().size(); c++) {
                 Course currentCourse = programList.get(p).getCourses().get(c);
-                if(currentCourse.getName().equals(selectedCourse)){
-                    for(int m = 0; m < currentCourse.getModules().size(); m++){
+                if (currentCourse.getName().equals(selectedCourse)) {
+                    relatedCourse = currentCourse;
+                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
                         Module currentModule = currentCourse.getModules().get(m);
-                        if(currentModule.getName().equals(selectedModule)){
+                        if (currentModule.getName().equals(selectedModule)) {
+                            relatedModule = currentModule;
                             this.currentModule = currentModule;
-                            questions = currentModule.generateGeneralQuiz(nbrOfQuestions);
+                            questions = currentModule.generateGeneralQuiz(relatedCourse, relatedModule, nbrOfQuestions);
+                            this.onGoingQuiz = currentModule.getCurrentQuiz();
                             break;
                         }
                     }
@@ -519,30 +542,27 @@ public class Controller {
     }
 
     /**
-     *
      * @return List of queries for the current selected quiz
      * @author Sara Sheikho
      */
-    public List<String> getQueryList(){
+    public List<String> getQueryList() {
         List<String> queryList = new ArrayList<>();
-        for(int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++){
+        for (int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++) {
             queryList.add(currentModule.getCurrentQuiz().getQuestions().get(i).getQuery());
         }
         return queryList;
     }
 
     /**
-     *
      * @param query This parameter has been sent by view to get the list of alternatives for the send query
-     *
      * @return List of alternatives soe the query
      * @author Sara Sheikho
      */
-    public List<String> getAlternativeList(String query){
+    public List<String> getAlternativeList(String query) {
         List<String> alternatives = new ArrayList<>();
-        for (int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++){
+        for (int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++) {
             Question currentQuestion = currentModule.getCurrentQuiz().getQuestions().get(i);
-            if(currentQuestion.getQuery().equals(query)){
+            if (currentQuestion.getQuery().equals(query)) {
                 alternatives = currentQuestion.getAlternatives();
             }
         }
@@ -550,24 +570,49 @@ public class Controller {
     }
 
     /**
-     *
      * @return A list of correct answers for the list of questions for the current selected quiz
      * @author Sara Sheikho
      */
-    public List<String> getCorrectAnswers(){
+    public List<String> getCorrectAnswers() {
         List<String> correctAnswers = new ArrayList<>();
-        for (int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++){
+        for (int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++) {
             correctAnswers.add(currentModule.getCurrentQuiz().getQuestions().get(i).getCorrectAnswer());
         }
         return correctAnswers;
     }
 
     /**
-     *
      * @param questionIndex that view will send to get the matches of the current question
      * @return list of the question matches
      */
-    public List<String> getMatches(int questionIndex){
+    public List<String> getMatches(int questionIndex) {
         return currentModule.getCurrentQuiz().getQuestions().get(questionIndex).getMatches();
+    }
+
+    public List<String> getQuizHistory(String selectedCourse, String selectedModule) {
+        List<String> createdQuizNames = new ArrayList<>();
+        for (int i = 0; i < currentUser.getCreatedQuiz().size(); i++) {
+            Quiz currentQuiz = currentUser.getCreatedQuiz().get(i);
+            String relatedCourse = currentQuiz.getRelatedCourse().getName();
+            String relatedModule = currentQuiz.getRelatedModule().getName();
+            if (relatedCourse.equals(selectedCourse) && relatedModule.equals(selectedModule)) {
+                createdQuizNames.add(currentQuiz.getName());
+            }
+        }
+        return createdQuizNames;
+    }
+
+    public void reDoQuiz(String selectedCourse, String selectedModule, String selectedQuiz) {
+        for (int i = 0; i < currentUser.getCreatedQuiz().size(); i++) {
+            Quiz currentQuiz = currentUser.getCreatedQuiz().get(i);
+            String relatedCourse = currentQuiz.getRelatedCourse().getName();
+            String relatedModule = currentQuiz.getRelatedModule().getName();
+            if(relatedCourse.equals(selectedCourse) && relatedModule.equals(selectedModule)){
+                if(currentQuiz.getName().equals(selectedQuiz)){
+                    this.onGoingQuiz = currentQuiz;
+                    this.currentModule = currentQuiz.getRelatedModule();
+                }
+            }
+        }
     }
 }
