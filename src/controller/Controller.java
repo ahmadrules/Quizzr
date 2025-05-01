@@ -26,6 +26,7 @@ public class Controller {
         courses = new ArrayList<>();
 
         currentUser = new User("admin", "admin", "admin@email.com");
+        currentUser.loadCreatedQuizes();
 
         createAndAddPrograms();
         createAndAddCourses();
