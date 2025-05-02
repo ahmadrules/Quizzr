@@ -102,13 +102,13 @@ public class MainQuizFrame extends JFrame {
         quizList.add(newQuiz);
 
         if (typeOfQuiz.equals("Matching")) {
-            questionsList = currentModule.generateMatchingQuiz("src/model/files/course2/module1/matching_questions.txt", amountOfQuestions);
+            questionsList = currentModule.generateMatchingQuiz(amountOfQuestions);
         }
         else if (typeOfQuiz.equals("True/False")) {
-            questionsList = currentModule.generateTrueOrFalseQuiz("src/model/files/course2/module1/trueFalse_questions.txt", amountOfQuestions);
+            questionsList = currentModule.generateTrueOrFalseQuiz(amountOfQuestions);
         }
         else if (typeOfQuiz.equals("Multiple choice")) {
-            questionsList = currentModule.generateMultipleChoiceQuiz("src/model/files/course2/module1/multiChoice_questions.txt", amountOfQuestions);
+            questionsList = currentModule.generateMultipleChoiceQuiz(amountOfQuestions);
         }
 
         questionsList.forEach(question -> {newQuiz.addQuestion(question);});
