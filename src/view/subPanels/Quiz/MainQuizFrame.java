@@ -13,26 +13,29 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainQuizFrame extends JFrame {
     private Module currentModule;
     private String selectedModule;
     private String selectedCourse;
     private String selectedProgram;
+
     private MainFrame mainFrame;
-    private Quiz currentQuiz;
+
+    private JPanel mainPanel;
+
     private JPanel buttonPanel;
     private JButton startQuizButton;
     private JButton generateButton;
+
+    private Quiz currentQuiz;
     private List<Question> questionsList;
     private JList<String> availableQuizList;
     private DefaultListModel<String> quizListModel;
-    private int timerAmount;
     private ArrayList<Quiz> quizList;
     private HashMap<Quiz, List<Question>> quizQuestions;
+
+
 
     public MainQuizFrame(String selectedProgram, String selectedCourse, String selectedModule, MainFrame mainFrame) {
         this.selectedProgram = selectedProgram;
@@ -45,20 +48,26 @@ public class MainQuizFrame extends JFrame {
         fetchModule();
         createList();
         createButtonPanel();
+        addTabList();
         addActionListeners();
         setVisible(true);
-    }
-
-    public List<Question> getQuestions(Quiz quiz) {
-        return quizQuestions.get(quiz);
     }
 
     public void setLayout() {
         setLayout(new BorderLayout());
         setSize(400, 200);
 
+        mainPanel = new JPanel(new BorderLayout());
+
         JLabel quizLabel = new JLabel("Available quiz", SwingConstants.CENTER);
-        add(quizLabel, BorderLayout.NORTH);
+        mainPanel.add(quizLabel, BorderLayout.NORTH);
+
+        add(mainPanel, BorderLayout.CENTER);
+    }
+
+    public void addTabList() {
+        TabPanel tabPanel = new TabPanel(this);
+        add(tabPanel, BorderLayout.EAST);
     }
 
     public void createList() {
@@ -67,7 +76,7 @@ public class MainQuizFrame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(availableQuizList);
 
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
-        add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         quizQuestions = new HashMap<>();
         quizList = new ArrayList<>();
@@ -86,7 +95,7 @@ public class MainQuizFrame extends JFrame {
         buttonPanel.add(startQuizButton);
         buttonPanel.add(generateButton);
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     public void showQuiz() {
@@ -111,7 +120,11 @@ public class MainQuizFrame extends JFrame {
             questionsList = currentModule.generateMultipleChoiceQuiz(amountOfQuestions);
         }
 
-        questionsList.forEach(question -> {newQuiz.addQuestion(question);});
+        questionsList.forEach(question -> {
+            newQuiz.addQuestion(question);
+            System.out.println(question.toString());
+
+        });
         quizQuestions.put(newQuiz, questionsList);
 
         updateList(quizName);

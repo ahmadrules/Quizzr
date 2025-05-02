@@ -18,13 +18,15 @@ public class QuestionFrame extends JFrame {
     private MainQuizFrame mainQuizFrame;
     private JPanel mainQuestionPanel;
     private ArrayList<ButtonGroup> buttonGroups;
-    private ArrayList<JComboBox> comboBoxes;
+    private HashMap<Question, ButtonGroup> questionButtonGroupMap;
     private HashMap<Integer, ArrayList<JComboBox>> comboBoxMap;
+    private HashMap<Question, ArrayList<JComboBox>> questionComboBoxMap;
     private ItemListener comboBoxListenerSelected;
     private ItemListener comboBoxListenerDeselected;
     private JButton submitButton;
     private String previousItem;
     private Quiz currentQuiz;
+
 
     public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame) {
         this.questionList = questionList;
@@ -62,33 +64,26 @@ public class QuestionFrame extends JFrame {
     }
 
     public void getUserAnswers() {
-        int counter = 0;
+        for (Question question : questionList) {
+            if (questionButtonGroupMap.containsKey(question)) {
+                ButtonGroup buttonGroup = questionButtonGroupMap.get(question);
 
-        if (buttonGroups != null && !buttonGroups.isEmpty()) {
-            for (ButtonGroup buttonGroup : buttonGroups) {
-                Question currentQuestion = questionList.get(counter);
                 String currentAnswer = "Empty";
                 if (buttonGroup.getSelection() != null) {
                     currentAnswer = buttonGroup.getSelection().getActionCommand();
                 }
-
-                currentQuiz.addUserAnswer(currentQuestion, currentAnswer);
-                counter++;
+                currentQuiz.addUserAnswer(question, currentAnswer);
             }
-        }
 
-        else {
-            if (comboBoxes != null && !comboBoxes.isEmpty()) {
-                for (Map.Entry<Integer, ArrayList<JComboBox>> entry : comboBoxMap.entrySet()) {
-                    ArrayList<JComboBox> comboBoxes1 = entry.getValue();
-                    String currentAnswer = "";
-                    for (JComboBox comboBox : comboBoxes1) {
-                        currentAnswer = currentAnswer + comboBox.getSelectedItem() + ":" + comboBox.getName() + ",";
-                    }
-                    System.out.println(currentAnswer);
-                    currentQuiz.addUserAnswer(questionList.get(counter), currentAnswer);
-                    counter++;
+            else if (questionComboBoxMap.containsKey(question)) {
+                int comboBoxCounter = 1;
+                ArrayList<JComboBox> comboBoxes = questionComboBoxMap.get(question);
+                String currentAnswer = "";
+
+                for (JComboBox comboBox : comboBoxes) {
+                    currentAnswer += comboBox.getSelectedItem() + ":" + comboBoxCounter++ + ",";
                 }
+                currentQuiz.addUserAnswer(question, currentAnswer);
             }
         }
     }
@@ -106,16 +101,19 @@ public class QuestionFrame extends JFrame {
     public void setupQuestions() {
         int questionId = 1;
         int mapCounter = 0;
+
+        questionButtonGroupMap = new HashMap<>();
+        questionComboBoxMap = new HashMap<>();
+
         buttonGroups = new ArrayList<>();
-        comboBoxes = new ArrayList<>();
         comboBoxMap = new HashMap<Integer, ArrayList<JComboBox>>();
 
         for (Question question : questionList) {
 
             //Matching questions are set up here.
             if (question instanceof Matching) {
-                int counter = 1;
-                comboBoxes = new ArrayList<>();
+                int counter = 0;
+                ArrayList<JComboBox> comboBoxes = new ArrayList<>();
 
                 JPanel questionPanel = new JPanel(new BorderLayout());
 
@@ -135,8 +133,7 @@ public class QuestionFrame extends JFrame {
                     comboBoxes.add(comboBox);
 
                     //Set labels
-                    comboBox.setName(Integer.toString(counter));
-                    comboBox.setSelectedIndex(counter - 1);
+                    comboBox.setSelectedIndex(counter);
                     comboBox.setActionCommand(Integer.toString(mapCounter));
 
                     //Add listeners
@@ -148,11 +145,10 @@ public class QuestionFrame extends JFrame {
                     JLabel alternativeLabel = new JLabel(alternative);
                     alternativeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
-                    JLabel matchLabel = new JLabel(matchAlternatives.get(counter - 1));
+                    JLabel matchLabel = new JLabel(matchAlternatives.get(counter));
                     matchLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
                     comboBoxPanel.add(comboBox, BorderLayout.WEST);
-
                     comboBoxPanel.add(matchLabel, BorderLayout.CENTER);
 
                     alternativesPanel.add(alternativeLabel);
@@ -162,6 +158,8 @@ public class QuestionFrame extends JFrame {
 
                 }
                 comboBoxMap.put(mapCounter++, comboBoxes);
+                questionComboBoxMap.put(question, comboBoxes);
+
                 questionPanel.add(alternativesPanel);
                 mainQuestionPanel.add(questionPanel);
             }
@@ -192,6 +190,7 @@ public class QuestionFrame extends JFrame {
                     alternativesPanel.add(checkBox);
                 }
 
+                questionButtonGroupMap.put(question, buttonGroup);
                 mainQuestionPanel.add(questionPanel);
             }
         }
