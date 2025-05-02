@@ -25,20 +25,14 @@ public class MainQuizFrame extends JFrame {
     private MainFrame mainFrame;
     private Quiz currentQuiz;
     private JPanel buttonPanel;
-    private JButton trueOrFalseButton;
-    private JButton multiButton;
-    private JButton matchingButton;
     private JButton startQuizButton;
+    private JButton generateButton;
     private List<Question> questionsList;
     private JList<String> availableQuizList;
-    private String[] quizNames;
     private DefaultListModel<String> quizListModel;
     private int timerAmount;
     private ArrayList<Quiz> quizList;
     private HashMap<Quiz, List<Question>> quizQuestions;
-    int counterMC = 1;
-    int counterTF = 1;
-    int counterMA = 1;
 
     public MainQuizFrame(String selectedProgram, String selectedCourse, String selectedModule, MainFrame mainFrame) {
         this.selectedProgram = selectedProgram;
@@ -61,7 +55,7 @@ public class MainQuizFrame extends JFrame {
 
     public void setLayout() {
         setLayout(new BorderLayout());
-        setSize(700, 200);
+        setSize(400, 200);
 
         JLabel quizLabel = new JLabel("Available quiz", SwingConstants.CENTER);
         add(quizLabel, BorderLayout.NORTH);
@@ -70,9 +64,10 @@ public class MainQuizFrame extends JFrame {
     public void createList() {
         quizListModel = new DefaultListModel();
         availableQuizList = new JList(quizListModel);
+        JScrollPane scrollPane = new JScrollPane(availableQuizList);
 
-        availableQuizList.setBorder(BorderFactory.createLineBorder(Color.black));
-        add(availableQuizList, BorderLayout.CENTER);
+        scrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
+        add(scrollPane, BorderLayout.CENTER);
 
         quizQuestions = new HashMap<>();
         quizList = new ArrayList<>();
@@ -83,17 +78,13 @@ public class MainQuizFrame extends JFrame {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
-        trueOrFalseButton = new JButton("Generate true/false quiz");
-        multiButton = new JButton("Generate multiple choice quiz");
-        matchingButton = new JButton("Generate matching quiz");
         startQuizButton = new JButton("Start quiz");
+        generateButton = new JButton("Generate quiz");
 
         startQuizButton.setEnabled(false);
 
         buttonPanel.add(startQuizButton);
-        buttonPanel.add(trueOrFalseButton);
-        buttonPanel.add(multiButton);
-        buttonPanel.add(matchingButton);
+        buttonPanel.add(generateButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -106,44 +97,25 @@ public class MainQuizFrame extends JFrame {
         currentModule = mainFrame.getCurrentModule(selectedProgram, selectedCourse, selectedModule);
     }
 
-    public void generateTrueOrFalse() {
-        String quizName = "True or False " + counterTF++;
-
+    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz) {
         Quiz newQuiz = new Quiz(quizName);
         quizList.add(newQuiz);
 
-        questionsList = currentModule.generateTrueOrFalseQuiz(10);
+        if (typeOfQuiz.equals("Matching")) {
+            questionsList = currentModule.generateMatchingQuiz("src/model/files/course2/module1/matching_questions.txt", amountOfQuestions);
+        }
+        else if (typeOfQuiz.equals("True/False")) {
+            questionsList = currentModule.generateTrueOrFalseQuiz("src/model/files/course2/module1/trueFalse_questions.txt", amountOfQuestions);
+        }
+        else if (typeOfQuiz.equals("Multiple choice")) {
+            questionsList = currentModule.generateMultipleChoiceQuiz("src/model/files/course2/module1/multiChoice_questions.txt", amountOfQuestions);
+        }
+
         questionsList.forEach(question -> {newQuiz.addQuestion(question);});
         quizQuestions.put(newQuiz, questionsList);
 
         updateList(quizName);
-    }
 
-    public void generateMultipleChoice() {
-        String quizName = "Multiple Choice " + counterMC++;
-
-        Quiz newQuiz = new Quiz(quizName);
-        quizList.add(newQuiz);
-
-        questionsList = currentModule.generateMultipleChoiceQuiz(10);
-        questionsList.forEach(question -> {newQuiz.addQuestion(question);});
-        quizQuestions.put(newQuiz, questionsList);
-
-
-        updateList(quizName);
-    }
-
-    public void generateMatching() {
-        String quizName = "Matching " + counterMA++;
-
-        Quiz newQuiz = new Quiz(quizName);
-        quizList.add(newQuiz);
-
-        questionsList = currentModule.generateMatchingQuiz(10);
-        questionsList.forEach(question -> {newQuiz.addQuestion(question);});
-        quizQuestions.put(newQuiz, questionsList);
-
-        updateList(quizName);
     }
 
     public void updateList(String quizName) {
@@ -153,16 +125,8 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void addActionListeners() {
-        trueOrFalseButton.addActionListener(e -> {
-            generateTrueOrFalse();
-        });
-
-        multiButton.addActionListener(e -> {
-            generateMultipleChoice();
-        });
-
-        matchingButton.addActionListener(e -> {
-            generateMatching();
+        generateButton.addActionListener(e -> {
+            new QuizOptionsPanel(this);
         });
 
         availableQuizList.addListSelectionListener(e -> {
@@ -186,5 +150,4 @@ public class MainQuizFrame extends JFrame {
             showQuiz();
         });
     }
-
 }

@@ -31,7 +31,7 @@ public class QuestionFrame extends JFrame {
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
 
-        setTitle("Good luck!");
+        setTitle("Quiz options");
         setLayout(new BorderLayout());
         setSize(400, 500);
 
