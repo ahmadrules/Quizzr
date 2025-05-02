@@ -10,6 +10,7 @@ public class Quiz implements Serializable {
     private int result;
     private Module relatedModule;
     private Course relatedCourse;
+    private boolean timer;
 
     public Quiz(String name, Course relatedCourse, Module relatedModule) {
         this.questions = new ArrayList<>();
@@ -18,6 +19,7 @@ public class Quiz implements Serializable {
         this.userAnswers = new LinkedHashMap<>();
         this.relatedCourse = relatedCourse;
         this.relatedModule = relatedModule;
+        this.timer = false;
     }
 
     public Quiz(String name) {
@@ -101,5 +103,8 @@ public class Quiz implements Serializable {
 
     public Course getRelatedCourse() {
         return relatedCourse;
+    }
+    public void setTimer(boolean timer) {
+        this.timer = timer;
     }
 }

@@ -6,10 +6,12 @@ import java.util.List;
 
 public class UserManager {
     List<User> users;
+    private User currentUser;
     private final String userFilePath="src/model/files/users.dat";
 
     public UserManager() {
-        users = new ArrayList<>();
+        this.users= loadUsersFromFiles();
+        this.currentUser = null;
     }
 
     public boolean doesUserEmailExist(String email) {
@@ -19,6 +21,9 @@ public class UserManager {
             }
         }
         return false;
+    }
+    public User getCurrentUser() {
+        return currentUser;
     }
 
     public boolean doesUsernameExist(String userName) {
@@ -39,13 +44,18 @@ public class UserManager {
         return false;
     }
 
-    public User loginUser(String Email, String password) {
+    public boolean loginUser(String Email, String password) {
         for (User user : users) {
             if (user.getEmail().equals(Email) && user.getPassword().equals(password)) {
-                return user;
+                this.currentUser = user;
+                return true;
             }
         }
-        return null;
+        return false;
+    }
+
+    public void logoutUser() {
+        this.currentUser = null;
     }
 
     public User getUserByEmail(String email) {
@@ -60,7 +70,7 @@ public class UserManager {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userFilePath))){
             oos.writeObject(users);
         } catch (IOException e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
     public List<User> loadUsersFromFiles() {
