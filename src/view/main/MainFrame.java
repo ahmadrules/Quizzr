@@ -151,6 +151,9 @@ public class MainFrame extends JFrame implements Runnable {
     public boolean isEmailValid(String email) {
         return controller.isEmailValid(email);
     }
+    public boolean registerNewUser(String username, String password, String email, String programCode) {
+        return controller.registerNewUser(username, email, password, programCode);
+    }
 
     @Override
     public void run() {

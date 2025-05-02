@@ -19,6 +19,7 @@ public class Controller {
     private User currentUser;
     private Module currentModule;
     private Quiz onGoingQuiz;
+    private UserManager userManager;
 
     public Controller() {
 
@@ -30,6 +31,8 @@ public class Controller {
 
         createAndAddPrograms();
         createAndAddCourses();
+
+        this.userManager = new UserManager();
 
         //Starting the GUI
         view = new MainFrame(this);
@@ -444,6 +447,22 @@ public class Controller {
 
         // Check if email matches the pattern
         return email != null && p.matcher(email).matches();
+    }
+
+    public boolean registerNewUser(String username, String email, String password, String programCode) {
+        return userManager.registerNewUser(username, email, password, programCode);
+    }
+
+    public boolean loginUser(String username, String password) {
+        return userManager.loginUser(username, password);
+    }
+
+    public void logoutUser() {
+        userManager.logoutUser();
+    }
+
+    public void saveUsers() {
+        userManager.saveUsersToFiles();
     }
 
     public void generateTrueOrFalseQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {

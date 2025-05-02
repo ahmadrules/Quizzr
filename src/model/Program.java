@@ -10,6 +10,7 @@ import java.util.List;
 public class Program implements Serializable {
     private String name;
     private List<Course> courses;
+    private String programCode;
 
     public Program(String name, ArrayList<Course> courses) {
         this.name = name;

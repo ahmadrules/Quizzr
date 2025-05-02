@@ -35,10 +35,12 @@ public class LogInFrame extends JFrame {
     private JPanel confirmPasswordPanel;
     private JPanel newEmailPanel;
     private JPanel registerButtonPanel;
+    private JTextField programCodeField;
+    private JPanel programCodePanel;
 
     public LogInFrame(MainFrame mainFrame) {
      this.mainFrame = mainFrame;
-     setResizable(false);
+     setResizable(true);
      topLabel = new JLabel("", SwingConstants.CENTER);
      mainPanel = new JPanel();
      add(mainPanel);
@@ -66,6 +68,7 @@ public class LogInFrame extends JFrame {
         registerPanel.add(newUserNamePanel);
         registerPanel.add(newPasswordPanel);
         registerPanel.add(confirmPasswordPanel);
+        registerPanel.add(programCodePanel);
         registerPanel.add(registerButtonPanel);
     }
 
@@ -131,16 +134,19 @@ public class LogInFrame extends JFrame {
         JLabel newUsernameLabel = new JLabel("Enter username:");
         JLabel newPasswordLabel = new JLabel("Enter password:");
         JLabel confirmPasswordLabel = new JLabel("Confirm password:");
+        JLabel programCodeLabel = new JLabel("Enter program code:");
 
         newNameField = new JTextField(10);
         newPasswordField = new JPasswordField(10);
         confirmPasswordField = new JPasswordField(10);
         newEmailField = new JTextField(10);
+        programCodeField = new JTextField(10);
 
         newUserNamePanel = new JPanel(new FlowLayout());
         newPasswordPanel = new JPanel(new FlowLayout());
         confirmPasswordPanel = new JPanel(new FlowLayout());
         newEmailPanel = new JPanel(new FlowLayout());
+        programCodePanel = new JPanel(new FlowLayout());
         registerButtonPanel = new JPanel(new FlowLayout());
 
         newUserNamePanel.add(newUsernameLabel);
@@ -154,6 +160,9 @@ public class LogInFrame extends JFrame {
 
         newEmailPanel.add(newEmailLabel);
         newEmailPanel.add(newEmailField);
+
+        programCodePanel.add(programCodeLabel);
+        programCodePanel.add(programCodeField);
     }
 
     /**
@@ -242,6 +251,14 @@ public class LogInFrame extends JFrame {
                     if (newPassword != null && !newPassword.isEmpty()) {
                         if (newPassword.equals(confirmedPassword)) {
                             //@TODO Add function for creating new user
+                            //@TODO control that programs code is equal to programCodeList
+                            String programCode = programCodeField.getText();
+                            boolean success= mainFrame.registerNewUser(newUsername,newPassword,newEmail,programCode);
+                            if (success) {
+                                JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
+                            }else{
+                                JOptionPane.showMessageDialog(mainPanel, "User already exists");
+                            }
                         }
                         else {
                             JOptionPane.showMessageDialog(mainFrame, "Passwords do not match");
