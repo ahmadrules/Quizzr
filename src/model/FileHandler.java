@@ -104,7 +104,7 @@ public class FileHandler implements Serializable {
         int points = question.getPoints();
         String correctAnswer = question.getCorrectAnswer();
         String questionToBeSaved= query+";"+firstAlternative+";"+
-                secondAlternative+";"+correctAnswer+";"+points;
+                secondAlternative+";"+points+";"+correctAnswer;
         writeQuestionToFile(filename, questionToBeSaved);
 
     }
@@ -114,7 +114,7 @@ public class FileHandler implements Serializable {
      * @param filename
      * @param question
      */
-    public void writeMultipleChoiceToFile(String filename, Matching question) {
+    public void saveMatchingQuestionToFile(String filename, Matching question) {
 
         String query = question.getQuery();
 
@@ -142,7 +142,8 @@ public class FileHandler implements Serializable {
             correctAnswer.setLength(correctAnswer.length()-1);
         }
         String correctMatchesString= correctAnswer.toString();
-        String questionToWrite= query+";"+alternativesString+";"+matchesString+";"+correctMatchesString;
+
+        String questionToWrite= query+";"+alternativesString+";"+matchesString+";"+points+";"+correctMatchesString;
         writeQuestionToFile(filename, questionToWrite);
 
 
