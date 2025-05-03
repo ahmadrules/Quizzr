@@ -67,13 +67,25 @@ public class FileHandler implements Serializable {
      * @param filename
      * @param question
      */
-    public void saveQuestionToFile(String filename, Question question) {
-        try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename,true))){
-            outputStream.writeObject(question);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void saveMultipleChoiceToFile(String filename, Question question) {
+        String query = question.getQuery();
+        List<String> alternatives= question.getAlternatives();
+        String firstAlternative = alternatives.get(0);
+        String secondAlternative = alternatives.get(1);
+        String thirdAlternative = alternatives.get(2);
+        String correctAnswer = question.getCorrectAnswer();
+        int points = question.getPoints();
+        String questionToBeSaved= query+";"+firstAlternative+";"+secondAlternative+";"
+                +thirdAlternative+";"+correctAnswer+";"+points;
+        File file = new File(filename);
+        try(BufferedWriter bufferedWriter= new BufferedWriter(new FileWriter(file, true))) {
+            bufferedWriter.write(questionToBeSaved);
         }
-    }
+        catch (IOException e) {
+            System.out.println("Error saving question");
+        }
+        }
+
     public Question readQuestionFromFile(String filename) {
         Question question1 = null;
         File file = new File(filename);
@@ -88,6 +100,7 @@ public class FileHandler implements Serializable {
         }
         return question1;
     }
+
     /**
      * Saves a flashcard object to a file
      * @param filename the filepath of the file that will contain the flashcards
@@ -103,6 +116,7 @@ public class FileHandler implements Serializable {
             System.out.println(e.getMessage());;
         }
     }
+
     /**
      *Loads a list of flashcards from a file
      * @param filename  the filepath of the file that contains the flashcards
