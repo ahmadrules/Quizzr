@@ -5,13 +5,19 @@ import java.util.*;
 
 public class Quiz implements Serializable {
     private List<Question> questions;
-    private Map<Question,String> userAnswers; //här finns det en link mellan vilken fråga ställs och svaret som användaren anger
+    private Map<Question,String> userAnswers;
     private String name;
     private int result;
     private Module relatedModule;
     private Course relatedCourse;
     private boolean timer;
 
+    /**
+     * Constructs a quiz object
+     * @param name name of the quiz
+     * @param relatedCourse the course that the created quiz will be related to
+     * @param relatedModule the Module that the created quiz will be related to
+     */
     public Quiz(String name, Course relatedCourse, Module relatedModule) {
         this.questions = new ArrayList<>();
         this.name = name;
@@ -56,7 +62,13 @@ public class Quiz implements Serializable {
         return name;
     }
 
-    // primärt
+    /**
+     * Calculates the total number of points earned by the user
+     * It compares users answer with the right answer
+     * and add points to the total if the answer is right
+     * @return the total points earned by the user
+     * @author Lilas Beirakdar
+     */
     public int CalculateTestResult(){
         int total = 0;
         for (Map.Entry<Question,String> entry : userAnswers.entrySet()) {
@@ -77,9 +89,16 @@ public class Quiz implements Serializable {
         questions.add(question);
     }
 
+    /**
+     * Adds the given user answer with it's related question to user answers hashmap
+     * @param question The question that the user has answered
+     * @param answer user's answer as a String
+     * @author Lilas Beirakdar
+     */
     public void addUserAnswer(Question question, String answer) {
         userAnswers.put(question,answer);
     }
+
     public int getTotalPoints(){
         int total = 0;
         for (Question question : questions) {
@@ -87,6 +106,7 @@ public class Quiz implements Serializable {
         }
         return total;
     }
+
     public int getNumberOfCorrectAnswers() {
         int correctAnswers = 0;
         for (Map.Entry<Question,String> entry : userAnswers.entrySet()) {

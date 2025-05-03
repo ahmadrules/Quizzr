@@ -30,9 +30,20 @@ public class Module implements Serializable{
         createFiles();
     }
 
+    /**
+     * Returns Modules name
+     * @return A String representing module's name
+     * @author Lilas Beirakdar
+     */
     public String getName() {
         return name;
     }
+
+    /**
+     * Sets module's name
+     * @param name module's name
+     * @author Lilas Beirakdar
+     */
     public void setName(String name) {
         this.name = name;
     }
