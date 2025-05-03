@@ -2,7 +2,9 @@ package model;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class used to handle files, read from it and write to it
@@ -67,7 +69,21 @@ public class FileHandler implements Serializable {
      * @param filename
      * @param question
      */
-    public void saveMultipleChoiceToFile(String filename, Question question) {
+    public void writeQuestionToFile(String filename, String question) {
+        File file = new File(filename);
+        try(BufferedWriter bufferedWriter= new BufferedWriter(new FileWriter(file, true))) {
+            bufferedWriter.write(question);
+        }
+        catch (IOException e) {
+            System.out.println("Error saving question");
+        }
+    }
+    /**
+     *
+     * @param filename
+     * @param question
+     */
+    public void saveMultipleChoiceToFile(String filename, MultipleChoice question) {
         String query = question.getQuery();
         List<String> alternatives= question.getAlternatives();
         String firstAlternative = alternatives.get(0);
@@ -77,30 +93,61 @@ public class FileHandler implements Serializable {
         int points = question.getPoints();
         String questionToBeSaved= query+";"+firstAlternative+";"+secondAlternative+";"
                 +thirdAlternative+";"+correctAnswer+";"+points;
-        File file = new File(filename);
-        try(BufferedWriter bufferedWriter= new BufferedWriter(new FileWriter(file, true))) {
-            bufferedWriter.write(questionToBeSaved);
-        }
-        catch (IOException e) {
-            System.out.println("Error saving question");
-        }
-        }
-
-    public Question readQuestionFromFile(String filename) {
-        Question question1 = null;
-        File file = new File(filename);
-        try(ObjectInputStream objectInputStream= new ObjectInputStream(new FileInputStream(file))) {
-            question1= (Question) objectInputStream.readObject();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        return question1;
+        writeQuestionToFile(filename, questionToBeSaved);
     }
 
+    public void saveTrueOrFalseQuestionToFile(String filename, Question question) {
+        String query = question.getQuery();
+        List<String> alternatives= question.getAlternatives();
+        String firstAlternative = alternatives.get(0);
+        String secondAlternative = alternatives.get(1);
+        int points = question.getPoints();
+        String correctAnswer = question.getCorrectAnswer();
+        String questionToBeSaved= query+";"+firstAlternative+";"+
+                secondAlternative+";"+correctAnswer+";"+points;
+        writeQuestionToFile(filename, questionToBeSaved);
+
+    }
+
+    /**
+     * Method used to write a multiple choice question to a file
+     * @param filename
+     * @param question
+     */
+    public void writeMultipleChoiceToFile(String filename, Matching question) {
+
+        String query = question.getQuery();
+
+        List<String> alternatives= question.getAlternatives();
+        String firstAlternative = alternatives.get(0);
+        String secondAlternative = alternatives.get(1);
+        String thirdAlternative = alternatives.get(2);
+        String alternativesString= firstAlternative+","+secondAlternative+","+thirdAlternative;
+
+        List<String> matches= question.getMatches();
+        String firstMatch = matches.get(0);
+        String secondMatch = matches.get(1);
+        String thirdMatch = matches.get(2);
+        String matchesString= "A."+firstMatch+","+"B."+secondMatch+","+"C."+thirdMatch;
+
+        int points = question.getPoints();
+
+        HashMap<String,Integer> correctMatches = question.getCorrectMatches() ;
+        StringBuilder correctAnswer= new StringBuilder();
+        for(Map.Entry<String,Integer> entry: correctMatches.entrySet()) {
+            correctAnswer.append(entry.getKey()).append(":").append(entry.getValue()).append(",");
+        }
+        // ta bort sista komma
+        if(correctAnswer.length() > 0) {
+            correctAnswer.setLength(correctAnswer.length()-1);
+        }
+        String correctMatchesString= correctAnswer.toString();
+        String questionToWrite= query+";"+alternativesString+";"+matchesString+";"+correctMatchesString;
+        writeQuestionToFile(filename, questionToWrite);
+
+
+    }
+    
     /**
      * Saves a flashcard object to a file
      * @param filename the filepath of the file that will contain the flashcards
