@@ -1,6 +1,5 @@
 package view.subPanels.Quiz;
 
-import model.Matching;
 import model.Module;
 import model.Question;
 import model.Quiz;
@@ -23,19 +22,13 @@ public class MainQuizFrame extends JFrame {
     private MainFrame mainFrame;
 
     private JPanel mainPanel;
+    private AvailableQuizPanel availableQuizPanel;
+    private HistoryPanel historyPanel;
 
-    private JPanel buttonPanel;
-    private JButton startQuizButton;
-    private JButton generateButton;
-
-    private Quiz currentQuiz;
-    private List<Question> questionsList;
-    private JList<String> availableQuizList;
-    private DefaultListModel<String> quizListModel;
-    private ArrayList<Quiz> quizList;
+    private java.util.List<Question> questionsList;
     private HashMap<Quiz, List<Question>> quizQuestions;
-
-
+    private ArrayList<Quiz> quizList;
+    private Quiz currentQuiz;
 
     public MainQuizFrame(String selectedProgram, String selectedCourse, String selectedModule, MainFrame mainFrame) {
         this.selectedProgram = selectedProgram;
@@ -43,26 +36,48 @@ public class MainQuizFrame extends JFrame {
         this.selectedModule = selectedModule;
         this.mainFrame = mainFrame;
 
-        setTitle("Quiz Panel");
-        setLayout();
         fetchModule();
-        createList();
-        createButtonPanel();
+        createPanels();
+        setLayout();
+
+        //Default panel is available quiz
+        setAvailableQuizPanel();
+
+        setTitle("Quiz Panel");
+
+        createLists();
         addTabList();
-        addActionListeners();
+
         setVisible(true);
+    }
+
+    public void createLists() {
+        quizList = new ArrayList<>();
+        quizQuestions = new HashMap<>();
+    }
+
+    public void createPanels() {
+        availableQuizPanel = new AvailableQuizPanel(this);
+        historyPanel = new HistoryPanel();
+    }
+
+    public void setHistoryPanel() {
+        remove(availableQuizPanel);
+        add(historyPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
+    public void setAvailableQuizPanel() {
+        remove(historyPanel);
+        add(availableQuizPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 
     public void setLayout() {
         setLayout(new BorderLayout());
         setSize(400, 200);
-
-        mainPanel = new JPanel(new BorderLayout());
-
-        JLabel quizLabel = new JLabel("Available quiz", SwingConstants.CENTER);
-        mainPanel.add(quizLabel, BorderLayout.NORTH);
-
-        add(mainPanel, BorderLayout.CENTER);
     }
 
     public void addTabList() {
@@ -70,36 +85,8 @@ public class MainQuizFrame extends JFrame {
         add(tabPanel, BorderLayout.EAST);
     }
 
-    public void createList() {
-        quizListModel = new DefaultListModel();
-        availableQuizList = new JList(quizListModel);
-        JScrollPane scrollPane = new JScrollPane(availableQuizList);
-
-        scrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-
-        quizQuestions = new HashMap<>();
-        quizList = new ArrayList<>();
-    }
-
-
-    public void createButtonPanel() {
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
-
-        startQuizButton = new JButton("Start quiz");
-        generateButton = new JButton("Generate quiz");
-
-        startQuizButton.setEnabled(false);
-
-        buttonPanel.add(startQuizButton);
-        buttonPanel.add(generateButton);
-
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-    }
-
     public void showQuiz() {
-        JFrame quizFrame = new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this);
+        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this);
     }
 
     public void fetchModule() {
@@ -131,36 +118,18 @@ public class MainQuizFrame extends JFrame {
 
     }
 
+    public void startQuiz(String selectedQuiz) {
+        quizList.forEach(
+                quiz -> {if (quiz.getName() == selectedQuiz) {
+                    currentQuiz = quiz;
+                    questionsList = currentQuiz.getQuestions();
+                }}
+        );
+        showQuiz();
+    }
+
     public void updateList(String quizName) {
-        quizListModel.addElement(quizName);
-        revalidate();
-        repaint();
+        availableQuizPanel.updateList(quizName);
     }
 
-    public void addActionListeners() {
-        generateButton.addActionListener(e -> {
-            new QuizOptionsPanel(this);
-        });
-
-        availableQuizList.addListSelectionListener(e -> {
-           if (!e.getValueIsAdjusting()) {
-               if (availableQuizList.getSelectedValue() != null) {
-                   startQuizButton.setEnabled(true);
-
-                   String selectedQuiz = availableQuizList.getSelectedValue();
-                   System.out.println(selectedQuiz);
-                   quizList.forEach(
-                           quiz -> {if (quiz.getName() == selectedQuiz) {
-                               currentQuiz = quiz;
-                               questionsList = currentQuiz.getQuestions();
-                           }}
-                   );
-               }
-           }
-        });
-
-        startQuizButton.addActionListener(e -> {
-            showQuiz();
-        });
-    }
 }
