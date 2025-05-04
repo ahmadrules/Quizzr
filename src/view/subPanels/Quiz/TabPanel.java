@@ -3,10 +3,13 @@ package view.subPanels.Quiz;
 import controller.Main;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 
 public class TabPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
+    private JList<String> listOfTabs;
 
     public TabPanel(MainQuizFrame mainQuizFrame) {
         this.mainQuizFrame = mainQuizFrame;
@@ -15,6 +18,7 @@ public class TabPanel extends JPanel {
 
         createList();
         createTopLabel();
+        addListListener();
     }
 
     public void createList() {
@@ -22,7 +26,7 @@ public class TabPanel extends JPanel {
         String[] tabOptions = {"Quiz", "History"};
         //-----------------------------------------
 
-        JList<String> listOfTabs = new JList<>(tabOptions);
+        listOfTabs = new JList<>(tabOptions);
 
         listOfTabs.setFixedCellWidth(70);
         listOfTabs.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
@@ -37,5 +41,22 @@ public class TabPanel extends JPanel {
     public void createTopLabel() {
         JLabel topLabel = new JLabel("Select a tab");
         add(topLabel, BorderLayout.NORTH);
+    }
+
+    public void addListListener() {
+        listOfTabs.addListSelectionListener(e -> {
+           if (!e.getValueIsAdjusting()) {
+               if (listOfTabs.getSelectedValue() != null) {
+                   String selectedTab = listOfTabs.getSelectedValue();
+
+                   if (selectedTab.equals("Quiz")) {
+                       mainQuizFrame.setAvailableQuizPanel();
+                   }
+                   else if (selectedTab.equals("History")) {
+                       mainQuizFrame.setHistoryPanel();
+                   }
+               }
+           }
+        });
     }
 }
