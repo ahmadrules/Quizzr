@@ -16,6 +16,9 @@ public class TabPanel extends JPanel {
 
         setLayout(new BorderLayout());
 
+        JSeparator separator = new JSeparator();
+        add(separator, BorderLayout.WEST);
+
         createList();
         createTopLabel();
         addListListener();
@@ -40,6 +43,7 @@ public class TabPanel extends JPanel {
 
     public void createTopLabel() {
         JLabel topLabel = new JLabel("Select a tab");
+        topLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         add(topLabel, BorderLayout.NORTH);
     }
 
