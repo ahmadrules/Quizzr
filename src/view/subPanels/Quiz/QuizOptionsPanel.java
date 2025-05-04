@@ -98,7 +98,7 @@ public class QuizOptionsPanel extends JFrame {
     private void addListeners() {
         generateButton.addActionListener(e -> {
 
-            timerMinutes = (String) timerBox.getSelectedItem();
+            long timerSeconds = Integer.parseInt((String) timerBox.getSelectedItem()) * 60L;
             amountOfQuestions = (String) amountBox.getSelectedItem();
             if (nameField.getText() != null) {
                quizName = nameField.getText();
@@ -106,7 +106,7 @@ public class QuizOptionsPanel extends JFrame {
 
             String typeOfQuiz = (String) typeBox.getSelectedItem();
 
-            mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), quizName, typeOfQuiz);
+            mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), quizName, typeOfQuiz, timerSeconds);
 
             getContentPane().removeAll();
             setVisible(false);
