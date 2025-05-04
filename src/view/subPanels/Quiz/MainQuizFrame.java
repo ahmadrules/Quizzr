@@ -29,6 +29,7 @@ public class MainQuizFrame extends JFrame {
     private HashMap<Quiz, List<Question>> quizQuestions;
     private ArrayList<Quiz> quizList;
     private Quiz currentQuiz;
+    private long timerSeconds;
 
     public MainQuizFrame(String selectedProgram, String selectedCourse, String selectedModule, MainFrame mainFrame) {
         this.selectedProgram = selectedProgram;
@@ -86,16 +87,18 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void showQuiz() {
-        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this);
+        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds);
     }
 
     public void fetchModule() {
         currentModule = mainFrame.getCurrentModule(selectedProgram, selectedCourse, selectedModule);
     }
 
-    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz) {
+    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds) {
         Quiz newQuiz = new Quiz(quizName);
         quizList.add(newQuiz);
+
+        this.timerSeconds = timerSeconds;
 
         if (typeOfQuiz.equals("Matching")) {
             questionsList = currentModule.generateMatchingQuiz(amountOfQuestions);

@@ -6,12 +6,15 @@ import model.Quiz;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class QuestionFrame extends JFrame {
     private List<Question> questionList;
@@ -26,22 +29,59 @@ public class QuestionFrame extends JFrame {
     private JButton submitButton;
     private String previousItem;
     private Quiz currentQuiz;
+    private JLabel timerLabel;
+    private long timerSecondsmount;
+    private long currentSeconds;
+    private long currentMinutes;
+    private Timer timer1;
+    private Timer timer2;
 
 
-    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame) {
+    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount) {
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
+        this.timerSecondsmount = timerSecondsAmount;
 
         setTitle("Quiz options");
         setLayout(new BorderLayout());
         setSize(400, 500);
+
+        createTimer();
 
         createComboBoxListeners();
         setupPanel();
         setupQuestions();
         addListeners();
         setVisible(true);
+    }
+
+    public void createTimer() {
+        currentSeconds = timerSecondsmount % 60;
+        currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsmount);
+        System.out.println(currentMinutes);
+        timerLabel = new JLabel("Time left: " + currentMinutes + ":" + currentSeconds);;
+
+        timer1 = new Timer((int) (timerSecondsmount * 1000), new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Times up!");
+            }
+        });
+
+        timer1.setRepeats(false);
+
+        timer2 = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentSeconds -= 1;
+                if (currentSeconds <= 0) {
+                    currentMinutes -= 1;
+                    currentSeconds = 59;
+                }
+                timerLabel.setText("Time left: " + currentMinutes + ":" + currentSeconds);
+
+            }
+        });
     }
 
     public void getTotalPoints() {
@@ -107,6 +147,10 @@ public class QuestionFrame extends JFrame {
 
         buttonGroups = new ArrayList<>();
         comboBoxMap = new HashMap<Integer, ArrayList<JComboBox>>();
+
+        mainQuestionPanel.add(timerLabel);
+        timer1.start();
+        timer2.start();
 
         for (Question question : questionList) {
 
