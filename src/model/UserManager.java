@@ -37,7 +37,8 @@ public class UserManager {
 
     public boolean registerNewUser(String name, String password, String email, String programCode) {
         if (!doesUserEmailExist(email) && !doesUsernameExist(name)) {
-            users.add(new User(name, password, email, programCode));
+            String hashedPassword=Hasher.hash(password);
+            users.add(new User(name, hashedPassword, email, programCode));
             saveUsersToFiles();
             return true;
         }
@@ -45,8 +46,9 @@ public class UserManager {
     }
 
     public boolean loginUser(String Email, String password) {
+        String hashedPassword=Hasher.hash(password);
         for (User user : users) {
-            if (user.getEmail().equals(Email) && user.getPassword().equals(password)) {
+            if (user.getEmail().equals(Email) && user.getPassword().equals(hashedPassword)) {
                 this.currentUser = user;
                 return true;
             }
