@@ -93,7 +93,7 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void setRegisterLayout() {
-        setSize(250,230);
+        setSize(250,270);
         setTitle("Register");
         mainPanel.removeAll();
         topLabel.setText("Register a new account");
