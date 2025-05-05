@@ -77,8 +77,8 @@ public class MainFrame extends JFrame implements Runnable {
         return controller.getModulesNames(selectedCourse);
     }
 
-    public void addProgramToProgramList(String programName){
-        controller.addProgramToProgramList(programName);
+    public void addProgramToProgramList(String programName, String programCode){
+        controller.addProgramToProgramList(programName,programCode);
     }
     public void deleteProgram(String programName){
         controller.deleteProgramFromFile(programName);

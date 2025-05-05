@@ -18,9 +18,10 @@ public class Program implements Serializable {
 
     }
 
-    public Program(String name){
+    public Program(String name, String programCode) {
         this.name = name;
         courses = new ArrayList<>();
+        this.programCode = programCode;
     }
 
     public String getName() {
