@@ -292,12 +292,13 @@ public class LeftPanel extends JPanel {
      */
     public void addProgram() {
         String programName = JOptionPane.showInputDialog("Please enter a program name");
+        String programCode = JOptionPane.showInputDialog("Please enter a program code");
         if (programName != null) {
             if (mainFrame.ifProgramExists(programName)) {
                 JOptionPane.showMessageDialog(null, programName + " already exists");
             }
             else {
-                mainFrame.addProgramToProgramList(programName);
+                mainFrame.addProgramToProgramList(programName, programCode);
                 updateLists();
             }
         }

@@ -42,9 +42,9 @@ public class Controller {
 
     public void createAndAddPrograms() {
         //Creating test programs and adding them to the list
-        programs.add(new Program("Computer System Developer"));
-        programs.add(new Program("Game Development"));
-        programs.add(new Program("Data Technology"));
+        programs.add(new Program("Computer System Developer","TGSYA"));
+        programs.add(new Program("Game Development","TGSPA"));
+        programs.add(new Program("Data Technology","TCDAT"));
     }
 
     public void createAndAddCourses() {
@@ -192,13 +192,13 @@ public class Controller {
     }
 
     //This method adds a new program to the programList then to the file
-    public void addProgramToProgramList(String programName) {
+    public void addProgramToProgramList(String programName, String programCode) {
         for (Program program : programList) {
             if (program.getName().equals(programName)) {
                 return;
             }
         }
-        Program newProgram = new Program(programName);
+        Program newProgram = new Program(programName, programCode);
         programList.add(newProgram);
         updateProgramsInFile();
     }
