@@ -90,7 +90,6 @@ public class QuestionFrame extends JFrame {
 
     public void createTimer() {
         if (timerSecondsmount > 0) {
-            timerSecondsmount = 60;
             currentSeconds = timerSecondsmount % 60;
             currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsmount);
 
