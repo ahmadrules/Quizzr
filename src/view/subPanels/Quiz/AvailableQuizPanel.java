@@ -1,13 +1,7 @@
 package view.subPanels.Quiz;
 
-import model.Question;
-import model.Quiz;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class AvailableQuizPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
@@ -66,7 +60,7 @@ public class AvailableQuizPanel extends JPanel {
 
     public void addActionListeners() {
         generateButton.addActionListener(e -> {
-            new QuizOptionsPanel(mainQuizFrame);
+            new QuizOptionsFrame(mainQuizFrame);
         });
 
         availableQuizList.addListSelectionListener(e -> {

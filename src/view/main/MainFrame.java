@@ -29,6 +29,7 @@ public class MainFrame extends JFrame implements Runnable {
         this.setTitle("QuizR");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(900, 400);
+        setLocationRelativeTo(null);
 
         /*
         Container for all the different panels in the center is initialized here.

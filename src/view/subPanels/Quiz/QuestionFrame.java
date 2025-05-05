@@ -6,10 +6,7 @@ import model.Quiz;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +26,7 @@ public class QuestionFrame extends JFrame {
     private JButton submitButton;
     private String previousItem;
     private Quiz currentQuiz;
-    private JLabel timerLabel;
+    private JPanel topPanel;
     private long timerSecondsmount;
     private long currentSeconds;
     private long currentMinutes;
@@ -45,43 +42,94 @@ public class QuestionFrame extends JFrame {
 
         setTitle("Quiz options");
         setLayout(new BorderLayout());
-        setSize(400, 500);
-
-        createTimer();
 
         createComboBoxListeners();
         setupPanel();
+
+        createTopPanel();
+        createTimer();
+
         setupQuestions();
+
+        setOnClose();
         addListeners();
+
+        pack();
+        setSize(getWidth() + 50, 600);
+        setLocationRelativeTo(mainQuizFrame);
+
         setVisible(true);
     }
 
-    public void createTimer() {
-        currentSeconds = timerSecondsmount % 60;
-        currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsmount);
-        System.out.println(currentMinutes);
-        timerLabel = new JLabel("Time left: " + currentMinutes + ":" + currentSeconds);;
+    public void createTopPanel() {
+        topPanel = new JPanel(new BorderLayout());
 
-        timer1 = new Timer((int) (timerSecondsmount * 1000), new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Times up!");
-            }
-        });
+        JLabel amountOfQuestionsLabel = new JLabel("Amount of questions: " + questionList.size());
+        amountOfQuestionsLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
+        topPanel.add(amountOfQuestionsLabel, BorderLayout.EAST);
+    }
 
-        timer1.setRepeats(false);
+    public void timerEnded() {
+        timer2.stop();
+        JOptionPane.showMessageDialog(mainQuizFrame, "Times up!");
+        getUserAnswers();
+        getTotalPoints();
+    }
 
-        timer2 = new Timer(1000, new ActionListener() {
+    public void setOnClose(){
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                currentSeconds -= 1;
-                if (currentSeconds <= 0) {
-                    currentMinutes -= 1;
-                    currentSeconds = 59;
-                }
-                timerLabel.setText("Time left: " + currentMinutes + ":" + currentSeconds);
-
+            public void windowClosing(WindowEvent e) {
+                mainQuizFrame.setVisible(true);
+                dispose();
             }
         });
+    }
+
+    public void createTimer() {
+        if (timerSecondsmount > 0) {
+            timerSecondsmount = 60;
+            currentSeconds = timerSecondsmount % 60;
+            currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsmount);
+
+            JLabel timerLabel = new JLabel("Time left: " + currentMinutes + ":00");
+            timerLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
+            topPanel.add(timerLabel, BorderLayout.WEST);
+
+            timer1 = new Timer((int) (timerSecondsmount * 1000 + 1000), new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    timerEnded();
+                }
+            });
+
+            timer1.setRepeats(false);
+
+            timer2 = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (currentSeconds == 0 && currentMinutes == 0) {
+
+                    }
+
+                    else {
+                        currentSeconds -= 1;
+                        if (currentSeconds < 0) {
+                            currentMinutes -= 1;
+                            currentSeconds = 59;
+                        }
+
+                        if (currentSeconds < 10) {
+                            timerLabel.setText("Time left: " + currentMinutes + ":0" + currentSeconds);
+                        }
+                        else {
+                            timerLabel.setText("Time left: " + currentMinutes + ":" + currentSeconds);
+                        }
+                    }
+                }
+            });
+        }
     }
 
     public void getTotalPoints() {
@@ -132,6 +180,7 @@ public class QuestionFrame extends JFrame {
         mainQuestionPanel = new JPanel();
         mainQuestionPanel.setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
         submitButton = new JButton("Submit");
+        submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
 
@@ -148,9 +197,13 @@ public class QuestionFrame extends JFrame {
         buttonGroups = new ArrayList<>();
         comboBoxMap = new HashMap<Integer, ArrayList<JComboBox>>();
 
-        mainQuestionPanel.add(timerLabel);
-        timer1.start();
-        timer2.start();
+        mainQuestionPanel.add(topPanel);
+        mainQuestionPanel.add(new JSeparator());
+
+        if (timerSecondsmount > 0) {
+            timer1.start();
+            timer2.start();
+        }
 
         for (Question question : questionList) {
 

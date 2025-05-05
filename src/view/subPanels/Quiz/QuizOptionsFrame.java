@@ -1,11 +1,10 @@
 package view.subPanels.Quiz;
 
-import model.Quiz;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class QuizOptionsPanel extends JFrame {
+public class QuizOptionsFrame extends JFrame {
+
     private MainQuizFrame mainQuizFrame;
     private JPanel typePanel;
     private JPanel namePanel;
@@ -15,19 +14,20 @@ public class QuizOptionsPanel extends JFrame {
     private JButton generateButton;
     private String quizName;
     private String amountOfQuestions;
-    private String timerMinutes;
     private JTextField nameField;
     private JComboBox<String> amountBox;
     private JComboBox<String> timerBox;
     private JComboBox<String> typeBox;
 
-    public QuizOptionsPanel(MainQuizFrame mainQuizFrame) {
+    public QuizOptionsFrame(MainQuizFrame mainQuizFrame) {
         this.mainQuizFrame = mainQuizFrame;
         setupLayout();
         createCenterPanel();
         addListeners();
 
         setSize(220, 220);
+        pack();
+        setLocationRelativeTo(mainQuizFrame);
         setVisible(true);
     }
 
@@ -98,7 +98,12 @@ public class QuizOptionsPanel extends JFrame {
     private void addListeners() {
         generateButton.addActionListener(e -> {
 
-            long timerSeconds = Integer.parseInt((String) timerBox.getSelectedItem()) * 60L;
+            long timerSeconds = 0;
+
+            if (timerBox.getSelectedItem() != "No timer") {
+                timerSeconds = Integer.parseInt((String) timerBox.getSelectedItem()) * 60L;
+            }
+
             amountOfQuestions = (String) amountBox.getSelectedItem();
             if (nameField.getText() != null) {
                quizName = nameField.getText();

@@ -19,7 +19,6 @@ public class MainQuizFrame extends JFrame {
 
     private MainFrame mainFrame;
 
-    private JPanel mainPanel;
     private AvailableQuizPanel availableQuizPanel;
     private HistoryPanel historyPanel;
 
@@ -46,9 +45,12 @@ public class MainQuizFrame extends JFrame {
 
         createLists();
         addTabList();
+        pack();
+        setLocationRelativeTo(mainFrame);
 
         setVisible(true);
     }
+
 
     public void createLists() {
         quizList = new ArrayList<>();
@@ -110,7 +112,6 @@ public class MainQuizFrame extends JFrame {
 
         questionsList.forEach(question -> {
             newQuiz.addQuestion(question);
-            System.out.println(question.toString());
 
         });
         quizQuestions.put(newQuiz, questionsList);
@@ -127,6 +128,7 @@ public class MainQuizFrame extends JFrame {
                 }}
         );
         showQuiz();
+        setVisible(false);
     }
 
     public void updateList(String quizName) {
