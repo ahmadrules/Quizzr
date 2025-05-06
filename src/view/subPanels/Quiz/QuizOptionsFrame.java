@@ -87,7 +87,7 @@ public class QuizOptionsFrame extends JFrame {
 
         timerBox.addItem("No timer");
 
-        for (int i = 5; i < 16; i++) {
+        for (int i = 1; i < 16; i++) {
             timerBox.addItem(Integer.toString(i));
         }
 
