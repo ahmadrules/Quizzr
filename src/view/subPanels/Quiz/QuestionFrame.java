@@ -10,7 +10,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class QuestionFrame extends JFrame {
@@ -30,8 +29,7 @@ public class QuestionFrame extends JFrame {
     private long timerSecondsmount;
     private long currentSeconds;
     private long currentMinutes;
-    private Timer timer1;
-    private Timer timer2;
+    private Timer timer;
 
 
     public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount) {
@@ -70,7 +68,7 @@ public class QuestionFrame extends JFrame {
     }
 
     public void timerEnded() {
-        timer2.stop();
+        timer.stop();
         JOptionPane.showMessageDialog(mainQuizFrame, "Times up!");
         getUserAnswers();
         getTotalPoints();
@@ -90,7 +88,6 @@ public class QuestionFrame extends JFrame {
 
     public void createTimer() {
         if (timerSecondsmount > 0) {
-            timerSecondsmount = 60;
             currentSeconds = timerSecondsmount % 60;
             currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsmount);
 
@@ -98,19 +95,11 @@ public class QuestionFrame extends JFrame {
             timerLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
             topPanel.add(timerLabel, BorderLayout.WEST);
 
-            timer1 = new Timer((int) (timerSecondsmount * 1000 + 1000), new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    timerEnded();
-                }
-            });
-
-            timer1.setRepeats(false);
-
-            timer2 = new Timer(1000, new ActionListener() {
+            timer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (currentSeconds == 0 && currentMinutes == 0) {
-
+                        timerEnded();
                     }
 
                     else {
@@ -201,8 +190,7 @@ public class QuestionFrame extends JFrame {
         mainQuestionPanel.add(new JSeparator());
 
         if (timerSecondsmount > 0) {
-            timer1.start();
-            timer2.start();
+            timer.start();
         }
 
         for (Question question : questionList) {

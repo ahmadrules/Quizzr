@@ -63,7 +63,7 @@ public class MainFrame extends JFrame implements Runnable {
 
     public void startLogin() {
         //Login page is initialized here.
-        LogInFrame logInFrame = new LogInFrame(this);
+        LogInFrame logInFrame = new LogInFrame(controller);
     }
 
     public String[] getCoursesNames(String selectedProgramName){
@@ -153,8 +153,16 @@ public class MainFrame extends JFrame implements Runnable {
         return controller.isEmailValid(email);
     }
     public boolean registerNewUser(String username, String password, String email, String programCode) {
-        return controller.registerNewUser(username, email, password, programCode);
+        return controller.registerNewUser(username, password, email, programCode);
     }
+    public boolean loginUser(String username, String password) {
+        return controller.loginUser(username, password);
+    }
+
+    public void logOut() {
+        controller.logoutUser();
+    }
+
 
     @Override
     public void run() {

@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.Module;
 import view.main.*;
+import view.subPanels.LogInFrame;
 
 import javax.swing.*;
 import java.io.*;
@@ -20,25 +21,31 @@ public class Controller {
     private Module currentModule;
     private Quiz onGoingQuiz;
     private UserManager userManager;
+    private List<User> users;
+// hämta en lista av all quizes
+    private List<Quiz> usersQuizzes ;
 
     public Controller() {
-
         programs = new ArrayList<>();
         courses = new ArrayList<>();
+        this.userManager = new UserManager();
+        this.users = userManager.getUsersList();
 
-        currentUser = new User("admin", "admin", "admin@email.com","ProgramCode");
-        currentUser.loadCreatedQuizes();
+
+       // currentUser.loadCreatedQuizes();
 
         createAndAddPrograms();
         createAndAddCourses();
 
-        this.userManager = new UserManager();
-
+        SwingUtilities.invokeLater(()->new LogInFrame(this));
         //Starting the GUI
-        view = new MainFrame(this);
-
-        SwingUtilities.invokeLater(view);
+       // SwingUtilities.invokeLater(view);
     }
+
+    public void setMainFrame(MainFrame mainFrame) {
+        this.view=mainFrame;
+    }
+
 
     public void createAndAddPrograms() {
         //Creating test programs and adding them to the list
@@ -425,14 +432,18 @@ public class Controller {
 
     public void setNewUsername(String username) {
         currentUser.setName(username);
+        userManager.saveUsersToFiles();
     }
 
     public void setNewEmail(String email) {
         currentUser.setEmail(email);
+        userManager.saveUsersToFiles();
     }
 
     public void setNewPassword(String password) {
-        currentUser.setPassword(password);
+        String hashedPassword=Hasher.hash(password);
+        currentUser.setPassword(hashedPassword);
+        userManager.saveUsersToFiles();
     }
 
     //Code taken from https://www.geeksforgeeks.org/check-email-address-valid-not-java/
@@ -449,16 +460,29 @@ public class Controller {
         return email != null && p.matcher(email).matches();
     }
 
-    public boolean registerNewUser(String username, String email, String password, String programCode) {
-        return userManager.registerNewUser(username, email, password, programCode);
+    public boolean registerNewUser(String username, String password, String email, String programCode) {
+        return userManager.registerNewUser(username, password, email, programCode);
     }
 
     public boolean loginUser(String username, String password) {
-        return userManager.loginUser(username, password);
+        boolean success = userManager.loginUser(username, password);
+        if (success) {
+            currentUser = userManager.getCurrentUser();
+          //  currentUser.loadCreatedQuizes();
+        }
+
+        return success;
     }
 
     public void logoutUser() {
         userManager.logoutUser();
+        if (view!=null){
+            view.dispose();
+            view=null;
+        }
+        SwingUtilities.invokeLater(()-> {
+            new LogInFrame(this);
+        });
     }
 
     public void saveUsers() {

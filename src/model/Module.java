@@ -22,10 +22,12 @@ public class Module implements Serializable{
     private File quizFile;
     private File directory;
     FileHandler fileHandler = new FileHandler();
+    private ArrayList<Quiz> quizList;
 
     public Module(String name, String coursePackageName) {
         this.name = name;
         this.flashCards = new ArrayList<>();
+        this.quizList = new ArrayList<>();
         createPackage(coursePackageName);
         createFiles();
     }
@@ -62,6 +64,24 @@ public class Module implements Serializable{
         FileHandler fileHandler = new FileHandler();
         fileHandler.saveFlashcardToFile(filename, flashCards);
     }
+
+    /**
+     *
+     * @param selectedCourse
+     * @param selectedModule
+     */
+    public void saveQuizToFile(Course selectedCourse, Module selectedModule, Quiz selectedQuiz) {
+        if (quizList==null){
+        quizList = new ArrayList<>();
+        }
+        quizList.add(selectedQuiz);
+        fileHandler.saveQuizToFile(quizFile.getPath(),quizList);
+    }
+    public ArrayList<Quiz> getQuizList() {
+        this.quizList=fileHandler.loadQuizFromFile(quizFile.getPath());
+        return quizList;
+    }
+
 
     public void saveQuiz(Quiz quiz){
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(quizFileName))){
@@ -191,6 +211,7 @@ public class Module implements Serializable{
      * @param questions a list of questions to select from
      * @param numberOfQuestions the total number of questions to include in the generated quiz
      * @return a randomly selected list of questions with a maximum size of numberOfQuestions
+     * @author Lilas Beirakdar
      */
     private ArrayList<Question> generateRandomQuiz(ArrayList<Question> questions, int numberOfQuestions){
         Collections.shuffle(questions);

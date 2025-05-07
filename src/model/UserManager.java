@@ -37,16 +37,18 @@ public class UserManager {
 
     public boolean registerNewUser(String name, String password, String email, String programCode) {
         if (!doesUserEmailExist(email) && !doesUsernameExist(name)) {
-            users.add(new User(name, password, email, programCode));
+            String hashedPassword=Hasher.hash(password);
+            users.add(new User(name, hashedPassword, email, programCode));
             saveUsersToFiles();
             return true;
         }
         return false;
     }
 
-    public boolean loginUser(String Email, String password) {
+    public boolean loginUser(String userName, String password) {
+        String hashedPassword=Hasher.hash(password);
         for (User user : users) {
-            if (user.getEmail().equals(Email) && user.getPassword().equals(password)) {
+            if (user.getName().equals(userName) && user.getPassword().equals(hashedPassword)) {
                 this.currentUser = user;
                 return true;
             }
@@ -77,6 +79,7 @@ public class UserManager {
         List<User> users = new ArrayList<>();
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userFilePath))){
             users= (List<User>) ois.readObject();
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
