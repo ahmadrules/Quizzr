@@ -38,7 +38,7 @@ public class UserManager {
     public boolean registerNewUser(String name, String password, String email, String programCode) {
         if (!doesUserEmailExist(email) && !doesUsernameExist(name)) {
             String hashedPassword=Hasher.hash(password);
-            users.add(new User(name, hashedPassword, email, programCode));
+            users.add(new User(name, hashedPassword, email, programCode,false));
             saveUsersToFiles();
             return true;
         }

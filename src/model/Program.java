@@ -39,6 +39,9 @@ public class Program implements Serializable {
     public void setCourses(List<Course> courses){
         this.courses = courses;
     }
+    public String getProgramCode() {
+        return programCode;
+    }
 
     @Override
     public String toString(){

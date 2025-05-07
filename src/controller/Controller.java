@@ -24,6 +24,8 @@ public class Controller {
     private List<User> users;
 // hämta en lista av all quizes
     private List<Quiz> usersQuizzes ;
+    private Program currentStudentProgram;
+    private List<FlashCard> currentFlashCards;
 
     public Controller() {
         programs = new ArrayList<>();
@@ -659,4 +661,17 @@ public class Controller {
             }
         }
     }
+
+   public Program getCurrentStudentProgram(){
+        String programCode= currentUser.getProgramCode();
+        for (Program program : programList) {
+            if (program.getProgramCode().equals(programCode)) {
+                this.currentStudentProgram = program;
+                break;
+            }
+        }
+        return this.currentStudentProgram;
+   }
+
+
 }
