@@ -432,14 +432,18 @@ public class Controller {
 
     public void setNewUsername(String username) {
         currentUser.setName(username);
+        userManager.saveUsersToFiles();
     }
 
     public void setNewEmail(String email) {
         currentUser.setEmail(email);
+        userManager.saveUsersToFiles();
     }
 
     public void setNewPassword(String password) {
-        currentUser.setPassword(password);
+        String hashedPassword=Hasher.hash(password);
+        currentUser.setPassword(hashedPassword);
+        userManager.saveUsersToFiles();
     }
 
     //Code taken from https://www.geeksforgeeks.org/check-email-address-valid-not-java/

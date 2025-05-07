@@ -1,5 +1,6 @@
 package view.main.CenterPanels;
 
+import model.Hasher;
 import view.main.MainFrame;
 
 import javax.swing.*;
@@ -157,8 +158,9 @@ public class CenterAccountPanel extends JPanel {
      */
     public void changePassword() {
         String currentPassword = JOptionPane.showInputDialog(mainFrame, "Please enter your current password");
+        String hashedPassword= Hasher.hash(currentPassword);
 
-        if (currentPassword.equals(currentUserInfo[2])) {
+        if (hashedPassword.equals(currentUserInfo[2])) {
             JTextField newPassword = new JPasswordField(10);
             JTextField newConfirmPassword = new JPasswordField(10);
             Object[] options = {"New password:", newPassword, "Confirm new password: ", newConfirmPassword};
