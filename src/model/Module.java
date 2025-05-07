@@ -243,4 +243,18 @@ public class Module implements Serializable{
     public Quiz getCurrentQuiz() {
         return currentQuiz;
     }
+
+    public void saveMultiChoiceQuestionToFile(MultipleChoice multiChoiceQuestion){
+        fileHandler.saveMultipleChoiceToFile(multiChoiceFile.getPath(),multiChoiceQuestion);
+    }
+
+    public void saveTrueOrFalseQuestionToFile(TrueOrFalse trueOrFalseQuestion){
+        fileHandler.saveTrueOrFalseQuestionToFile(trueOrFalseFile.getPath(),trueOrFalseQuestion);
+    }
+
+    public void saveMatchingQuestionToFile(Matching matching){
+        fileHandler.saveMatchingQuestionToFile(matchingFile.getPath(),matching);
+    }
+
+
 }
