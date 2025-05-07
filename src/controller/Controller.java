@@ -238,7 +238,6 @@ public class Controller {
             if (currentProgram.getName().equals(programName)) {
                 Course newCourse = new Course(courseName, courseName.trim());
                 currentProgram.addNewCourse(newCourse);
-                //TODO create a new package for the new course
                 courses.add(newCourse);
             }
         }
@@ -260,6 +259,7 @@ public class Controller {
                 }
             }
         }
+        
         if (requestedCourse != null) {
             Module newModule = new Module(moduleName, requestedCourse.getPackageName());
             requestedCourse.addModule(newModule);
