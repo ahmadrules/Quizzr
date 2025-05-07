@@ -20,6 +20,9 @@ public class RightPanel extends JPanel {
         addEventListeners();
         JButton logOutButton = new JButton("Log Out");
         logOutButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        logOutButton.addActionListener(e -> {
+            mainFrame.logOut();
+        });
 
         JLabel tabLabel = new JLabel(" Select a tab");
         tabLabel.setFont(new Font("Arial", Font.PLAIN, 14));

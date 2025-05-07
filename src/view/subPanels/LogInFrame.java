@@ -56,6 +56,7 @@ public class LogInFrame extends JFrame {
      //Login layout is default layout
      setLoginLayout();
      setVisible(true);
+     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     /**
@@ -231,6 +232,7 @@ public class LogInFrame extends JFrame {
                 if (success) {
                     JOptionPane.showMessageDialog(mainFrame, "Logged in successfully");
                     mainFrame.createAndShowGUI();
+                    controller.setMainFrame(mainFrame);
                         setVisible(false);
                 }
                 else {
