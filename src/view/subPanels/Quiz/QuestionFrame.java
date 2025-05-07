@@ -122,20 +122,18 @@ public class QuestionFrame extends JFrame {
     }
 
     public void getTotalPoints() {
-        int totalPoints = currentQuiz.CalculateTestResult();
+        int userPoints = currentQuiz.CalculateTestResult();
+        int totalPoints = currentQuiz.getTotalPoints();
+        double statistics = ((double) userPoints/totalPoints) * 100;
+
+        ResultPanel resultPanel = new ResultPanel(userPoints, totalPoints, statistics);
+        resultPanel.setSize(getWidth() + 50, 600);
 
         getContentPane().removeAll();
 
-        JPanel resultPanel = new JPanel(new BorderLayout());
-        JLabel pointsLabel = new JLabel("Total Points: " + totalPoints, SwingConstants.CENTER);
-
-        resultPanel.add(pointsLabel, BorderLayout.CENTER);
-
         JLabel resultLabel = new JLabel("Results", SwingConstants.CENTER);
-
-        add(resultLabel, BorderLayout.NORTH);
-        add(resultPanel, BorderLayout.CENTER);
-
+        add(resultLabel);
+        add(resultPanel);
         revalidate();
         repaint();
     }
