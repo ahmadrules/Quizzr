@@ -20,19 +20,24 @@ public class Controller {
     private Module currentModule;
     private Quiz onGoingQuiz;
     private UserManager userManager;
-
+    private List<User> users;
+// hämta en lista av all quizes
+    // بعدها يم المقارنة
     public Controller() {
 
         programs = new ArrayList<>();
         courses = new ArrayList<>();
-        
+        this.userManager = new UserManager();
+
+        this.users = userManager.getUsersList();
+
         currentUser = new User("admin", "admin", "admin@email.com","ProgramCode");
         currentUser.loadCreatedQuizes();
 
         createAndAddPrograms();
         createAndAddCourses();
 
-        this.userManager = new UserManager();
+
 
         //Starting the GUI
         view = new MainFrame(this);
