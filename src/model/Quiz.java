@@ -11,7 +11,7 @@ public class Quiz implements Serializable {
     private Module relatedModule;
     private Course relatedCourse;
     private boolean timer;
-
+// username
     /**
      * Constructs a quiz object
      * @param name name of the quiz

@@ -11,7 +11,9 @@ import java.util.List;
 public class FlashCard implements Serializable{
     private String frontContent;
     private String backContent;
-
+// username
+    // related module
+    // related course
     /**
      * Constructs a flashcard object
      * @param frontContent the String content of the front side of the flashcard
