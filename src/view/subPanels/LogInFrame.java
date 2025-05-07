@@ -39,6 +39,10 @@ public class LogInFrame extends JFrame {
     private JTextField programCodeField;
     private JPanel programCodePanel;
     private Controller controller;
+    private JButton adminLoginButton;
+    private JButton studentLoginButton;
+    private JButton goBackButton;
+    private JPanel firstPagePanel;
 
     public LogInFrame( Controller controller ) {
      this.controller = controller;
@@ -51,10 +55,15 @@ public class LogInFrame extends JFrame {
 
      createLoginLayout();
      createRegisterLayout();
-     addActionListeners();
+     createFirstPage();
 
      //Login layout is default layout
-     setLoginLayout();
+     showFirstPage();
+
+     addActionListeners();
+
+
+     setLocationRelativeTo(null);
      setVisible(true);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -75,6 +84,35 @@ public class LogInFrame extends JFrame {
         registerPanel.add(confirmPasswordPanel);
         registerPanel.add(programCodePanel);
         registerPanel.add(registerButtonPanel);
+    }
+
+    public void createFirstPage() {
+        firstPagePanel = new JPanel();
+        firstPagePanel.setLayout(new BorderLayout());
+
+        JLabel firstPageLabel = new JLabel("<html>Welcome to <font color=orange> Quizzr! </font></html>", SwingConstants.CENTER);
+        firstPageLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        firstPagePanel.add(firstPageLabel, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel();
+
+        adminLoginButton = new JButton("Admin Login");
+        studentLoginButton = new JButton("Student Login");
+
+        buttonPanel.add(adminLoginButton);
+        buttonPanel.add(studentLoginButton);
+
+        firstPagePanel.add(buttonPanel, BorderLayout.CENTER);
+    }
+
+    public void showFirstPage() {
+        mainPanel.removeAll();
+        mainPanel.add(firstPagePanel);
+
+        pack();
+
+        revalidate();
+        repaint();
     }
 
     /**
@@ -107,6 +145,16 @@ public class LogInFrame extends JFrame {
 
         revalidate();
         repaint();
+    }
+
+    public void clearFields() {
+        usernameField.setText("");
+        passwordField.setText("");
+        newNameField.setText("");
+        newPasswordField.setText("");
+        confirmPasswordField.setText("");
+        newEmailField.setText("");
+        programCodeField.setText("");
     }
 
     /**
@@ -201,8 +249,10 @@ public class LogInFrame extends JFrame {
     public void createLoginButtons() {
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
+        goBackButton = new JButton("Go back");
         loginButtonPanel.add(loginButton);
         loginButtonPanel.add(registerButton);
+        loginButtonPanel.add(goBackButton);
     }
 
     /**
@@ -286,11 +336,22 @@ public class LogInFrame extends JFrame {
 
         cancelButton.addActionListener(e -> {
             setLoginLayout();
+            clearFields();
         });
 
-    }
+        studentLoginButton.addActionListener(e -> {
+           setLoginLayout();
+        });
 
-    public boolean logIn() {
-       return true;
+        adminLoginButton.addActionListener(e -> {
+            setLoginLayout();
+            registerButton.setEnabled(false);
+        });
+
+        goBackButton.addActionListener(e -> {
+            showFirstPage();
+            clearFields();
+        });
+
     }
 }
