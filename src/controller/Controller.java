@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import model.Module;
 import view.main.*;
+import view.subPanels.LogInFrame;
 
 import javax.swing.*;
 import java.io.*;
@@ -22,28 +23,26 @@ public class Controller {
     private UserManager userManager;
     private List<User> users;
 // hämta en lista av all quizes
-    // بعدها يم المقارنة
-    public Controller() {
 
+    public Controller() {
         programs = new ArrayList<>();
         courses = new ArrayList<>();
         this.userManager = new UserManager();
-
         this.users = userManager.getUsersList();
 
-        currentUser = new User("admin", "admin", "admin@email.com","ProgramCode");
-        currentUser.loadCreatedQuizes();
+
+       // currentUser.loadCreatedQuizes();
 
         createAndAddPrograms();
         createAndAddCourses();
 
-
-
+        SwingUtilities.invokeLater(()->new LogInFrame(this));
         //Starting the GUI
-        view = new MainFrame(this);
-
-        SwingUtilities.invokeLater(view);
+      //  view = new MainFrame(this);
+       // SwingUtilities.invokeLater(view);
     }
+
+
 
     public void createAndAddPrograms() {
         //Creating test programs and adding them to the list
@@ -459,7 +458,13 @@ public class Controller {
     }
 
     public boolean loginUser(String username, String password) {
-        return userManager.loginUser(username, password);
+        boolean success = userManager.loginUser(username, password);
+        if (success) {
+            currentUser = userManager.getCurrentUser();
+            currentUser.loadCreatedQuizes();
+        }
+
+        return success;
     }
 
     public void logoutUser() {

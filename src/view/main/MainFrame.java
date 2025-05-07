@@ -62,7 +62,7 @@ public class MainFrame extends JFrame implements Runnable {
 
     public void startLogin() {
         //Login page is initialized here.
-        LogInFrame logInFrame = new LogInFrame(this);
+        LogInFrame logInFrame = new LogInFrame(controller);
     }
 
     public String[] getCoursesNames(String selectedProgramName){

@@ -1,5 +1,6 @@
 package view.subPanels;
 
+import controller.Controller;
 import view.main.MainFrame;
 
 import javax.swing.*;
@@ -37,9 +38,12 @@ public class LogInFrame extends JFrame {
     private JPanel registerButtonPanel;
     private JTextField programCodeField;
     private JPanel programCodePanel;
+    private Controller controller;
 
-    public LogInFrame(MainFrame mainFrame) {
-     this.mainFrame = mainFrame;
+    public LogInFrame( Controller controller ) {
+     this.controller = controller;
+
+     this.mainFrame = new MainFrame(controller);
      setResizable(true);
      topLabel = new JLabel("", SwingConstants.CENTER);
      mainPanel = new JPanel();
@@ -222,8 +226,9 @@ public class LogInFrame extends JFrame {
             String username = usernameField.getText().trim();
             String password = passwordField.getText().trim();
             System.out.println("Trying to log in with: " + username + ", " + password);
+            boolean success= controller.loginUser(username, password);
             if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-                if (mainFrame.loginUser(username, password)) {
+                if (success) {
                     JOptionPane.showMessageDialog(mainFrame, "Logged in successfully");
                     mainFrame.createAndShowGUI();
                         setVisible(false);
