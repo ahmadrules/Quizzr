@@ -159,6 +159,11 @@ public class MainFrame extends JFrame implements Runnable {
         return controller.loginUser(username, password);
     }
 
+    public void logOut() {
+        controller.logoutUser();
+    }
+
+
     @Override
     public void run() {
         startLogin();

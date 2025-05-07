@@ -23,6 +23,7 @@ public class Controller {
     private UserManager userManager;
     private List<User> users;
 // hämta en lista av all quizes
+    private List<Quiz> usersQuizzes ;
 
     public Controller() {
         programs = new ArrayList<>();
@@ -38,10 +39,12 @@ public class Controller {
 
         SwingUtilities.invokeLater(()->new LogInFrame(this));
         //Starting the GUI
-      //  view = new MainFrame(this);
        // SwingUtilities.invokeLater(view);
     }
 
+    public void setMainFrame(MainFrame mainFrame) {
+        this.view=mainFrame;
+    }
 
 
     public void createAndAddPrograms() {
@@ -461,7 +464,7 @@ public class Controller {
         boolean success = userManager.loginUser(username, password);
         if (success) {
             currentUser = userManager.getCurrentUser();
-            currentUser.loadCreatedQuizes();
+          //  currentUser.loadCreatedQuizes();
         }
 
         return success;
@@ -469,6 +472,13 @@ public class Controller {
 
     public void logoutUser() {
         userManager.logoutUser();
+        if (view!=null){
+            view.dispose();
+            view=null;
+        }
+        SwingUtilities.invokeLater(()-> {
+            new LogInFrame(this);
+        });
     }
 
     public void saveUsers() {
