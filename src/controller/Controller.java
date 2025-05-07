@@ -461,7 +461,7 @@ public class Controller {
         boolean success = userManager.loginUser(username, password);
         if (success) {
             currentUser = userManager.getCurrentUser();
-            currentUser.loadCreatedQuizes();
+          //  currentUser.loadCreatedQuizes();
         }
 
         return success;
