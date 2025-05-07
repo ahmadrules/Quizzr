@@ -45,10 +45,10 @@ public class UserManager {
         return false;
     }
 
-    public boolean loginUser(String Email, String password) {
+    public boolean loginUser(String userName, String password) {
         String hashedPassword=Hasher.hash(password);
         for (User user : users) {
-            if (user.getEmail().equals(Email) && user.getPassword().equals(hashedPassword)) {
+            if (user.getName().equals(userName) && user.getPassword().equals(hashedPassword)) {
                 this.currentUser = user;
                 return true;
             }
@@ -79,6 +79,7 @@ public class UserManager {
         List<User> users = new ArrayList<>();
         try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userFilePath))){
             users= (List<User>) ois.readObject();
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {

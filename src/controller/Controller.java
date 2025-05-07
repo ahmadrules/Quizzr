@@ -454,8 +454,8 @@ public class Controller {
         return email != null && p.matcher(email).matches();
     }
 
-    public boolean registerNewUser(String username, String email, String password, String programCode) {
-        return userManager.registerNewUser(username, email, password, programCode);
+    public boolean registerNewUser(String username, String password, String email, String programCode) {
+        return userManager.registerNewUser(username, password, email, programCode);
     }
 
     public boolean loginUser(String username, String password) {

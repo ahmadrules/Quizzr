@@ -219,18 +219,14 @@ public class LogInFrame extends JFrame {
      */
     public void addActionListeners() {
         loginButton.addActionListener(e -> {
-            String username = usernameField.getText();
-            String password = passwordField.getText();
+            String username = usernameField.getText().trim();
+            String password = passwordField.getText().trim();
+            System.out.println("Trying to log in with: " + username + ", " + password);
             if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-                if (username.equals("admin")) {
-                    if (password.equals("admin")) {
-                        mainFrame.createAndShowGUI();
+                if (mainFrame.loginUser(username, password)) {
+                    JOptionPane.showMessageDialog(mainFrame, "Logged in successfully");
+                    mainFrame.createAndShowGUI();
                         setVisible(false);
-                    }
-
-                    else {
-                        JOptionPane.showMessageDialog(mainPanel, "Incorrect password");
-                    }
                 }
                 else {
                     JOptionPane.showMessageDialog(mainFrame, "User does not exist");
