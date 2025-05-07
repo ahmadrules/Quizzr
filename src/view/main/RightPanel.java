@@ -14,6 +14,8 @@ public class RightPanel extends JPanel {
         this.mainFrame = mainFrame;
         this.centerContainer = centerContainer;
 
+        setBorder(BorderFactory.createLineBorder(Color.black));
+
         createList();
         addEventListeners();
         JButton logOutButton = new JButton("Log Out");
@@ -36,7 +38,7 @@ public class RightPanel extends JPanel {
 
     public void createList() {
         //tabOptions will be fetched from controller
-        String[] tabOptions = {"Modules", "Account", "Quiz"};
+        String[] tabOptions = {"Modules", "Account"};
         //-----------------------------------------
 
         listOfTabs = new JList<>(tabOptions);

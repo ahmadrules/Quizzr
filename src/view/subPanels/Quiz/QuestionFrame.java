@@ -6,40 +6,119 @@ import model.Quiz;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class QuestionFrame extends JFrame {
     private List<Question> questionList;
     private MainQuizFrame mainQuizFrame;
     private JPanel mainQuestionPanel;
     private ArrayList<ButtonGroup> buttonGroups;
-    private ArrayList<JComboBox> comboBoxes;
+    private HashMap<Question, ButtonGroup> questionButtonGroupMap;
     private HashMap<Integer, ArrayList<JComboBox>> comboBoxMap;
+    private HashMap<Question, ArrayList<JComboBox>> questionComboBoxMap;
     private ItemListener comboBoxListenerSelected;
     private ItemListener comboBoxListenerDeselected;
     private JButton submitButton;
     private String previousItem;
     private Quiz currentQuiz;
+    private JPanel topPanel;
+    private long timerSecondsmount;
+    private long currentSeconds;
+    private long currentMinutes;
+    private Timer timer;
 
-    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame) {
+
+    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount) {
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
+        this.timerSecondsmount = timerSecondsAmount;
 
-        setTitle("Good luck!");
+        setTitle("Quiz options");
         setLayout(new BorderLayout());
-        setSize(400, 500);
 
         createComboBoxListeners();
         setupPanel();
+
+        createTopPanel();
+        createTimer();
+
         setupQuestions();
+
+        setOnClose();
         addListeners();
+
+        pack();
+        setSize(getWidth() + 50, 600);
+        setLocationRelativeTo(mainQuizFrame);
+
         setVisible(true);
+    }
+
+    public void createTopPanel() {
+        topPanel = new JPanel(new BorderLayout());
+
+        JLabel amountOfQuestionsLabel = new JLabel("Amount of questions: " + questionList.size());
+        amountOfQuestionsLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
+        topPanel.add(amountOfQuestionsLabel, BorderLayout.EAST);
+    }
+
+    public void timerEnded() {
+        timer.stop();
+        JOptionPane.showMessageDialog(mainQuizFrame, "Times up!");
+        getUserAnswers();
+        getTotalPoints();
+    }
+
+    public void setOnClose(){
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mainQuizFrame.setVisible(true);
+                dispose();
+            }
+        });
+    }
+
+    public void createTimer() {
+        if (timerSecondsmount > 0) {
+            currentSeconds = timerSecondsmount % 60;
+            currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsmount);
+
+            JLabel timerLabel = new JLabel("Time left: " + currentMinutes + ":00");
+            timerLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
+            topPanel.add(timerLabel, BorderLayout.WEST);
+
+            timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (currentSeconds == 0 && currentMinutes == 0) {
+                        timerEnded();
+                    }
+
+                    else {
+                        currentSeconds -= 1;
+                        if (currentSeconds < 0) {
+                            currentMinutes -= 1;
+                            currentSeconds = 59;
+                        }
+
+                        if (currentSeconds < 10) {
+                            timerLabel.setText("Time left: " + currentMinutes + ":0" + currentSeconds);
+                        }
+                        else {
+                            timerLabel.setText("Time left: " + currentMinutes + ":" + currentSeconds);
+                        }
+                    }
+                }
+            });
+        }
     }
 
     public void getTotalPoints() {
@@ -62,33 +141,26 @@ public class QuestionFrame extends JFrame {
     }
 
     public void getUserAnswers() {
-        int counter = 0;
+        for (Question question : questionList) {
+            if (questionButtonGroupMap.containsKey(question)) {
+                ButtonGroup buttonGroup = questionButtonGroupMap.get(question);
 
-        if (buttonGroups != null && !buttonGroups.isEmpty()) {
-            for (ButtonGroup buttonGroup : buttonGroups) {
-                Question currentQuestion = questionList.get(counter);
                 String currentAnswer = "Empty";
                 if (buttonGroup.getSelection() != null) {
                     currentAnswer = buttonGroup.getSelection().getActionCommand();
                 }
-
-                currentQuiz.addUserAnswer(currentQuestion, currentAnswer);
-                counter++;
+                currentQuiz.addUserAnswer(question, currentAnswer);
             }
-        }
 
-        else {
-            if (comboBoxes != null && !comboBoxes.isEmpty()) {
-                for (Map.Entry<Integer, ArrayList<JComboBox>> entry : comboBoxMap.entrySet()) {
-                    ArrayList<JComboBox> comboBoxes1 = entry.getValue();
-                    String currentAnswer = "";
-                    for (JComboBox comboBox : comboBoxes1) {
-                        currentAnswer = currentAnswer + comboBox.getSelectedItem() + ":" + comboBox.getName() + ",";
-                    }
-                    System.out.println(currentAnswer);
-                    currentQuiz.addUserAnswer(questionList.get(counter), currentAnswer);
-                    counter++;
+            else if (questionComboBoxMap.containsKey(question)) {
+                int comboBoxCounter = 1;
+                ArrayList<JComboBox> comboBoxes = questionComboBoxMap.get(question);
+                String currentAnswer = "";
+
+                for (JComboBox comboBox : comboBoxes) {
+                    currentAnswer += comboBox.getSelectedItem() + ":" + comboBoxCounter++ + ",";
                 }
+                currentQuiz.addUserAnswer(question, currentAnswer);
             }
         }
     }
@@ -97,6 +169,7 @@ public class QuestionFrame extends JFrame {
         mainQuestionPanel = new JPanel();
         mainQuestionPanel.setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
         submitButton = new JButton("Submit");
+        submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
 
@@ -106,16 +179,26 @@ public class QuestionFrame extends JFrame {
     public void setupQuestions() {
         int questionId = 1;
         int mapCounter = 0;
+
+        questionButtonGroupMap = new HashMap<>();
+        questionComboBoxMap = new HashMap<>();
+
         buttonGroups = new ArrayList<>();
-        comboBoxes = new ArrayList<>();
         comboBoxMap = new HashMap<Integer, ArrayList<JComboBox>>();
+
+        mainQuestionPanel.add(topPanel);
+        mainQuestionPanel.add(new JSeparator());
+
+        if (timerSecondsmount > 0) {
+            timer.start();
+        }
 
         for (Question question : questionList) {
 
             //Matching questions are set up here.
             if (question instanceof Matching) {
-                int counter = 1;
-                comboBoxes = new ArrayList<>();
+                int counter = 0;
+                ArrayList<JComboBox> comboBoxes = new ArrayList<>();
 
                 JPanel questionPanel = new JPanel(new BorderLayout());
 
@@ -135,8 +218,7 @@ public class QuestionFrame extends JFrame {
                     comboBoxes.add(comboBox);
 
                     //Set labels
-                    comboBox.setName(Integer.toString(counter));
-                    comboBox.setSelectedIndex(counter - 1);
+                    comboBox.setSelectedIndex(counter);
                     comboBox.setActionCommand(Integer.toString(mapCounter));
 
                     //Add listeners
@@ -148,11 +230,10 @@ public class QuestionFrame extends JFrame {
                     JLabel alternativeLabel = new JLabel(alternative);
                     alternativeLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
-                    JLabel matchLabel = new JLabel(matchAlternatives.get(counter - 1));
+                    JLabel matchLabel = new JLabel(matchAlternatives.get(counter));
                     matchLabel.setFont(new Font("Arial", Font.PLAIN, 14));
 
                     comboBoxPanel.add(comboBox, BorderLayout.WEST);
-
                     comboBoxPanel.add(matchLabel, BorderLayout.CENTER);
 
                     alternativesPanel.add(alternativeLabel);
@@ -162,6 +243,8 @@ public class QuestionFrame extends JFrame {
 
                 }
                 comboBoxMap.put(mapCounter++, comboBoxes);
+                questionComboBoxMap.put(question, comboBoxes);
+
                 questionPanel.add(alternativesPanel);
                 mainQuestionPanel.add(questionPanel);
             }
@@ -192,6 +275,7 @@ public class QuestionFrame extends JFrame {
                     alternativesPanel.add(checkBox);
                 }
 
+                questionButtonGroupMap.put(question, buttonGroup);
                 mainQuestionPanel.add(questionPanel);
             }
         }
