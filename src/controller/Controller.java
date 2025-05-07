@@ -22,7 +22,6 @@ public class Controller {
     private UserManager userManager;
     private List<User> users;
 // hämta en lista av all quizes
-    // بعدها يم المقارنة
     public Controller() {
 
         programs = new ArrayList<>();
