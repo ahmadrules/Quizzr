@@ -127,7 +127,7 @@ public class QuestionFrame extends JFrame {
         double statistics = ((double) userPoints/totalPoints) * 100;
 
         ResultPanel resultPanel = new ResultPanel(userPoints, totalPoints, statistics);
-        resultPanel.setSize(getWidth() + 50, 600);
+        resultPanel.setSize(getWidth() - 50, getHeight());
 
         getContentPane().removeAll();
 

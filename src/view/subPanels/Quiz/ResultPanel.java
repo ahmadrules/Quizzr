@@ -4,64 +4,105 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ResultPanel extends JPanel{
-    private JPanel pnlPointsPanel;
-    private JPanel pnlStatisticsPanel;
+    private JPanel pnlNorth;
+    private JPanel pnlSouth;
+    private JPanel pnlCenter;
+    private JPanel pnlResultInfo;
     private JLabel lblUserPoints;
     private JLabel lblTotalPoints;
     private JLabel lblStatistics;
-    private JLabel lblImageIcon;       //For future use
+    private JLabel lblImageIcon;
     private BorderLayout layout;
 
     public ResultPanel(int userPoints, int totalPoints, double statistics){
         layout = new BorderLayout();
         setLayout(layout);
+        setBorder(BorderFactory.createLineBorder(Color.BLACK));
         createPanels();
-        setUpPointsPanel(userPoints, totalPoints);
-        setUpStatisticsPanel(statistics);
-        add(pnlPointsPanel, layout.NORTH);
-        add(pnlStatisticsPanel, layout.SOUTH);
+        setUpCenterPanel(userPoints, totalPoints, statistics);
+        add(pnlNorth, layout.NORTH);
+        add(pnlCenter, layout.CENTER);
+        add(pnlSouth, layout.SOUTH);
     }
 
     public void createPanels(){
-        pnlPointsPanel = new JPanel();
-        pnlPointsPanel.setSize(getWidth(), getHeight()*40/100);
-        pnlStatisticsPanel = new JPanel();
-        pnlStatisticsPanel.setSize(getWidth(), getHeight()*60/100);
+        pnlNorth = new JPanel();
+        pnlNorth.setSize(getWidth(), getHeight()*30/100);
+
+
+        pnlCenter = new JPanel();
+        pnlCenter.setSize(getWidth(), getHeight()*40/100);
+        pnlCenter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        pnlCenter.setBackground(new Color(250, 221, 92));
+
+        pnlSouth = new JPanel();
+        pnlSouth.setSize(getWidth(), getHeight()*30/100);
 
     }
 
-    public void setUpPointsPanel(int userPoints, int totalPoints){
+    public void setUpCenterPanel(int userPoints, int totalPoints, double statistics){
         GridBagLayout gbLayout = new GridBagLayout();
-        pnlPointsPanel.setLayout(gbLayout);
+        pnlCenter.setLayout(gbLayout);
+
+        //Creates image icon
+        String path = getClass().getResource("/view/picsGIF/goodJob.gif").toString();
+        lblImageIcon = new JLabel("<html><img src='" + path + "' width='300' height='300'></html>");
+        lblImageIcon.setHorizontalAlignment(SwingConstants.CENTER);
+
+        pnlResultInfo = new JPanel();
+        pnlResultInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        pnlResultInfo.setBackground(new Color(50, 87, 173));
+
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        setUpResultInfoPanel(userPoints, totalPoints, statistics);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.insets = new Insets(50, 10, 50, 20);
+        c.anchor = GridBagConstraints.CENTER;
+        pnlCenter.add(pnlResultInfo, c);
+
+        c.gridx = 1;
+        c.gridy = 0;
+        pnlCenter.add(lblImageIcon, c);
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(50, 10, 50, 10);
+
+    }
+
+    public void setUpResultInfoPanel(int userPoints, int totalPoints, double statistics){
+
+        //Points
+        GridBagLayout gbLayout = new GridBagLayout();
+        pnlResultInfo.setLayout(gbLayout);
         lblUserPoints = new JLabel("Your points:   " + userPoints);
+        lblUserPoints.setFont(new Font("Arial", Font.BOLD, 16));
+        lblUserPoints.setForeground(Color.WHITE);
+
         lblTotalPoints = new JLabel("Total points:   " + totalPoints);
+        lblTotalPoints.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTotalPoints.setForeground(Color.WHITE);
+
+        lblStatistics = new JLabel("You have got " + statistics + "% right answers");
+        lblStatistics.setFont(new Font("Arial", Font.BOLD, 16));
+        lblStatistics.setForeground(Color.WHITE);
 
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(10, 10, 10, 10);
-        c.anchor = GridBagConstraints.WEST;
-        pnlPointsPanel.add(lblUserPoints, c);
+        c.insets = new Insets(10, 10, 30, 10);
+        c.anchor = GridBagConstraints.CENTER;
+        pnlResultInfo.add(lblUserPoints, c);
 
         c.gridx = 0;
         c.gridy = 1;
-        pnlPointsPanel.add(lblTotalPoints, c);
-        pnlPointsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    }
+        c.insets = new Insets(10, 10, 30, 10);
+        pnlResultInfo.add(lblTotalPoints, c);
 
-    public void setUpStatisticsPanel(double statistics){
-        GridBagLayout gbLayout = new GridBagLayout();
-        pnlStatisticsPanel.setLayout(gbLayout);
-        String formattedStatistics = String.format("%.2f", statistics);
-        lblStatistics = new JLabel("You have got " + formattedStatistics + " % correct answers!");
-
-        GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
-        c.gridy = 0;
-        c.insets = new Insets(20, 10, 10, 10);
-        c.anchor = GridBagConstraints.WEST;
-        pnlStatisticsPanel.add(lblStatistics, c);
-        pnlStatisticsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
+        c.gridy = 2;
+        c.insets = new Insets(10, 10, 30, 10);
+        pnlResultInfo.add(lblStatistics, c);
     }
 }

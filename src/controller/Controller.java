@@ -71,9 +71,12 @@ public class Controller {
         for (int m = 1; m <= 3; m++) {
             DA336A.addModule(new Module("Module C" + m, DA336A.getPackageName()));
         }
+        /*
         courses.add(DA339A);
         courses.add(DA343A);
         courses.add(DA336A);
+
+         */
 
 
         //Adding the courses to the first program "Computer System Developer"
@@ -108,6 +111,9 @@ public class Controller {
                 try {
                     Program program = (Program) ois.readObject();
                     programList.add(program);
+                    for(Course course : program.getCourses()) {
+                        courses.add(course);
+                    }
                 } catch (EOFException exc) {
                     break;
                 }
@@ -134,7 +140,6 @@ public class Controller {
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            ;
         }
     }
 
@@ -672,6 +677,4 @@ public class Controller {
         }
         return this.currentStudentProgram;
    }
-
-
 }
