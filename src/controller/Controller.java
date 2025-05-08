@@ -8,10 +8,7 @@ import view.subPanels.LogInFrame;
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
 import java.util.HashMap;
->>>>>>> parent of bed63a0 (Lagt till metoder för att spara en quiz, retunera quizlista, spara flashcard , retunera flashcrads och skapa historik)
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -677,8 +674,6 @@ public class Controller {
         return this.currentStudentProgram;
    }
 
-<<<<<<< HEAD
-=======
     public List<String> programCodes(){
         List<String> programCodes = new ArrayList<>();
         for (Program program : programList) {
@@ -722,7 +717,5 @@ public class Controller {
         Module module = getModule(courseName,moduleName);
         Matching matching= new Matching(query,statements,matches,points,correctMatches);
     }
-
->>>>>>> parent of bed63a0 (Lagt till metoder för att spara en quiz, retunera quizlista, spara flashcard , retunera flashcrads och skapa historik)
 
 }
