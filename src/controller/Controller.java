@@ -8,8 +8,6 @@ import view.subPanels.LogInFrame;
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -240,7 +238,6 @@ public class Controller {
             if (currentProgram.getName().equals(programName)) {
                 Course newCourse = new Course(courseName, courseName.trim());
                 currentProgram.addNewCourse(newCourse);
-                //TODO create a new package for the new course
                 courses.add(newCourse);
             }
         }
@@ -262,6 +259,7 @@ public class Controller {
                 }
             }
         }
+        
         if (requestedCourse != null) {
             Module newModule = new Module(moduleName, requestedCourse.getPackageName());
             requestedCourse.addModule(newModule);
@@ -675,101 +673,5 @@ public class Controller {
         return this.currentStudentProgram;
    }
 
-    public List<String> programCodes(){
-        List<String> programCodes = new ArrayList<>();
-        for (Program program : programList) {
-            programCodes.add(program.getProgramCode());
-        }
-        return programCodes;
-    }
-    public String getCurrentStudentProgramName(){
-        return currentStudentProgram.getName();
-    }
-
-    private Module getModule(String courseName, String moduleName) {
-        Course currentCourse=null;
-        Module module=null;
-        for (int c=0; c<courses.size(); c++){
-            if (courses.get(c).getName().equals(courseName)) {
-                currentCourse = courses.get(c);
-                for (int m=0; m<currentCourse.getModules().size(); m++){
-                    if (currentCourse.getModules().get(m).getName().equals(moduleName)) {
-                        module = currentCourse.getModules().get(m);
-                    }
-                }
-
-            }
-        }
-        return module;
-    }
-
-    public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String ModuleName ) {
-        Module module = getModule(courseName,ModuleName);
-        TrueOrFalse trueOrFalse= new TrueOrFalse(query,alternatives,points,correctAnswer);
-        module.saveTrueOrFalseQuestionToFile(trueOrFalse);
-    }
-
-    public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName ) {
-        Module module = getModule(courseName,moduleName);
-        MultipleChoice multipleChoice= new MultipleChoice(query,alternatives,correctAnswer,points);
-    }
-
-    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName ) {
-        Module module = getModule(courseName,moduleName);
-        Matching matching= new Matching(query,statements,matches,points,correctMatches);
-    }
-
-    public void setQuizDone(boolean isDone){
-        onGoingQuiz.setDone(isDone);
-    }
-
-    public List<Quiz> getCurrentUsersQuizList(){
-        List<Quiz> quizList = new ArrayList<>();
-        for(User user: users){
-            if (currentUser.getName().equals(user.getName())){
-                quizList=user.getCreatedQuiz();
-                return quizList;
-            }
-        }
-        return new ArrayList<>();
-    }
-
-    public void saveCurrentUserQuiz(Quiz quiz){
-        quiz.setDate(new Date());
-        currentUser.addToCreatedQuiz(quiz);
-        userManager.saveUsersToFiles();
-    }
-     public List<FlashCard> getUsersFlashCards(){
-        List<FlashCard> flashCards = new ArrayList<>();
-        for(User user: users){
-            if (currentUser.getName().equals(user.getName())){
-                flashCards=user.getFlashCards();
-                return flashCards;
-            }
-        }
-        return new ArrayList<>();
-     }
-
-     public void saveUsersFlashCards(FlashCard flashCard){
-        currentUser.addToCreatedFlashcards(flashCard);
-        userManager.saveUsersToFiles();
-     }
-
-     public List<Quiz> getCurrentUsersQuizHistory(){
-        List<Quiz> availableQuizList = new ArrayList<>();
-        List<Quiz> quizHistory = new ArrayList<>();
-        for(User user: users){
-            if (currentUser.getName().equals(user.getName())){
-                availableQuizList=user.getCreatedQuiz();
-                for(Quiz quiz: availableQuizList){
-                    if (quiz.getDone()){
-                        quizHistory.add(quiz);
-                    }
-                }
-                return quizHistory;
-            }
-        }
-        return new ArrayList<>();
-     }
 
 }
