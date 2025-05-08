@@ -11,6 +11,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * <p>
+ * Responsibility: This class acts as the controller in the MVC pattern.
+ * It handles user interactions from the view, updates the model accordingly, and updates the GUI
+ * with changes from the model layer.
+ * </p>
+ *
+ * <p>
+ * Main Responsibilities:
+ * <ul>
+ *   <li>Processes user choices from the GUI (MainFrame).</li>
+ *   <li>Interacts with model classes such as <code>UserManager</code>, <code>Program</code>, <code>Course</code>, <code>Quiz</code>.</li>
+ *   <li>Handles loading and saving of data (e.g. reading program data from <code>programs.dat</code>).</li>
+ *   <li>Maintains references to the current user, ongoing quiz, current program/module, etc.</li>
+ *   <li>Provides necessary data to update views (e.g. list of quizzes, courses, user points).</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Fields Overview:
+ * <ul>
+ *   <li><code>view</code> - the main GUI frame</li>
+ *   <li><code>programs</code> - hardcoded initial list of programs</li>
+ *   <li><code>courses</code> - list of courses used in the system</li>
+ *   <li><code>programList</code> - all programs read from file</li>
+ *   <li><code>programsFileName</code> - path to the file storing program data</li>
+ *   <li><code>currentUser</code> - the user currently logged in</li>
+ *   <li><code>currentModule</code> - the module currently being selected</li>
+ *   <li><code>onGoingQuiz</code> - the quiz currently in progress</li>
+ *   <li><code>userManager</code> - manager class for all user-related logic</li>
+ *   <li><code>usersQuizzes</code> - list of quizzes attempted by the current user</li>
+ *   <li><code>currentStudentProgram</code> - the program currently enrolled by the student</li>
+ *   <li><code>currentFlashCards</code> - flashcards available to the current module</li>
+ * </ul>
+ * </p>
+ *
+ * @author Sara Sheikho
+ * @author Lilas Beirakdar
+ * @author Ahmad Maarouf
+ */
 public class Controller {
     private MainFrame view;
     private List<Program> programs; //Hard coding initial  programs
@@ -22,7 +62,6 @@ public class Controller {
     private Quiz onGoingQuiz;
     private UserManager userManager;
     private List<User> users;
-// hämta en lista av all quizes
     private List<Quiz> usersQuizzes ;
     private Program currentStudentProgram;
     private List<FlashCard> currentFlashCards;
@@ -34,7 +73,7 @@ public class Controller {
         this.users = userManager.getUsersList();
 
 
-       // currentUser.loadCreatedQuizes();
+       currentUser.loadCreatedQuizes();
 
         createAndAddPrograms();
         createAndAddCourses();
@@ -101,7 +140,23 @@ public class Controller {
         loadProgramsFromFile();
     }
 
-    //Method to get programs from file
+    /**
+     * This method Loads all {@link Program} objects from a serialized data file into the program list.
+     * <p>
+     * This method is called when an admin opens the application. It reads the contents
+     * of the file using an {@link ObjectInputStream}, and adds each deserialized {@link Program} object
+     * to the programs list
+     * </p>
+     *
+     * <p>
+     * The file is expected to contain multiple serialized {@link Program} objects. The method
+     * reads until an {@link EOFException} is thrown, which signals the end of the file.
+     * </p>
+     *
+     * @throws IOException if there is a problem reading the file
+     * @throws ClassNotFoundException if the {@link Program} class cannot be found during deserialization
+     * @author Sara Sheikho
+     */
     public void loadProgramsFromFile() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(programsFileName))) {
             while (true) {
@@ -119,7 +174,27 @@ public class Controller {
         }
     }
 
-    //This method saves the head coded programs only once
+    /**
+     * Saves all {@link Program} objects from the {@code programs} list to a serialized data file.
+     *
+     * <p>
+     * This method writes each {@link Program} object in the {@code programs} list to the dat file
+     * using {@link ObjectOutputStream}.
+     * </p>
+     *
+     * <p>
+     * Before writing, the method checks if the file already exists and is non-empty.
+     * If so, it does not overwrite it and returns early to prevent duplication.
+     * </p>
+     *
+     * <p>
+     * This method is typically called during the initial setup of the application to persist
+     * hardcoded or predefined programs.
+     * </p>
+     *
+     * @throws IOException if writing to the file fails; the exception message is printed to the console.
+     * @author Sara Sheikho
+     */
     public void saveProgramsToFile() {
 
         File file = new File(programsFileName);
@@ -138,6 +213,16 @@ public class Controller {
         }
     }
 
+    /**
+     * Retrieves the names of all available programs in the {@code programList}.
+     * <p>
+     * This method is used to extract only the names of the {@link Program} objects so they
+     * can be displayed in the GUI
+     * </p>
+     *
+     * @return a String array containing the names of all programs in {@code programList}.
+     * @author Sara Sheikho
+     */
     public String[] getProgramsNames() {
         String[] programsNames = new String[programList.size()];
         for (int p = 0; p < programList.size(); p++) {
@@ -146,9 +231,20 @@ public class Controller {
         return programsNames;
     }
 
+    /**
+     * Retrieves the names of all available courses in the {@code courseList} with a selected program name.
+     * <p>
+     * This method searches the list of programs {@code programList} for a program whose name matches
+     * the provided programName. Once found, it extracts the names of all {@link Course}
+     * objects in that program and returns them as a String array to
+     * display these course names in the GUI.
+     * </p>
+     *
+     * @param programName the name of the program for which associated course names are to be retrieved
+     * @return a String array containing the names of all courses in {@code courseList}.
+     * @author Sara Sheikho
+     */
     public String[] getCoursesNames(String programName) {
-
-        //Search for the selected program by the programName
         String[] coursesNames = new String[0];
         Program currentProgram = null;
 
@@ -160,7 +256,6 @@ public class Controller {
             }
         }
 
-        //Fill the list with courses names for the selected program
         for (int c = 0; c < coursesNames.length; c++) {
             Course currentCourse = currentProgram.getCourses().get(c);
             coursesNames[c] = currentCourse.getName();
@@ -168,8 +263,21 @@ public class Controller {
         return coursesNames;
     }
 
+    /**
+     * Retrieves the names of all modules associated with the given course name.
+     * <p>
+     * This method searches through all {@link Program} objects in the {@code programList},
+     * and for each program, it iterates over its {@link Course} objects to find a match
+     * with the given {@code courseName}. Once the matching course is found, it extracts
+     * and returns the names of all {@link Module} objects within that course.
+     * </p>
+     *
+     * @param courseName the name of the course whose module names should be retrieved
+     * @return a String array containing the names of all {@link Module} objects
+     * in the matching course, or an empty array if no such course is found
+     * @author Sara Sheikho
+     */
     public String[] getModulesNames(String courseName) {
-
         String[] modulesNames = new String[0];
         Course selectedCourse = null;
         boolean courseFound = false;
@@ -190,17 +298,29 @@ public class Controller {
             }
         }
 
-        //Fill the list with modules names for the selected course
         for (int m = 0; m < modulesNames.length; m++) {
             Module currentModule = selectedCourse.getModules().get(m);
             modulesNames[m] = currentModule.getName();
         }
-
-
         return modulesNames;
     }
 
-    //This method adds a new program to the programList then to the file
+    /**
+     * Adds a new {@link Program} to the {@code programList} if a program with the same name does not already exist.
+     * <p>
+     * This method first checks if a program with the given name is already present in the list.
+     * If not, it creates a new {@code Program} object with the provided name and code,
+     * adds it to the {@code programList}, and updates the persistent file storage by
+     * calling {@code updateProgramsInFile()}.
+     * </p>
+     *
+     * <p>Note: Program names are considered unique identifiers for this check.</p>
+     *
+     * @param programName the name of the new program to add
+     * @param programCode the code of the new program to add
+     * @author Sara Sheikho
+     * @author Lilas Beirakdar
+     */
     public void addProgramToProgramList(String programName, String programCode) {
         for (Program program : programList) {
             if (program.getName().equals(programName)) {
@@ -212,6 +332,20 @@ public class Controller {
         updateProgramsInFile();
     }
 
+
+    /**
+     * Deletes a {@link Program} from the {@code programList} by its name.
+     * <p>
+     * This method searches for a program in the list that matches the given name
+     * and removes it. After the removal, the updated list is saved to file storage
+     * by calling {@code updateProgramsInFile()}.
+     * </p>
+     *
+     * <p>Note: If multiple programs have the same name, all matches will be removed.</p>
+     *
+     * @param programName the name of the program to be deleted
+     * @author Sara Sheikho
+     */
     public void deleteProgramFromFile(String programName) {
         for (int p = 0; p < programList.size(); p++) {
             if (programList.get(p).getName().equals(programName)) {
@@ -221,6 +355,16 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Updates the program list in the file by writing all the current {@link Program} objects
+     * to the dat file.
+     * <p>
+     * This method will overwrite the existing file with the updated list of programs.
+     * </p>
+     *
+     * @throws IOException if an I/O error occurs while writing the programs to the file.
+     * @author Sara Sheikho
+     */
     public void updateProgramsInFile() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))) {
             for (Program program : programList) {
@@ -228,10 +372,22 @@ public class Controller {
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            ;
         }
     }
 
+    /**
+     * Adds a new {@link Course} to the specified {@link Program} by its name.
+     * <p>
+     * This method searches the {@code programList} for a program with the given name.
+     * If found, it creates a new {@link Course} with the specified course name and a trimmed version
+     * of the same name as the course package name, then adds it to the program and the system {@code courses} list.
+     * After updating the data, it calls {@code updateProgramsInFile()} to save changes to disk.
+     * </p>
+     *
+     * @param programName the name of the program to which the new course should be added
+     * @param courseName the name (and code) of the new course to be created
+     * @author Sara Sheikho
+     */
     public void addNewCourse(String programName, String courseName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -244,10 +400,24 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Adds a new {@link Module} to a {@link Course} identified by its name.
+     * <p>
+     * This method searches through the {@code programList} to locate the {@link Course} with the given name.
+     * Once the course is found, it creates a new {@link Module} using the provided module name and
+     * the course's package name to creates the text files where the questions should stored
+     * and then adds the module to the course.
+     * Finally, it updates the file storing the list of programs to persist the changes.
+     * </p>
+     *
+     * @param courseName the name of the course to which the module should be added
+     * @param moduleName the name of the new module to be created
+     * @author Sara Sheikho
+     */
     public void addNewModule(String courseName, String moduleName) {
-
         Course requestedCourse = null;
         Program requestedProgram = null;
+
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
             for (int c = 0; c < currentProgram.getCourses().size(); c++) {
@@ -266,6 +436,7 @@ public class Controller {
         }
         updateProgramsInFile();
     }
+
 
     public void deleteCourse(String programName, String courseName) {
         for (int p = 0; p < programList.size(); p++) {
