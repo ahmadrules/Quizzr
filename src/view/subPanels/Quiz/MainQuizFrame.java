@@ -135,8 +135,4 @@ public class MainQuizFrame extends JFrame {
         availableQuizPanel.updateList(quizName);
     }
 
-    public void setQuizAsDone(boolean done) {
-        mainFrame.setQuizAsDone(done);
-    }
-
 }

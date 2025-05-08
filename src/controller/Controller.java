@@ -8,6 +8,10 @@ import view.subPanels.LogInFrame;
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.HashMap;
+>>>>>>> parent of bed63a0 (Lagt till metoder för att spara en quiz, retunera quizlista, spara flashcard , retunera flashcrads och skapa historik)
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -673,5 +677,52 @@ public class Controller {
         return this.currentStudentProgram;
    }
 
+<<<<<<< HEAD
+=======
+    public List<String> programCodes(){
+        List<String> programCodes = new ArrayList<>();
+        for (Program program : programList) {
+            programCodes.add(program.getProgramCode());
+        }
+        return programCodes;
+    }
+    public String getCurrentStudentProgramName(){
+        return currentStudentProgram.getName();
+    }
+
+    private Module getModule(String courseName, String moduleName) {
+        Course currentCourse=null;
+        Module module=null;
+        for (int c=0; c<courses.size(); c++){
+            if (courses.get(c).getName().equals(courseName)) {
+                currentCourse = courses.get(c);
+                for (int m=0; m<currentCourse.getModules().size(); m++){
+                    if (currentCourse.getModules().get(m).getName().equals(moduleName)) {
+                        module = currentCourse.getModules().get(m);
+                    }
+                }
+
+            }
+        }
+        return module;
+    }
+
+    public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String ModuleName ) {
+        Module module = getModule(courseName,ModuleName);
+        TrueOrFalse trueOrFalse= new TrueOrFalse(query,alternatives,points,correctAnswer);
+        module.saveTrueOrFalseQuestionToFile(trueOrFalse);
+    }
+
+    public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName ) {
+        Module module = getModule(courseName,moduleName);
+        MultipleChoice multipleChoice= new MultipleChoice(query,alternatives,correctAnswer,points);
+    }
+
+    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName ) {
+        Module module = getModule(courseName,moduleName);
+        Matching matching= new Matching(query,statements,matches,points,correctMatches);
+    }
+
+>>>>>>> parent of bed63a0 (Lagt till metoder för att spara en quiz, retunera quizlista, spara flashcard , retunera flashcrads och skapa historik)
 
 }
