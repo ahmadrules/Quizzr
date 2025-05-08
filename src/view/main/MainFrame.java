@@ -6,6 +6,7 @@ import model.User;
 import view.subPanels.LogInFrame;
 
 import javax.swing.*;
+import java.util.List;
 import java.awt.*;
 
 /**
@@ -133,6 +134,13 @@ public class MainFrame extends JFrame implements Runnable {
         }
     }
 
+    
+    public
+    List<FlashCard> getFlashcards(String program, String course, String module) {
+        return (List<FlashCard>) controller.getFlashcards(program, course, module);
+    }
+    
+    
     public String[] getCurrentUserInfo() {
         return controller.getCurrentUserInfo();
     }
