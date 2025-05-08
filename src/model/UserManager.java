@@ -8,7 +8,6 @@ public class UserManager {
     List<User> users;
     private User currentUser;
     private final String userFilePath="src/model/files/users.dat";
-
     public UserManager() {
         this.users= loadUsersFromFiles();
         this.currentUser = null;
@@ -72,7 +71,7 @@ public class UserManager {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userFilePath))){
             oos.writeObject(users);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
     public List<User> loadUsersFromFiles() {
@@ -81,9 +80,9 @@ public class UserManager {
             users= (List<User>) ois.readObject();
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return users;
     }

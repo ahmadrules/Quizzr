@@ -316,6 +316,7 @@ public class QuestionFrame extends JFrame {
 
     public void addListeners () {
         submitButton.addActionListener(e -> {
+            mainQuizFrame.setQuizAsDone(true);
             getUserAnswers();
             getTotalPoints();
         });

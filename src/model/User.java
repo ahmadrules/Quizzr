@@ -90,6 +90,7 @@ public class User implements Serializable {
         createdQuiz.remove(quiz);
     }
 
+
     public void loadCreatedQuizes(){
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(quizFilePath))) {
             while (true) {
