@@ -672,6 +672,4 @@ public class Controller {
         }
         return this.currentStudentProgram;
    }
-
-
 }
