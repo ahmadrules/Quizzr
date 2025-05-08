@@ -238,6 +238,7 @@ public class Controller {
             if (currentProgram.getName().equals(programName)) {
                 Course newCourse = new Course(courseName, courseName.trim());
                 currentProgram.addNewCourse(newCourse);
+                //TODO create a new package for the new course
                 courses.add(newCourse);
             }
         }
@@ -259,7 +260,6 @@ public class Controller {
                 }
             }
         }
-        
         if (requestedCourse != null) {
             Module newModule = new Module(moduleName, requestedCourse.getPackageName());
             requestedCourse.addModule(newModule);
@@ -672,4 +672,16 @@ public class Controller {
         }
         return this.currentStudentProgram;
    }
+
+    public List<String> programCodes(){
+        List<String> programCodes = new ArrayList<>();
+        for (Program program : programList) {
+            programCodes.add(program.getProgramCode());
+        }
+        return programCodes;
+    }
+    
+
+
+
 }
