@@ -345,6 +345,7 @@ public class LogInFrame extends JFrame {
 
         studentLoginButton.addActionListener(e -> {
            setLoginLayout();
+           registerButton.setEnabled(true);
         });
 
         adminLoginButton.addActionListener(e -> {

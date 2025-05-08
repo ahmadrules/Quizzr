@@ -1,6 +1,7 @@
 package view.main.CenterPanels;
 
 import view.main.MainFrame;
+import view.subPanels.AddQuestionFrame;
 import view.subPanels.Quiz.MainQuizFrame;
 
 import javax.swing.*;
@@ -28,11 +29,15 @@ public class CenterModulePanel extends JPanel {
     private String selectedModule;
     private String selectedCourse;
     private String selectedProgram;
+    private JButton addQuestionButton;
+    private AddQuestionFrame addQuestionFrame;
 
 
     public CenterModulePanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
+
+        addQuestionFrame = new AddQuestionFrame(mainFrame);
 
         createDataComponents();
         createButtons();
@@ -103,6 +108,7 @@ public class CenterModulePanel extends JPanel {
         addModuleButton.setEnabled(false);
         editModuleButton.setEnabled(false);
         deleteModuleButton.setEnabled(false);
+        addQuestionButton.setEnabled(false);
     }
 
     /**
@@ -115,6 +121,7 @@ public class CenterModulePanel extends JPanel {
         addModuleButton.setEnabled(true);
         editModuleButton.setEnabled(true);
         deleteModuleButton.setEnabled(true);
+        addQuestionButton.setEnabled(true);
     }
 
     /**
@@ -129,17 +136,21 @@ public class CenterModulePanel extends JPanel {
         addModuleButton = new JButton("Add module");
         editModuleButton = new JButton("Edit");
         deleteModuleButton = new JButton("Delete");
+        addQuestionButton = new JButton("Add question");
 
         quizButton.setEnabled(false);
         flashcardsButton.setEnabled(false);
         addModuleButton.setEnabled(false);
         editModuleButton.setEnabled(false);
         deleteModuleButton.setEnabled(false);
+        addQuestionButton.setEnabled(false);
         buttonPanel.add(quizButton);
         buttonPanel.add(flashcardsButton);
+        buttonPanel.add(addQuestionButton);
         buttonPanel.add(addModuleButton);
         buttonPanel.add(editModuleButton);
         buttonPanel.add(deleteModuleButton);
+
         buttonPanel.setVisible(true);
     }
 
@@ -206,6 +217,10 @@ public class CenterModulePanel extends JPanel {
                     enableButtons();
                 }
             }
+        });
+
+        addQuestionButton.addActionListener(e -> {
+            new AddQuestionFrame(mainFrame);
         });
     }
 
