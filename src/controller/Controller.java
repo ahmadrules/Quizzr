@@ -472,7 +472,8 @@ public class Controller {
         boolean success = userManager.loginUser(username, password);
         if (success) {
             currentUser = userManager.getCurrentUser();
-          //  currentUser.loadCreatedQuizes();
+             getCurrentUsersQuizList();
+             getCurrentUsersQuizHistory();
         }
 
         return success;
@@ -727,8 +728,8 @@ public class Controller {
         List<Quiz> quizList = new ArrayList<>();
         for(User user: users){
             if (currentUser.getName().equals(user.getName())){
-                quizList=user.getCreatedQuiz();
-                return quizList;
+                this.usersQuizzes=user.getCreatedQuiz();
+                return usersQuizzes;
             }
         }
         return new ArrayList<>();
