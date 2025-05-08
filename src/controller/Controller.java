@@ -680,6 +680,11 @@ public class Controller {
         }
         return programCodes;
     }
+
+    public String getCurrentStudentProgramName(){
+        return currentStudentProgram.getName();
+    }
+
     
 
 
