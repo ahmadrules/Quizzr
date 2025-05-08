@@ -673,5 +673,15 @@ public class Controller {
         return this.currentStudentProgram;
    }
 
+    public List<String> programCodes(){
+        List<String> programCodes = new ArrayList<>();
+        for (Program program : programList) {
+            programCodes.add(program.getProgramCode());
+        }
+        return programCodes;
+    }
+    
+
+
 
 }
