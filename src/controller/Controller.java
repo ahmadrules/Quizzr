@@ -701,7 +701,7 @@ public class Controller {
         }
         return module;
     }
-    
+
     public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
         TrueOrFalse trueOrFalse= new TrueOrFalse(query,alternatives,points,correctAnswer);
