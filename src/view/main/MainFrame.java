@@ -185,6 +185,9 @@ public class MainFrame extends JFrame implements Runnable {
         controller.logoutUser();
     }
 
+    public void setQuizAsDone(boolean done){
+        controller.setQuizDone(done);
+    }
 
     @Override
     public void run() {
