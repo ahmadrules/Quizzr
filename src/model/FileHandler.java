@@ -73,6 +73,7 @@ public class FileHandler implements Serializable {
         File file = new File(filename);
         try(BufferedWriter bufferedWriter= new BufferedWriter(new FileWriter(file, true))) {
             bufferedWriter.write(question);
+            bufferedWriter.newLine();
         }
         catch (IOException e) {
             System.out.println("Error saving question");
@@ -92,7 +93,7 @@ public class FileHandler implements Serializable {
         String correctAnswer = question.getCorrectAnswer();
         int points = question.getPoints();
         String questionToBeSaved= query+";"+firstAlternative+";"+secondAlternative+";"
-                +thirdAlternative+";"+correctAnswer+";"+points;
+                +thirdAlternative+";"+correctAnswer+";"+points+"\n";
         writeQuestionToFile(filename, questionToBeSaved+"\n");
     }
 
