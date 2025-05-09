@@ -1,79 +1,140 @@
 package view.subPanels;
 
-import controller.Controller;
 import model.FlashCard;
+import view.main.MainFrame;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-
-public class FlashcardPanel extends JPanel {
-    private Controller controller;
-    private String moduleName;
-    private JList<String> flashcardList;
-    private DefaultListModel<String> flashcardListModel;
-}
-
-/*
-
-    public FlashcardPanel(String moduleName, Controller controller) {
-        this.moduleName = moduleName;
-        this.controller = controller;
-       
-        setLayout(new BorderLayout());
-
-        JLabel titleLabel = new JLabel("Flashcards for module: " + moduleName, SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        add(titleLabel, BorderLayout.NORTH);
-
-           // === Lista med flashcards ===
-        flashcardListModel = new DefaultListModel<>();
-        flashcardList = new JList<>(flashcardListModel);
-        flashcardList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane scrollPane = new JScrollPane(flashcardList);
-        add(scrollPane, BorderLayout.CENTER);
-
-        // === Hämta flashcards via controller ===
-        ArrayList<FlashCard> flashCards = controller.getFlashcardsForModule(moduleName);
-        for (int i = 0; i < flashCards.size(); i++) {
-                flashcardListModel.addElement(flashCards.get(i).getFrontContent());
-        }
-    }
-
-        // === Knappar längst ner ===
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        JButton addButton = new JButton("Add");
-        JButton editButton = new JButton("Edit");
-        JButton deleteButton = new JButton("Delete");
-
-        buttonPanel.add(addButton);
-        buttonPanel.add(editButton);
-        buttonPanel.add(deleteButton);
-        add(buttonPanel, BorderLayout.SOUTH);
-
-        // TODO: Add, Edit och Delete-funktioner kan kopplas till controller-metoder
-
+import java.util.List;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 
 /**
-Metod som ska vara i controller: 
-public ArrayList<FlashCard> getFlashcardsForModule(String moduleName) {
-    for (int i = 0; i < programList.size(); i++) {
-        Program program = programList.get(i);
-        List<Course> courses = program.getCourses();
-        for (int j = 0; j < courses.size(); j++) {
-            Course course = courses.get(j);
-            List<Module> modules = course.getModules();
-            for (int k = 0; k < modules.size(); k++) {
-                Module module = modules.get(k);
-                if (module.getName().equals(moduleName)) {
-                    return new ArrayList<>(module.getFlashCards());
-                }
-            }
+ * FlashcardPanel is a GUI class that displays flashcards associated with
+ * a selected module. It allows the user to navigate and view question-answer
+ * pairs stored in FlashCard objects.
+ *
+ * This panel is triggered from CenterModulePanel and follows the MVC pattern.
+ * It fetches data through the MainFrame → Controller → Module structure.
+ *
+ * @author Salman Warsame
+ */
+public class FlashcardPanel extends JFrame {
+    private List<FlashCard> flashCards;
+    private int currentIndex;
+    private JLabel frontLabel;
+    private JLabel backLabel;
+    private JButton showBackButton;
+    private JButton nextButton;
+
+    private String selectedProgram;
+    private String selectedCourse;
+    private String selectedModule;
+    private MainFrame mainFrame;
+
+    /**
+     * Initializes the flashcard window with all UI components,
+     * retrieves flashcards via controller, and displays the first card.
+     *
+     * @param selectedProgram the name of the selected program
+     * @param selectedCourse  the name of the selected course
+     * @param selectedModule  the name of the selected module
+     * @param mainFrame       reference to MainFrame for controller access
+     */
+    public FlashcardPanel(String selectedProgram, String selectedCourse, String selectedModule, MainFrame mainFrame) {
+        this.selectedProgram = selectedProgram;
+        this.selectedCourse = selectedCourse;
+        this.selectedModule = selectedModule;
+        this.mainFrame = mainFrame;
+
+        setTitle("Flashcards");
+        setSize(new Dimension(400, 300));
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        setupComponents();
+        loadFlashcards();
+        updateCardDisplay();
+
+        setVisible(true);
+    }
+
+    /**
+     * Sets up the layout, buttons, and text display areas.
+     * Adds event listeners to the navigation buttons.
+     */
+    private void setupComponents() {
+        setLayout(new BorderLayout());
+
+        frontLabel = new JLabel("", SwingConstants.CENTER);
+        frontLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        add(frontLabel, BorderLayout.NORTH);
+
+        backLabel = new JLabel("", SwingConstants.CENTER);
+        backLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        add(backLabel, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel();
+        showBackButton = new JButton("Show Answer");
+        nextButton = new JButton("Next");
+
+        buttonPanel.add(showBackButton);
+        buttonPanel.add(nextButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        showBackButton.addActionListener(this::handleShowAnswer);
+        nextButton.addActionListener(this::handleNext);
+    }
+
+    /**
+     * Loads the list of flashcards for the selected module.
+     * Data is fetched from the controller through MainFrame.
+     */
+    private void loadFlashcards() {
+        this.flashCards = mainFrame.getFlashcards(selectedProgram, selectedCourse, selectedModule);
+        currentIndex = 0;
+    }
+
+    /**
+     * Updates the display with the current flashcard's question (front side).
+     * Hides the answer initially.
+     */
+    private void updateCardDisplay() {
+        if (flashCards != null && !flashCards.isEmpty()) {
+            FlashCard current = flashCards.get(currentIndex);
+            frontLabel.setText("Q: " + current.getFrontContent());
+            backLabel.setText(""); // Hide answer until requested
+        } else {
+            frontLabel.setText("No flashcards available");
+            backLabel.setText("");
+            showBackButton.setEnabled(false);
+            nextButton.setEnabled(false);
         }
     }
-    return new ArrayList<>();
+
+    /**
+     * Reveals the answer (back content) of the current flashcard.
+     */
+    private void handleShowAnswer(ActionEvent e) {
+        if (!flashCards.isEmpty()) {
+            FlashCard current = flashCards.get(currentIndex);
+            backLabel.setText("A: " + current.getBackContent());
+        }
+    }
+
+    /**
+     * Navigates to the next flashcard in the list and updates the display.
+     * If at the end of the list, loops back to the beginning.
+     */
+    private void handleNext(ActionEvent e) {
+        if (!flashCards.isEmpty()) {
+            currentIndex = (currentIndex + 1) % flashCards.size();
+            updateCardDisplay();
+        }
+    }
 }
-*/
+
 
 
 

@@ -12,14 +12,19 @@ public class User implements Serializable {
     private List<FlashCard> flashCards;
     private final String quizFilePath = "src/model/files/user_created_quizes.dat";
     private String programCode;
+    private boolean isAdmin;
 
-    public User(String name, String password, String email, String programCode) {
+    public User(String name, String password, String email, String programCode, boolean isAdmin) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.createdQuiz = new ArrayList<>();
         this.flashCards = new ArrayList<>();
         this.programCode = programCode;
+        this.isAdmin = isAdmin;
+    }
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
     public String getName() {
@@ -75,6 +80,14 @@ public class User implements Serializable {
         info[1] = email;
         info[2] = password;
         return info;
+    }
+
+    public void removeFlashCard(FlashCard flashCard){
+        flashCards.remove(flashCard);
+    }
+
+    public void removeQuiz(Quiz quiz){
+        createdQuiz.remove(quiz);
     }
 
     public void loadCreatedQuizes(){

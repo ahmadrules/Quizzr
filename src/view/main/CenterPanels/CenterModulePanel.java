@@ -180,9 +180,12 @@ public class CenterModulePanel extends JPanel {
      * @author Ahmad Maarouf
      */
     public void addEventListener() {
-        flashcardsButton.addActionListener(e -> {
-            //Here we write what happens when we press the flashcard button
-            //FlashcardPanel flashcardPanel = new FlashcardPanel(selectedModule);
+         flashcardsButton.addActionListener(e -> {
+            if (selectedProgram != null && selectedCourse != null && selectedModule != null) {
+                new view.subPanels.FlashcardPanel(selectedProgram, selectedCourse, selectedModule, mainFrame);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select program, course, and module before opening flashcards.");
+            }
         });
 
         quizButton.addActionListener(e -> {

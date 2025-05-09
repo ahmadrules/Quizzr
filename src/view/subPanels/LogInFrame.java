@@ -5,6 +5,7 @@ import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
  * This class is responsible for offering and validating options
@@ -309,14 +310,17 @@ public class LogInFrame extends JFrame {
                             //@TODO Add function for creating new user
                             //@TODO control that programs code is equal to programCodeList
                             String programCode = programCodeField.getText();
+                            List<String> programCodes=controller.programCodes();
+                            if(programCode != null && !programCode.isEmpty() && programCodes.contains(programCode) ) {
                             boolean success= mainFrame.registerNewUser(newUsername,newPassword,newEmail,programCode);
                             if (success) {
                                 JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
                             }else{
                                 JOptionPane.showMessageDialog(mainPanel, "User already exists");
-                            }
-                        }
-                        else {
+                            }}else {
+                                JOptionPane.showMessageDialog(mainPanel, "Please enter a valid Program Code");
+
+                            }                        } else {
                             JOptionPane.showMessageDialog(mainFrame, "Passwords do not match");
                         }
                     }
