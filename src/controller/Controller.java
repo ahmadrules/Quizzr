@@ -675,7 +675,17 @@ public class Controller {
         return this.currentStudentProgram;
    }
 
- 
+    public List<String> programCodes(){
+        List<String> programCodes = new ArrayList<>();
+        for (Program program : programList) {
+            programCodes.add(program.getProgramCode());
+        }
+        return programCodes;
+    }
+    public String getCurrentStudentProgramName(){
+        return currentStudentProgram.getName();
+    }
+
     private Module getModule(String courseName, String moduleName) {
         Course currentCourse=null;
         Module module=null;
