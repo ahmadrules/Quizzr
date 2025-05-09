@@ -93,7 +93,7 @@ public class FileHandler implements Serializable {
         int points = question.getPoints();
         String questionToBeSaved= query+";"+firstAlternative+";"+secondAlternative+";"
                 +thirdAlternative+";"+correctAnswer+";"+points;
-        writeQuestionToFile(filename, questionToBeSaved);
+        writeQuestionToFile(filename, questionToBeSaved+"\n");
     }
 
     public void saveTrueOrFalseQuestionToFile(String filename, Question question) {
@@ -105,7 +105,7 @@ public class FileHandler implements Serializable {
         String correctAnswer = question.getCorrectAnswer();
         String questionToBeSaved= query+";"+firstAlternative+";"+
                 secondAlternative+";"+points+";"+correctAnswer;
-        writeQuestionToFile(filename, questionToBeSaved);
+        writeQuestionToFile(filename, questionToBeSaved+"\n");
 
     }
 
@@ -144,7 +144,7 @@ public class FileHandler implements Serializable {
         String correctMatchesString= correctAnswer.toString();
 
         String questionToWrite= query+";"+alternativesString+";"+matchesString+";"+points+";"+correctMatchesString;
-        writeQuestionToFile(filename, questionToWrite);
+        writeQuestionToFile(filename, questionToWrite+"\n");
 
 
     }
