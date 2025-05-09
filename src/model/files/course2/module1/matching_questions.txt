@@ -17,3 +17,5 @@ Famous books;A. 1984,B. Hamlet,C. The Hobbit;Orwell,Shakespeare,Tolkien;6;A:1,B:
 Math match;A. Triangle,B. Circle,C. Square; 3 sides,Round,4 equal sides;6;A:1,B:2,C:3
 
 Tech companies HQ;A. Google,B. Apple,C. Microsoft;Mountain View,Cupertino,Redmond;6;A:1,B:2,C:3
+
+Capital cities match;France,UK,Ital;A.Paris,B.London,C.Rome;6;A:1,B:2,C:3
