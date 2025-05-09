@@ -8,6 +8,7 @@ import view.subPanels.LogInFrame;
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -719,6 +720,59 @@ public class Controller {
         Matching matching= new Matching(query,statements,matches,points,correctMatches);
         module.saveMatchingQuestionToFile(matching);
     }
-    
+
+    public void setQuizDone(boolean isDone){
+        onGoingQuiz.setDone(isDone);
+    }
+
+    public List<Quiz> getCurrentUsersQuizList(){
+        List<Quiz> quizList = new ArrayList<>();
+        for(User user: users){
+            if (currentUser.getName().equals(user.getName())){
+                this.usersQuizzes=user.getCreatedQuiz();
+                return usersQuizzes;
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public void saveCurrentUserQuiz(Quiz quiz){
+        quiz.setDate(new Date());
+        currentUser.addToCreatedQuiz(quiz);
+        userManager.saveUsersToFiles();
+    }
+    public List<FlashCard> getUsersFlashCards(){
+        List<FlashCard> flashCards = new ArrayList<>();
+        for(User user: users){
+            if (currentUser.getName().equals(user.getName())){
+                flashCards=user.getFlashCards();
+                return flashCards;
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public void saveUsersFlashCards(FlashCard flashCard){
+        currentUser.addToCreatedFlashcards(flashCard);
+        userManager.saveUsersToFiles();
+    }
+
+    public List<Quiz> getCurrentUsersQuizHistory(){
+        List<Quiz> availableQuizList = new ArrayList<>();
+        List<Quiz> quizHistory = new ArrayList<>();
+        for(User user: users){
+            if (currentUser.getName().equals(user.getName())){
+                availableQuizList=user.getCreatedQuiz();
+                for(Quiz quiz: availableQuizList){
+                    if (quiz.getDone()){
+                        quizHistory.add(quiz);
+                    }
+                }
+                return quizHistory;
+            }
+        }
+        return new ArrayList<>();
+    }
+
 
 }
