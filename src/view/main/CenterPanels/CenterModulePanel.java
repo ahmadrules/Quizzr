@@ -7,6 +7,7 @@ import view.subPanels.Quiz.MainQuizFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class is responsible for showing a list of modules for the
@@ -56,6 +57,17 @@ public class CenterModulePanel extends JPanel {
         add(moduleScrollPane, BorderLayout.CENTER);
     }
 
+    public void saveTrueOrFalseQuestion(String query, List<String> alternatives, int points, String correctAnswer) {
+        mainFrame.saveTrueOrFalseQuestion(query, alternatives, points, correctAnswer, selectedCourse, selectedModule);
+    }
+
+    public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer) {
+        mainFrame.saveMultipleChoiceToFile(query, alternatives, points, correctAnswer, selectedCourse, selectedModule);
+    }
+
+    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches) {
+        mainFrame.saveMatchingToFile(query, statements, matches, points, correctMatches, selectedCourse, selectedModule);
+    }
     /**
      * Creates the necessary data components used to show the list of modules.
      * moduleListMap is used to link modules to a specific course.
@@ -219,7 +231,7 @@ public class CenterModulePanel extends JPanel {
         });
 
         addQuestionButton.addActionListener(e -> {
-            addQuestionFrame = new AddQuestionFrame(mainFrame);
+            addQuestionFrame = new AddQuestionFrame(this);
         });
     }
 

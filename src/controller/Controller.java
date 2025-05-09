@@ -702,8 +702,8 @@ public class Controller {
         return module;
     }
 
-    public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String ModuleName ) {
-        Module module = getModule(courseName,ModuleName);
+    public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String moduleName ) {
+        Module module = getModule(courseName,moduleName);
         TrueOrFalse trueOrFalse= new TrueOrFalse(query,alternatives,points,correctAnswer);
         module.saveTrueOrFalseQuestionToFile(trueOrFalse);
     }
@@ -711,11 +711,13 @@ public class Controller {
     public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
         MultipleChoice multipleChoice= new MultipleChoice(query,alternatives,correctAnswer,points);
+        module.saveMultiChoiceQuestionToFile(multipleChoice);
     }
 
     public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
         Matching matching= new Matching(query,statements,matches,points,correctMatches);
+        module.saveMatchingQuestionToFile(matching);
     }
 
 }

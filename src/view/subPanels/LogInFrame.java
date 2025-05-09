@@ -362,7 +362,7 @@ public class LogInFrame extends JFrame {
         });
 
         testButton.addActionListener(e -> {
-            controller.loginUser("test", "test123");
+            controller.loginUser("test", "123");
             mainFrame.createAndShowGUI();
 
             controller.setMainFrame(mainFrame);

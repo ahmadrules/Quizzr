@@ -1,5 +1,6 @@
 package view.subPanels;
 
+import view.main.CenterPanels.CenterModulePanel;
 import view.main.MainFrame;
 
 import javax.swing.*;
@@ -11,23 +12,113 @@ import java.util.ArrayList;
 
 public class AddQuestionFrame extends JFrame {
 
+    private CenterModulePanel centerPanel;
     private JComboBox<String> typeComboBox;
     private JPanel mainPanel;
     private JButton addButton;
+    private JButton submitButton;
+    private ArrayList<JTextField> tfStatements;
+    private ArrayList<JComboBox> tfAnswers;
+    private ArrayList<JTextField> multiAlternatives;
+    private ArrayList<JTextField> multiQueries;
+    private ArrayList<JComboBox<String>> multiCorrectBoxes;
 
-    public AddQuestionFrame(MainFrame mainFrame) {
+
+    public AddQuestionFrame(CenterModulePanel centerPanel) {
+        this.centerPanel = centerPanel;
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(mainPanel);
 
+        initiateLists();
         createTypePanel();
+        createSubmitButton();
         addItemListeners();
-        setLocationRelativeTo(mainFrame);
+        setLocationRelativeTo(centerPanel);
 
         add(scrollPane);
         setVisible(true);
         pack();
         setSize(getWidth() + 15, getHeight());
+    }
+
+    public void initiateLists() {
+        multiQueries = new ArrayList<>();
+        multiCorrectBoxes = new ArrayList<>();
+        multiAlternatives = new ArrayList<>();
+
+        tfStatements = new ArrayList<>();
+        tfAnswers = new ArrayList<>();
+
+    }
+
+    public void createSubmitButton() {
+        submitButton = new JButton("Submit questions");
+        //submitButton.setHorizontalAlignment(SwingConstants.CENTER);
+        submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        submitButton.setEnabled(false);
+        mainPanel.add(submitButton);
+    }
+
+    public void collectQuestions() {
+        //String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String ModuleName;
+
+        if (tfStatements != null) {
+            int tfAnswerCounter = 0;
+            ArrayList<String> tfAlternatives = new ArrayList<>();
+            tfAlternatives.add("True");
+            tfAlternatives.add("False");
+            for (JTextField textField : tfStatements) {
+                if (textField.getText() !=null && !textField.getText().equals("")) {
+                    String currentStatement = textField.getText();
+                    System.out.println(currentStatement);
+                    String currentAnswer = (String) tfAnswers.get(tfAnswerCounter++).getSelectedItem();
+                    System.out.println(currentAnswer);
+                    centerPanel.saveTrueOrFalseQuestion(currentStatement, tfAlternatives, 3, currentAnswer);
+                }
+            }
+        }
+
+        if (multiQueries != null) {
+            System.out.println(multiQueries.size());
+            for (JTextField textField : multiQueries) {
+                if (textField.getText() !=null && !textField.getText().equals("")) {
+                    System.out.println("New multiquestion being collected");
+                    String currentQuery = textField.getText();
+                    System.out.println("Multi query: " + currentQuery);
+                    ArrayList<String> currentAlternatives = new ArrayList<>();
+
+                    boolean isEmpty = false;
+
+                    for (int i = 0; i < 3; i++) {
+                        JTextField currentAlternative = multiAlternatives.get(i);
+                        if (currentAlternative.getText() == null || currentAlternative.getText().equals("")) {
+                            isEmpty = true;
+                            System.out.println("its empty");
+                            for (int j = 0; j < 3; j++) {
+                                multiAlternatives.removeFirst();
+                            }
+                            break;
+                        }
+                        else {
+                            currentAlternatives.add(currentAlternative.getText());
+                        }
+                    }
+
+                    if (!isEmpty) {
+                        int correctAlt = multiCorrectBoxes.getFirst().getSelectedIndex();
+                        String correctAnswer = currentAlternatives.get(correctAlt);
+                        for (int j = 0; j < 3; j++) {
+                            System.out.println("Alternative " + j + ":" + currentAlternatives.get(j));
+                            multiAlternatives.removeFirst();
+                        }
+                        multiCorrectBoxes.removeFirst();
+                        System.out.println("Correct answer: " + correctAnswer);
+                        centerPanel.saveMultipleChoiceToFile(currentQuery, currentAlternatives, 3, correctAnswer);
+                    }
+                }
+            }
+        }
     }
 
     public void createTypePanel() {
@@ -55,30 +146,30 @@ public class AddQuestionFrame extends JFrame {
 
         JLabel typeOfQuestionLabel = new JLabel("Matching", SwingConstants.CENTER);
         typeOfQuestionLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+
         mainQuestionPanel.add(typeOfQuestionLabel, BorderLayout.NORTH);
 
-        JPanel categoryPanel = new JPanel();
-
-        JLabel questionLabel = new JLabel("Category: ");
+        JPanel questionPanel = new JPanel();
+        JLabel questionLabel = new JLabel("Query: ");
         JTextField questionTextField = new JTextField(10);
-        categoryPanel.add(questionLabel);
-        categoryPanel.add(questionTextField);
-        matchPanel.add(categoryPanel);
+        questionPanel.add(questionLabel);
+        questionPanel.add(questionTextField);
+        matchPanel.add(questionPanel);
 
-        JLabel emptyLabel = new JLabel("");
+        JLabel emptyLabel = new JLabel();
         matchPanel.add(emptyLabel);
 
         String[] letters = new String[]{"A", "B", "C"};
 
         //2 panels per row
         for (int i = 0; i < 3; i++) {
-            JPanel alternativePanel = new JPanel(new GridLayout(0,2));
+            JPanel alternativePanel = new JPanel();
             JLabel letterLabel = new JLabel(letters[i] + ": ");
             JTextField letterTextField = new JTextField(10);
             alternativePanel.add(letterLabel);
             alternativePanel.add(letterTextField);
 
-            JPanel matchedPanel = new JPanel(new GridLayout(0,2));
+            JPanel matchedPanel = new JPanel();
             JLabel matchLabel = new JLabel("Match: ");
             JTextField matchTextField = new JTextField(10);
             matchedPanel.add(matchLabel);
@@ -110,25 +201,29 @@ public class AddQuestionFrame extends JFrame {
 
         JLabel questionLabel = new JLabel("Question: ");
         JTextField questionTextField = new JTextField(10);
+        multiQueries.add(questionTextField);
+        System.out.println("New textfield added to multiqueries");
+
         multiPanel.add(questionLabel);
         multiPanel.add(questionTextField);
-        ArrayList<JTextField> multiAlternatives = new ArrayList<>();
-        JComboBox<String> correctBox = new JComboBox<>();
+
+        JComboBox<String> multiCorrectBox = new JComboBox<>();
+        multiCorrectBoxes.add(multiCorrectBox);
 
         for (int i = 1; i <= 3; i++) {
-            JLabel alternative = new JLabel("Alternative: " + i);
+            JLabel alternative = new JLabel("Alternative " + i + ":");
             JTextField alternativeTextField = new JTextField(10);
-            alternativeTextField.setName("Alternative " + i);
+            alternativeTextField.setName(String.valueOf(i));
             multiAlternatives.add(alternativeTextField);
             multiPanel.add(alternative);
             multiPanel.add(alternativeTextField);
-            correctBox.addItem("Alternative " + i);
+            multiCorrectBox.addItem("Alternative " + i);
         }
 
         JLabel answerLabel = new JLabel("Answer: ");
 
         multiPanel.add(answerLabel);
-        multiPanel.add(correctBox);
+        multiPanel.add(multiCorrectBox);
 
         mainPanel.add(mainQuestionPanel, 1);
         mainPanel.add(new JSeparator(), 1);
@@ -149,34 +244,17 @@ public class AddQuestionFrame extends JFrame {
         JLabel typeOfQuestionLabel = new JLabel("True/False", SwingConstants.CENTER);
         typeOfQuestionLabel.setBorder(BorderFactory.createLineBorder(Color.black));
         mainQuestionPanel.add(typeOfQuestionLabel, BorderLayout.NORTH);
-
         JLabel questionLabel = new JLabel("Statement: ");
         JTextField questionTextField = new JTextField(10);
+        tfStatements.add(questionTextField);
         tfPanel.add(questionLabel);
         tfPanel.add(questionTextField);
-
-        ArrayList<JTextField> tfAlternatives = new ArrayList<>();
-
-
-        JLabel alternative = new JLabel("True: ");
-        JTextField alternativeTextField = new JTextField(10);
-        alternativeTextField.setName("True");
-        tfAlternatives.add(alternativeTextField);
-        tfPanel.add(alternative);
-        tfPanel.add(alternativeTextField);
-
-        JLabel alternative2 = new JLabel("False: ");
-        JTextField alternativeTextField2 = new JTextField(10);
-        alternativeTextField2.setName("False");
-        tfAlternatives.add(alternativeTextField2);
-        tfPanel.add(alternative2);
-        tfPanel.add(alternativeTextField2);
-
 
         JLabel answerLabel = new JLabel("Answer: ");
         JComboBox<String> correctBox = new JComboBox<>();
         correctBox.addItem("True");
         correctBox.addItem("False");
+        tfAnswers.add(correctBox);
 
         tfPanel.add(answerLabel);
         tfPanel.add(correctBox);
@@ -192,6 +270,7 @@ public class AddQuestionFrame extends JFrame {
 
     public void addItemListeners() {
         addButton.addActionListener(e -> {
+            submitButton.setEnabled(true);
             System.out.println(typeComboBox.getSelectedItem());
             if (typeComboBox.getSelectedItem().equals("Multiple Choice")) {
                 createAndShowMultiPanel();
@@ -203,6 +282,11 @@ public class AddQuestionFrame extends JFrame {
             else if (typeComboBox.getSelectedItem().equals("Matching")) {
                 createAndShowMatchingPanel();
             }
+        });
+
+        submitButton.addActionListener(e -> {
+            collectQuestions();
+            JOptionPane.showMessageDialog(this, "Questions were submitted successfully!");
         });
     }
 }

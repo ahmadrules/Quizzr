@@ -7,6 +7,7 @@ import model.User;
 import view.subPanels.LogInFrame;
 
 import javax.swing.*;
+import java.util.HashMap;
 import java.util.List;
 import java.awt.*;
 
@@ -67,6 +68,19 @@ public class MainFrame extends JFrame implements Runnable {
         //Login page is initialized here.
         LogInFrame logInFrame = new LogInFrame(controller);
     }
+
+    public void saveTrueOrFalseQuestion(String query, List<String> alternatives, int points, String correctAnswer, String selectedCourse, String moduleName) {
+        controller.saveTrueOrFalseQuestion(query, alternatives, points, correctAnswer, selectedCourse, moduleName);
+    }
+
+    public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String selectedCourse, String moduleName) {
+        controller.saveMultipleChoiceToFile(query, alternatives, points, correctAnswer, selectedCourse, moduleName);
+    }
+
+    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName) {
+        controller.saveMatchingToFile(query, statements, matches, points, correctMatches, courseName, moduleName);
+    }
+
 
     public String[] getCoursesNames(String selectedProgramName){
         return controller.getCoursesNames(selectedProgramName);
