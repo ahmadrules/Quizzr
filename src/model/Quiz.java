@@ -12,6 +12,8 @@ public class Quiz implements Serializable {
     private Course relatedCourse;
     private boolean timer;
     private String userName;
+    private Date date;
+    private boolean isDone;
     /**
      * Constructs a quiz object
      * @param name name of the quiz
@@ -26,6 +28,8 @@ public class Quiz implements Serializable {
         this.relatedCourse = relatedCourse;
         this.relatedModule = relatedModule;
         this.timer = false;
+        this.date = new Date();
+        this.isDone = false;
     }
 
     public Quiz(String name) {
@@ -33,6 +37,16 @@ public class Quiz implements Serializable {
         this.name = name;
         this.result = 0;
         this.userAnswers = new LinkedHashMap<>();
+    }
+    public void setDone(boolean done){
+        isDone = done;
+    }
+    public boolean getDone(){
+        return isDone;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void setResult(int result) {
