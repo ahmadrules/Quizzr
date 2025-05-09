@@ -714,14 +714,12 @@ public class Controller {
         MultipleChoice multipleChoice= new MultipleChoice(query,alternatives,correctAnswer,points);
         module.saveMultiChoiceQuestionToFile(multipleChoice);
     }
-
+    
     public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
         Matching matching= new Matching(query,statements,matches,points,correctMatches);
         module.saveMatchingQuestionToFile(matching);
     }
-
-
 
     public void setQuizDone(boolean isDone){
         onGoingQuiz.setDone(isDone);
