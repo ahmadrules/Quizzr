@@ -145,7 +145,7 @@ public class FlashcardPanel extends JFrame {
     private void updateCardDisplayS(){
         if(!frontContent.isEmpty()) {
             if (frontContent.get(currentIndex) != null && !frontContent.get(currentIndex).isEmpty()) {
-                frontLabel.setText("Q: " + frontContent);
+                frontLabel.setText("Q: " + frontContent.get(currentIndex));
                 backLabel.setText(""); // Hide answer until requested
             } else {
                 frontLabel.setText("No flashcards available");
