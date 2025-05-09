@@ -773,4 +773,24 @@ public class Controller {
         }
         return new ArrayList<>();
     }
+
+    public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule){
+        List<String> frontContent = new ArrayList<>();
+        for(FlashCard flashCard : currentUser.getFlashCards()){
+            if(flashCard.getRelatedCourse().getName().equals(selectedCourse) && flashCard.getRelatedModule().getName().equals(selectedModule)){
+                frontContent.add(flashCard.getFrontContent());
+            }
+        }
+        return frontContent;
+    }
+
+    public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule){
+        List<String> backContent = new ArrayList<>();
+        for(FlashCard flashCard : currentUser.getFlashCards()){
+            if(flashCard.getRelatedCourse().getName().equals(selectedCourse) && flashCard.getRelatedModule().getName().equals(selectedModule)){
+                backContent.add(flashCard.getBackContent());
+            }
+        }
+        return backContent;
+    }
 }

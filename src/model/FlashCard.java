@@ -11,6 +11,8 @@ import java.util.List;
 public class FlashCard implements Serializable{
     private String frontContent;
     private String backContent;
+    private Course relatedCourse;
+    private Module relatedModule;
 // username
     // related module
     // related course
@@ -20,9 +22,11 @@ public class FlashCard implements Serializable{
      * @param backContent the String content of the back side of the flashcard
      * @author Lilas Beirakdar
      */
-    public FlashCard(String frontContent, String backContent) {
+    public FlashCard(String frontContent, String backContent, Course relatedCourse, Module relatedModule) {
         this.frontContent = frontContent;
         this.backContent = backContent;
+        this.relatedCourse = relatedCourse;
+        this.relatedModule = relatedModule;
     }
 
     /**
@@ -59,6 +63,14 @@ public class FlashCard implements Serializable{
      */
     public void setFrontContent(String frontContent) {
         this.frontContent = frontContent;
+    }
+
+    public Course getRelatedCourse() {
+        return relatedCourse;
+    }
+
+    public Module getRelatedModule() {
+        return relatedModule;
     }
 
     /**

@@ -194,6 +194,14 @@ public class MainFrame extends JFrame implements Runnable {
         startLogin();
         createAndShowGUI();
     }
+
+    public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule){
+        return controller.getFlashCardsFrontContent(selectedCourse, selectedModule);
+    }
+
+    public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule){
+        return controller.getFlashCardsBackContent(selectedCourse, selectedModule);
+    }
 }
 
 
