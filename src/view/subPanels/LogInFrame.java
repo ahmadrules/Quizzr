@@ -43,6 +43,7 @@ public class LogInFrame extends JFrame {
     private JButton studentLoginButton;
     private JButton goBackButton;
     private JPanel firstPagePanel;
+    private JButton testButton;
 
     public LogInFrame( Controller controller ) {
      this.controller = controller;
@@ -98,9 +99,11 @@ public class LogInFrame extends JFrame {
 
         adminLoginButton = new JButton("Admin Login");
         studentLoginButton = new JButton("Student Login");
+        testButton = new JButton("Test login");
 
         buttonPanel.add(adminLoginButton);
         buttonPanel.add(studentLoginButton);
+        buttonPanel.add(testButton);
 
         firstPagePanel.add(buttonPanel, BorderLayout.CENTER);
     }
@@ -283,7 +286,7 @@ public class LogInFrame extends JFrame {
                     JOptionPane.showMessageDialog(mainFrame, "Logged in successfully");
                     mainFrame.createAndShowGUI();
                     controller.setMainFrame(mainFrame);
-                        setVisible(false);
+                    setVisible(false);
                 }
                 else {
                     JOptionPane.showMessageDialog(mainFrame, "User does not exist");
@@ -352,6 +355,14 @@ public class LogInFrame extends JFrame {
         goBackButton.addActionListener(e -> {
             showFirstPage();
             clearFields();
+        });
+
+        testButton.addActionListener(e -> {
+            controller.loginUser("test", "test123");
+            mainFrame.createAndShowGUI();
+
+            controller.setMainFrame(mainFrame);
+            setVisible(false);
         });
 
     }

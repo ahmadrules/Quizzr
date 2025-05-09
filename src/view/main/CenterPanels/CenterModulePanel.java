@@ -37,7 +37,6 @@ public class CenterModulePanel extends JPanel {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
-        addQuestionFrame = new AddQuestionFrame(mainFrame);
 
         createDataComponents();
         createButtons();
@@ -217,7 +216,7 @@ public class CenterModulePanel extends JPanel {
         });
 
         addQuestionButton.addActionListener(e -> {
-            new AddQuestionFrame(mainFrame);
+            addQuestionFrame = new AddQuestionFrame(mainFrame);
         });
     }
 
