@@ -1,6 +1,8 @@
 package model;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,9 +46,6 @@ public class FileHandler implements Serializable {
                         questionBuilder.setLength(0);
                     }
                 }else {
-                    if (questionBuilder.length() > 10000) {
-                        System.out.println("Question builder exceeds 10000 characters");
-                    }
                     questionBuilder.append(line).append("\n");
                 }
                 line = br.readLine();
@@ -72,13 +71,20 @@ public class FileHandler implements Serializable {
     public void writeQuestionToFile(String filename, String question) {
         File file = new File(filename);
         try(BufferedWriter bufferedWriter= new BufferedWriter(new FileWriter(file, true))) {
-            bufferedWriter.write(question);
+            if (file.exists() && file.length() > 0) {
+               bufferedWriter.newLine();
+               bufferedWriter.newLine();
+            }
+
+            bufferedWriter.append(question);
             bufferedWriter.newLine();
         }
         catch (IOException e) {
-            System.out.println("Error saving question");
+           // System.out.println("Error saving question");
+            e.printStackTrace();
         }
     }
+
     /**
      *
      * @param filename
@@ -93,8 +99,8 @@ public class FileHandler implements Serializable {
         String correctAnswer = question.getCorrectAnswer();
         int points = question.getPoints();
         String questionToBeSaved= query+";"+firstAlternative+";"+secondAlternative+";"
-                +thirdAlternative+";"+correctAnswer+";"+points+"\n";
-        writeQuestionToFile(filename, questionToBeSaved+"\n");
+                +thirdAlternative+";"+correctAnswer+";"+points;
+        writeQuestionToFile(filename,questionToBeSaved);
     }
 
     public void saveTrueOrFalseQuestionToFile(String filename, Question question) {
@@ -106,8 +112,7 @@ public class FileHandler implements Serializable {
         String correctAnswer = question.getCorrectAnswer();
         String questionToBeSaved= query+";"+firstAlternative+";"+
                 secondAlternative+";"+points+";"+correctAnswer;
-        writeQuestionToFile(filename, questionToBeSaved+"\n");
-
+        writeQuestionToFile(filename, questionToBeSaved);
     }
 
     /**
@@ -145,7 +150,7 @@ public class FileHandler implements Serializable {
         String correctMatchesString= correctAnswer.toString();
 
         String questionToWrite= query+";"+alternativesString+";"+matchesString+";"+points+";"+correctMatchesString;
-        writeQuestionToFile(filename, questionToWrite+"\n");
+        writeQuestionToFile(filename, questionToWrite);
 
 
     }

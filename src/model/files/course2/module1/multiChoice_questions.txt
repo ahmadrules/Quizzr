@@ -19,3 +19,17 @@ Who painted the Mona Lisa?;Da Vinci;Van Gogh;Picasso;Da Vinci;1
 
 
 
+
+What is the primary focus of unit testing?;Testing individual methods or functions;Testing user interface;Testing network security;Testing individual methods or functions;3
+
+
+What is the primary focus of unit testing?;Testing individual methods or functions;Testing user interface;Testing network security;Testing individual methods or functions;3
+
+
+What is the primary focus of unit testing?;Testing individual methods or functions;Testing user interface;Testing network security;Testing individual methods or functions;3
+
+
+What is the primary focus of unit testing?;Testing individual methods or functions;Testing user interface;Testing network security;Testing individual methods or functions;3
+
+
+What is the primary focus of unit testing?;Testing individual methods or functions;Testing user interface;Testing network security;Testing individual methods or functions;3
