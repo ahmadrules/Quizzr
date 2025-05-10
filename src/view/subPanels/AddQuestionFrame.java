@@ -11,6 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.jar.JarOutputStream;
 
 public class AddQuestionFrame extends JFrame {
 
@@ -27,7 +28,7 @@ public class AddQuestionFrame extends JFrame {
     private ArrayList<JTextField> matchQueries;
     private ArrayList<JTextField> matchStatements;
     private ArrayList<JTextField> matchAnswers;
-
+    private ArrayList<JTextField> allFields;
 
     public AddQuestionFrame(CenterModulePanel centerPanel) {
         this.centerPanel = centerPanel;
@@ -44,11 +45,32 @@ public class AddQuestionFrame extends JFrame {
         add(scrollPane);
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(false);
         pack();
         setSize(getWidth() + 15, getHeight());
     }
 
+    public boolean proceedWithEmptyFields() {
+        for (JTextField tf : allFields) {
+            if (tf.getText().isEmpty() || tf.getText() == null) {
+                int choice = JOptionPane.showConfirmDialog(this, "Empty fields detected!\nQuestions with empty fields will be ignored\nWould you like to proceed?",
+                        "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                if (choice == JOptionPane.YES_OPTION) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public void initiateLists() {
+        allFields = new ArrayList<>();
+
         multiQueries = new ArrayList<>();
         multiCorrectBoxes = new ArrayList<>();
         multiAlternatives = new ArrayList<>();
@@ -69,127 +91,137 @@ public class AddQuestionFrame extends JFrame {
     }
 
     public void collectQuestions() {
+        if (proceedWithEmptyFields()) {
+            if (tfStatements != null) {
+                ArrayList<String> tfAlternatives = new ArrayList<>();
+                tfAlternatives.add("True");
+                tfAlternatives.add("False");
 
-        if (tfStatements != null) {
-            ArrayList<String> tfAlternatives = new ArrayList<>();
-            tfAlternatives.add("True");
-            tfAlternatives.add("False");
+                for (JTextField textField : tfStatements) {
+                    if (textField.getText() !=null && !textField.getText().isEmpty()) {
+                        String currentStatement = textField.getText();
+                        String currentAnswer = (String) tfAnswers.getFirst().getSelectedItem();
+                        tfAnswers.removeFirst();
+                        centerPanel.saveTrueOrFalseQuestion(currentStatement, tfAlternatives, 3, currentAnswer);
+                    }
 
-            for (JTextField textField : tfStatements) {
-                if (textField.getText() !=null && !textField.getText().equals("")) {
-                    String currentStatement = textField.getText();
-                    String currentAnswer = (String) tfAnswers.getFirst().getSelectedItem();
-                    tfAnswers.removeFirst();
-                    centerPanel.saveTrueOrFalseQuestion(currentStatement, tfAlternatives, 3, currentAnswer);
-                }
-
-                else {
-                    System.out.println("TF empty");
-                    tfAnswers.removeFirst();
+                    else {
+                        System.out.println("TF empty");
+                        tfAnswers.removeFirst();
+                    }
                 }
             }
-        }
+            else {
+                System.out.println("No TF");
+            }
 
-        if (multiQueries != null) {
-            for (JTextField textField : multiQueries) {
-                if (textField.getText() !=null && !textField.getText().equals("")) {
-                    String currentQuery = textField.getText();
-                    ArrayList<String> currentAlternatives = new ArrayList<>();
+            if (multiQueries != null) {
+                for (JTextField textField : multiQueries) {
+                    if (textField.getText() !=null && !textField.getText().isEmpty()) {
+                        String currentQuery = textField.getText();
+                        ArrayList<String> currentAlternatives = new ArrayList<>();
 
-                    boolean isEmpty = false;
+                        boolean isEmpty = false;
 
-                    for (int i = 0; i < 3; i++) {
-                        JTextField currentAlternative = multiAlternatives.get(i);
-                        if (currentAlternative.getText() == null || currentAlternative.getText().equals("")) {
-                            isEmpty = true;
-                            System.out.println("MC empty");
+                        for (int i = 0; i < 3; i++) {
+                            JTextField currentAlternative = multiAlternatives.get(i);
+                            if (currentAlternative.getText() == null || currentAlternative.getText().isEmpty()) {
+                                isEmpty = true;
+                                System.out.println("MC empty");
+                                for (int j = 0; j < 3; j++) {
+                                    multiAlternatives.removeFirst();
+                                }
+                                multiCorrectBoxes.removeFirst();
+                                break;
+                            }
+                            else {
+                                currentAlternatives.add(currentAlternative.getText());
+                            }
+                        }
+
+                        if (!isEmpty) {
+                            int correctAlt = multiCorrectBoxes.getFirst().getSelectedIndex();
+                            String correctAnswer = currentAlternatives.get(correctAlt);
                             for (int j = 0; j < 3; j++) {
                                 multiAlternatives.removeFirst();
                             }
                             multiCorrectBoxes.removeFirst();
-                            break;
-                        }
-                        else {
-                            currentAlternatives.add(currentAlternative.getText());
+                            centerPanel.saveMultipleChoiceToFile(currentQuery, currentAlternatives, 3, correctAnswer);
                         }
                     }
 
-                    if (!isEmpty) {
-                        int correctAlt = multiCorrectBoxes.getFirst().getSelectedIndex();
-                        String correctAnswer = currentAlternatives.get(correctAlt);
+                    else {
+                        multiCorrectBoxes.removeFirst();
                         for (int j = 0; j < 3; j++) {
                             multiAlternatives.removeFirst();
                         }
-                        multiCorrectBoxes.removeFirst();
-                        centerPanel.saveMultipleChoiceToFile(currentQuery, currentAlternatives, 3, correctAnswer);
-                    }
-                }
-
-                else {
-                    multiCorrectBoxes.removeFirst();
-                    for (int j = 0; j < 3; j++) {
-                        multiAlternatives.removeFirst();
                     }
                 }
             }
-        }
+            else {
+                System.out.println("No MC");
+            }
 
-        if (matchStatements != null) {
-            for (JTextField textField : matchStatements) {
-                if (textField.getText() !=null && !textField.getText().equals("")) {
-                    String currentQuery = textField.getText();
-                    ArrayList<String> currentAlternatives = new ArrayList<>();
-                    ArrayList<String> currentMatches = new ArrayList<>();
-                    boolean isEmpty = false;
+            if (matchQueries != null) {
+                for (JTextField textField : matchQueries) {
+                    if (textField.getText() !=null && !textField.getText().isEmpty()) {
+                        String currentQuery = textField.getText();
+                        ArrayList<String> currentAlternatives = new ArrayList<>();
+                        ArrayList<String> currentMatches = new ArrayList<>();
 
-                    for (int i = 0; i < 3; i++) {
-                        JTextField currentAlternative = matchStatements.get(i);
-                        JTextField currentMatch = matchAnswers.get(i);
-                        if (currentAlternative.getText() == null || currentAlternative.getText().equals("") || currentMatch.getText() == null || currentMatch.getText().equals("")) {
-                            isEmpty = true;
+                        boolean isEmpty = false;
+
+                        for (int i = 0; i < 3; i++) {
+                            JTextField currentAlternative = matchStatements.get(i);
+                            JTextField currentMatch = matchAnswers.get(i);
+                            if (currentAlternative.getText() == null || currentAlternative.getText().isEmpty() || currentMatch.getText() == null || currentMatch.getText().isEmpty()) {
+                                isEmpty = true;
+                                System.out.println("MA empty");
+                                for (int j = 0; j < 3; j++) {
+                                    matchStatements.removeFirst();
+                                    matchAnswers.removeFirst();
+                                }
+                                break;
+                            }
+                            else {
+                                currentAlternatives.add(currentAlternative.getText());
+                                currentMatches.add(currentMatch.getText());
+                            }
+                        }
+
+                        if (!isEmpty) {
+                            HashMap<String,Integer> correctMatches = new HashMap<>();
+
+                            String[] letters = new String[]{"A", "B" ,"C"};
+
+                            for (int i = 1; i <= 3; i++) {
+                                correctMatches.put(letters[i-1], i);
+                            }
 
                             for (int j = 0; j < 3; j++) {
-                                matchStatements.removeFirst();
                                 matchAnswers.removeFirst();
+                                matchStatements.removeFirst();
                             }
-                            matchQueries.removeFirst();
-                            break;
-                        }
-                        else {
-                            currentAlternatives.add(currentAlternative.getText());
-                            currentMatches.add(currentMatch.getText());
+
+                            centerPanel.saveMatchingToFile(currentQuery, currentAlternatives, currentMatches, 6, correctMatches);
                         }
                     }
 
-                    if (!isEmpty) {
-                        HashMap<String,Integer> correctMatches = new HashMap<>();
-
-                        String[] letters = new String[]{"A", "B" ,"C"};
-
-                        for (int i = 1; i <= 3; i++) {
-                            correctMatches.put(letters[i-1], i);
-                        }
-
+                    else {
                         for (int j = 0; j < 3; j++) {
                             matchAnswers.removeFirst();
                             matchStatements.removeFirst();
                         }
-
-                        matchQueries.removeFirst();
-                        centerPanel.saveMatchingToFile(currentQuery, currentAlternatives, currentMatches, 6, correctMatches);
                     }
-                }
-
-                else {
-                    for (int j = 0; j < 3; j++) {
-                        matchAnswers.removeFirst();
-                        matchStatements.removeFirst();
-                    }
-                    matchQueries.removeFirst();
                 }
             }
-        }
+            else {
+                System.out.println("No MA");
+            }
 
+            JOptionPane.showMessageDialog(this, "Questions were submitted successfully!");
+            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        }
     }
 
     public void createTypePanel() {
@@ -225,6 +257,7 @@ public class AddQuestionFrame extends JFrame {
         JLabel questionLabel = new JLabel("Query: ");
         JTextField questionTextField = new JTextField(10);
         matchQueries.add(questionTextField);
+        allFields.add(questionTextField);
 
         questionPanel.add(questionLabel);
         questionPanel.add(questionTextField);
@@ -243,13 +276,15 @@ public class AddQuestionFrame extends JFrame {
             alternativePanel.add(letterLabel);
             alternativePanel.add(letterTextField);
             matchStatements.add(letterTextField);
+            allFields.add(letterTextField);
 
             JPanel matchedPanel = new JPanel();
             JLabel matchLabel = new JLabel("Match: ");
             JTextField matchTextField = new JTextField(10);
             matchedPanel.add(matchLabel);
             matchedPanel.add(matchTextField);
-            matchAnswers.add(letterTextField);
+            matchAnswers.add(matchTextField);
+            allFields.add(matchTextField);
 
             matchPanel.add(alternativePanel);
             matchPanel.add(matchedPanel);
@@ -278,6 +313,7 @@ public class AddQuestionFrame extends JFrame {
         JLabel questionLabel = new JLabel("Question: ");
         JTextField questionTextField = new JTextField(10);
         multiQueries.add(questionTextField);
+        allFields.add(questionTextField);
 
         multiPanel.add(questionLabel);
         multiPanel.add(questionTextField);
@@ -290,6 +326,8 @@ public class AddQuestionFrame extends JFrame {
             JTextField alternativeTextField = new JTextField(10);
             alternativeTextField.setName(String.valueOf(i));
             multiAlternatives.add(alternativeTextField);
+            allFields.add(alternativeTextField);
+
             multiPanel.add(alternative);
             multiPanel.add(alternativeTextField);
             multiCorrectBox.addItem("Alternative " + i);
@@ -322,6 +360,8 @@ public class AddQuestionFrame extends JFrame {
         JLabel questionLabel = new JLabel("Statement: ");
         JTextField questionTextField = new JTextField(10);
         tfStatements.add(questionTextField);
+        allFields.add(questionTextField);
+
         tfPanel.add(questionLabel);
         tfPanel.add(questionTextField);
 
@@ -360,8 +400,6 @@ public class AddQuestionFrame extends JFrame {
 
         submitButton.addActionListener(e -> {
             collectQuestions();
-            JOptionPane.showMessageDialog(this, "Questions were submitted successfully!");
-            dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
         });
     }
 }
