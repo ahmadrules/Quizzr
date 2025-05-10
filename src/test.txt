@@ -1,26 +1,25 @@
- /** List <String> mclist = Arrays.asList("Testing individual methods or functions","Testing user interface","Testing network security");
-        MultipleChoice mc= new MultipleChoice("What is the primary focus of unit testing?", mclist,"Testing individual methods or functions",3);
-        fileHandler.saveMultipleChoiceToFile("src/test.txt",mc);
-       ArrayList<Question> questions= fileHandler.loadQuestions("src/test.txt",mc);
-       for (Question question : questions) {
-           System.out.println(question);
-       }*/
-       /** HashMap<String,Integer> correctMatches = new HashMap<>();
+The Waterfall model is considered an iterative approach;True;False;1;False
+
+The Waterfall model is considered an iterative approach;True;False;1;False
+
+  String filepath= "src/model/files/course2/module1/multiChoice_questions.txt";
+        FileHandler fileHandler = new FileHandler();
+        /**HashMap<String,Integer> correctMatches = new HashMap<>();
         correctMatches.put("A",1);
         correctMatches.put("B",2);
         correctMatches.put("C",3);
-       List<String> mList = Arrays.asList("France","UK","Ital");
-       List<String> mMatches=Arrays.asList("Paris","London","Rome");
-       Matching matching=new Matching("Capital cities match",mList,mMatches,6,correctMatches);
-       fileHandler.saveMatchingQuestionToFile("src/test.txt",matching);
-       ArrayList<Question> questions= fileHandler.loadQuestions("src/test.txt",matching);
-       for (Question question : questions) {
-           System.out.println(question);
-       }*/
-      /** List <String> trueOrFalseString= Arrays.asList("True","False");
-       TrueOrFalse trueOrFalse= new TrueOrFalse("The Waterfall model is considered an iterative approach",trueOrFalseString,1,"False");
-       fileHandler.saveTrueOrFalseQuestionToFile("src/test.txt",trueOrFalse);
-       ArrayList<Question> questions= fileHandler.loadQuestions("src/test.txt",trueOrFalse);
-       for(Question question: questions){
-           System.out.println(question);
-       }*/
+        List<String> mList = Arrays.asList("France","UK","Ital");
+        List<String> mMatches=Arrays.asList("Paris","London","Rome");
+        Matching matching=new Matching("Capital cities match",mList,mMatches,6,correctMatches);
+        fileHandler.saveMatchingQuestionToFile(filepath,matching);*/
+       /** List <String> trueOrFalseString= Arrays.asList("True","False");
+        TrueOrFalse trueOrFalse= new TrueOrFalse("The Waterfall model is considered an iterative approach",trueOrFalseString,1,"False");
+        TrueOrFalse trueOrFalse1= new TrueOrFalse("The Waterfall model is considered an iterative approach",trueOrFalseString,1,"False");
+        fileHandler.saveTrueOrFalseQuestionToFile(filepath,trueOrFalse);*/
+        List <String> mclist = Arrays.asList("Testing individual methods or functions","Testing user interface","Testing network security");
+        MultipleChoice mc= new MultipleChoice("What is the primary focus of unit testing?", mclist,"Testing individual methods or functions",3);
+        fileHandler.saveMultipleChoiceToFile(filepath, mc);
+        ArrayList<Question> questions= fileHandler.loadQuestions(filepath,mc);
+        for(Question question:questions){
+            System.out.println(question);
+        }

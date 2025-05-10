@@ -72,7 +72,7 @@ public class UserManager {
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userFilePath))){
             oos.writeObject(users);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
     public List<User> loadUsersFromFiles() {

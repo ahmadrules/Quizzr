@@ -185,11 +185,22 @@ public class MainFrame extends JFrame implements Runnable {
         controller.logoutUser();
     }
 
+    public void setQuizAsDone(boolean done){
+        controller.setQuizDone(done);
+    }
 
     @Override
     public void run() {
         startLogin();
         createAndShowGUI();
+    }
+
+    public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule){
+        return controller.getFlashCardsFrontContent(selectedCourse, selectedModule);
+    }
+
+    public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule){
+        return controller.getFlashCardsBackContent(selectedCourse, selectedModule);
     }
 }
 
