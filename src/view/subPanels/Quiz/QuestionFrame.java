@@ -7,6 +7,8 @@ import model.Quiz;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,13 +32,15 @@ public class QuestionFrame extends JFrame {
     private long currentSeconds;
     private long currentMinutes;
     private Timer timer;
+    private HistoryPanel historyPanel;
 
 
-    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount) {
+    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, HistoryPanel historyPanel) {
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
         this.timerSecondsmount = timerSecondsAmount;
+        this.historyPanel = historyPanel;
 
         setTitle("Quiz options");
         setLayout(new BorderLayout());
@@ -161,6 +165,8 @@ public class QuestionFrame extends JFrame {
                 currentQuiz.addUserAnswer(question, currentAnswer);
             }
         }
+        currentQuiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
+        historyPanel.addQuiz(currentQuiz);
     }
     
     public void setupPanel() {

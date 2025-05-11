@@ -12,7 +12,7 @@ public class Quiz implements Serializable {
     private Course relatedCourse;
     private boolean timer;
     private String userName;
-    private Date date;
+    private String date;
     private boolean isDone;
     /**
      * Constructs a quiz object
@@ -28,7 +28,6 @@ public class Quiz implements Serializable {
         this.relatedCourse = relatedCourse;
         this.relatedModule = relatedModule;
         this.timer = false;
-        this.date = new Date();
         this.isDone = false;
     }
 
@@ -45,8 +44,12 @@ public class Quiz implements Serializable {
         return isDone;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public void setResult(int result) {
@@ -92,6 +95,7 @@ public class Quiz implements Serializable {
                 total+=question.calculatePoints();
             }
         }
+        result = total;
         return total;
     }
 

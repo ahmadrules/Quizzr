@@ -58,12 +58,14 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void createPanels() {
+        historyPanel = new HistoryPanel(mainFrame, this);
         availableQuizPanel = new AvailableQuizPanel(this);
-        historyPanel = new HistoryPanel();
+
     }
 
     public void setHistoryPanel() {
         remove(availableQuizPanel);
+        historyPanel.updateList();
         add(historyPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
@@ -87,7 +89,7 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void showQuiz() {
-        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds);
+        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds, historyPanel);
     }
 
     public void fetchModule() {

@@ -737,7 +737,6 @@ public class Controller {
     }
 
     public void saveCurrentUserQuiz(Quiz quiz){
-        quiz.setDate(new Date());
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
     }

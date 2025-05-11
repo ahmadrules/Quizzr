@@ -3,6 +3,7 @@ package view.main;
 import controller.Controller;
 import model.FlashCard;
 import model.Module;
+import model.Quiz;
 import model.User;
 import view.subPanels.LogInFrame;
 
@@ -152,6 +153,10 @@ public class MainFrame extends JFrame implements Runnable {
     
     public List<FlashCard> getFlashcards(String program, String course, String module) {
         return null;//(List<FlashCard>) controller.getFlashcards(program, course, module);
+    }
+
+    public List<Quiz> getCurrentUserHistory() {
+        return controller.getCurrentUsersQuizHistory();
     }
     
     
