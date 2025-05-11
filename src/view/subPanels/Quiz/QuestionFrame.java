@@ -33,14 +33,16 @@ public class QuestionFrame extends JFrame {
     private long currentMinutes;
     private Timer timer;
     private HistoryPanel historyPanel;
+    private boolean isResult;
 
 
-    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, HistoryPanel historyPanel) {
+    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, HistoryPanel historyPanel, boolean isResult) {
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
         this.timerSecondsmount = timerSecondsAmount;
         this.historyPanel = historyPanel;
+        this.isResult = isResult;
 
         setTitle("Quiz options");
         setLayout(new BorderLayout());
@@ -51,7 +53,7 @@ public class QuestionFrame extends JFrame {
         createTopPanel();
         createTimer();
 
-        setupQuestions();
+        setupQuestions(isResult);
 
         setOnClose();
         addListeners();
@@ -180,7 +182,20 @@ public class QuestionFrame extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void setupQuestions() {
+    public boolean checkIfCorrectAnswer(Question question) {
+        String userAnswer = currentQuiz.getUserAnswers().get(question);
+        System.out.println("User answer: " + userAnswer);
+
+        String correctAnswer = question.getCorrectAnswer();
+        System.out.println("Correct answer: " + correctAnswer);
+        if (userAnswer.equals(correctAnswer)) {
+            System.out.println("method correct");
+            return true;
+        }
+        return false;
+    }
+
+    public void setupQuestions(boolean isResult) {
         int questionId = 1;
         int mapCounter = 0;
 
@@ -249,6 +264,10 @@ public class QuestionFrame extends JFrame {
                 comboBoxMap.put(mapCounter++, comboBoxes);
                 questionComboBoxMap.put(question, comboBoxes);
 
+                if (isResult && checkIfCorrectAnswer(question)) {
+                    questionPanel.setBackground(new Color(56, 143, 53));
+                }
+
                 questionPanel.add(alternativesPanel);
                 mainQuestionPanel.add(questionPanel);
             }
@@ -277,6 +296,13 @@ public class QuestionFrame extends JFrame {
                     checkBox.setActionCommand(alternative);
                     buttonGroup.add(checkBox);
                     alternativesPanel.add(checkBox);
+                }
+
+                if (isResult && checkIfCorrectAnswer(question)) {
+                    System.out.println("correct");
+                    questionPanel.setBackground(new Color(56, 143, 53));
+                    questionPanel.setForeground(new Color(56, 143, 53));
+                    query.setBackground(new Color(56, 143, 53));
                 }
 
                 questionButtonGroupMap.put(question, buttonGroup);

@@ -73,7 +73,7 @@ public class HistoryPanel extends JPanel {
                 System.out.println(quiz.getName());
                 System.out.println(displayList.getSelectedValue());
                 if (displayList.getSelectedValue() == quiz.getName()) {
-                    new QuestionFrame(quiz.getQuestions(), quiz, mainQuizFrame, 100, this);
+                    new QuestionFrame(quiz.getQuestions(), quiz, mainQuizFrame, 0, this, true);
                 }
             }
         });

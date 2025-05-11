@@ -89,7 +89,7 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void showQuiz() {
-        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds, historyPanel);
+        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds, historyPanel, false);
     }
 
     public void fetchModule() {
