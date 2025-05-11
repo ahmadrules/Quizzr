@@ -184,12 +184,9 @@ public class QuestionFrame extends JFrame {
 
     public boolean checkIfCorrectAnswer(Question question) {
         String userAnswer = currentQuiz.getUserAnswers().get(question);
-        System.out.println("User answer: " + userAnswer);
 
         String correctAnswer = question.getCorrectAnswer();
-        System.out.println("Correct answer: " + correctAnswer);
         if (userAnswer.equals(correctAnswer)) {
-            System.out.println("method correct");
             return true;
         }
         return false;
@@ -203,7 +200,7 @@ public class QuestionFrame extends JFrame {
         questionComboBoxMap = new HashMap<>();
 
         buttonGroups = new ArrayList<>();
-        comboBoxMap = new HashMap<Integer, ArrayList<JComboBox>>();
+        comboBoxMap = new HashMap<>();
 
         mainQuestionPanel.add(topPanel);
         mainQuestionPanel.add(new JSeparator());
@@ -277,9 +274,26 @@ public class QuestionFrame extends JFrame {
                 JPanel questionPanel = new JPanel(new BorderLayout());
                 questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
+                JPanel topPanel = new JPanel(new BorderLayout());
                 JLabel query = new JLabel(questionId++ + ". " + question.getQuery());
                 query.setFont(new Font("Arial", Font.BOLD, 16));
-                questionPanel.add(query, BorderLayout.NORTH);
+
+                if (isResult) {
+                    String imagePath = "";
+                    if (checkIfCorrectAnswer(question)) {
+                        imagePath = getClass().getResource("/view/picsGIF/greenCheckmark.png").toString();
+                    }
+                    else {
+                        imagePath = getClass().getResource("/view/picsGIF/redCheckmark.png").toString();
+                    }
+
+                    JLabel imageIcon = new JLabel("<html><img src='" + imagePath + "' width='20' height='20'></html>");
+                    topPanel.add(imageIcon, BorderLayout.EAST);
+                }
+
+
+                topPanel.add(query, BorderLayout.CENTER);
+                questionPanel.add(topPanel, BorderLayout.NORTH);
 
                 ButtonGroup buttonGroup = new ButtonGroup();
                 buttonGroups.add(buttonGroup);
@@ -298,11 +312,23 @@ public class QuestionFrame extends JFrame {
                     alternativesPanel.add(checkBox);
                 }
 
-                if (isResult && checkIfCorrectAnswer(question)) {
-                    System.out.println("correct");
-                    questionPanel.setBackground(new Color(56, 143, 53));
-                    questionPanel.setForeground(new Color(56, 143, 53));
-                    query.setBackground(new Color(56, 143, 53));
+                if (isResult) {
+                    String correctAnswer = question.getCorrectAnswer();
+                    Component[] components = alternativesPanel.getComponents();
+                    String userAnswer = currentQuiz.getUserAnswers().get(question);
+                    for (Component component : components) {
+                        String actionCommand = ((JRadioButton) component).getActionCommand();
+                        component.setEnabled(false);
+                        if (actionCommand.equals(correctAnswer)) {
+                            component.setBackground(new Color(150, 240, 149));
+                        }
+                        else {
+                            component.setBackground(new Color(240, 149, 149));
+                        }
+                        if (actionCommand.equals(userAnswer)) {
+                            ((JRadioButton) component).setSelected(true);
+                        }
+                    }
                 }
 
                 questionButtonGroupMap.put(question, buttonGroup);
