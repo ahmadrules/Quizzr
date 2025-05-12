@@ -801,15 +801,18 @@ public class Controller {
     public List<Quiz> getUsersHistoryQuizzes(){
         return usersHistoryQuizzes;
     }
+    
     public List<Quiz> getUsersAvailableQuizzes(){
         return currentUser.getCreatedQuiz();
     }
+
     public void addQuizToAvailableQuizzes(Quiz quiz){
         quiz.setDate(new Date());
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
         this.userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
+
     public void addQuizToHistory(Quiz quiz){
         quiz.setDate(new Date());
         currentUser.addToHistory(quiz);
