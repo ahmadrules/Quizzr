@@ -805,12 +805,16 @@ public class Controller {
         return currentUser.getCreatedQuiz();
     }
     public void addQuizToAvailableQuizzes(Quiz quiz){
+        quiz.setDate(new Date());
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
+        this.userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
     public void addQuizToHistory(Quiz quiz){
-        usersHistoryQuizzes.add(quiz);
+        quiz.setDate(new Date());
+        currentUser.addToHistory(quiz);
         userManager.saveUsersToFiles();
+        this.usersHistoryQuizzes=currentUser.getHistory();
     }
 
 }
