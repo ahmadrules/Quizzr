@@ -173,7 +173,6 @@ public class QuestionFrame extends JFrame {
 
         if (isResult) {
             Quiz historyQuiz = currentQuiz;
-            historyQuiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
             mainFrame.addQuizToHistory(historyQuiz);
         }
 

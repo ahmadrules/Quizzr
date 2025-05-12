@@ -24,7 +24,8 @@ public class MainQuizFrame extends JFrame {
 
     private java.util.List<Question> questionsList;
     private HashMap<Quiz, List<Question>> quizQuestions;
-    private ArrayList<Quiz> quizList;
+    private List<Quiz> quizList;
+    private List<Quiz> historyList;
     private Quiz currentQuiz;
     private long timerSeconds;
 
@@ -51,16 +52,15 @@ public class MainQuizFrame extends JFrame {
         setVisible(true);
     }
 
-
     public void createLists() {
         quizList = new ArrayList<>();
         quizQuestions = new HashMap<>();
+        historyList = new ArrayList<>();
     }
 
     public void createPanels() {
         historyPanel = new HistoryPanel(mainFrame, this);
         availableQuizPanel = new AvailableQuizPanel(this, mainFrame);
-
     }
 
     public void setHistoryPanel() {
@@ -73,6 +73,7 @@ public class MainQuizFrame extends JFrame {
 
     public void setAvailableQuizPanel() {
         remove(historyPanel);
+        availableQuizPanel.updateList();
         add(availableQuizPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
@@ -112,28 +113,40 @@ public class MainQuizFrame extends JFrame {
 
         questionsList.forEach(question -> {
             newQuiz.addQuestion(question);
-
         });
+
         quizQuestions.put(newQuiz, questionsList);
 
         mainFrame.addQuizToAvailableQuizzes(newQuiz);
         updateList();
-
     }
 
     public void startQuiz(String selectedQuiz) {
-        quizList.forEach(
-                quiz -> {if (quiz.getName() == selectedQuiz) {
-                    currentQuiz = quiz;
-                    questionsList = currentQuiz.getQuestions();
-                }}
-        );
+        currentQuiz = mainFrame.findQuiz(selectedQuiz);
         showQuiz();
         setVisible(false);
     }
 
+    public void deleteQuiz(String selectedQuiz) {
+        mainFrame.deleteQuiz(selectedQuiz);
+        updateList();
+    }
+
     public void updateList() {
+        getHistoryList();
+        getQuizList();
         availableQuizPanel.updateList();
+        historyPanel.updateList();
+    }
+
+    public List<Quiz> getHistoryList() {
+        historyList = mainFrame.getCurrentUserHistory();
+        return historyList;
+    }
+
+    public List<Quiz> getQuizList() {
+        quizList = mainFrame.getUsersAvailableQuizes();
+        return quizList;
     }
 
     public void setQuizAsDone(boolean done) {

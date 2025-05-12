@@ -212,13 +212,21 @@ public class MainFrame extends JFrame implements Runnable {
         return controller.getUsersHistoryQuizzes();
     }
     public List<Quiz> getUsersAvailableQuizes(){
-        return controller.getUsersAvailableQuizes();
+        return controller.getUsersAvailableQuizzes();
     }
     public void addQuizToAvailableQuizzes(Quiz quiz){
         controller.addQuizToAvailableQuizzes(quiz);
     }
     public void addQuizToHistory(Quiz quiz){
         controller.addQuizToHistory(quiz);
+    }
+
+    public void deleteQuiz(String quizName) {
+        controller.deleteQuiz(quizName);
+    }
+
+    public Quiz findQuiz (String quizName) {
+        return controller.findQuiz(quizName);
     }
 }
 

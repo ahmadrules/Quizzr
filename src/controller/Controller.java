@@ -7,6 +7,8 @@ import view.subPanels.LogInFrame;
 
 import javax.swing.*;
 import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -806,17 +808,33 @@ public class Controller {
     }
 
     public void addQuizToAvailableQuizzes(Quiz quiz){
-        quiz.setDate(new Date());
+        quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
         this.userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
 
     public void addQuizToHistory(Quiz quiz){
-        quiz.setDate(new Date());
+        quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
         currentUser.addToHistory(quiz);
         userManager.saveUsersToFiles();
         this.usersHistoryQuizzes=currentUser.getHistory();
+    }
+
+    public void deleteQuiz(String quizName) {
+        Quiz quizToDelete = findQuiz(quizName);
+        currentUser.removeQuiz(quizToDelete);
+        userManager.saveUsersToFiles();
+    }
+
+    public Quiz findQuiz (String quizName) {
+        List<Quiz> quizList = currentUser.getCreatedQuiz();
+        for (Quiz quiz : quizList) {
+            if (quiz.getName().equals(quizName)) {
+                return quiz;
+            }
+        }
+        return null;
     }
 
 }

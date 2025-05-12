@@ -17,7 +17,6 @@ public class HistoryPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
     private List<Quiz> historyList;
     private JButton resultButton;
-    private Quiz testQuiz;
     private JList displayList;
 
     public HistoryPanel(MainFrame mainFrame, MainQuizFrame mainQuizFrame) {
