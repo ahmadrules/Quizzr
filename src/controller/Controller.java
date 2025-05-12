@@ -25,7 +25,8 @@ public class Controller {
     private UserManager userManager;
     private List<User> users;
 // hämta en lista av all quizes
-    private List<Quiz> usersQuizzes ;
+    private List<Quiz> userAvailableQuizzes;
+    private List<Quiz> usersHistoryQuizzes;
     private Program currentStudentProgram;
     private List<FlashCard> currentFlashCards;
 
@@ -472,7 +473,9 @@ public class Controller {
         boolean success = userManager.loginUser(username, password);
         if (success) {
             currentUser = userManager.getCurrentUser();
-          //  currentUser.loadCreatedQuizes();
+            this.usersHistoryQuizzes=currentUser.getHistory();
+            this.userAvailableQuizzes =currentUser.getCreatedQuiz();
+            this.currentStudentProgram=getCurrentStudentProgram();
         }
 
         return success;
@@ -665,9 +668,9 @@ public class Controller {
     }
 
    public Program getCurrentStudentProgram(){
-        String programCode= currentUser.getProgramCode();
+        String usersProgramCode= currentUser.getProgramCode();
         for (Program program : programList) {
-            if (program.getProgramCode().equals(programCode)) {
+            if (program.getProgramCode().equals(usersProgramCode)) {
                 this.currentStudentProgram = program;
                 break;
             }
@@ -729,8 +732,8 @@ public class Controller {
         List<Quiz> quizList = new ArrayList<>();
         for(User user: users){
             if (currentUser.getName().equals(user.getName())){
-                this.usersQuizzes=user.getCreatedQuiz();
-                return usersQuizzes;
+                this.userAvailableQuizzes =user.getCreatedQuiz();
+                return userAvailableQuizzes;
             }
         }
         return new ArrayList<>();
@@ -793,4 +796,20 @@ public class Controller {
         }
         return backContent;
     }
+
+    public List<Quiz> getUsersHistoryQuizzes(){
+        return usersHistoryQuizzes;
+    }
+    public List<Quiz> getUsersAvailableQuizes(){
+        return currentUser.getCreatedQuiz();
+    }
+    public void addQuizToAvailableQuizzes(Quiz quiz){
+        currentUser.addToCreatedQuiz(quiz);
+        userManager.saveUsersToFiles();
+    }
+    public void addQuizToHistory(Quiz quiz){
+        usersHistoryQuizzes.add(quiz);
+        userManager.saveUsersToFiles();
+    }
+
 }

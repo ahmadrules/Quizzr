@@ -10,6 +10,7 @@ public class User implements Serializable {
     private String email;
     private List<Quiz> createdQuiz;
     private List<FlashCard> flashCards;
+    private List<Quiz> history;
     private final String quizFilePath = "src/model/files/user_created_quizes.dat";
     private String programCode;
     private boolean isAdmin;
@@ -22,6 +23,7 @@ public class User implements Serializable {
         this.flashCards = new ArrayList<>();
         this.programCode = programCode;
         this.isAdmin = isAdmin;
+        this.history = new ArrayList<>();
     }
     public boolean isAdmin() {
         return isAdmin;
@@ -88,6 +90,12 @@ public class User implements Serializable {
 
     public void removeQuiz(Quiz quiz){
         createdQuiz.remove(quiz);
+    }
+    public List<Quiz> getHistory() {
+        return history;
+    }
+    public void addToHistory(Quiz quiz){
+        history.add(quiz);
     }
 
     public void loadCreatedQuizes(){
