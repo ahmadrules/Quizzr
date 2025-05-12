@@ -59,7 +59,7 @@ public class MainQuizFrame extends JFrame {
 
     public void createPanels() {
         historyPanel = new HistoryPanel(mainFrame, this);
-        availableQuizPanel = new AvailableQuizPanel(this);
+        availableQuizPanel = new AvailableQuizPanel(this, mainFrame);
 
     }
 
@@ -89,7 +89,7 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void showQuiz() {
-        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds, historyPanel, false);
+        new QuestionFrame(mainFrame, quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds, historyPanel, false);
     }
 
     public void fetchModule() {
@@ -98,8 +98,6 @@ public class MainQuizFrame extends JFrame {
 
     public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds) {
         Quiz newQuiz = new Quiz(quizName);
-        quizList.add(newQuiz);
-
         this.timerSeconds = timerSeconds;
 
         if (typeOfQuiz.equals("Matching")) {
@@ -118,7 +116,8 @@ public class MainQuizFrame extends JFrame {
         });
         quizQuestions.put(newQuiz, questionsList);
 
-        updateList(quizName);
+        mainFrame.addQuizToAvailableQuizzes(newQuiz);
+        updateList();
 
     }
 
@@ -133,8 +132,8 @@ public class MainQuizFrame extends JFrame {
         setVisible(false);
     }
 
-    public void updateList(String quizName) {
-        availableQuizPanel.updateList(quizName);
+    public void updateList() {
+        availableQuizPanel.updateList();
     }
 
     public void setQuizAsDone(boolean done) {

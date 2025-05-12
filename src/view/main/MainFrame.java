@@ -207,6 +207,19 @@ public class MainFrame extends JFrame implements Runnable {
     public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule){
         return controller.getFlashCardsBackContent(selectedCourse, selectedModule);
     }
+
+    public List<Quiz> getUsersHistoryQuizzes(){
+        return controller.getUsersHistoryQuizzes();
+    }
+    public List<Quiz> getUsersAvailableQuizes(){
+        return controller.getUsersAvailableQuizes();
+    }
+    public void addQuizToAvailableQuizzes(Quiz quiz){
+        controller.addQuizToAvailableQuizzes(quiz);
+    }
+    public void addQuizToHistory(Quiz quiz){
+        controller.addQuizToHistory(quiz);
+    }
 }
 
 

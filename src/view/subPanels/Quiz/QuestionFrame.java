@@ -3,6 +3,7 @@ package view.subPanels.Quiz;
 import model.Matching;
 import model.Question;
 import model.Quiz;
+import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,9 +35,11 @@ public class QuestionFrame extends JFrame {
     private Timer timer;
     private HistoryPanel historyPanel;
     private boolean isResult;
+    private MainFrame mainFrame;
 
 
-    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, HistoryPanel historyPanel, boolean isResult) {
+    public QuestionFrame(MainFrame mainFrame, List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, HistoryPanel historyPanel, boolean isResult) {
+        this.mainFrame = mainFrame;
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
@@ -167,8 +170,13 @@ public class QuestionFrame extends JFrame {
                 currentQuiz.addUserAnswer(question, currentAnswer);
             }
         }
-        currentQuiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
-        historyPanel.addQuiz(currentQuiz);
+
+        if (isResult) {
+            Quiz historyQuiz = currentQuiz;
+            historyQuiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
+            mainFrame.addQuizToHistory(historyQuiz);
+        }
+
     }
     
     public void setupPanel() {

@@ -1,10 +1,14 @@
 package view.subPanels.Quiz;
 
+import model.Quiz;
+import view.main.MainFrame;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class AvailableQuizPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
+    private MainFrame mainFrame;
 
     private DefaultListModel<String> quizListModel;
     private JList<String> availableQuizList;
@@ -13,18 +17,27 @@ public class AvailableQuizPanel extends JPanel {
     private JButton generateButton;
     private String selectedQuiz;
 
-    public AvailableQuizPanel(MainQuizFrame mainQuizFrame) {
+    public AvailableQuizPanel(MainQuizFrame mainQuizFrame, MainFrame mainFrame) {
         this.mainQuizFrame = mainQuizFrame;
+        this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
         setNorthLabel();
         createList();
+        updateList();
         createButtonPanel();
         addActionListeners();
     }
 
-    public void updateList(String quizName) {
-        quizListModel.addElement(quizName);
+    public void updateList() {
+        quizListModel.clear();
+
+
+        for (Quiz quiz : mainFrame.getUsersAvailableQuizes())
+        {
+            System.out.println(quiz.getName());
+            quizListModel.addElement(quiz.getName());
+        }
         revalidate();
         repaint();
     }

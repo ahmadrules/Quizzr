@@ -15,7 +15,7 @@ public class HistoryPanel extends JPanel {
     private DefaultListModel<String> quizModel;
     private MainFrame mainFrame;
     private MainQuizFrame mainQuizFrame;
-    private List<Quiz> quizList;
+    private List<Quiz> historyList;
     private JButton resultButton;
     private Quiz testQuiz;
     private JList displayList;
@@ -23,7 +23,7 @@ public class HistoryPanel extends JPanel {
     public HistoryPanel(MainFrame mainFrame, MainQuizFrame mainQuizFrame) {
         this.mainFrame = mainFrame;
         this.mainQuizFrame = mainQuizFrame;
-        quizList = new ArrayList<>();
+        historyList = new ArrayList<>();
 
         setLayout();
         createLists();
@@ -31,10 +31,6 @@ public class HistoryPanel extends JPanel {
         addActionListener();
     }
 
-    public void addQuiz(Quiz quiz) {
-        quizList.add(quiz);
-        updateList();
-    }
     public void createButtonPanel() {
         JPanel buttonPanel = new JPanel();
         resultButton = new JButton("Show result");
@@ -44,8 +40,9 @@ public class HistoryPanel extends JPanel {
 
     public void updateList() {
         quizModel.clear();
-        for (Quiz quiz : quizList) {
-            quizModel.addElement(quiz.getName());
+        historyList = mainFrame.getUsersHistoryQuizzes();
+        for (Quiz quiz : historyList) {
+            quizModel.addElement(quiz.getDate() + " " + quiz.getName());
         }
         revalidate();
         repaint();
@@ -69,21 +66,13 @@ public class HistoryPanel extends JPanel {
 
     public void addActionListener() {
         resultButton.addActionListener(e -> {
-            for (Quiz quiz : quizList) {
-                System.out.println(quiz.getName());
-                System.out.println(displayList.getSelectedValue());
+            for (Quiz quiz : historyList) {
+                System.out.println("Found quiz: " + quiz.getName());
+                System.out.println("Selected quiz" + displayList.getSelectedValue());
                 if (displayList.getSelectedValue() == quiz.getName()) {
-                    new QuestionFrame(quiz.getQuestions(), quiz, mainQuizFrame, 0, this, true);
+                    new QuestionFrame(mainFrame, quiz.getQuestions(), quiz, mainQuizFrame, 0, this, true);
                 }
             }
         });
-    }
-
-    public void createTestQuiz() {
-        Course testCourse = new Course("testCourse", "testpackage");
-        Module testModule = new Module("testModule", "testpackage");
-        testQuiz = new Quiz("test",testCourse, testModule);
-
-
     }
 }
