@@ -475,6 +475,7 @@ public class Controller {
             currentUser = userManager.getCurrentUser();
             this.usersHistoryQuizzes=currentUser.getHistory();
             this.userAvailableQuizzes =currentUser.getCreatedQuiz();
+            System.out.println("Quizzes have been loaded");
             this.currentStudentProgram=getCurrentStudentProgram();
         }
 
@@ -799,16 +800,23 @@ public class Controller {
     public List<Quiz> getUsersHistoryQuizzes(){
         return usersHistoryQuizzes;
     }
-    public List<Quiz> getUsersAvailableQuizes(){
+    
+    public List<Quiz> getUsersAvailableQuizzes(){
         return currentUser.getCreatedQuiz();
     }
+
     public void addQuizToAvailableQuizzes(Quiz quiz){
+        quiz.setDate(new Date());
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
+        this.userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
+
     public void addQuizToHistory(Quiz quiz){
-        usersHistoryQuizzes.add(quiz);
+        quiz.setDate(new Date());
+        currentUser.addToHistory(quiz);
         userManager.saveUsersToFiles();
+        this.usersHistoryQuizzes=currentUser.getHistory();
     }
 
 }
