@@ -26,6 +26,7 @@ public class QuestionFrame extends JFrame {
     private ItemListener comboBoxListenerSelected;
     private ItemListener comboBoxListenerDeselected;
     private JButton submitButton;
+    private JButton closeButton;
     private String previousItem;
     private Quiz currentQuiz;
     private JPanel topPanel;
@@ -33,18 +34,16 @@ public class QuestionFrame extends JFrame {
     private long currentSeconds;
     private long currentMinutes;
     private Timer timer;
-    private HistoryPanel historyPanel;
     private boolean isResult;
     private MainFrame mainFrame;
 
 
-    public QuestionFrame(MainFrame mainFrame, List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, HistoryPanel historyPanel, boolean isResult) {
+    public QuestionFrame(MainFrame mainFrame, List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, boolean isResult) {
         this.mainFrame = mainFrame;
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
         this.timerSecondsmount = timerSecondsAmount;
-        this.historyPanel = historyPanel;
         this.isResult = isResult;
 
         setTitle("Quiz options");
@@ -71,9 +70,30 @@ public class QuestionFrame extends JFrame {
     public void createTopPanel() {
         topPanel = new JPanel(new BorderLayout());
 
+        JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+
         JLabel amountOfQuestionsLabel = new JLabel("Amount of questions: " + questionList.size());
         amountOfQuestionsLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
-        topPanel.add(amountOfQuestionsLabel, BorderLayout.EAST);
+        eastPanel.add(amountOfQuestionsLabel);
+
+        if (isResult) {
+            String[] parts = currentQuiz.getDate().split("-");
+            JLabel dateLabel = new JLabel("Date: " + parts[0]);
+            JLabel timeLabel = new JLabel("Time: " + parts[1]);
+            dateLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
+            timeLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 16));
+            eastPanel.add(dateLabel);
+            eastPanel.add(timeLabel);
+        }
+
+        if (isResult) {
+            topPanel.add(eastPanel, BorderLayout.WEST);
+        }
+        else {
+            topPanel.add(eastPanel, BorderLayout.EAST);
+
+        }
     }
 
     public void timerEnded() {
@@ -171,11 +191,8 @@ public class QuestionFrame extends JFrame {
             }
         }
 
-        if (isResult) {
-            Quiz historyQuiz = currentQuiz;
-            mainFrame.addQuizToHistory(historyQuiz);
-        }
-
+        Quiz historyQuiz = currentQuiz;
+        mainFrame.addQuizToHistory(historyQuiz);
     }
     
     public void setupPanel() {
@@ -183,6 +200,8 @@ public class QuestionFrame extends JFrame {
         mainQuestionPanel.setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
         submitButton = new JButton("Submit");
         submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        closeButton = new JButton("Close");
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
 
@@ -342,7 +361,12 @@ public class QuestionFrame extends JFrame {
                 mainQuestionPanel.add(questionPanel);
             }
         }
-        mainQuestionPanel.add(submitButton);
+        if (isResult) {
+            mainQuestionPanel.add(closeButton);
+        }
+        else {
+            mainQuestionPanel.add(submitButton);
+        }
     }
 
     public void createComboBoxListeners () {
@@ -382,6 +406,10 @@ public class QuestionFrame extends JFrame {
             //mainQuizFrame.setQuizAsDone(true);
             getUserAnswers();
             getTotalPoints();
+        });
+
+        closeButton.addActionListener(e -> {
+            dispose();
         });
     }
 }

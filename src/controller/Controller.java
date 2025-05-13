@@ -7,12 +7,10 @@ import view.subPanels.LogInFrame;
 
 import javax.swing.*;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Controller {
@@ -807,6 +805,26 @@ public class Controller {
         return currentUser.getCreatedQuiz();
     }
 
+    public List<String> getAvailableQuizNames() {
+        List<String> availableQuizNames = new ArrayList<>();
+
+        List<Quiz> availableQuiz = getUsersAvailableQuizzes();
+        for(Quiz quiz: availableQuiz){
+            availableQuizNames.add(quiz.getName());
+        }
+        return availableQuizNames;
+    }
+
+    public List<String> getHistoryQuizNames() {
+        List<String> historyQuizNames = new ArrayList<>();
+
+        List<Quiz> historyQuiz = getUsersHistoryQuizzes();
+        for(Quiz quiz: historyQuiz){
+            historyQuizNames.add(quiz.getName());
+        }
+        return historyQuizNames;
+    }
+
     public void addQuizToAvailableQuizzes(Quiz quiz){
         quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
         currentUser.addToCreatedQuiz(quiz);
@@ -815,7 +833,7 @@ public class Controller {
     }
 
     public void addQuizToHistory(Quiz quiz){
-        quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
+        quiz.setDate(new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime()));
         currentUser.addToHistory(quiz);
         userManager.saveUsersToFiles();
         this.usersHistoryQuizzes=currentUser.getHistory();
@@ -827,8 +845,19 @@ public class Controller {
         userManager.saveUsersToFiles();
     }
 
+
     public Quiz findQuiz (String quizName) {
         List<Quiz> quizList = currentUser.getCreatedQuiz();
+        for (Quiz quiz : quizList) {
+            if (quiz.getName().equals(quizName)) {
+                return quiz;
+            }
+        }
+        return null;
+    }
+
+    public Quiz findHistoryQuiz (String quizName) {
+        List<Quiz> quizList = currentUser.getHistory();
         for (Quiz quiz : quizList) {
             if (quiz.getName().equals(quizName)) {
                 return quiz;

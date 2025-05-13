@@ -220,6 +220,12 @@ public class MainFrame extends JFrame implements Runnable {
     public void addQuizToHistory(Quiz quiz){
         controller.addQuizToHistory(quiz);
     }
+    public List<String> getQuizNames() {
+        return controller.getAvailableQuizNames();
+    }
+    public List<String> getHistoryQuizNames() {
+        return controller.getHistoryQuizNames();
+    }
 
     public void deleteQuiz(String quizName) {
         controller.deleteQuiz(quizName);
@@ -227,6 +233,9 @@ public class MainFrame extends JFrame implements Runnable {
 
     public Quiz findQuiz (String quizName) {
         return controller.findQuiz(quizName);
+    }
+    public Quiz findHistoryQuiz (String quizName) {
+        return controller.findHistoryQuiz(quizName);
     }
 }
 

@@ -90,7 +90,7 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void showQuiz() {
-        new QuestionFrame(mainFrame, quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds, historyPanel, false);
+        new QuestionFrame(mainFrame, currentQuiz.getQuestions(), currentQuiz, this, timerSeconds, false);
     }
 
     public void fetchModule() {
@@ -148,6 +148,24 @@ public class MainQuizFrame extends JFrame {
         quizList = mainFrame.getUsersAvailableQuizes();
         return quizList;
     }
+
+    public List<String> getQuizNames() {
+        return mainFrame.getQuizNames();
+    }
+
+    public List<String> getHistoryQuizNames() {
+        return mainFrame.getHistoryQuizNames();
+    }
+
+    public Quiz findHistoryQuiz(String quizName) {
+        return mainFrame.findHistoryQuiz(quizName);
+    }
+
+    public Quiz findQuiz(String quizName) {
+        return mainFrame.findQuiz(quizName);
+    }
+
+
 
     public void setQuizAsDone(boolean done) {
         mainFrame.setQuizAsDone(done);

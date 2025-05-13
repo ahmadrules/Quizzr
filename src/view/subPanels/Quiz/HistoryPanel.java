@@ -1,28 +1,24 @@
 package view.subPanels.Quiz;
 
-import model.Course;
-import model.Module;
 import model.Quiz;
 import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
+
 
 public class HistoryPanel extends JPanel {
     private DefaultListModel<String> quizModel;
+    private String selectedQuiz;
     private MainFrame mainFrame;
     private MainQuizFrame mainQuizFrame;
-    private List<Quiz> historyList;
     private JButton resultButton;
-    private JList displayList;
+    private JList<String> displayList;
 
     public HistoryPanel(MainFrame mainFrame, MainQuizFrame mainQuizFrame) {
         this.mainFrame = mainFrame;
         this.mainQuizFrame = mainQuizFrame;
-        historyList = new ArrayList<>();
 
         setLayout();
         createLists();
@@ -39,9 +35,10 @@ public class HistoryPanel extends JPanel {
 
     public void updateList() {
         quizModel.clear();
-        historyList = mainFrame.getUsersHistoryQuizzes();
-        for (Quiz quiz : historyList) {
-            quizModel.addElement(quiz.getDate() + " " + quiz.getName());
+        List<String> nameList = mainFrame.getHistoryQuizNames();
+
+        for (String name : nameList) {
+            quizModel.addElement(name);
         }
         revalidate();
         repaint();
@@ -65,11 +62,14 @@ public class HistoryPanel extends JPanel {
 
     public void addActionListener() {
         resultButton.addActionListener(e -> {
-            for (Quiz quiz : historyList) {
-                System.out.println("Found quiz: " + quiz.getName());
-                System.out.println("Selected quiz" + displayList.getSelectedValue());
-                if (displayList.getSelectedValue() == quiz.getName()) {
-                    new QuestionFrame(mainFrame, quiz.getQuestions(), quiz, mainQuizFrame, 0, this, true);
+            Quiz quiz = mainFrame.findHistoryQuiz(selectedQuiz);
+            new QuestionFrame(mainFrame, quiz.getQuestions(), quiz, mainQuizFrame, 0, true);
+        });
+
+        displayList.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                if (displayList.getSelectedValue() != null) {
+                    selectedQuiz = displayList.getSelectedValue();
                 }
             }
         });

@@ -33,11 +33,7 @@ public class AvailableQuizPanel extends JPanel {
 
     public void updateList() {
         quizListModel.clear();
-        List<Quiz> quizList = mainQuizFrame.getQuizList();
-        for (Quiz quiz : quizList) {
-            quizListModel.addElement(quiz.getName());
-        }
-        availableQuizList.setModel(quizListModel);
+        quizListModel.addAll(mainFrame.getQuizNames());
         revalidate();
         repaint();
     }
@@ -95,8 +91,8 @@ public class AvailableQuizPanel extends JPanel {
 
         deleteButton.addActionListener(e -> {
            mainQuizFrame.deleteQuiz(selectedQuiz);
-            startQuizButton.setEnabled(false);
-            deleteButton.setEnabled(false);
+           startQuizButton.setEnabled(false);
+           deleteButton.setEnabled(false);
         });
     }
 }
