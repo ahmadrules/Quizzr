@@ -194,7 +194,6 @@ public class QuestionFrame extends JFrame {
         }
 
         if (!isResult) {
-            Quiz historyQuiz = currentQuiz;
             mainFrame.addQuizToHistory(currentQuiz.getName(), currentQuiz.getQuestions(), currentQuiz.getUserAnswers());
         }
     }
@@ -214,8 +213,19 @@ public class QuestionFrame extends JFrame {
 
     public boolean checkIfCorrectAnswer(Question question) {
         String userAnswer = currentQuiz.getUserAnswers().get(question);
+        System.out.println("User answer:" + userAnswer);
+        String correctAnswer = "";
 
-        String correctAnswer = question.getCorrectAnswer();
+        if (question instanceof Matching) {
+            String[] letters = new String[]{"A", "B", "C"};
+            HashMap<String, Integer> correctMatches = ((Matching) question).getCorrectMatches();
+
+            for (String letter : letters) {
+                correctAnswer += letter + ":" + correctMatches.get(letter) + ",";
+            }
+            System.out.println(correctAnswer);
+        }
+
         if (userAnswer.equals(correctAnswer)) {
             return true;
         }
@@ -288,13 +298,18 @@ public class QuestionFrame extends JFrame {
                     alternativesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                     counter++;
 
+                    if (isResult && checkIfCorrectAnswer(question)) {
+                        comboBoxPanel.setBackground(new Color(150, 240, 149));
+                        alternativesPanel.setBackground(new Color(150, 240, 149));
+                    }
+                    else if (isResult && !checkIfCorrectAnswer(question)) {
+                        comboBoxPanel.setBackground(new Color(240, 149, 149));
+                        alternativesPanel.setBackground(new Color(240, 149, 149));
+                    }
                 }
+
                 comboBoxMap.put(mapCounter++, comboBoxes);
                 questionComboBoxMap.put(question, comboBoxes);
-
-                if (isResult && checkIfCorrectAnswer(question)) {
-                    questionPanel.setBackground(new Color(56, 143, 53));
-                }
 
                 questionPanel.add(alternativesPanel);
                 mainQuestionPanel.add(questionPanel);
