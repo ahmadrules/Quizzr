@@ -109,6 +109,9 @@ public class QuestionFrame extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 mainQuizFrame.setVisible(true);
+                if (timer != null && timer.isRunning()) {
+                    timer.stop();
+                }
                 dispose();
             }
         });

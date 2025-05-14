@@ -13,17 +13,19 @@ import java.awt.*;
  * @author Ahmad Maarouf
  */
 public class CenterPanel extends JPanel {
-    MainFrame mainFrame;
-    TopCenterPanel topPanel;
-    CenterModulePanel centerModulePanel;
-    CenterAccountPanel centerAccountPanel;
+    private MainFrame mainFrame;
+    private TopCenterPanel topPanel;
+    private CenterModulePanel centerModulePanel;
+    private CenterAccountPanel centerAccountPanel;
+    private boolean isAdmin;
 
-    public CenterPanel(MainFrame mainFrame) {
+    public CenterPanel(MainFrame mainFrame, boolean isAdmin) {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
         topPanel = new TopCenterPanel();
-        centerModulePanel = new CenterModulePanel(mainFrame);
+        centerModulePanel = new CenterModulePanel(mainFrame, isAdmin);
         centerAccountPanel = new CenterAccountPanel(mainFrame);
+        this.isAdmin = isAdmin;
 
         //Default view is module tab
         setModuleLayout();
