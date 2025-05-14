@@ -17,7 +17,6 @@ public class CenterPanel extends JPanel {
     private TopCenterPanel topPanel;
     private CenterModulePanel centerModulePanel;
     private CenterAccountPanel centerAccountPanel;
-    private boolean isAdmin;
 
     public CenterPanel(MainFrame mainFrame, boolean isAdmin) {
         this.mainFrame = mainFrame;
@@ -25,7 +24,6 @@ public class CenterPanel extends JPanel {
         topPanel = new TopCenterPanel();
         centerModulePanel = new CenterModulePanel(mainFrame, isAdmin);
         centerAccountPanel = new CenterAccountPanel(mainFrame);
-        this.isAdmin = isAdmin;
 
         //Default view is module tab
         setModuleLayout();

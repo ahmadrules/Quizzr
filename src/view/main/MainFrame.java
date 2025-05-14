@@ -21,7 +21,6 @@ public class MainFrame extends JFrame {
     private LeftPanel leftPanel;
     private RightPanel rightPanel;
     private Controller controller;
-    private boolean isAdmin;
 
 
     public MainFrame(Controller controller){
