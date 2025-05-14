@@ -92,7 +92,6 @@ public class QuestionFrame extends JFrame {
         }
         else {
             topPanel.add(eastPanel, BorderLayout.EAST);
-
         }
     }
 
@@ -191,8 +190,10 @@ public class QuestionFrame extends JFrame {
             }
         }
 
-        Quiz historyQuiz = currentQuiz;
-        mainFrame.addQuizToHistory(historyQuiz);
+        if (!isResult) {
+            Quiz historyQuiz = currentQuiz;
+            mainFrame.addQuizToHistory(currentQuiz.getName(), currentQuiz.getQuestions(), currentQuiz.getUserAnswers());
+        }
     }
     
     public void setupPanel() {
@@ -215,6 +216,7 @@ public class QuestionFrame extends JFrame {
         if (userAnswer.equals(correctAnswer)) {
             return true;
         }
+
         return false;
     }
 

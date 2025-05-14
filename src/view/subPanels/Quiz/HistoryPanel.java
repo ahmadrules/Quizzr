@@ -14,6 +14,7 @@ public class HistoryPanel extends JPanel {
     private MainFrame mainFrame;
     private MainQuizFrame mainQuizFrame;
     private JButton resultButton;
+    private JButton clearButton;
     private JList<String> displayList;
 
     public HistoryPanel(MainFrame mainFrame, MainQuizFrame mainQuizFrame) {
@@ -29,7 +30,9 @@ public class HistoryPanel extends JPanel {
     public void createButtonPanel() {
         JPanel buttonPanel = new JPanel();
         resultButton = new JButton("Show result");
+        clearButton = new JButton("Clear history");
         buttonPanel.add(resultButton);
+        buttonPanel.add(clearButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -55,9 +58,10 @@ public class HistoryPanel extends JPanel {
         quizModel = new DefaultListModel<>();
         displayList = new JList(quizModel);
         displayList.setBorder(BorderFactory.createLineBorder(Color.black));
+        JScrollPane scrollPane = new JScrollPane(displayList);
         updateList();
 
-        add(displayList, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     public void addActionListener() {
@@ -73,5 +77,11 @@ public class HistoryPanel extends JPanel {
                 }
             }
         });
+
+        clearButton.addActionListener(e -> {
+           mainFrame.clearHistory();
+           updateList();
+        });
+
     }
 }

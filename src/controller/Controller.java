@@ -832,9 +832,19 @@ public class Controller {
         this.userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
 
-    public void addQuizToHistory(Quiz quiz){
-        quiz.setDate(new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime()));
-        currentUser.addToHistory(quiz);
+    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers){
+        Quiz quiz1 = new Quiz(quizName);
+        String currentDate = new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime());
+        quiz1.setDate(currentDate);
+        quiz1.setName(currentDate + " " + quizName);
+        Map<Question, String> answerMap = new HashMap<>();
+
+        for (Question question : questions) {
+            answerMap.put(question, answers.get(question));
+        }
+        quiz1.setQuestions(questions);
+        quiz1.setUserAnswers(answerMap);
+        currentUser.addToHistory(quiz1);
         userManager.saveUsersToFiles();
         this.usersHistoryQuizzes=currentUser.getHistory();
     }
@@ -844,7 +854,6 @@ public class Controller {
         currentUser.removeQuiz(quizToDelete);
         userManager.saveUsersToFiles();
     }
-
 
     public Quiz findQuiz (String quizName) {
         List<Quiz> quizList = currentUser.getCreatedQuiz();
@@ -864,6 +873,10 @@ public class Controller {
             }
         }
         return null;
+    }
+
+    public void clearHistory() {
+        currentUser.clearHistory();
     }
 
 }

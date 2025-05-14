@@ -98,6 +98,11 @@ public class User implements Serializable {
         history.add(quiz);
     }
 
+    public void clearHistory() {
+        List<Quiz> toRemove = history;
+        history.removeAll(toRemove);
+    }
+
     public void loadCreatedQuizes(){
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(quizFilePath))) {
             while (true) {
