@@ -7,10 +7,10 @@ import view.subPanels.LogInFrame;
 
 import javax.swing.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Controller {
@@ -741,7 +741,6 @@ public class Controller {
     }
 
     public void saveCurrentUserQuiz(Quiz quiz){
-        quiz.setDate(new Date());
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
     }
@@ -806,18 +805,78 @@ public class Controller {
         return currentUser.getCreatedQuiz();
     }
 
+    public List<String> getAvailableQuizNames() {
+        List<String> availableQuizNames = new ArrayList<>();
+
+        List<Quiz> availableQuiz = getUsersAvailableQuizzes();
+        for(Quiz quiz: availableQuiz){
+            availableQuizNames.add(quiz.getName());
+        }
+        return availableQuizNames;
+    }
+
+    public List<String> getHistoryQuizNames() {
+        List<String> historyQuizNames = new ArrayList<>();
+
+        List<Quiz> historyQuiz = getUsersHistoryQuizzes();
+        for(Quiz quiz: historyQuiz){
+            historyQuizNames.add(quiz.getName());
+        }
+        return historyQuizNames;
+    }
+
     public void addQuizToAvailableQuizzes(Quiz quiz){
-        quiz.setDate(new Date());
+        quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
         this.userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
 
-    public void addQuizToHistory(Quiz quiz){
-        quiz.setDate(new Date());
-        currentUser.addToHistory(quiz);
+    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers){
+        Quiz quiz1 = new Quiz(quizName);
+        String currentDate = new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime());
+        quiz1.setDate(currentDate);
+        quiz1.setName(currentDate + " " + quizName);
+        Map<Question, String> answerMap = new HashMap<>();
+
+        for (Question question : questions) {
+            answerMap.put(question, answers.get(question));
+        }
+        quiz1.setQuestions(questions);
+        quiz1.setUserAnswers(answerMap);
+        currentUser.addToHistory(quiz1);
         userManager.saveUsersToFiles();
         this.usersHistoryQuizzes=currentUser.getHistory();
+    }
+
+    public void deleteQuiz(String quizName) {
+        Quiz quizToDelete = findQuiz(quizName);
+        currentUser.removeQuiz(quizToDelete);
+        userManager.saveUsersToFiles();
+    }
+
+    public Quiz findQuiz (String quizName) {
+        List<Quiz> quizList = currentUser.getCreatedQuiz();
+        for (Quiz quiz : quizList) {
+            if (quiz.getName().equals(quizName)) {
+                return quiz;
+            }
+        }
+        return null;
+    }
+
+    public Quiz findHistoryQuiz (String quizName) {
+        List<Quiz> quizList = currentUser.getHistory();
+        for (Quiz quiz : quizList) {
+            if (quiz.getName().equals(quizName)) {
+                return quiz;
+            }
+        }
+        return null;
+    }
+
+    public void clearHistory() {
+        currentUser.clearHistory();
     }
 
 }

@@ -1,15 +1,15 @@
 package view.main;
 
 import controller.Controller;
-import model.FlashCard;
+import model.*;
 import model.Module;
-import model.User;
 import view.subPanels.LogInFrame;
 
 import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;
 import java.awt.*;
+import java.util.Map;
 
 /**
 Main view-class responsible for initializing other view-classes and also responsible for contact with the Controller class.
@@ -153,6 +153,10 @@ public class MainFrame extends JFrame implements Runnable {
     public List<FlashCard> getFlashcards(String program, String course, String module) {
         return null;//(List<FlashCard>) controller.getFlashcards(program, course, module);
     }
+
+    public List<Quiz> getCurrentUserHistory() {
+        return controller.getCurrentUsersQuizHistory();
+    }
     
     
     public String[] getCurrentUserInfo() {
@@ -201,6 +205,41 @@ public class MainFrame extends JFrame implements Runnable {
 
     public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule){
         return controller.getFlashCardsBackContent(selectedCourse, selectedModule);
+    }
+
+    public List<Quiz> getUsersHistoryQuizzes(){
+        return controller.getUsersHistoryQuizzes();
+    }
+    public List<Quiz> getUsersAvailableQuizes(){
+        return controller.getUsersAvailableQuizzes();
+    }
+    public void addQuizToAvailableQuizzes(Quiz quiz){
+        controller.addQuizToAvailableQuizzes(quiz);
+    }
+    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers){
+        controller.addQuizToHistory(quizName, questions, answers);
+    }
+    public List<String> getQuizNames() {
+        return controller.getAvailableQuizNames();
+    }
+    public List<String> getHistoryQuizNames() {
+        return controller.getHistoryQuizNames();
+    }
+
+    public void deleteQuiz(String quizName) {
+        controller.deleteQuiz(quizName);
+    }
+
+    public Quiz findQuiz (String quizName) {
+        return controller.findQuiz(quizName);
+    }
+
+    public Quiz findHistoryQuiz (String quizName) {
+        return controller.findHistoryQuiz(quizName);
+    }
+
+    public void clearHistory() {
+        controller.clearHistory();
     }
 }
 

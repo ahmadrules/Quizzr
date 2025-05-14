@@ -3,10 +3,13 @@ package view.subPanels.Quiz;
 import model.Matching;
 import model.Question;
 import model.Quiz;
+import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,7 @@ public class QuestionFrame extends JFrame {
     private ItemListener comboBoxListenerSelected;
     private ItemListener comboBoxListenerDeselected;
     private JButton submitButton;
+    private JButton closeButton;
     private String previousItem;
     private Quiz currentQuiz;
     private JPanel topPanel;
@@ -30,13 +34,17 @@ public class QuestionFrame extends JFrame {
     private long currentSeconds;
     private long currentMinutes;
     private Timer timer;
+    private boolean isResult;
+    private MainFrame mainFrame;
 
 
-    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount) {
+    public QuestionFrame(MainFrame mainFrame, List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, boolean isResult) {
+        this.mainFrame = mainFrame;
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
         this.timerSecondsmount = timerSecondsAmount;
+        this.isResult = isResult;
 
         setTitle("Quiz options");
         setLayout(new BorderLayout());
@@ -47,7 +55,7 @@ public class QuestionFrame extends JFrame {
         createTopPanel();
         createTimer();
 
-        setupQuestions();
+        setupQuestions(isResult);
 
         setOnClose();
         addListeners();
@@ -62,9 +70,29 @@ public class QuestionFrame extends JFrame {
     public void createTopPanel() {
         topPanel = new JPanel(new BorderLayout());
 
+        JPanel eastPanel = new JPanel();
+        eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
+
         JLabel amountOfQuestionsLabel = new JLabel("Amount of questions: " + questionList.size());
         amountOfQuestionsLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
-        topPanel.add(amountOfQuestionsLabel, BorderLayout.EAST);
+        eastPanel.add(amountOfQuestionsLabel);
+
+        if (isResult) {
+            String[] parts = currentQuiz.getDate().split("-");
+            JLabel dateLabel = new JLabel("Date: " + parts[0]);
+            JLabel timeLabel = new JLabel("Time: " + parts[1]);
+            dateLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
+            timeLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 16));
+            eastPanel.add(dateLabel);
+            eastPanel.add(timeLabel);
+        }
+
+        if (isResult) {
+            topPanel.add(eastPanel, BorderLayout.WEST);
+        }
+        else {
+            topPanel.add(eastPanel, BorderLayout.EAST);
+        }
     }
 
     public void timerEnded() {
@@ -161,6 +189,11 @@ public class QuestionFrame extends JFrame {
                 currentQuiz.addUserAnswer(question, currentAnswer);
             }
         }
+
+        if (!isResult) {
+            Quiz historyQuiz = currentQuiz;
+            mainFrame.addQuizToHistory(currentQuiz.getName(), currentQuiz.getQuestions(), currentQuiz.getUserAnswers());
+        }
     }
     
     public void setupPanel() {
@@ -168,13 +201,26 @@ public class QuestionFrame extends JFrame {
         mainQuestionPanel.setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
         submitButton = new JButton("Submit");
         submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        closeButton = new JButton("Close");
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
 
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void setupQuestions() {
+    public boolean checkIfCorrectAnswer(Question question) {
+        String userAnswer = currentQuiz.getUserAnswers().get(question);
+
+        String correctAnswer = question.getCorrectAnswer();
+        if (userAnswer.equals(correctAnswer)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void setupQuestions(boolean isResult) {
         int questionId = 1;
         int mapCounter = 0;
 
@@ -182,7 +228,7 @@ public class QuestionFrame extends JFrame {
         questionComboBoxMap = new HashMap<>();
 
         buttonGroups = new ArrayList<>();
-        comboBoxMap = new HashMap<Integer, ArrayList<JComboBox>>();
+        comboBoxMap = new HashMap<>();
 
         mainQuestionPanel.add(topPanel);
         mainQuestionPanel.add(new JSeparator());
@@ -243,6 +289,10 @@ public class QuestionFrame extends JFrame {
                 comboBoxMap.put(mapCounter++, comboBoxes);
                 questionComboBoxMap.put(question, comboBoxes);
 
+                if (isResult && checkIfCorrectAnswer(question)) {
+                    questionPanel.setBackground(new Color(56, 143, 53));
+                }
+
                 questionPanel.add(alternativesPanel);
                 mainQuestionPanel.add(questionPanel);
             }
@@ -252,9 +302,26 @@ public class QuestionFrame extends JFrame {
                 JPanel questionPanel = new JPanel(new BorderLayout());
                 questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
+                JPanel topPanel = new JPanel(new BorderLayout());
                 JLabel query = new JLabel(questionId++ + ". " + question.getQuery());
                 query.setFont(new Font("Arial", Font.BOLD, 16));
-                questionPanel.add(query, BorderLayout.NORTH);
+
+                if (isResult) {
+                    String imagePath = "";
+                    if (checkIfCorrectAnswer(question)) {
+                        imagePath = getClass().getResource("/view/picsGIF/greenCheckmark.png").toString();
+                    }
+                    else {
+                        imagePath = getClass().getResource("/view/picsGIF/redCheckmark.png").toString();
+                    }
+
+                    JLabel imageIcon = new JLabel("<html><img src='" + imagePath + "' width='20' height='20'></html>");
+                    topPanel.add(imageIcon, BorderLayout.EAST);
+                }
+
+
+                topPanel.add(query, BorderLayout.CENTER);
+                questionPanel.add(topPanel, BorderLayout.NORTH);
 
                 ButtonGroup buttonGroup = new ButtonGroup();
                 buttonGroups.add(buttonGroup);
@@ -273,11 +340,35 @@ public class QuestionFrame extends JFrame {
                     alternativesPanel.add(checkBox);
                 }
 
+                if (isResult) {
+                    String correctAnswer = question.getCorrectAnswer();
+                    Component[] components = alternativesPanel.getComponents();
+                    String userAnswer = currentQuiz.getUserAnswers().get(question);
+                    for (Component component : components) {
+                        String actionCommand = ((JRadioButton) component).getActionCommand();
+                        component.setEnabled(false);
+                        if (actionCommand.equals(correctAnswer)) {
+                            component.setBackground(new Color(150, 240, 149));
+                        }
+                        else {
+                            component.setBackground(new Color(240, 149, 149));
+                        }
+                        if (actionCommand.equals(userAnswer)) {
+                            ((JRadioButton) component).setSelected(true);
+                        }
+                    }
+                }
+
                 questionButtonGroupMap.put(question, buttonGroup);
                 mainQuestionPanel.add(questionPanel);
             }
         }
-        mainQuestionPanel.add(submitButton);
+        if (isResult) {
+            mainQuestionPanel.add(closeButton);
+        }
+        else {
+            mainQuestionPanel.add(submitButton);
+        }
     }
 
     public void createComboBoxListeners () {
@@ -317,6 +408,10 @@ public class QuestionFrame extends JFrame {
             //mainQuizFrame.setQuizAsDone(true);
             getUserAnswers();
             getTotalPoints();
+        });
+
+        closeButton.addActionListener(e -> {
+            dispose();
         });
     }
 }

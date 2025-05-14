@@ -1,30 +1,39 @@
 package view.subPanels.Quiz;
 
+import model.Quiz;
+import view.main.MainFrame;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class AvailableQuizPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
+    private MainFrame mainFrame;
 
     private DefaultListModel<String> quizListModel;
     private JList<String> availableQuizList;
     private JPanel buttonPanel;
     private JButton startQuizButton;
     private JButton generateButton;
+    private JButton deleteButton;
     private String selectedQuiz;
 
-    public AvailableQuizPanel(MainQuizFrame mainQuizFrame) {
+    public AvailableQuizPanel(MainQuizFrame mainQuizFrame, MainFrame mainFrame) {
         this.mainQuizFrame = mainQuizFrame;
+        this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
         setNorthLabel();
         createList();
+        updateList();
         createButtonPanel();
         addActionListeners();
     }
 
-    public void updateList(String quizName) {
-        quizListModel.addElement(quizName);
+    public void updateList() {
+        quizListModel.clear();
+        quizListModel.addAll(mainFrame.getQuizNames());
         revalidate();
         repaint();
     }
@@ -36,7 +45,7 @@ public class AvailableQuizPanel extends JPanel {
 
     public void createList() {
         quizListModel = new DefaultListModel<>();
-        availableQuizList = new JList(quizListModel);
+        availableQuizList = new JList<>(quizListModel);
         JScrollPane scrollPane = new JScrollPane(availableQuizList);
 
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -49,11 +58,14 @@ public class AvailableQuizPanel extends JPanel {
 
         startQuizButton = new JButton("Start quiz");
         generateButton = new JButton("Generate quiz");
+        deleteButton = new JButton("Delete");
 
         startQuizButton.setEnabled(false);
+        deleteButton.setEnabled(false);
 
         buttonPanel.add(startQuizButton);
         buttonPanel.add(generateButton);
+        buttonPanel.add(deleteButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -67,6 +79,7 @@ public class AvailableQuizPanel extends JPanel {
             if (!e.getValueIsAdjusting()) {
                 if (availableQuizList.getSelectedValue() != null) {
                     startQuizButton.setEnabled(true);
+                    deleteButton.setEnabled(true);
                     selectedQuiz = availableQuizList.getSelectedValue();
                 }
             }
@@ -74,6 +87,12 @@ public class AvailableQuizPanel extends JPanel {
 
         startQuizButton.addActionListener(e -> {
             mainQuizFrame.startQuiz(selectedQuiz);
+        });
+
+        deleteButton.addActionListener(e -> {
+           mainQuizFrame.deleteQuiz(selectedQuiz);
+           startQuizButton.setEnabled(false);
+           deleteButton.setEnabled(false);
         });
     }
 }

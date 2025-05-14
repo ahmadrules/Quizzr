@@ -24,7 +24,8 @@ public class MainQuizFrame extends JFrame {
 
     private java.util.List<Question> questionsList;
     private HashMap<Quiz, List<Question>> quizQuestions;
-    private ArrayList<Quiz> quizList;
+    private List<Quiz> quizList;
+    private List<Quiz> historyList;
     private Quiz currentQuiz;
     private long timerSeconds;
 
@@ -51,19 +52,20 @@ public class MainQuizFrame extends JFrame {
         setVisible(true);
     }
 
-
     public void createLists() {
         quizList = new ArrayList<>();
         quizQuestions = new HashMap<>();
+        historyList = new ArrayList<>();
     }
 
     public void createPanels() {
-        availableQuizPanel = new AvailableQuizPanel(this);
-        historyPanel = new HistoryPanel();
+        historyPanel = new HistoryPanel(mainFrame, this);
+        availableQuizPanel = new AvailableQuizPanel(this, mainFrame);
     }
 
     public void setHistoryPanel() {
         remove(availableQuizPanel);
+        historyPanel.updateList();
         add(historyPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
@@ -71,6 +73,7 @@ public class MainQuizFrame extends JFrame {
 
     public void setAvailableQuizPanel() {
         remove(historyPanel);
+        availableQuizPanel.updateList();
         add(availableQuizPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
@@ -87,7 +90,7 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void showQuiz() {
-        new QuestionFrame(quizQuestions.get(currentQuiz), currentQuiz, this, timerSeconds);
+        new QuestionFrame(mainFrame, currentQuiz.getQuestions(), currentQuiz, this, timerSeconds, false);
     }
 
     public void fetchModule() {
@@ -96,8 +99,6 @@ public class MainQuizFrame extends JFrame {
 
     public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds) {
         Quiz newQuiz = new Quiz(quizName);
-        quizList.add(newQuiz);
-
         this.timerSeconds = timerSeconds;
 
         if (typeOfQuiz.equals("Matching")) {
@@ -112,28 +113,59 @@ public class MainQuizFrame extends JFrame {
 
         questionsList.forEach(question -> {
             newQuiz.addQuestion(question);
-
         });
+
         quizQuestions.put(newQuiz, questionsList);
 
-        updateList(quizName);
-
+        mainFrame.addQuizToAvailableQuizzes(newQuiz);
+        updateList();
     }
 
     public void startQuiz(String selectedQuiz) {
-        quizList.forEach(
-                quiz -> {if (quiz.getName() == selectedQuiz) {
-                    currentQuiz = quiz;
-                    questionsList = currentQuiz.getQuestions();
-                }}
-        );
+        currentQuiz = mainFrame.findQuiz(selectedQuiz);
         showQuiz();
         setVisible(false);
     }
 
-    public void updateList(String quizName) {
-        availableQuizPanel.updateList(quizName);
+    public void deleteQuiz(String selectedQuiz) {
+        mainFrame.deleteQuiz(selectedQuiz);
+        updateList();
     }
+
+    public void updateList() {
+        getHistoryList();
+        getQuizList();
+        availableQuizPanel.updateList();
+        historyPanel.updateList();
+    }
+
+    public List<Quiz> getHistoryList() {
+        historyList = mainFrame.getCurrentUserHistory();
+        return historyList;
+    }
+
+    public List<Quiz> getQuizList() {
+        quizList = mainFrame.getUsersAvailableQuizes();
+        return quizList;
+    }
+
+    public List<String> getQuizNames() {
+        return mainFrame.getQuizNames();
+    }
+
+    public List<String> getHistoryQuizNames() {
+        return mainFrame.getHistoryQuizNames();
+    }
+
+    public Quiz findHistoryQuiz(String quizName) {
+        return mainFrame.findHistoryQuiz(quizName);
+    }
+
+    public Quiz findQuiz(String quizName) {
+        return mainFrame.findQuiz(quizName);
+    }
+
+
 
     public void setQuizAsDone(boolean done) {
         mainFrame.setQuizAsDone(done);
