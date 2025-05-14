@@ -32,12 +32,12 @@ public class CenterModulePanel extends JPanel {
     private String selectedProgram;
     private JButton addQuestionButton;
     private AddQuestionFrame addQuestionFrame;
+    private boolean isAdmin;
 
-
-    public CenterModulePanel(MainFrame mainFrame) {
+    public CenterModulePanel(MainFrame mainFrame, boolean isAdmin) {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
-
+        this.isAdmin = isAdmin;
 
         createDataComponents();
         createButtons();
@@ -104,7 +104,10 @@ public class CenterModulePanel extends JPanel {
 
         moduleScrollPane.setVisible(true);
         disableButtons();
-        addModuleButton.setEnabled(true);
+        if (isAdmin) {
+            addModuleButton.setEnabled(true);
+
+        }
         revalidate();
         repaint();
     }
@@ -116,10 +119,13 @@ public class CenterModulePanel extends JPanel {
     public void disableButtons() {
         quizButton.setEnabled(false);
         flashcardsButton.setEnabled(false);
-        addModuleButton.setEnabled(false);
-        editModuleButton.setEnabled(false);
-        deleteModuleButton.setEnabled(false);
-        addQuestionButton.setEnabled(false);
+        if (isAdmin) {
+            addModuleButton.setEnabled(false);
+            editModuleButton.setEnabled(false);
+            deleteModuleButton.setEnabled(false);
+            addQuestionButton.setEnabled(false);
+        }
+
     }
 
     /**
@@ -129,10 +135,13 @@ public class CenterModulePanel extends JPanel {
     public void enableButtons() {
         quizButton.setEnabled(true);
         flashcardsButton.setEnabled(true);
-        addModuleButton.setEnabled(true);
-        editModuleButton.setEnabled(true);
-        deleteModuleButton.setEnabled(true);
-        addQuestionButton.setEnabled(true);
+        if (isAdmin) {
+            addModuleButton.setEnabled(true);
+            editModuleButton.setEnabled(true);
+            deleteModuleButton.setEnabled(true);
+            addQuestionButton.setEnabled(true);
+        }
+
     }
 
     /**
@@ -144,23 +153,32 @@ public class CenterModulePanel extends JPanel {
         buttonPanel = new JPanel(new FlowLayout());
         quizButton = new JButton("Quiz");
         flashcardsButton = new JButton("FlashCards");
-        addModuleButton = new JButton("Add module");
-        editModuleButton = new JButton("Edit");
-        deleteModuleButton = new JButton("Delete");
-        addQuestionButton = new JButton("Add question");
+
+        if (isAdmin) {
+            addModuleButton = new JButton("Add module");
+            editModuleButton = new JButton("Edit");
+            deleteModuleButton = new JButton("Delete");
+            addQuestionButton = new JButton("Add question");
+
+            addModuleButton.setEnabled(false);
+            editModuleButton.setEnabled(false);
+            deleteModuleButton.setEnabled(false);
+            addQuestionButton.setEnabled(false);
+        }
+
 
         quizButton.setEnabled(false);
         flashcardsButton.setEnabled(false);
-        addModuleButton.setEnabled(false);
-        editModuleButton.setEnabled(false);
-        deleteModuleButton.setEnabled(false);
-        addQuestionButton.setEnabled(false);
+
         buttonPanel.add(quizButton);
         buttonPanel.add(flashcardsButton);
-        buttonPanel.add(addQuestionButton);
-        buttonPanel.add(addModuleButton);
-        buttonPanel.add(editModuleButton);
-        buttonPanel.add(deleteModuleButton);
+
+        if (isAdmin) {
+            buttonPanel.add(addQuestionButton);
+            buttonPanel.add(addModuleButton);
+            buttonPanel.add(editModuleButton);
+            buttonPanel.add(deleteModuleButton);
+        }
 
         buttonPanel.setVisible(true);
     }
@@ -206,19 +224,26 @@ public class CenterModulePanel extends JPanel {
             MainQuizFrame mainQuizFrame = new MainQuizFrame(selectedProgram, selectedCourse, selectedModule, mainFrame);
         });
 
-        addModuleButton.addActionListener(e -> {
-            //Here we write what happens when we press the add module button
-            addModule();
-        });
+        if (isAdmin) {
+            addModuleButton.addActionListener(e -> {
+                //Here we write what happens when we press the add module button
+                addModule();
+            });
 
-        editModuleButton.addActionListener(e -> {
-           //Here we write what happens when we press the edit button
-            editModule();
-        });
+            editModuleButton.addActionListener(e -> {
+                //Here we write what happens when we press the edit button
+                editModule();
+            });
 
-        deleteModuleButton.addActionListener(e -> {
-            removeModule();
-        });
+            deleteModuleButton.addActionListener(e -> {
+                removeModule();
+            });
+
+            addQuestionButton.addActionListener(e -> {
+                addQuestionFrame = new AddQuestionFrame(this);
+            });
+        }
+
 
         moduleList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -228,10 +253,6 @@ public class CenterModulePanel extends JPanel {
                     enableButtons();
                 }
             }
-        });
-
-        addQuestionButton.addActionListener(e -> {
-            addQuestionFrame = new AddQuestionFrame(this);
         });
     }
 

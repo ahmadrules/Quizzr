@@ -38,7 +38,7 @@ public class LeftPanel extends JPanel {
     private int selectedProgramIndex = -1;
     private int selectedCourseIndex = -1;
 
-    public LeftPanel(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
+    public LeftPanel(CenterModulePanel centerModulePanel, MainFrame mainFrame, boolean isAdmin) {
         this.centerModulePanel = centerModulePanel;
         this.mainFrame = mainFrame;
 
@@ -48,10 +48,15 @@ public class LeftPanel extends JPanel {
 
         this.add(programsLabel);
         this.add(programScrollPane);
-        this.add(programButtonPanel);
+        if (isAdmin) {
+            this.add(programButtonPanel);
+        }
+
         this.add(coursesLabel);
         this.add(coursesScrollPane);
-        this.add(coursesButtonPanel);
+        if (isAdmin) {
+            this.add(coursesButtonPanel);
+        }
     }
 
     /**

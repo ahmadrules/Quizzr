@@ -45,6 +45,7 @@ public class LogInFrame extends JFrame {
     private JButton goBackButton;
     private JPanel firstPagePanel;
     private JButton testButton;
+    private boolean isAdmin;
 
     public LogInFrame( Controller controller ) {
      this.controller = controller;
@@ -281,11 +282,11 @@ public class LogInFrame extends JFrame {
             String username = usernameField.getText().trim();
             String password = passwordField.getText().trim();
             System.out.println("Trying to log in with: " + username + ", " + password);
-            boolean success= controller.loginUser(username, password);
-            if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
+            if (!username.isEmpty() && !password.isEmpty()) {
+                boolean success= controller.loginUser(username, password);
                 if (success) {
                     JOptionPane.showMessageDialog(mainFrame, "Logged in successfully");
-                    mainFrame.createAndShowGUI();
+                    mainFrame.createAndShowGUI(isAdmin);
                     controller.setMainFrame(mainFrame);
                     setVisible(false);
                 }
@@ -348,11 +349,13 @@ public class LogInFrame extends JFrame {
 
         studentLoginButton.addActionListener(e -> {
            setLoginLayout();
+           isAdmin = false;
            registerButton.setEnabled(true);
         });
 
         adminLoginButton.addActionListener(e -> {
             setLoginLayout();
+            isAdmin = true;
             registerButton.setEnabled(false);
         });
 
@@ -363,7 +366,7 @@ public class LogInFrame extends JFrame {
 
         testButton.addActionListener(e -> {
             controller.loginUser("test", "123");
-            mainFrame.createAndShowGUI();
+            mainFrame.createAndShowGUI(true);
 
             controller.setMainFrame(mainFrame);
             setVisible(false);
