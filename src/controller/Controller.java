@@ -497,6 +497,12 @@ public class Controller {
         userManager.saveUsersToFiles();
     }
 
+    /**
+     * Javadoc test
+     * @param selectedCourse
+     * @param selectedModule
+     * @param nbrOfQuestions
+     */
     public void generateTrueOrFalseQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {
         ArrayList<Question> questions = new ArrayList<>();
         Course relatedCourse = null;
