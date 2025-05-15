@@ -13,6 +13,46 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ * <p>
+ * Responsibility: This class acts as the controller in the MVC pattern.
+ * It handles user interactions from the view, updates the model accordingly, and updates the GUI
+ * with changes from the model layer.
+ * </p>
+ *
+ * <p>
+ * Main Responsibilities:
+ * <ul>
+ *   <li>Processes user choices from the GUI (MainFrame).</li>
+ *   <li>Interacts with model classes such as <code>UserManager</code>, <code>Program</code>, <code>Course</code>, <code>Quiz</code>.</li>
+ *   <li>Handles loading and saving of data (e.g. reading program data from <code>programs.dat</code>).</li>
+ *   <li>Maintains references to the current user, ongoing quiz, current program/module, etc.</li>
+ *   <li>Provides necessary data to update views (e.g. list of quizzes, courses, user points).</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * Fields Overview:
+ * <ul>
+ *   <li><code>view</code> - the main GUI frame</li>
+ *   <li><code>programs</code> - hardcoded initial list of programs</li>
+ *   <li><code>courses</code> - list of courses used in the system</li>
+ *   <li><code>programList</code> - all programs read from file</li>
+ *   <li><code>programsFileName</code> - path to the file storing program data</li>
+ *   <li><code>currentUser</code> - the user currently logged in</li>
+ *   <li><code>currentModule</code> - the module currently being selected</li>
+ *   <li><code>onGoingQuiz</code> - the quiz currently in progress</li>
+ *   <li><code>userManager</code> - manager class for all user-related logic</li>
+ *   <li><code>usersQuizzes</code> - list of quizzes attempted by the current user</li>
+ *   <li><code>currentStudentProgram</code> - the program currently enrolled by the student</li>
+ *   <li><code>currentFlashCards</code> - flashcards available to the current module</li>
+ * </ul>
+ * </p>
+ *
+ * @author Sara Sheikho
+ * @author Lilas Beirakdar
+ * @author Ahmad Maarouf
+ */
 public class Controller {
     private MainFrame view;
     private List<Program> programs; //Hard coding initial  programs
