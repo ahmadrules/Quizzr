@@ -49,7 +49,9 @@ public class QuestionFrame extends JFrame {
         setTitle("Quiz options");
         setLayout(new BorderLayout());
 
-        createComboBoxListeners();
+        if (!isResult) {
+            createComboBoxListeners();
+        }
         setupPanel();
 
         createTopPanel();
@@ -268,25 +270,10 @@ public class QuestionFrame extends JFrame {
 
                 String[] letters = new String[]{"A" , "B" , "C"};
 
-                String[] userAnswersString = new String[6];
                 String[] userAnswers = new String[3];
 
                 if (isResult) {
-                    System.out.println(question.getQuery());
                     userAnswers = currentQuiz.getUserAnswers().get(question).split(",");
-
-                    int counter1 = 0;
-                    int counter2 = 0;
-                    for (String userAnswer : userAnswers) {
-                        System.out.println(userAnswer);
-                        userAnswersString[counter1] = userAnswer;
-                        counter1++;
-                    }
-                    counter1 = 0;
-                    for (String userAnswerString : userAnswers) {
-                        counter1++;
-                        counter2 += 2;
-                    }
                 }
 
                 for (String alternative : question.getAlternatives()) {
@@ -327,7 +314,18 @@ public class QuestionFrame extends JFrame {
                             alternativesPanel.setBackground(new Color(240, 149, 149));
                         }
 
-                        comboBox.setSelectedItem(userAnswers[counter]);
+                        String[] userLetters = userAnswers[counter].split(":");
+
+                        comboBox.setSelectedItem(userLetters[0]);
+                        JTextField field = (JTextField) comboBox.getEditor().getEditorComponent();
+                        field.setEnabled(false);
+
+                        for (ActionListener listener : comboBox.getActionListeners()) {
+                            comboBox.removeActionListener(listener);
+                        }
+                        for (ItemListener listener : comboBox.getItemListeners()) {
+                            comboBox.removeItemListener(listener);
+                        }
                     }
                     counter++;
                 }
