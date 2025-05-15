@@ -15,30 +15,33 @@ import java.util.Map;
 Main view-class responsible for initializing other view-classes and also responsible for contact with the Controller class.
 @author Ahmad Maarouf
  */
-public class MainFrame extends JFrame implements Runnable {
+public class MainFrame extends JFrame {
 
     private CenterPanel centerContainer;
     private LeftPanel leftPanel;
     private RightPanel rightPanel;
     private Controller controller;
-    private boolean isLoggedIn = false;
 
 
     public MainFrame(Controller controller){
         this.controller = controller;
     }
 
-    public void createAndShowGUI() {
+    public void createAndShowGUI(boolean isAdmin) {
         this.setTitle("QuizR");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(900, 400);
+        this.setSize(800, 400);
+
+        if (isAdmin) {
+            setSize(1000, 400);
+        }
         setLocationRelativeTo(null);
 
         /*
         Container for all the different panels in the center is initialized here.
         Which information is displayed will depend on which tab is chosen in rightPanel.
          */
-        centerContainer = new CenterPanel(this);
+        centerContainer = new CenterPanel(this, isAdmin);
 
         /*
         Right panel containing the list of available tabs is initialized here.
@@ -50,7 +53,7 @@ public class MainFrame extends JFrame implements Runnable {
         The panel displayed in the center when the "Modules" tab is chosen is sent in as a parameter.
         This is because the information for the center panel is dependent on what course is chosen in the left panel.
          */
-        leftPanel = new LeftPanel(centerContainer.getModulePanel(), this);
+        leftPanel = new LeftPanel(centerContainer.getModulePanel(), this, isAdmin);
 
         /*
         Here we create a JSplitPane to give some freedom of movement between the left panel and the center container.
@@ -58,6 +61,7 @@ public class MainFrame extends JFrame implements Runnable {
          */
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, centerContainer);
         splitPane.setDividerLocation(200);
+
 
         this.add(splitPane, BorderLayout.CENTER);
         this.add(rightPanel, BorderLayout.EAST);
@@ -191,12 +195,6 @@ public class MainFrame extends JFrame implements Runnable {
 
     public void setQuizAsDone(boolean done){
         controller.setQuizDone(done);
-    }
-
-    @Override
-    public void run() {
-        startLogin();
-        createAndShowGUI();
     }
 
     public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule){
