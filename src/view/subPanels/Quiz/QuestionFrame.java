@@ -213,7 +213,6 @@ public class QuestionFrame extends JFrame {
 
     public boolean checkIfCorrectAnswer(Question question) {
         String userAnswer = currentQuiz.getUserAnswers().get(question);
-        System.out.println("User answer:" + userAnswer);
         String correctAnswer = "";
 
         if (question instanceof Matching) {
@@ -223,7 +222,6 @@ public class QuestionFrame extends JFrame {
             for (String letter : letters) {
                 correctAnswer += letter + ":" + correctMatches.get(letter) + ",";
             }
-            System.out.println(correctAnswer);
         }
 
         if (userAnswer.equals(correctAnswer)) {
@@ -270,6 +268,27 @@ public class QuestionFrame extends JFrame {
 
                 String[] letters = new String[]{"A" , "B" , "C"};
 
+                String[] userAnswersString = new String[6];
+                String[] userAnswers = new String[3];
+
+                if (isResult) {
+                    System.out.println(question.getQuery());
+                    userAnswers = currentQuiz.getUserAnswers().get(question).split(",");
+
+                    int counter1 = 0;
+                    int counter2 = 0;
+                    for (String userAnswer : userAnswers) {
+                        System.out.println(userAnswer);
+                        userAnswersString[counter1] = userAnswer;
+                        counter1++;
+                    }
+                    counter1 = 0;
+                    for (String userAnswerString : userAnswers) {
+                        counter1++;
+                        counter2 += 2;
+                    }
+                }
+
                 for (String alternative : question.getAlternatives()) {
                     JComboBox<String> comboBox = new JComboBox<>(letters);
                     comboBoxes.add(comboBox);
@@ -296,16 +315,21 @@ public class QuestionFrame extends JFrame {
                     alternativesPanel.add(alternativeLabel);
                     alternativesPanel.add(comboBoxPanel);
                     alternativesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                    counter++;
 
-                    if (isResult && checkIfCorrectAnswer(question)) {
-                        comboBoxPanel.setBackground(new Color(150, 240, 149));
-                        alternativesPanel.setBackground(new Color(150, 240, 149));
+                    if (isResult) {
+                        if (checkIfCorrectAnswer(question)) {
+                            comboBoxPanel.setBackground(new Color(150, 240, 149));
+                            alternativesPanel.setBackground(new Color(150, 240, 149));
+                        }
+
+                        else {
+                            comboBoxPanel.setBackground(new Color(240, 149, 149));
+                            alternativesPanel.setBackground(new Color(240, 149, 149));
+                        }
+
+                        comboBox.setSelectedItem(userAnswers[counter]);
                     }
-                    else if (isResult && !checkIfCorrectAnswer(question)) {
-                        comboBoxPanel.setBackground(new Color(240, 149, 149));
-                        alternativesPanel.setBackground(new Color(240, 149, 149));
-                    }
+                    counter++;
                 }
 
                 comboBoxMap.put(mapCounter++, comboBoxes);
