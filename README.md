@@ -4,7 +4,7 @@ Quizzr grupp 26 MAU
 Information om versionen:
 - Projekt: Quizzr
 - Länk till repository: https://github.com/ahmadrules/Quizzr
-- Version som ska granskas: Quizzr-2.0
+- Version som ska granskas: Quizzr-3.0
 
 Instruktioner för att köra koden:
 1. Öppna projektet med Intellij IDEA (eller öppna `src`-filerna i en annan editor)
