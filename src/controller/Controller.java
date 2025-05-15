@@ -685,6 +685,11 @@ public class Controller {
         return this.currentStudentProgram;
    }
 
+    /**
+     * Returns a list of program codes as String
+     * @author Lilas Beirakdar
+     * @return a List of String representing program codes
+     */
     public List<String> programCodes(){
         List<String> programCodes = new ArrayList<>();
         for (Program program : programList) {
@@ -692,9 +697,24 @@ public class Controller {
         }
         return programCodes;
     }
+
+    /**
+     * Returns program name of the current student as String
+     * @return program name as String
+     * @author Lilas Beirakdar
+     */
+
     public String getCurrentStudentProgramName(){
         return currentStudentProgram.getName();
     }
+
+    /**
+     * Returns the module depending on course name and module name given in the GUI
+     * @param courseName the course name of the course that includes the module
+     * @param moduleName the name of the wanted module
+     * @return
+     * @author Lilas Beirakdar
+     */
 
     private Module getModule(String courseName, String moduleName) {
         Course currentCourse=null;
@@ -713,17 +733,46 @@ public class Controller {
         return module;
     }
 
+    /**
+     *
+     * @param query
+     * @param alternatives
+     * @param points
+     * @param correctAnswer
+     * @param courseName
+     * @param moduleName
+     */
     public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
         TrueOrFalse trueOrFalse= new TrueOrFalse(query,alternatives,points,correctAnswer);
         module.saveTrueOrFalseQuestionToFile(trueOrFalse);
     }
 
+    /**
+     *
+     * @param query
+     * @param alternatives
+     * @param points
+     * @param correctAnswer
+     * @param courseName
+     * @param moduleName
+     */
     public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
         MultipleChoice multipleChoice= new MultipleChoice(query,alternatives,correctAnswer,points);
         module.saveMultiChoiceQuestionToFile(multipleChoice);
     }
+
+    /**
+     *
+     * @param query
+     * @param statements
+     * @param matches
+     * @param points
+     * @param correctMatches
+     * @param courseName
+     * @param moduleName
+     */
 
     public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
