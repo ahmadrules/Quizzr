@@ -36,6 +36,10 @@ public class HistoryPanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    public void disableButtons() {
+        resultButton.setEnabled(false);
+    }
+
     public void updateList() {
         quizModel.clear();
         List<String> nameList = mainFrame.getHistoryQuizNames();
@@ -74,6 +78,7 @@ public class HistoryPanel extends JPanel {
             if (!e.getValueIsAdjusting()) {
                 if (displayList.getSelectedValue() != null) {
                     selectedQuiz = displayList.getSelectedValue();
+                    resultButton.setEnabled(true);
                 }
             }
         });
@@ -82,6 +87,5 @@ public class HistoryPanel extends JPanel {
            mainFrame.clearHistory();
            updateList();
         });
-
     }
 }

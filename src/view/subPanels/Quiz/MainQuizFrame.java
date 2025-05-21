@@ -64,6 +64,7 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void setHistoryPanel() {
+        availableQuizPanel.disableButtons();
         remove(availableQuizPanel);
         historyPanel.updateList();
         add(historyPanel, BorderLayout.CENTER);
@@ -72,6 +73,7 @@ public class MainQuizFrame extends JFrame {
     }
 
     public void setAvailableQuizPanel() {
+        historyPanel.disableButtons();
         remove(historyPanel);
         availableQuizPanel.updateList();
         add(availableQuizPanel, BorderLayout.CENTER);
@@ -164,8 +166,6 @@ public class MainQuizFrame extends JFrame {
     public Quiz findQuiz(String quizName) {
         return mainFrame.findQuiz(quizName);
     }
-
-
 
     public void setQuizAsDone(boolean done) {
         mainFrame.setQuizAsDone(done);

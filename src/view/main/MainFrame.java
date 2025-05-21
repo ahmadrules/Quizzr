@@ -239,6 +239,10 @@ public class MainFrame extends JFrame {
     public void clearHistory() {
         controller.clearHistory();
     }
+
+    public void clearCreatedQuiz() {
+        controller.clearCreatedQuiz();
+    }
 }
 
 

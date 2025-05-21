@@ -49,7 +49,9 @@ public class QuestionFrame extends JFrame {
         setTitle("Quiz options");
         setLayout(new BorderLayout());
 
-        createComboBoxListeners();
+        if (!isResult) {
+            createComboBoxListeners();
+        }
         setupPanel();
 
         createTopPanel();
@@ -197,7 +199,7 @@ public class QuestionFrame extends JFrame {
             mainFrame.addQuizToHistory(currentQuiz.getName(), currentQuiz.getQuestions(), currentQuiz.getUserAnswers());
         }
     }
-    
+
     public void setupPanel() {
         mainQuestionPanel = new JPanel();
         mainQuestionPanel.setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
@@ -213,11 +215,12 @@ public class QuestionFrame extends JFrame {
 
     public boolean checkIfCorrectAnswer(Question question) {
         String userAnswer = currentQuiz.getUserAnswers().get(question);
-        String correctAnswer = "";
+        String correctAnswer = question.getCorrectAnswer();
 
         if (question instanceof Matching) {
             String[] letters = new String[]{"A", "B", "C"};
             HashMap<String, Integer> correctMatches = ((Matching) question).getCorrectMatches();
+            correctAnswer = "";
 
             for (String letter : letters) {
                 correctAnswer += letter + ":" + correctMatches.get(letter) + ",";
@@ -257,10 +260,13 @@ public class QuestionFrame extends JFrame {
 
                 JPanel questionPanel = new JPanel(new BorderLayout());
 
+                JPanel topPanel = new JPanel(new BorderLayout());
+
                 JLabel query = new JLabel(questionId++ + ". " + question.getQuery());
                 query.setFont(new Font("Arial", Font.BOLD, 16));
+                topPanel.add(query, BorderLayout.CENTER);
 
-                questionPanel.add(query, BorderLayout.NORTH);
+                questionPanel.add(topPanel, BorderLayout.NORTH);
 
                 JPanel alternativesPanel = new JPanel(new GridLayout(0, 2));
 
@@ -268,25 +274,10 @@ public class QuestionFrame extends JFrame {
 
                 String[] letters = new String[]{"A" , "B" , "C"};
 
-                String[] userAnswersString = new String[6];
                 String[] userAnswers = new String[3];
 
                 if (isResult) {
-                    System.out.println(question.getQuery());
                     userAnswers = currentQuiz.getUserAnswers().get(question).split(",");
-
-                    int counter1 = 0;
-                    int counter2 = 0;
-                    for (String userAnswer : userAnswers) {
-                        System.out.println(userAnswer);
-                        userAnswersString[counter1] = userAnswer;
-                        counter1++;
-                    }
-                    counter1 = 0;
-                    for (String userAnswerString : userAnswers) {
-                        counter1++;
-                        counter2 += 2;
-                    }
                 }
 
                 for (String alternative : question.getAlternatives()) {
@@ -317,17 +308,43 @@ public class QuestionFrame extends JFrame {
                     alternativesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
                     if (isResult) {
+                        String imagePath = "";
                         if (checkIfCorrectAnswer(question)) {
                             comboBoxPanel.setBackground(new Color(150, 240, 149));
                             alternativesPanel.setBackground(new Color(150, 240, 149));
+                            imagePath = getClass().getResource("/view/picsGIF/greenCheckmark.png").toString();
                         }
 
                         else {
                             comboBoxPanel.setBackground(new Color(240, 149, 149));
                             alternativesPanel.setBackground(new Color(240, 149, 149));
+                            imagePath = getClass().getResource("/view/picsGIF/redCheckmark.png").toString();
                         }
 
-                        comboBox.setSelectedItem(userAnswers[counter]);
+                        JLabel imageIcon = new JLabel("<html><img src='" + imagePath + "' width='20' height='20'></html>");
+                        topPanel.add(imageIcon, BorderLayout.EAST);
+
+                        String[] userLetters = userAnswers[counter].split(":");
+
+                        comboBox.setSelectedItem(userLetters[0]);
+                        JTextField field = (JTextField) comboBox.getEditor().getEditorComponent();
+                        field.setEnabled(false);
+
+                        MouseListener[] mouseListeners = comboBox.getMouseListeners();
+                        for (MouseListener mouseListener : mouseListeners) {
+                            comboBox.removeMouseListener(mouseListener);
+                        }
+
+                        for (Component component : comboBox.getComponents()) {
+                            if (component instanceof AbstractButton) {
+                                component.setEnabled(false);
+                                MouseListener[] listeners = component.getMouseListeners();
+                                for (MouseListener listener : listeners) {
+                                    component.removeMouseListener(listener);
+                                }
+
+                            }
+                        }
                     }
                     counter++;
                 }

@@ -974,4 +974,8 @@ public class Controller {
         currentUser.clearHistory();
     }
 
+    public void clearCreatedQuiz() {
+        currentUser.clearCreatedQuiz();
+    }
+
 }

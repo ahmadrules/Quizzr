@@ -2,6 +2,7 @@ package view.subPanels.Quiz;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class QuizOptionsFrame extends JFrame {
 
@@ -105,16 +106,23 @@ public class QuizOptionsFrame extends JFrame {
             }
 
             amountOfQuestions = (String) amountBox.getSelectedItem();
-            if (nameField.getText() != null) {
-               quizName = nameField.getText();
-           }
 
             String typeOfQuiz = (String) typeBox.getSelectedItem();
 
-            mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), quizName, typeOfQuiz, timerSeconds);
-
-            getContentPane().removeAll();
-            setVisible(false);
+            String newQuizName = nameField.getText();
+            if (newQuizName != null && !newQuizName.isEmpty()) {
+                List<String> quizNames = mainQuizFrame.getQuizNames();
+                if (quizNames.contains(newQuizName)) {
+                    JOptionPane.showMessageDialog(null, "Name already in use");
+                }
+                else {
+                    mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), newQuizName, typeOfQuiz, timerSeconds);
+                    dispose();
+                }
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Please enter a valid quiz name");
+            }
         });
     }
 }
