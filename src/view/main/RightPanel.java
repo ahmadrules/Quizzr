@@ -3,6 +3,12 @@ package view.main;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class is responsible for displaying the list of tabs on the right side of the main frame
+ * It is also responsible for giving the user an option to log out
+ * @author Ahmad Maarouf
+ */
+
 public class RightPanel extends JPanel {
     private MainFrame mainFrame;
     private CenterPanel centerContainer;
@@ -39,6 +45,10 @@ public class RightPanel extends JPanel {
         setVisible(true);
     }
 
+    /**
+     * Creates the list for displaying the tabs
+     * @author Ahmad Maarouf
+     */
     public void createList() {
         //tabOptions will be fetched from controller
         String[] tabOptions = {"Modules", "Account"};
@@ -54,6 +64,10 @@ public class RightPanel extends JPanel {
         scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
     }
 
+    /**
+     * Adds event listeners to the list
+     * @author Ahmad Maarouf
+     */
     public void addEventListeners() {
         listOfTabs.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {

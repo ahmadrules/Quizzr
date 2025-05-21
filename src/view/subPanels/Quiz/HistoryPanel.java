@@ -7,7 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-
+/**
+ * This class is responsible for displaying a list of quiz completed by the user
+ * It is also responsible for giving the user an option to view the result of a completed quiz
+ * @author Ahmad Maarouf
+ */
 public class HistoryPanel extends JPanel {
     private DefaultListModel<String> quizModel;
     private String selectedQuiz;
@@ -27,6 +31,10 @@ public class HistoryPanel extends JPanel {
         addActionListener();
     }
 
+    /**
+     * Creates the button panel
+     * @author Ahmad Maarouf
+     */
     public void createButtonPanel() {
         JPanel buttonPanel = new JPanel();
         resultButton = new JButton("Show result");
@@ -36,10 +44,18 @@ public class HistoryPanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Disables buttons that affect a selected quiz
+     * Used if no quiz is selected
+     * @author Ahmad Maarouf
+     */
     public void disableButtons() {
         resultButton.setEnabled(false);
     }
 
+    /**
+     * Updates the list of completed quiz by fetching it from MainFrame
+     */
     public void updateList() {
         quizModel.clear();
         List<String> nameList = mainFrame.getHistoryQuizNames();
@@ -51,6 +67,10 @@ public class HistoryPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Sets the layout of the panel
+     * @author Ahmad Maarouf
+     */
     public void setLayout () {
         setLayout(new BorderLayout());
         JLabel northLabel = new JLabel("History of completed quizzes");
@@ -58,6 +78,10 @@ public class HistoryPanel extends JPanel {
         add(northLabel, BorderLayout.NORTH);
     }
 
+    /**
+     * Creates the list component used to display completed quiz
+     * @author Ahmad Maarouf
+     */
     public void createLists() {
         quizModel = new DefaultListModel<>();
         displayList = new JList(quizModel);
@@ -68,6 +92,10 @@ public class HistoryPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Adds action listeners to the buttons and a list listener to the list
+     * @author Ahmad Maarouf
+     */
     public void addActionListener() {
         resultButton.addActionListener(e -> {
             Quiz quiz = mainFrame.findHistoryQuiz(selectedQuiz);

@@ -7,6 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class is responsible for displaying the current available quiz the user can complete
+ * It is also responsible for giving the user an option to generate a new quiz
+ * @author Ahmad Maarouf
+ */
 public class AvailableQuizPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
     private MainFrame mainFrame;
@@ -32,11 +37,20 @@ public class AvailableQuizPanel extends JPanel {
         addActionListeners();
     }
 
+    /**
+     * Disables buttons that affect a selected quiz
+     * Used when no quiz is selected
+     * @author Ahmad Maarouf
+     */
     public void disableButtons() {
         startQuizButton.setEnabled(false);
         deleteButton.setEnabled(false);
     }
 
+    /**
+     * Updates the list of available quiz by fetching it from MainFrame
+     * @author Ahmad Maarouf
+     */
     public void updateList() {
         quizListModel.clear();
         for (String quizName : mainQuizFrame.getQuizNames()) {
@@ -48,11 +62,19 @@ public class AvailableQuizPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Sets a title for the list
+     * @author Ahmad Maarouf
+     */
     public void setNorthLabel() {
         JLabel quizLabel = new JLabel("Available quiz", SwingConstants.CENTER);
         add(quizLabel, BorderLayout.NORTH);
     }
 
+    /**
+     * Creates the list component for displaying the names of available quizzes
+     * @author Ahmad Maarouf
+     */
     public void createList() {
         quizListModel = new DefaultListModel<>();
         availableQuizList = new JList<>(quizListModel);
@@ -62,6 +84,10 @@ public class AvailableQuizPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates the button panel related to the list of available quiz
+     * @author Ahmad Maarouf
+     */
     public void createButtonPanel() {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
@@ -82,6 +108,10 @@ public class AvailableQuizPanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Adds action listeners to the buttons and a list listener for the list
+     * @author Ahmad Maarouf
+     */
     public void addActionListeners() {
         generateButton.addActionListener(e -> {
             new QuizOptionsFrame(mainQuizFrame);
