@@ -315,11 +315,9 @@ public class LogInFrame extends JFrame {
         mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         mainRegisterPanel.add(programCodePanel);
 
-
         registerPanel.removeAll();
         registerPanel.setLayout(new BorderLayout());
         registerPanel.add(mainRegisterPanel, BorderLayout.CENTER);
-
     }
 
     /**
