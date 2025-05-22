@@ -5,6 +5,7 @@ import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.DigestException;
 import java.util.List;
 
 /**
@@ -39,6 +40,7 @@ public class LogInFrame extends JFrame {
     private JPanel registerButtonPanel;
     private JTextField programCodeField;
     private JPanel programCodePanel;
+    private JPanel topPanel;
     private Controller controller;
     private JButton adminLoginButton;
     private JButton studentLoginButton;
@@ -64,7 +66,6 @@ public class LogInFrame extends JFrame {
      showFirstPage();
 
      addActionListeners();
-
 
      setLocationRelativeTo(null);
      setVisible(true);
@@ -155,8 +156,6 @@ public class LogInFrame extends JFrame {
         mainPanel.repaint();
         setSize(600,500);
         setLocationRelativeTo(null);
-       // revalidate();
-       // repaint();
     }
 
     /**
@@ -165,13 +164,12 @@ public class LogInFrame extends JFrame {
      */
     public void createLoginLayout() {
         loginPanel = new JPanel();
-        loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.PAGE_AXIS));
+        loginPanel.setLayout(new BorderLayout());
         createNestedLoginPanels();
         createLoginButtons();
-
-        loginPanel.add(usernamePanel);
-        loginPanel.add(passwordPanel);
-        loginPanel.add(loginButtonPanel);
+        loginPanel.add(topPanel, BorderLayout.NORTH);
+        loginPanel.add(usernamePanel, BorderLayout.CENTER);
+        loginPanel.add(loginButtonPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -208,11 +206,10 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void setLoginLayout() {
-        setSize(250,170);
+        setSize(600,500);
         setTitle("Login");
         mainPanel.removeAll();
-        topLabel.setText("Enter login information below");
-        mainPanel.add(topLabel);
+       // mainPanel.add(topLabel);
         mainPanel.add(loginPanel);
 
         revalidate();
@@ -228,7 +225,7 @@ public class LogInFrame extends JFrame {
     public void createdNestedRegisterPanels() {
         Font font= new Font("Arial", Font.PLAIN, 16);
         topLabel.setText("Register a new user");
-        topLabel.setFont(font);
+        topLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel newEmailLabel = new JLabel("Enter email:");
         JLabel newUsernameLabel = new JLabel("Enter username:");
@@ -327,21 +324,54 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createNestedLoginPanels() {
-        usernamePanel = new JPanel(new FlowLayout());
-        passwordPanel = new JPanel(new FlowLayout());
-        loginButtonPanel = new JPanel(new FlowLayout());
+        Font font = new Font("Arial", Font.PLAIN, 18);
+
+        topPanel = new JPanel();
+        usernamePanel = new JPanel();
+        passwordPanel = new JPanel();
+        loginButtonPanel = new JPanel();
+
+        Dimension labelSize = new Dimension(200, 30);
+        Dimension fieldSize = new Dimension(200, 30);
 
         JLabel usernameLabel = new JLabel("Username:");
+        JLabel insructionsLabel = new JLabel("Please enter your username as a name not email");
         JLabel passwordLabel = new JLabel("Password:");
 
         usernameField = new JTextField(10);
         passwordField = new JPasswordField(10);
 
+        usernameLabel.setPreferredSize(labelSize);
+        passwordLabel.setPreferredSize(labelSize);
+        insructionsLabel.setPreferredSize(labelSize);
+
+        usernameField.setPreferredSize(fieldSize);
+        usernameLabel.setFont(font);
+
+        insructionsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+
+        passwordField.setPreferredSize(fieldSize);
+        passwordLabel.setFont(font);
+
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(20,10,20,10));
+        JLabel titleLabel = new JLabel("Please enter you Login Information");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 17));
+        titleLabel.setPreferredSize(labelSize);
+        topPanel.add(titleLabel);
+        topPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        usernamePanel.setLayout(new BoxLayout(usernamePanel, BoxLayout.Y_AXIS));
+        usernamePanel.add(Box.createRigidArea(new Dimension(0, 20)));
         usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameField);
+        usernamePanel.add(insructionsLabel);
 
+        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
+        passwordPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordField);
+        usernamePanel.add(passwordPanel);
     }
 
     /**
@@ -350,10 +380,16 @@ public class LogInFrame extends JFrame {
      */
     public void createLoginButtons() {
         loginButton = new JButton("Login");
-       //registerButton = new JButton("Register");
         goBackButton = new JButton("Go back");
+
+        loginButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        goBackButton.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        Dimension labelSize = new Dimension(150, 30);
+        loginButton.setPreferredSize(labelSize);
+        goBackButton.setPreferredSize(labelSize);
+
         loginButtonPanel.add(loginButton);
-    //    loginButtonPanel.add(registerButton);
         loginButtonPanel.add(goBackButton);
     }
 
