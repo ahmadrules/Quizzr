@@ -80,13 +80,14 @@ public class LogInFrame extends JFrame {
         registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.PAGE_AXIS));
         createdNestedRegisterPanels();
         createRegisterButtons();
-
-        registerPanel.add(newEmailPanel);
+        registerPanel.add(topLabel, BorderLayout.NORTH);
+        registerPanel.add(registerButtonPanel, BorderLayout.SOUTH);
+     /**   registerPanel.add(newEmailPanel);
         registerPanel.add(newUserNamePanel);
         registerPanel.add(newPasswordPanel);
         registerPanel.add(confirmPasswordPanel);
         registerPanel.add(programCodePanel);
-        registerPanel.add(registerButtonPanel);
+        registerPanel.add(registerButtonPanel);*/
     }
 
     public void createFirstPage() {
@@ -94,18 +95,54 @@ public class LogInFrame extends JFrame {
         firstPagePanel.setLayout(new BorderLayout());
 
         JLabel firstPageLabel = new JLabel("<html>Welcome to <font color=orange> Quizzr! </font></html>", SwingConstants.CENTER);
-        firstPageLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        firstPageLabel.setFont(new Font("Arial", Font.BOLD, 24));
         firstPagePanel.add(firstPageLabel, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         adminLoginButton = new JButton("Admin Login");
         studentLoginButton = new JButton("Student Login");
         testButton = new JButton("Test login");
+        registerButton=new JButton("Register new student");
 
+        Dimension buttonSize = new Dimension(250, 50);
+        int FontSize = 16;
+        Font buttonFont = new Font("Arial", Font.BOLD, FontSize);
+
+        adminLoginButton.setMaximumSize(buttonSize);
+        adminLoginButton.setPreferredSize(buttonSize);
+        adminLoginButton.setMinimumSize(buttonSize);
+        adminLoginButton.setFont(buttonFont);
+
+        studentLoginButton.setMaximumSize(buttonSize);
+        studentLoginButton.setPreferredSize(buttonSize);
+        studentLoginButton.setMinimumSize(buttonSize);
+        studentLoginButton.setFont(buttonFont);
+
+        testButton.setMaximumSize(buttonSize);
+        testButton.setPreferredSize(buttonSize);
+        testButton.setMinimumSize(buttonSize);
+        testButton.setFont(buttonFont);
+
+        registerButton.setMaximumSize(buttonSize);
+        registerButton.setPreferredSize(buttonSize);
+        registerButton.setMinimumSize(buttonSize);
+        registerButton.setFont(buttonFont);
+
+        adminLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        studentLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        testButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        buttonPanel.add(Box.createVerticalStrut(60));
         buttonPanel.add(adminLoginButton);
+        buttonPanel.add(Box.createVerticalStrut(30));
         buttonPanel.add(studentLoginButton);
+        buttonPanel.add(Box.createVerticalStrut(30));
         buttonPanel.add(testButton);
+        buttonPanel.add(Box.createVerticalStrut(30));
+        buttonPanel.add(registerButton);
 
         firstPagePanel.add(buttonPanel, BorderLayout.CENTER);
     }
@@ -113,11 +150,13 @@ public class LogInFrame extends JFrame {
     public void showFirstPage() {
         mainPanel.removeAll();
         mainPanel.add(firstPagePanel);
-
-        pack();
-
-        revalidate();
-        repaint();
+        registerButton.setEnabled(true);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        setSize(600,500);
+        setLocationRelativeTo(null);
+       // revalidate();
+       // repaint();
     }
 
     /**
@@ -141,7 +180,7 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void setRegisterLayout() {
-        setSize(250,270);
+        setSize(600,500);
         setTitle("Register");
         mainPanel.removeAll();
         topLabel.setText("Register a new account");
@@ -187,12 +226,21 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createdNestedRegisterPanels() {
+        Font font= new Font("Arial", Font.PLAIN, 16);
         topLabel.setText("Register a new user");
+        topLabel.setFont(font);
+
         JLabel newEmailLabel = new JLabel("Enter email:");
         JLabel newUsernameLabel = new JLabel("Enter username:");
         JLabel newPasswordLabel = new JLabel("Enter password:");
         JLabel confirmPasswordLabel = new JLabel("Confirm password:");
         JLabel programCodeLabel = new JLabel("Enter program code:");
+
+        newEmailLabel.setFont(font);
+        newUsernameLabel.setFont(font);
+        newPasswordLabel.setFont(font);
+        confirmPasswordLabel.setFont(font);
+        programCodeLabel.setFont(font);
 
         newNameField = new JTextField(10);
         newPasswordField = new JPasswordField(10);
@@ -200,27 +248,78 @@ public class LogInFrame extends JFrame {
         newEmailField = new JTextField(10);
         programCodeField = new JTextField(10);
 
-        newUserNamePanel = new JPanel(new FlowLayout());
-        newPasswordPanel = new JPanel(new FlowLayout());
-        confirmPasswordPanel = new JPanel(new FlowLayout());
-        newEmailPanel = new JPanel(new FlowLayout());
-        programCodePanel = new JPanel(new FlowLayout());
+        newNameField.setFont(font);
+        newPasswordField.setFont(font);
+        confirmPasswordField.setFont(font);
+        programCodeField.setFont(font);
+        newEmailField.setFont(font);
+        programCodeField.setFont(font);
+
+        Dimension labelSize = new Dimension(200, 30);
+        newEmailLabel.setPreferredSize(labelSize);
+        newUsernameLabel.setPreferredSize(labelSize);
+        newPasswordLabel.setPreferredSize(labelSize);
+        confirmPasswordLabel.setPreferredSize(labelSize);
+        programCodeLabel.setPreferredSize(labelSize);
+
+        Dimension fieldSize = new Dimension(200, 30);
+        newNameField.setPreferredSize(fieldSize);
+        newPasswordField.setPreferredSize(fieldSize);
+        confirmPasswordField.setPreferredSize(fieldSize);
+        newEmailField.setPreferredSize(fieldSize);
+        programCodeField.setPreferredSize(fieldSize);
+
+        newUserNamePanel = new JPanel();
+        newPasswordPanel = new JPanel();
+        confirmPasswordPanel = new JPanel();
+        newEmailPanel = new JPanel();
+        programCodePanel = new JPanel();
         registerButtonPanel = new JPanel(new FlowLayout());
 
+        newUserNamePanel.setLayout(new BoxLayout(newUserNamePanel, BoxLayout.Y_AXIS));
         newUserNamePanel.add(newUsernameLabel);
+        newUserNamePanel.add(Box.createRigidArea(new Dimension(0, 5)));
         newUserNamePanel.add(newNameField);
 
+        newPasswordPanel.setLayout(new BoxLayout(newPasswordPanel, BoxLayout.Y_AXIS));
         newPasswordPanel.add(newPasswordLabel);
+        newPasswordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         newPasswordPanel.add(newPasswordField);
 
+        confirmPasswordPanel.setLayout(new BoxLayout(confirmPasswordPanel, BoxLayout.Y_AXIS));
         confirmPasswordPanel.add(confirmPasswordLabel);
+        confirmPasswordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         confirmPasswordPanel.add(confirmPasswordField);
 
+        newEmailPanel.setLayout(new BoxLayout(newEmailPanel, BoxLayout.Y_AXIS));
         newEmailPanel.add(newEmailLabel);
+        newEmailPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         newEmailPanel.add(newEmailField);
 
+        programCodePanel.setLayout(new BoxLayout(programCodePanel, BoxLayout.Y_AXIS));
         programCodePanel.add(programCodeLabel);
+        programCodePanel.add(Box.createRigidArea(new Dimension(0, 5)));
         programCodePanel.add(programCodeField);
+
+        JPanel mainRegisterPanel = new JPanel();
+        mainRegisterPanel.setLayout(new BoxLayout(mainRegisterPanel, BoxLayout.Y_AXIS));
+        mainRegisterPanel.setBorder(BorderFactory.createEmptyBorder(20,50,20,50));
+
+        mainRegisterPanel.add(newUserNamePanel);
+        mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainRegisterPanel.add(newPasswordPanel);
+        mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainRegisterPanel.add(confirmPasswordPanel);
+        mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainRegisterPanel.add(newEmailPanel);
+        mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainRegisterPanel.add(programCodePanel);
+
+
+        registerPanel.removeAll();
+        registerPanel.setLayout(new BorderLayout());
+        registerPanel.add(mainRegisterPanel, BorderLayout.CENTER);
+
     }
 
     /**
@@ -253,10 +352,10 @@ public class LogInFrame extends JFrame {
      */
     public void createLoginButtons() {
         loginButton = new JButton("Login");
-        registerButton = new JButton("Register");
+       //registerButton = new JButton("Register");
         goBackButton = new JButton("Go back");
         loginButtonPanel.add(loginButton);
-        loginButtonPanel.add(registerButton);
+    //    loginButtonPanel.add(registerButton);
         loginButtonPanel.add(goBackButton);
     }
 
@@ -267,6 +366,9 @@ public class LogInFrame extends JFrame {
     public void createRegisterButtons() {
         createAccountButton = new JButton("Create");
         cancelButton = new JButton("Cancel");
+
+        registerButtonPanel=new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
+        registerButtonPanel.setBorder(BorderFactory.createEmptyBorder(20,0,20,0));
         registerButtonPanel.add(createAccountButton);
         registerButtonPanel.add(cancelButton);
     }
@@ -308,14 +410,14 @@ public class LogInFrame extends JFrame {
                     String confirmedPassword = confirmPasswordField.getText();
                     if (newPassword != null && !newPassword.isEmpty()) {
                         if (newPassword.equals(confirmedPassword)) {
-                            //@TODO Add function for creating new user
-                            //@TODO control that programs code is equal to programCodeList
                             String programCode = programCodeField.getText();
                             List<String> programCodes=controller.programCodes();
                             if(programCode != null && !programCode.isEmpty() && programCodes.contains(programCode) ) {
                             boolean success= mainFrame.registerNewUser(newUsername,newPassword,newEmail,programCode);
                             if (success) {
                                 JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
+                                clearFields();
+                                setLoginLayout();
                             }else{
                                 JOptionPane.showMessageDialog(mainPanel, "User already exists");
                             }}else {
@@ -339,11 +441,12 @@ public class LogInFrame extends JFrame {
         });
 
         registerButton.addActionListener(e -> {
+
             setRegisterLayout();
         });
 
         cancelButton.addActionListener(e -> {
-            setLoginLayout();
+            showFirstPage();
             clearFields();
         });
 
