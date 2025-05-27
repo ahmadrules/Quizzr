@@ -144,7 +144,23 @@ public class Controller {
         loadProgramsFromFile();
     }
 
-    //Method to get programs from file
+    /**
+     * This method Loads all {@link Program} objects from a serialized data file into the program list.
+     * <p>
+     * This method is called when an admin opens the application. It reads the contents
+     * of the file using an {@link ObjectInputStream}, and adds each deserialized {@link Program} object
+     * to the programs list
+     * </p>
+     *
+     * <p>
+     * The file is expected to contain multiple serialized {@link Program} objects. The method
+     * reads until an {@link EOFException} is thrown, which signals the end of the file.
+     * </p>
+     *
+     * @throws IOException if there is a problem reading the file
+     * @throws ClassNotFoundException if the {@link Program} class cannot be found during deserialization
+     * @author Sara Sheikho
+     */
     public void loadProgramsFromFile() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(programsFileName))) {
             while (true) {
@@ -162,7 +178,7 @@ public class Controller {
         }
     }
 
-    //This method saves the head coded programs only once
+    
     public void saveProgramsToFile() {
 
         File file = new File(programsFileName);
