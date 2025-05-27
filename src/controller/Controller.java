@@ -328,18 +328,24 @@ public class Controller {
         updateProgramsInFile();
     }
 
-    public Module getModule(String programName, String courseName, String moduleName) {
+    public Course getCourse(String programName, String courseName) {
         for (Program program : programs) {
             if (program.getName().equals(programName)) {
                 for (Course course : program.getCourses()) {
                     if (course.getName().equals(courseName)) {
-                        for (Module module : course.getModules()) {
-                            if (module.getName().equals(moduleName)) {
-                                return module;
-                            }
-                        }
+                        return course;
                     }
                 }
+            }
+        }
+        return null;
+    }
+
+    public Module getModule(String programName, String courseName, String moduleName) {
+        Course course = getCourse(programName, courseName);
+        for (Module module : course.getModules()) {
+            if (module.getName().equals(moduleName)) {
+                return module;
             }
         }
         return null;
@@ -924,11 +930,13 @@ public class Controller {
         quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
-        this.userAvailableQuizzes=currentUser.getCreatedQuiz();
+        userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
 
-    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers){
-        Quiz quiz1 = new Quiz(quizName);
+    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers, String relatedModule, String relatedCourse){
+        Module selectedModule = getModule(relatedCourse, relatedModule);
+        Course selectedCourse = getCourse(getCurrentStudentProgramName(), relatedCourse);
+        Quiz quiz1 = new Quiz(quizName, selectedCourse, selectedModule);
         String currentDate = new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime());
         quiz1.setDate(currentDate);
         quiz1.setName(currentDate + " " + quizName);
@@ -944,23 +952,26 @@ public class Controller {
         this.usersHistoryQuizzes=currentUser.getHistory();
     }
 
-    public void deleteQuiz(String quizName) {
-        Quiz quizToDelete = findQuiz(quizName);
+    public void deleteQuiz(String quizName, String relatedModule, String relatedCourse) {
+        Quiz quizToDelete = findQuiz(quizName, relatedModule, relatedCourse);
         currentUser.removeQuiz(quizToDelete);
         userManager.saveUsersToFiles();
     }
 
-    public Quiz findQuiz (String quizName) {
+    public Quiz findQuiz (String quizName, String relatedModule, String relatedCourse) {
         List<Quiz> quizList = currentUser.getCreatedQuiz();
         for (Quiz quiz : quizList) {
-            if (quiz.getName().equals(quizName)) {
+            String moduleName = quiz.getRelatedModule().getName();
+            String courseName = quiz.getRelatedCourse().getName();
+            String foundQuizName = quiz.getName();
+            if (Objects.equals(moduleName, relatedModule) && Objects.equals(courseName, relatedCourse) && Objects.equals(foundQuizName, quizName)) {
                 return quiz;
             }
         }
         return null;
     }
 
-    public Quiz findHistoryQuiz (String quizName) {
+    public Quiz findHistoryQuiz (String quizName, String relatedModule, String relatedCourse) {
         List<Quiz> quizList = currentUser.getHistory();
         for (Quiz quiz : quizList) {
             if (quiz.getName().equals(quizName)) {
@@ -976,6 +987,55 @@ public class Controller {
 
     public void clearCreatedQuiz() {
         currentUser.clearCreatedQuiz();
+    }
+
+    public List<String> getRelatedQuiz(String relatedModule, String relatedCourse) {
+        return getStrings(relatedModule, relatedCourse, userAvailableQuizzes);
+    }
+
+    public List<String> getRelatedHistoryQuiz(String relatedModule, String relatedCourse) {
+        //System.out.println("Size: " + usersHistoryQuizzes.size());
+        //currentUser.clearHistory();
+        //List<Quiz> toRemove = usersHistoryQuizzes;
+        //usersHistoryQuizzes.removeAll(toRemove);
+        return getStrings(relatedModule, relatedCourse, usersHistoryQuizzes);
+    }
+
+    private List<String> getStrings(String relatedModule, String relatedCourse, List<Quiz> relatedQuiz) {
+        List<String> relatedQuizNames = new ArrayList<>();
+        for (Quiz quiz : relatedQuiz) {
+            String relatedCourseName = quiz.getRelatedCourse().getName();
+            String relatedModuleName = quiz.getRelatedModule().getName();
+            if (Objects.equals(relatedCourseName, relatedCourse) && Objects.equals(relatedModuleName, relatedModule)) {
+                relatedQuizNames.add(quiz.getName());
+            }
+        }
+        return relatedQuizNames;
+    }
+
+    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds, String relatedModule, String relatedCourse) {
+        Module currentModule = getModule(relatedCourse, relatedModule);
+        Course currentCourse = getCourse(getCurrentStudentProgramName(), relatedCourse);
+        List<Question> questionsList = new ArrayList<>();
+        Quiz newQuiz = new Quiz(quizName, currentCourse, currentModule);
+
+        if (typeOfQuiz.equals("Matching")) {
+            questionsList = currentModule.generateMatchingQuiz(amountOfQuestions);
+        }
+        else if (typeOfQuiz.equals("True/False")) {
+            questionsList = currentModule.generateTrueOrFalseQuiz(amountOfQuestions);
+        }
+        else if (typeOfQuiz.equals("Multiple choice")) {
+            questionsList = currentModule.generateMultipleChoiceQuiz(amountOfQuestions);
+        }
+
+        questionsList.forEach(question -> {
+            newQuiz.addQuestion(question);
+        });
+
+        newQuiz.setTimerSeconds(timerSeconds);
+        addQuizToAvailableQuizzes(newQuiz);
+
     }
 
 }

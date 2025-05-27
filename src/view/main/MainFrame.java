@@ -381,8 +381,8 @@ public class MainFrame extends JFrame {
     public void addQuizToAvailableQuizzes(Quiz quiz){
         controller.addQuizToAvailableQuizzes(quiz);
     }
-    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers){
-        controller.addQuizToHistory(quizName, questions, answers);
+    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers, String relatedModule, String relatedQuiz){
+        controller.addQuizToHistory(quizName, questions, answers, relatedModule, relatedQuiz);
     }
     public List<String> getQuizNames() {
         return controller.getAvailableQuizNames();
@@ -391,16 +391,16 @@ public class MainFrame extends JFrame {
         return controller.getHistoryQuizNames();
     }
 
-    public void deleteQuiz(String quizName) {
-        controller.deleteQuiz(quizName);
+    public void deleteQuiz(String quizName, String relatedModule, String relatedCourse) {
+        controller.deleteQuiz(quizName, relatedModule, relatedCourse);
     }
 
-    public Quiz findQuiz (String quizName) {
-        return controller.findQuiz(quizName);
+    public Quiz findQuiz (String quizName, String relatedModule, String relatedCourse) {
+        return controller.findQuiz(quizName, relatedModule, relatedCourse);
     }
 
-    public Quiz findHistoryQuiz (String quizName) {
-        return controller.findHistoryQuiz(quizName);
+    public Quiz findHistoryQuiz (String quizName, String relatedModule, String relatedCourse) {
+        return controller.findHistoryQuiz(quizName, relatedModule, relatedCourse);
     }
 
     public void clearHistory() {
@@ -409,6 +409,26 @@ public class MainFrame extends JFrame {
 
     public void clearCreatedQuiz() {
         controller.clearCreatedQuiz();
+    }
+
+    public String getCurrentUserProgram() {
+        return controller.getCurrentStudentProgramName();
+    }
+
+    public void addUserAnswer(Question question, String answer) {
+
+    }
+
+    public List<String> getRelatedQuizNames(String relatedModule, String relatedCourse) {
+        return controller.getRelatedQuiz(relatedModule, relatedCourse);
+    }
+
+    public List<String> getRelatedHistoryQuizNames(String relatedModule, String relatedCourse) {
+        return controller.getRelatedHistoryQuiz(relatedModule, relatedCourse);
+    }
+
+    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds, String relatedModule, String relatedCourse) {
+        controller.generateQuiz(amountOfQuestions, quizName, typeOfQuiz, timerSeconds, relatedModule, relatedCourse);
     }
 }
 

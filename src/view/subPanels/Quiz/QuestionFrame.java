@@ -196,7 +196,7 @@ public class QuestionFrame extends JFrame {
         }
 
         if (!isResult) {
-            mainFrame.addQuizToHistory(currentQuiz.getName(), currentQuiz.getQuestions(), currentQuiz.getUserAnswers());
+            mainQuizFrame.addQuizToHistory(currentQuiz.getName(), currentQuiz.getQuestions(), currentQuiz.getUserAnswers());
         }
     }
 

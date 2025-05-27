@@ -58,7 +58,7 @@ public class HistoryPanel extends JPanel {
      */
     public void updateList() {
         quizModel.clear();
-        List<String> nameList = mainFrame.getHistoryQuizNames();
+        List<String> nameList = mainQuizFrame.getRelatedHistoryQuizNames();
 
         for (String name : nameList) {
             quizModel.addElement(name);
@@ -98,7 +98,7 @@ public class HistoryPanel extends JPanel {
      */
     public void addActionListener() {
         resultButton.addActionListener(e -> {
-            Quiz quiz = mainFrame.findHistoryQuiz(selectedQuiz);
+            Quiz quiz = mainQuizFrame.findHistoryQuiz(selectedQuiz);
             new QuestionFrame(mainFrame, quiz.getQuestions(), quiz, mainQuizFrame, 0, true);
         });
 

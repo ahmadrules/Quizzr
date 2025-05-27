@@ -5,7 +5,6 @@ import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 /**
  * This class is responsible for offering and validating options
@@ -37,7 +36,7 @@ public class LogInFrame extends JFrame {
     private JPanel confirmPasswordPanel;
     private JPanel newEmailPanel;
     private JPanel registerButtonPanel;
-    private JTextField programCodeField;
+    private JComboBox<String> programCodeBox;
     private JPanel programCodePanel;
     private Controller controller;
     private JButton adminLoginButton;
@@ -159,7 +158,7 @@ public class LogInFrame extends JFrame {
         newPasswordField.setText("");
         confirmPasswordField.setText("");
         newEmailField.setText("");
-        programCodeField.setText("");
+        programCodeBox.setSelectedIndex(0);
     }
 
     /**
@@ -198,7 +197,11 @@ public class LogInFrame extends JFrame {
         newPasswordField = new JPasswordField(10);
         confirmPasswordField = new JPasswordField(10);
         newEmailField = new JTextField(10);
-        programCodeField = new JTextField(10);
+        programCodeBox = new JComboBox<String>();
+
+        for (String programCode : controller.programCodes()) {
+            programCodeBox.addItem(programCode);
+        }
 
         newUserNamePanel = new JPanel(new FlowLayout());
         newPasswordPanel = new JPanel(new FlowLayout());
@@ -220,7 +223,7 @@ public class LogInFrame extends JFrame {
         newEmailPanel.add(newEmailField);
 
         programCodePanel.add(programCodeLabel);
-        programCodePanel.add(programCodeField);
+        programCodePanel.add(programCodeBox);
     }
 
     /**
@@ -291,7 +294,7 @@ public class LogInFrame extends JFrame {
                     setVisible(false);
                 }
                 else {
-                    JOptionPane.showMessageDialog(mainFrame, "User does not exist");
+                    JOptionPane.showMessageDialog(mainFrame, "User does not exist or password is incorrect");
                 }
             }
             else {
@@ -308,20 +311,16 @@ public class LogInFrame extends JFrame {
                     String confirmedPassword = confirmPasswordField.getText();
                     if (newPassword != null && !newPassword.isEmpty()) {
                         if (newPassword.equals(confirmedPassword)) {
-                            //@TODO Add function for creating new user
-                            //@TODO control that programs code is equal to programCodeList
-                            String programCode = programCodeField.getText();
-                            List<String> programCodes=controller.programCodes();
-                            if(programCode != null && !programCode.isEmpty() && programCodes.contains(programCode) ) {
+                            String programCode = (String) programCodeBox.getSelectedItem();
                             boolean success= mainFrame.registerNewUser(newUsername,newPassword,newEmail,programCode);
                             if (success) {
                                 JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
-                            }else{
+                            }
+                            else {
                                 JOptionPane.showMessageDialog(mainPanel, "User already exists");
-                            }}else {
-                                JOptionPane.showMessageDialog(mainPanel, "Please enter a valid Program Code");
-
-                            }                        } else {
+                            }
+                        }
+                        else {
                             JOptionPane.showMessageDialog(mainFrame, "Passwords do not match");
                         }
                     }
