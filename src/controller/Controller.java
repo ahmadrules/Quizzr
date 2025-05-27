@@ -534,6 +534,7 @@ public class Controller {
     }
 
     public void saveUsers() {
+
         userManager.saveUsersToFiles();
     }
 
@@ -729,6 +730,7 @@ public class Controller {
      * Returns a list of program codes as String
      * @author Lilas Beirakdar
      * @return a List of String representing program codes
+     * @author Lilas Beirakdar
      */
     public List<String> programCodes(){
         List<String> programCodes = new ArrayList<>();
