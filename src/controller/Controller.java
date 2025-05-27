@@ -456,6 +456,20 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Deletes a course from a specific program
+     *
+     *  <p>
+     * This method searches through the {@code programList} to locate the {@link Program} with the given name.
+     * Once the program is found, it searches for the {@link Course} with the specified name and removes it
+     * from both the program's course list and the general {@code courses} list.
+     * Finally, it updates the file storing the list of programs to persist the changes.
+     * </p>
+     *
+     * @param programName the name of the program from which the course should be deleted
+     * @param courseName courseName the name of the course to be removed
+     * @author Sara Sheikho
+     */
     public void deleteCourse(String programName, String courseName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -474,6 +488,20 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Retrieves a {@link Module} by its name from a specific {@link Course} and {@link Program}.
+     * <p>
+     * This method iterates through the {@code programs} list to find the {@link Program} and
+     * {@link Course} matching the given names. If found, it searches for the {@link Module} with the
+     * specified name and returns it. If no matching module is found, {@code null} is returned.
+     * </p>
+     *
+     * @param programName the name of the program containing the course
+     * @param courseName the name of the course containing the module
+     * @param moduleName the name of the module to retrieve
+     * @return the matching {@link Module}, or {@code null} if not found
+     * @author Ahmad Maarouf
+     **/
     public Module getModule(String programName, String courseName, String moduleName) {
         for (Program program : programs) {
             if (program.getName().equals(programName)) {
@@ -491,6 +519,19 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Deletes a {@link Module} from a {@link Course} identified by its name.
+     * <p>
+     * This method iterates through all {@link Program} objects in {@code programList} and their corresponding
+     * {@link Course} lists to find and remove the {@link Module} with the specified name.
+     * It also removes the module from the general {@code courses} list to ensure consistency.
+     * Finally, it updates the program list file to persist the changes.
+     * </p>
+     *
+     * @param courseName the name of the course from which the module should be removed
+     * @param moduleName the name of the module to be deleted
+     * @author Sara Sheikho
+     **/
     public void deleteModule(String courseName, String moduleName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -517,6 +558,18 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Updates the name of a {@link Program}.
+     * <p>
+     * This method searches for a {@link Program} in the {@code programList} with the specified old name
+     * and updates it to the new name. Finally, it updates the file storing the list of programs
+     * to persist the name change.
+     * </p>
+     *
+     * @param oldProgramName the current name of the program
+     * @param updatedProgramName the new name to assign to the program
+     * @author Sara Sheikho
+     **/
     public void editProgramName(String oldProgramName, String updatedProgramName) {
         for (int p = 0; p < programList.size(); p++) {
             if (programList.get(p).getName().equals(oldProgramName)) {
@@ -526,6 +579,18 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Updates the name of a {@link Course}.
+     * <p>
+     * This method finds and updates the name of a course in both the {@code programList} and the general {@code courses} list.
+     * It ensures that all references to the old course name are replaced with the updated name across the system.
+     * Finally, it updates the file storing the list of programs to persist the changes.
+     * </p>
+     *
+     * @param oldCourseName the current name of the course
+     * @param updatedCourseName the new name to assign to the course
+     * @author Sara Sheikho
+     **/
     public void editCourseName(String oldCourseName, String updatedCourseName) {
 
         //Update for courses that belongs to programs
@@ -547,6 +612,20 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Updates the name of a {@link Module} within a {@link Course}.
+     * <p>
+     * This method searches through all {@link Program} objects and their {@link Course} lists
+     * to find the module with the specified old name and update it to the new name.
+     * It also updates the module name in the general {@code courses} list.
+     * Finally, it updates the file storing the list of programs to persist the changes.
+     * </p>
+     *
+     * @param courseName the name of the course containing the module
+     * @param oldModuleName the current name of the module
+     * @param updatedModuleName the new name to assign to the module
+     * @author Sara Sheikho
+     **/
     public void editModuleName(String courseName, String oldModuleName, String updatedModuleName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -684,7 +763,7 @@ public class Controller {
     }
 
     /**
-     * Javadoc test
+     *
      * @param selectedCourse
      * @param selectedModule
      * @param nbrOfQuestions
@@ -1018,6 +1097,18 @@ public class Controller {
         return new ArrayList<>();
     }
 
+/**
+ * Retrieves the front content of all {@link FlashCard}s for a specific {@link Course} and {@link Module}.
+ * <p>
+ * This method filters the current user's flashcards by matching the given course and module names,
+ * then collects and returns the front content of each flashcard.
+ * </p>
+ *
+ * @param selectedCourse the name of the course associated with the flashcards
+ * @param selectedModule the name of the module associated with the flashcards
+ * @return a list of front content strings from matching flashcards
+ * @author Sara Sheikho
+ **/
     public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule){
         List<String> frontContent = new ArrayList<>();
         for(FlashCard flashCard : currentUser.getFlashCards()){
@@ -1028,6 +1119,18 @@ public class Controller {
         return frontContent;
     }
 
+/**
+ * Retrieves the back content of all {@link FlashCard}s for a specific {@link Course} and {@link Module}.
+ * <p>
+ * This method filters the current user's flashcards by matching the given course and module names,
+ * then collects and returns the back content of each flashcard.
+ * </p>
+ *
+ * @param selectedCourse the name of the course associated with the flashcards
+ * @param selectedModule the name of the module associated with the flashcards
+ * @return a list of back content strings from matching flashcards
+ * @author Sara Sheikho
+ **/
     public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule){
         List<String> backContent = new ArrayList<>();
         for(FlashCard flashCard : currentUser.getFlashCards()){
