@@ -13,9 +13,7 @@ public class FlashCard implements Serializable{
     private String backContent;
     private Course relatedCourse;
     private Module relatedModule;
-// username
-    // related module
-    // related course
+
     /**
      * Constructs a flashcard object
      * @param frontContent the String content of the front side of the flashcard

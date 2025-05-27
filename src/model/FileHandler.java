@@ -64,9 +64,12 @@ public class FileHandler implements Serializable {
     }
 
     /**
-     *
-     * @param filename
-     * @param question
+     * Used to save a question to a file
+     * It adds a new question to the file and adds a line between question
+     * The extra blank line helps to identify the end of a question
+     * @param filename The name of the file to add the question to
+     * @param question The question to be added to the file as String
+     * @author Lilas Beirakdar
      */
     public void writeQuestionToFile(String filename, String question) {
         File file = new File(filename);
@@ -80,15 +83,18 @@ public class FileHandler implements Serializable {
             bufferedWriter.newLine();
         }
         catch (IOException e) {
-           // System.out.println("Error saving question");
             e.printStackTrace();
         }
     }
 
     /**
-     *
-     * @param filename
-     * @param question
+     * Used to save a multipleChoice question to a file
+     * It gets an object of multipleChoice question
+     * Turns it to String to ensure that the question has the right structure when added to the file
+     * Then it calls writeToFile method to save the String to the file
+     * @param filename the name of the file the question will be added to
+     * @param question the multipleChoice object that needs to be saved to the file
+     * @author Lilas Beirakdar
      */
     public void saveMultipleChoiceToFile(String filename, MultipleChoice question) {
         String query = question.getQuery();
@@ -103,6 +109,15 @@ public class FileHandler implements Serializable {
         writeQuestionToFile(filename,questionToBeSaved);
     }
 
+    /**
+     * Saves a trueOrFalse question to the given file
+     * It takes a trueOrFalseQuestion as an object
+     * Turns it into String and ensures it has the right structure before it's added to the file
+     * It calls the method writeToFile to save the question to the file
+     * @param filename the name of the file the question will be saved to
+     * @param question the trueOrFalse question as an object
+     * @author Lilas Beirakdar
+     */
     public void saveTrueOrFalseQuestionToFile(String filename, Question question) {
         String query = question.getQuery();
         List<String> alternatives= question.getAlternatives();
@@ -116,12 +131,15 @@ public class FileHandler implements Serializable {
     }
 
     /**
-     * Method used to write a multiple choice question to a file
-     * @param filename
-     * @param question
+     * Method used to write a matching question to a file
+     * It takes a matching question as an object
+     * Then it turns the object into a String with the right structure to be saved to the file
+     * It calls the metod writeToFile to save the question to the given file
+     * @param filename The name of the file the question will be added to
+     * @param question the question to be saved to the file as a matchning object
+     * @author Lilas Beirakdar
      */
     public void saveMatchingQuestionToFile(String filename, Matching question) {
-
         String query = question.getQuery();
 
         List<String> alternatives= question.getAlternatives();
@@ -143,7 +161,6 @@ public class FileHandler implements Serializable {
         for(Map.Entry<String,Integer> entry: correctMatches.entrySet()) {
             correctAnswer.append(entry.getKey()).append(":").append(entry.getValue()).append(",");
         }
-        // ta bort sista komma
         if(correctAnswer.length() > 0) {
             correctAnswer.setLength(correctAnswer.length()-1);
         }
