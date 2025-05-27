@@ -64,11 +64,9 @@ public class Controller {
     private Quiz onGoingQuiz;
     private UserManager userManager;
     private List<User> users;
-// hämta en lista av all quizes
     private List<Quiz> userAvailableQuizzes;
     private List<Quiz> usersHistoryQuizzes;
     private Program currentStudentProgram;
-    private List<FlashCard> currentFlashCards;
 
     public Controller() {
         programs = new ArrayList<>();
@@ -76,15 +74,10 @@ public class Controller {
         this.userManager = new UserManager();
         this.users = userManager.getUsersList();
 
-
-       // currentUser.loadCreatedQuizes();
-
         createAndAddPrograms();
         createAndAddCourses();
 
         SwingUtilities.invokeLater(()->new LogInFrame(this));
-        //Starting the GUI
-       // SwingUtilities.invokeLater(view);
     }
 
     public void setMainFrame(MainFrame mainFrame) {
