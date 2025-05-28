@@ -14,6 +14,7 @@ public class TrueOrFalse extends Question {
      * @param alternatives a list of alternatives
      * @param points the number of points awarded for a correct answer
      * @param correctAnswer the correct answer among the alternatives
+     * @author Lilas Beirakdar
      */
     public TrueOrFalse(String query, List<String> alternatives, int points, String correctAnswer) {
         super(query,alternatives, points, correctAnswer);
@@ -33,6 +34,7 @@ public class TrueOrFalse extends Question {
      * Calculates the number of points the user will get after answering the question
      * In true or false question case it will return the number of points
      * @return number of points
+     * @author Lilas Beirakdar
      */
     @Override
     public int calculatePoints() {

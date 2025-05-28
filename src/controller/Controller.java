@@ -64,7 +64,6 @@ public class Controller {
     private Quiz onGoingQuiz;
     private UserManager userManager;
     private List<User> users;
-// hämta en lista av all quizes
     private List<Quiz> userAvailableQuizzes;
     private List<Quiz> usersHistoryQuizzes;
     private Program currentStudentProgram;
@@ -76,15 +75,10 @@ public class Controller {
         this.userManager = new UserManager();
         this.users = userManager.getUsersList();
 
-
-       // currentUser.loadCreatedQuizes();
-
         createAndAddPrograms();
         createAndAddCourses();
 
         SwingUtilities.invokeLater(()->new LogInFrame(this));
-        //Starting the GUI
-       // SwingUtilities.invokeLater(view);
     }
 
     public void setMainFrame(MainFrame mainFrame) {
@@ -144,7 +138,23 @@ public class Controller {
         loadProgramsFromFile();
     }
 
-    //Method to get programs from file
+    /**
+     * This method Loads all {@link Program} objects from a serialized data file into the program list.
+     * <p>
+     * This method is called when an admin opens the application. It reads the contents
+     * of the file using an {@link ObjectInputStream}, and adds each deserialized {@link Program} object
+     * to the programs list
+     * </p>
+     *
+     * <p>
+     * The file is expected to contain multiple serialized {@link Program} objects. The method
+     * reads until an {@link EOFException} is thrown, which signals the end of the file.
+     * </p>
+     *
+     * @throws IOException if there is a problem reading the file
+     * @throws ClassNotFoundException if the {@link Program} class cannot be found during deserialization
+     * @author Sara Sheikho
+     */
     public void loadProgramsFromFile() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(programsFileName))) {
             while (true) {
@@ -162,7 +172,28 @@ public class Controller {
         }
     }
 
-    //This method saves the head coded programs only once
+    /**
+     * Saves all {@link Program} objects from the {@code programs} list to a serialized data file.
+     *
+     * <p>
+     * This method writes each {@link Program} object in the {@code programs} list to the dat file
+     * using {@link ObjectOutputStream}.
+     * </p>
+     *
+     * <p>
+     * Before writing, the method checks if the file already exists and is non-empty.
+     * If so, it does not overwrite it and returns early to prevent duplication.
+     * </p>
+     *
+     * <p>
+     * This method is typically called during the initial setup of the application to persist
+     * hardcoded or predefined programs.
+     * </p>
+     *
+     * @throws IOException if writing to the file fails; the exception message is printed to the console.
+     * @author Sara Sheikho
+     */
+
     public void saveProgramsToFile() {
 
         File file = new File(programsFileName);
@@ -181,6 +212,17 @@ public class Controller {
         }
     }
 
+    /**
+     * Retrieves the names of all available programs in the {@code programList}.
+     * <p>
+     * This method is used to extract only the names of the {@link Program} objects so they
+     * can be displayed in the GUI
+     * </p>
+     *
+     * @return a String array containing the names of all programs in {@code programList}.
+     * @author Sara Sheikho
+     */
+
     public String[] getProgramsNames() {
         String[] programsNames = new String[programList.size()];
         for (int p = 0; p < programList.size(); p++) {
@@ -188,6 +230,20 @@ public class Controller {
         }
         return programsNames;
     }
+
+    /**
+     * Retrieves the names of all available courses in the {@code courseList} with a selected program name.
+     * <p>
+     * This method searches the list of programs {@code programList} for a program whose name matches
+     * the provided programName. Once found, it extracts the names of all {@link Course}
+     * objects in that program and returns them as a String array to
+     * display these course names in the GUI.
+     * </p>
+     *
+     * @param programName the name of the program for which associated course names are to be retrieved
+     * @return a String array containing the names of all courses in {@code courseList}.
+     * @author Sara Sheikho
+     */
 
     public String[] getCoursesNames(String programName) {
 
@@ -210,6 +266,21 @@ public class Controller {
         }
         return coursesNames;
     }
+
+    /**
+     * Retrieves the names of all modules associated with the given course name.
+     * <p>
+     * This method searches through all {@link Program} objects in the {@code programList},
+     * and for each program, it iterates over its {@link Course} objects to find a match
+     * with the given {@code courseName}. Once the matching course is found, it extracts
+     * and returns the names of all {@link Module} objects within that course.
+     * </p>
+     *
+     * @param courseName the name of the course whose module names should be retrieved
+     * @return a String array containing the names of all {@link Module} objects
+     * in the matching course, or an empty array if no such course is found
+     * @author Sara Sheikho
+     */
 
     public String[] getModulesNames(String courseName) {
 
@@ -243,7 +314,22 @@ public class Controller {
         return modulesNames;
     }
 
-    //This method adds a new program to the programList then to the file
+    /**
+     * Adds a new {@link Program} to the {@code programList} if a program with the same name does not already exist.
+     * <p>
+     * This method first checks if a program with the given name is already present in the list.
+     * If not, it creates a new {@code Program} object with the provided name and code,
+     * adds it to the {@code programList}, and updates the persistent file storage by
+     * calling {@code updateProgramsInFile()}.
+     * </p>
+     *
+     * <p>Note: Program names are considered unique identifiers for this check.</p>
+     *
+     * @param programName the name of the new program to add
+     * @param programCode the code of the new program to add
+     * @author Sara Sheikho
+     * @author Lilas Beirakdar
+     */
     public void addProgramToProgramList(String programName, String programCode) {
         for (Program program : programList) {
             if (program.getName().equals(programName)) {
@@ -255,6 +341,20 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Deletes a {@link Program} from the {@code programList} by its name.
+     * <p>
+     * This method searches for a program in the list that matches the given name
+     * and removes it. After the removal, the updated list is saved to file storage
+     * by calling {@code updateProgramsInFile()}.
+     * </p>
+     *
+     * <p>Note: If multiple programs have the same name, all matches will be removed.</p>
+     *
+     * @param programName the name of the program to be deleted
+     * @author Sara Sheikho
+     */
+
     public void deleteProgramFromFile(String programName) {
         for (int p = 0; p < programList.size(); p++) {
             if (programList.get(p).getName().equals(programName)) {
@@ -263,6 +363,17 @@ public class Controller {
         }
         updateProgramsInFile();
     }
+
+    /**
+     * Updates the program list in the file by writing all the current {@link Program} objects
+     * to the dat file.
+     * <p>
+     * This method will overwrite the existing file with the updated list of programs.
+     * </p>
+     *
+     * @throws IOException if an I/O error occurs while writing the programs to the file.
+     * @author Sara Sheikho
+     */
 
     public void updateProgramsInFile() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(programsFileName))) {
@@ -275,6 +386,20 @@ public class Controller {
         }
     }
 
+    /**
+     * Adds a new {@link Course} to the specified {@link Program} by its name.
+     * <p>
+     * This method searches the {@code programList} for a program with the given name.
+     * If found, it creates a new {@link Course} with the specified course name and a trimmed version
+     * of the same name as the course package name, then adds it to the program and the system {@code courses} list.
+     * After updating the data, it calls {@code updateProgramsInFile()} to save changes to disk.
+     * </p>
+     *
+     * @param programName the name of the program to which the new course should be added
+     * @param courseName the name (and code) of the new course to be created
+     * @author Sara Sheikho
+     */
+
     public void addNewCourse(String programName, String courseName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -286,6 +411,21 @@ public class Controller {
         }
         updateProgramsInFile();
     }
+
+    /**
+     * Adds a new {@link Module} to a {@link Course} identified by its name.
+     * <p>
+     * This method searches through the {@code programList} to locate the {@link Course} with the given name.
+     * Once the course is found, it creates a new {@link Module} using the provided module name and
+     * the course's package name to creates the text files where the questions should stored
+     * and then adds the module to the course.
+     * Finally, it updates the file storing the list of programs to persist the changes.
+     * </p>
+     *
+     * @param courseName the name of the course to which the module should be added
+     * @param moduleName the name of the new module to be created
+     * @author Sara Sheikho
+     */
 
     public void addNewModule(String courseName, String moduleName) {
 
@@ -310,6 +450,20 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Deletes a course from a specific program
+     *
+     *  <p>
+     * This method searches through the {@code programList} to locate the {@link Program} with the given name.
+     * Once the program is found, it searches for the {@link Course} with the specified name and removes it
+     * from both the program's course list and the general {@code courses} list.
+     * Finally, it updates the file storing the list of programs to persist the changes.
+     * </p>
+     *
+     * @param programName the name of the program from which the course should be deleted
+     * @param courseName courseName the name of the course to be removed
+     * @author Sara Sheikho
+     */
     public void deleteCourse(String programName, String courseName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -328,6 +482,37 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Retrieves a {@link Module} by its name from a specific {@link Course} and {@link Program}.
+     * <p>
+     * This method iterates through the {@code programs} list to find the {@link Program} and
+     * {@link Course} matching the given names. If found, it searches for the {@link Module} with the
+     * specified name and returns it. If no matching module is found, {@code null} is returned.
+     * </p>
+     *
+     * @param programName the name of the program containing the course
+     * @param courseName the name of the course containing the module
+     * @param moduleName the name of the module to retrieve
+     * @return the matching {@link Module}, or {@code null} if not found
+     * @author Ahmad Maarouf
+     **/
+    public Module getModule(String programName, String courseName, String moduleName) {
+        for (Program program : programs) {
+            if (program.getName().equals(programName)) {
+                for (Course course : program.getCourses()) {
+                    if (course.getName().equals(courseName)) {
+                        for (Module module : course.getModules()) {
+                            if (module.getName().equals(moduleName)) {
+                                return module;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public Course getCourse(String programName, String courseName) {
         for (Program program : programs) {
             if (program.getName().equals(programName)) {
@@ -341,16 +526,19 @@ public class Controller {
         return null;
     }
 
-    public Module getModule(String programName, String courseName, String moduleName) {
-        Course course = getCourse(programName, courseName);
-        for (Module module : course.getModules()) {
-            if (module.getName().equals(moduleName)) {
-                return module;
-            }
-        }
-        return null;
-    }
-
+    /**
+     * Deletes a {@link Module} from a {@link Course} identified by its name.
+     * <p>
+     * This method iterates through all {@link Program} objects in {@code programList} and their corresponding
+     * {@link Course} lists to find and remove the {@link Module} with the specified name.
+     * It also removes the module from the general {@code courses} list to ensure consistency.
+     * Finally, it updates the program list file to persist the changes.
+     * </p>
+     *
+     * @param courseName the name of the course from which the module should be removed
+     * @param moduleName the name of the module to be deleted
+     * @author Sara Sheikho
+     **/
     public void deleteModule(String courseName, String moduleName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -377,6 +565,18 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Updates the name of a {@link Program}.
+     * <p>
+     * This method searches for a {@link Program} in the {@code programList} with the specified old name
+     * and updates it to the new name. Finally, it updates the file storing the list of programs
+     * to persist the name change.
+     * </p>
+     *
+     * @param oldProgramName the current name of the program
+     * @param updatedProgramName the new name to assign to the program
+     * @author Sara Sheikho
+     **/
     public void editProgramName(String oldProgramName, String updatedProgramName) {
         for (int p = 0; p < programList.size(); p++) {
             if (programList.get(p).getName().equals(oldProgramName)) {
@@ -386,6 +586,18 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Updates the name of a {@link Course}.
+     * <p>
+     * This method finds and updates the name of a course in both the {@code programList} and the general {@code courses} list.
+     * It ensures that all references to the old course name are replaced with the updated name across the system.
+     * Finally, it updates the file storing the list of programs to persist the changes.
+     * </p>
+     *
+     * @param oldCourseName the current name of the course
+     * @param updatedCourseName the new name to assign to the course
+     * @author Sara Sheikho
+     **/
     public void editCourseName(String oldCourseName, String updatedCourseName) {
 
         //Update for courses that belongs to programs
@@ -407,6 +619,20 @@ public class Controller {
         updateProgramsInFile();
     }
 
+    /**
+     * Updates the name of a {@link Module} within a {@link Course}.
+     * <p>
+     * This method searches through all {@link Program} objects and their {@link Course} lists
+     * to find the module with the specified old name and update it to the new name.
+     * It also updates the module name in the general {@code courses} list.
+     * Finally, it updates the file storing the list of programs to persist the changes.
+     * </p>
+     *
+     * @param courseName the name of the course containing the module
+     * @param oldModuleName the current name of the module
+     * @param updatedModuleName the new name to assign to the module
+     * @author Sara Sheikho
+     **/
     public void editModuleName(String courseName, String oldModuleName, String updatedModuleName) {
         for (int p = 0; p < programList.size(); p++) {
             Program currentProgram = programList.get(p);
@@ -720,6 +946,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Returns the program that the current student studies
+     *
+     * @return the program that the current student have given the program code of
+     * When registered into the program
+     * @author Lilas Beirakdar
+     */
+
    public Program getCurrentStudentProgram(){
         String usersProgramCode= currentUser.getProgramCode();
         for (Program program : programList) {
@@ -735,6 +969,7 @@ public class Controller {
      * Returns a list of program codes as String
      * @author Lilas Beirakdar
      * @return a List of String representing program codes
+     * @author Lilas Beirakdar
      */
     public List<String> programCodes(){
         List<String> programCodes = new ArrayList<>();
@@ -761,7 +996,6 @@ public class Controller {
      * @return
      * @author Lilas Beirakdar
      */
-
     private Module getModule(String courseName, String moduleName) {
         Course currentCourse=null;
         Module module=null;
@@ -780,13 +1014,14 @@ public class Controller {
     }
 
     /**
-     *
-     * @param query
-     * @param alternatives
-     * @param points
-     * @param correctAnswer
-     * @param courseName
-     * @param moduleName
+     * Saves a true or false question to a file
+     * @param query the part of question object representing the question
+     * @param alternatives the alternatives of the question
+     * @param points number of points gained after answering the question correctly
+     * @param correctAnswer the correct answer of the question as String
+     * @param courseName the course that the question is related to
+     * @param moduleName the module that the question is related to
+     * @author Lilas Beirakdar
      */
     public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
@@ -795,13 +1030,14 @@ public class Controller {
     }
 
     /**
-     *
-     * @param query
-     * @param alternatives
-     * @param points
-     * @param correctAnswer
-     * @param courseName
-     * @param moduleName
+     * Saves a multiple choice question to a file
+     * @param query the part representing the question
+     * @param alternatives the part of question representing the alternatives
+     * @param points number of points earned after answering the question correctly
+     * @param correctAnswer the correct answer of the question
+     * @param courseName the course that the question is related to
+     * @param moduleName the module that the course is related to
+     * @author Lilas Beirakdar
      */
     public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
@@ -810,14 +1046,15 @@ public class Controller {
     }
 
     /**
-     *
-     * @param query
-     * @param statements
-     * @param matches
-     * @param points
-     * @param correctMatches
-     * @param courseName
-     * @param moduleName
+     * Saves a matching question to  a file
+     * @param query the part representing the question
+     * @param statements represents the statements that needs to be matched to another statement
+     * @param matches represents the matches of the given statements
+     * @param points number of points earned after answering the question correctly
+     * @param correctMatches a HashMap representing the statement and the match that matches to it
+     * @param courseName the course that the question is related to
+     * @param moduleName the module that the course is related to
+     * @author Lilas Beirakdar
      */
 
     public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName ) {
@@ -861,6 +1098,12 @@ public class Controller {
         userManager.saveUsersToFiles();
     }
 
+    /**
+     * Returns the history of quizzes the current user have done
+     *
+     * @return a List of history quizzes the current user have done before
+     * @author Lilas Beirakdar
+     */
     public List<Quiz> getCurrentUsersQuizHistory(){
         List<Quiz> availableQuizList = new ArrayList<>();
         List<Quiz> quizHistory = new ArrayList<>();
@@ -878,6 +1121,18 @@ public class Controller {
         return new ArrayList<>();
     }
 
+/**
+ * Retrieves the front content of all {@link FlashCard}s for a specific {@link Course} and {@link Module}.
+ * <p>
+ * This method filters the current user's flashcards by matching the given course and module names,
+ * then collects and returns the front content of each flashcard.
+ * </p>
+ *
+ * @param selectedCourse the name of the course associated with the flashcards
+ * @param selectedModule the name of the module associated with the flashcards
+ * @return a list of front content strings from matching flashcards
+ * @author Sara Sheikho
+ **/
     public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule){
         List<String> frontContent = new ArrayList<>();
         for(FlashCard flashCard : currentUser.getFlashCards()){
@@ -888,6 +1143,18 @@ public class Controller {
         return frontContent;
     }
 
+/**
+ * Retrieves the back content of all {@link FlashCard}s for a specific {@link Course} and {@link Module}.
+ * <p>
+ * This method filters the current user's flashcards by matching the given course and module names,
+ * then collects and returns the back content of each flashcard.
+ * </p>
+ *
+ * @param selectedCourse the name of the course associated with the flashcards
+ * @param selectedModule the name of the module associated with the flashcards
+ * @return a list of back content strings from matching flashcards
+ * @author Sara Sheikho
+ **/
     public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule){
         List<String> backContent = new ArrayList<>();
         for(FlashCard flashCard : currentUser.getFlashCards()){
@@ -898,10 +1165,19 @@ public class Controller {
         return backContent;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Quiz> getUsersHistoryQuizzes(){
         return usersHistoryQuizzes;
     }
-    
+
+    /**
+     * Returns a list of created quizzes of the current user
+     * @return a list of quizzes created by the current user
+     * @author Lilas Beirakdar
+     */
     public List<Quiz> getUsersAvailableQuizzes(){
         return currentUser.getCreatedQuiz();
     }
@@ -926,12 +1202,28 @@ public class Controller {
         return historyQuizNames;
     }
 
+    /**
+     * Adds a quiz to created quizzes list
+     * It sets the date of the quiz to current date
+     * It saves the user after adding the quiz to users file
+     * @param quiz the quiz to be added to the created quizzes list associated with the current student
+     * @author Lilas Beirakdar
+     */
     public void addQuizToAvailableQuizzes(Quiz quiz){
         quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
-        userAvailableQuizzes=currentUser.getCreatedQuiz();
+        this.userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
+
+    /**
+     *
+     * @param quizName
+     * @param questions
+     * @param answers
+     * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     */
 
     public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers, String relatedModule, String relatedCourse){
         Module selectedModule = getModule(relatedCourse, relatedModule);
@@ -941,12 +1233,13 @@ public class Controller {
         quiz1.setDate(currentDate);
         quiz1.setName(currentDate + " " + quizName);
         Map<Question, String> answerMap = new HashMap<>();
-
         for (Question question : questions) {
             answerMap.put(question, answers.get(question));
         }
         quiz1.setQuestions(questions);
         quiz1.setUserAnswers(answerMap);
+
+
         currentUser.addToHistory(quiz1);
         userManager.saveUsersToFiles();
         this.usersHistoryQuizzes=currentUser.getHistory();

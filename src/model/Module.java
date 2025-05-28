@@ -197,6 +197,19 @@ public class Module implements Serializable{
         return generateRandomQuiz(matchingQuestion,numberOfQuestions);
     }
 
+    /**
+     * Generates a matching type {@link Quiz} for a given {@link Course} and {@link Module}.
+     * <p>
+     * This method initializes a new quiz of type "matching", loads all matching-type {@link Question}
+     * from the matching file and sets the loaded questions into the current quiz.
+     * </p>
+     *
+     * @param selectedCourse the course to which the quiz is related
+     * @param selectedModule the module to which the quiz is related
+     * @param numberOfQuestions the number of questions to include in the quiz
+     * @return a randomly selected list of questions {@link Question}for the matching quiz
+     * @author Sara Sheikho
+     **/
     public ArrayList<Question> generateMatchingQuiz(Course selectedCourse, Module selectedModule, int numberOfQuestions){
         //Will be called by controller
         currentQuiz = new Quiz("matching", selectedCourse, selectedModule);
@@ -223,12 +236,20 @@ public class Module implements Serializable{
             boolean created = directory.mkdirs();
         }
     }
+
+    /**
+     * Creates the necessary data files for questions for every module.
+     * <p>
+     * This method initializes and attempts to create physical files on disk for
+     * multiple-choice questions, true/false questions, matching questions, and flashcards.
+     * </p>
+     * @author Sara Sheikho
+     **/
     private void createFiles(){
         this.multiChoiceFile = new File(directory, multiChoiceFileName);
         this.trueOrFalseFile = new File(directory, trueOrFalseFileName);
         this.matchingFile = new File(directory, matchingFileName);
         this.flashCardFile = new File(directory, flashCardFileName);
-        //this.quizFile = new File(directory, quizFileName);
 
         try {
             multiChoiceFile.createNewFile();

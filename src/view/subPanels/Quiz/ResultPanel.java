@@ -45,7 +45,7 @@ public class ResultPanel extends JPanel{
         pnlCenter.setLayout(gbLayout);
 
         //Creates image icon
-        String path = getClass().getResource("/view/picsGIF/goodJob.gif").toString();
+        String path = getClass().getResource("/view/pics/goodJob.gif").toString();
         lblImageIcon = new JLabel("<html><img src='" + path + "' width='300' height='300'></html>");
         lblImageIcon.setHorizontalAlignment(SwingConstants.CENTER);
 

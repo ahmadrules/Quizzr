@@ -4,7 +4,10 @@ import controller.Controller;
 import view.main.MainFrame;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.security.DigestException;
+import java.util.List;
 
 /**
  * This class is responsible for offering and validating options
@@ -36,8 +39,9 @@ public class LogInFrame extends JFrame {
     private JPanel confirmPasswordPanel;
     private JPanel newEmailPanel;
     private JPanel registerButtonPanel;
-    private JComboBox<String> programCodeBox;
+    private JTextField programCodeField;
     private JPanel programCodePanel;
+    private JPanel topPanel;
     private Controller controller;
     private JButton adminLoginButton;
     private JButton studentLoginButton;
@@ -50,9 +54,10 @@ public class LogInFrame extends JFrame {
      this.controller = controller;
 
      this.mainFrame = new MainFrame(controller);
-     setResizable(true);
+     setResizable(false);
      topLabel = new JLabel("", SwingConstants.CENTER);
-     mainPanel = new JPanel();
+     mainPanel = new BackgroundPanel("src/background1.jpg");
+     mainPanel.setBackground(new Color(255, 249, 163));
      add(mainPanel);
 
      createLoginLayout();
@@ -64,7 +69,6 @@ public class LogInFrame extends JFrame {
 
      addActionListeners();
 
-
      setLocationRelativeTo(null);
      setVisible(true);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,48 +79,128 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createRegisterLayout() {
-        registerPanel = new JPanel();
+        registerPanel = new BackgroundPanel("src/background1.jpg");
         registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.PAGE_AXIS));
         createdNestedRegisterPanels();
         createRegisterButtons();
-
-        registerPanel.add(newEmailPanel);
-        registerPanel.add(newUserNamePanel);
-        registerPanel.add(newPasswordPanel);
-        registerPanel.add(confirmPasswordPanel);
-        registerPanel.add(programCodePanel);
-        registerPanel.add(registerButtonPanel);
+        registerPanel.add(topLabel, BorderLayout.NORTH);
+        registerPanel.add(registerButtonPanel, BorderLayout.SOUTH);
     }
 
     public void createFirstPage() {
-        firstPagePanel = new JPanel();
+        firstPagePanel = new BackgroundPanel("src/background1.jpg");
         firstPagePanel.setLayout(new BorderLayout());
+        firstPagePanel.setBackground(new Color(255, 249, 163));
+        firstPagePanel.setBorder(BorderFactory.createLineBorder(new Color(255, 249, 163)));
 
-        JLabel firstPageLabel = new JLabel("<html>Welcome to <font color=orange> Quizzr! </font></html>", SwingConstants.CENTER);
-        firstPageLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabel firstPageLabel = new JLabel( "<html><div style='text-align: center;'>"
+                + "<span style='color: #1A237E;'>Welcome to </span>"
+                + "<span style='color: rgb(250,155,22); font-weight: bold;'>Quizzr</span>"
+                + "</div></html", SwingConstants.CENTER);
+        firstPageLabel.setFont(new Font("Georgia", Font.BOLD, 32));
+        firstPagePanel.setForeground(Color.WHITE);
+        firstPageLabel.setBorder(BorderFactory.createEmptyBorder(30,10,30,10));
         firstPagePanel.add(firstPageLabel, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setBackground(new Color(255, 249, 163));
+        buttonPanel.setOpaque(false);
 
-        adminLoginButton = new JButton("Admin Login");
-        studentLoginButton = new JButton("Student Login");
-        testButton = new JButton("Test login");
+        adminLoginButton = createStyledButton("Admin Login",260,50);
+        studentLoginButton = createStyledButton("Student Login",260,50);
+        testButton = createStyledButton("Test login",260,50);
+        registerButton=createStyledButton("Register new student",260,50);
 
+        Dimension buttonSize = new Dimension(250, 50);
+        int FontSize = 16;
+        Font buttonFont = new Font("Arial", Font.BOLD, FontSize);
+
+        adminLoginButton.setMaximumSize(buttonSize);
+        adminLoginButton.setPreferredSize(buttonSize);
+        adminLoginButton.setMinimumSize(buttonSize);
+        adminLoginButton.setFont(buttonFont);
+
+        studentLoginButton.setMaximumSize(buttonSize);
+        studentLoginButton.setPreferredSize(buttonSize);
+        studentLoginButton.setMinimumSize(buttonSize);
+        studentLoginButton.setFont(buttonFont);
+
+        testButton.setMaximumSize(buttonSize);
+        testButton.setPreferredSize(buttonSize);
+        testButton.setMinimumSize(buttonSize);
+        testButton.setFont(buttonFont);
+
+        registerButton.setMaximumSize(buttonSize);
+        registerButton.setPreferredSize(buttonSize);
+        registerButton.setMinimumSize(buttonSize);
+        registerButton.setFont(buttonFont);
+
+        adminLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        studentLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        testButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        buttonPanel.add(Box.createVerticalStrut(30));
         buttonPanel.add(adminLoginButton);
+        buttonPanel.add(Box.createVerticalStrut(30));
         buttonPanel.add(studentLoginButton);
+        buttonPanel.add(Box.createVerticalStrut(30));
         buttonPanel.add(testButton);
+        buttonPanel.add(Box.createVerticalStrut(30));
+        buttonPanel.add(registerButton);
 
         firstPagePanel.add(buttonPanel, BorderLayout.CENTER);
     }
 
+    private JButton createStyledButton(String text, int width, int height) {
+        JButton button = new JButton(text);
+        button.setMaximumSize(new Dimension(width, height));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setFont(new Font("Arial",Font.BOLD,16));
+
+        Color baseColor = new Color(25, 25, 70);
+        Color haverColor = new Color(90, 140, 230);
+        Color borderColor = baseColor.darker();
+
+        button.setBackground(baseColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        Border lineBorder= BorderFactory.createLineBorder(borderColor,4);
+        Border emptyBorder = BorderFactory.createEmptyBorder(10, 20, 10, 20);
+        button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(haverColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(haverColor.darker(), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(borderColor, 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+        });
+
+        return button;
+    }
+
+
     public void showFirstPage() {
         mainPanel.removeAll();
         mainPanel.add(firstPagePanel);
-
-        pack();
-
-        revalidate();
-        repaint();
+        registerButton.setEnabled(true);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        setSize(600,500);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -124,14 +208,12 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createLoginLayout() {
-        loginPanel = new JPanel();
-        loginPanel.setLayout(new BoxLayout(loginPanel, BoxLayout.PAGE_AXIS));
+        loginPanel = new BackgroundPanel("src/background1.jpg");
+        loginPanel.setLayout(new BorderLayout());
         createNestedLoginPanels();
         createLoginButtons();
-
-        loginPanel.add(usernamePanel);
-        loginPanel.add(passwordPanel);
-        loginPanel.add(loginButtonPanel);
+        loginPanel.add(topPanel, BorderLayout.CENTER);
+        loginPanel.add(loginButtonPanel, BorderLayout.SOUTH);
     }
 
     /**
@@ -140,7 +222,7 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void setRegisterLayout() {
-        setSize(250,270);
+        setSize(600,500);
         setTitle("Register");
         mainPanel.removeAll();
         topLabel.setText("Register a new account");
@@ -158,7 +240,7 @@ public class LogInFrame extends JFrame {
         newPasswordField.setText("");
         confirmPasswordField.setText("");
         newEmailField.setText("");
-        programCodeBox.setSelectedIndex(0);
+        programCodeField.setText("");
     }
 
     /**
@@ -168,11 +250,10 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void setLoginLayout() {
-        setSize(250,170);
+        setSize(600,500);
         setTitle("Login");
         mainPanel.removeAll();
-        topLabel.setText("Enter login information below");
-        mainPanel.add(topLabel);
+       // mainPanel.add(topLabel);
         mainPanel.add(loginPanel);
 
         revalidate();
@@ -186,44 +267,113 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createdNestedRegisterPanels() {
+        Font font= new Font("Arial", Font.PLAIN, 16);
         topLabel.setText("Register a new user");
+        topLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
         JLabel newEmailLabel = new JLabel("Enter email:");
         JLabel newUsernameLabel = new JLabel("Enter username:");
         JLabel newPasswordLabel = new JLabel("Enter password:");
         JLabel confirmPasswordLabel = new JLabel("Confirm password:");
         JLabel programCodeLabel = new JLabel("Enter program code:");
 
+        newEmailLabel.setFont(font);
+        newUsernameLabel.setFont(font);
+        newPasswordLabel.setFont(font);
+        confirmPasswordLabel.setFont(font);
+        programCodeLabel.setFont(font);
+
+        newEmailLabel.setForeground(new Color(10, 10, 40));
+        newUsernameLabel.setForeground(new Color(10, 10, 40));
+        newPasswordLabel.setForeground(new Color(10, 10, 40));
+        confirmPasswordLabel.setForeground(new Color(10, 10, 40));
+        programCodeLabel.setForeground(new Color(10, 10, 40));
+
         newNameField = new JTextField(10);
         newPasswordField = new JPasswordField(10);
         confirmPasswordField = new JPasswordField(10);
         newEmailField = new JTextField(10);
-        programCodeBox = new JComboBox<String>();
+        programCodeField = new JTextField(10);
 
-        for (String programCode : controller.programCodes()) {
-            programCodeBox.addItem(programCode);
-        }
+        newNameField.setFont(font);
+        newPasswordField.setFont(font);
+        confirmPasswordField.setFont(font);
+        programCodeField.setFont(font);
+        newEmailField.setFont(font);
+        programCodeField.setFont(font);
 
-        newUserNamePanel = new JPanel(new FlowLayout());
-        newPasswordPanel = new JPanel(new FlowLayout());
-        confirmPasswordPanel = new JPanel(new FlowLayout());
-        newEmailPanel = new JPanel(new FlowLayout());
-        programCodePanel = new JPanel(new FlowLayout());
+        Dimension labelSize = new Dimension(200, 30);
+        newEmailLabel.setPreferredSize(labelSize);
+        newUsernameLabel.setPreferredSize(labelSize);
+        newPasswordLabel.setPreferredSize(labelSize);
+        confirmPasswordLabel.setPreferredSize(labelSize);
+        programCodeLabel.setPreferredSize(labelSize);
+
+        Dimension fieldSize = new Dimension(200, 30);
+        newNameField.setPreferredSize(fieldSize);
+        newPasswordField.setPreferredSize(fieldSize);
+        confirmPasswordField.setPreferredSize(fieldSize);
+        newEmailField.setPreferredSize(fieldSize);
+        programCodeField.setPreferredSize(fieldSize);
+
+        newUserNamePanel = new JPanel();
+        newPasswordPanel = new JPanel();
+        confirmPasswordPanel = new JPanel();
+        newEmailPanel = new JPanel();
+        programCodePanel = new JPanel();
         registerButtonPanel = new JPanel(new FlowLayout());
 
-        newUserNamePanel.add(newUsernameLabel);
-        newUserNamePanel.add(newNameField);
+        newUserNamePanel.setBackground(new Color(255, 249, 163));
+        newPasswordPanel.setBackground(new Color(255, 249, 163));
+        confirmPasswordPanel.setBackground(new Color(255, 249, 163));
+        newEmailPanel.setBackground(new Color(255, 249, 163));
+        programCodePanel.setBackground(new Color(255, 249, 163));
 
-        newPasswordPanel.add(newPasswordLabel);
-        newPasswordPanel.add(newPasswordField);
-
-        confirmPasswordPanel.add(confirmPasswordLabel);
-        confirmPasswordPanel.add(confirmPasswordField);
-
+        newEmailPanel.setLayout(new BoxLayout(newEmailPanel, BoxLayout.Y_AXIS));
         newEmailPanel.add(newEmailLabel);
+        newEmailPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         newEmailPanel.add(newEmailField);
 
+        newUserNamePanel.setLayout(new BoxLayout(newUserNamePanel, BoxLayout.Y_AXIS));
+        newUserNamePanel.add(newUsernameLabel);
+        newUserNamePanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        newUserNamePanel.add(newNameField);
+
+        newPasswordPanel.setLayout(new BoxLayout(newPasswordPanel, BoxLayout.Y_AXIS));
+        newPasswordPanel.add(newPasswordLabel);
+        newPasswordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        newPasswordPanel.add(newPasswordField);
+
+        confirmPasswordPanel.setLayout(new BoxLayout(confirmPasswordPanel, BoxLayout.Y_AXIS));
+        confirmPasswordPanel.add(confirmPasswordLabel);
+        confirmPasswordPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        confirmPasswordPanel.add(confirmPasswordField);
+
+
+        programCodePanel.setLayout(new BoxLayout(programCodePanel, BoxLayout.Y_AXIS));
         programCodePanel.add(programCodeLabel);
-        programCodePanel.add(programCodeBox);
+        programCodePanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        programCodePanel.add(programCodeField);
+
+        JPanel mainRegisterPanel = new JPanel();
+        mainRegisterPanel.setLayout(new BoxLayout(mainRegisterPanel, BoxLayout.Y_AXIS));
+        mainRegisterPanel.setBorder(BorderFactory.createEmptyBorder(20,50,20,50));
+        mainRegisterPanel.setBackground(new Color(255, 249, 163));
+
+        mainRegisterPanel.add(newEmailPanel);
+        mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainRegisterPanel.add(newUserNamePanel);
+        mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainRegisterPanel.add(newPasswordPanel);
+        mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        mainRegisterPanel.add(confirmPasswordPanel);
+        mainRegisterPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+
+        mainRegisterPanel.add(programCodePanel);
+
+        registerPanel.removeAll();
+        registerPanel.setLayout(new BorderLayout());
+        registerPanel.add(mainRegisterPanel, BorderLayout.CENTER);
     }
 
     /**
@@ -233,21 +383,75 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createNestedLoginPanels() {
-        usernamePanel = new JPanel(new FlowLayout());
-        passwordPanel = new JPanel(new FlowLayout());
-        loginButtonPanel = new JPanel(new FlowLayout());
+        Font font = new Font("Segoe UI", Font.BOLD, 18);
+
+        topPanel = new JPanel();
+        usernamePanel = new JPanel();
+        passwordPanel = new JPanel();
+        loginButtonPanel = new JPanel();
+
+        passwordPanel.setBackground(new Color(255, 249, 163));
+        topPanel.setBackground(new Color(255, 249, 163));
+        usernamePanel.setBackground(new Color(255, 249, 163));
+        loginButtonPanel.setBackground(new Color(255, 249, 163));
+
+        Dimension labelSize = new Dimension(300, 30);
+        Dimension fieldSize = new Dimension(300, 30);
 
         JLabel usernameLabel = new JLabel("Username:");
+        JLabel insructionsLabel = new JLabel("Please enter your username as a name not email");
         JLabel passwordLabel = new JLabel("Password:");
 
         usernameField = new JTextField(10);
         passwordField = new JPasswordField(10);
 
+        usernameLabel.setPreferredSize(labelSize);
+        usernameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        passwordLabel.setPreferredSize(labelSize);
+        passwordLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        insructionsLabel.setPreferredSize(labelSize);
+
+
+        usernameField.setPreferredSize(fieldSize);
+        usernameField.setMaximumSize(fieldSize);
+        usernameField.setMinimumSize(fieldSize);
+        usernameField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        usernameLabel.setFont(font);
+        usernameLabel.setForeground(new Color(10, 10, 40));
+
+
+        insructionsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        insructionsLabel.setForeground(new Color(10, 10, 40));
+
+        passwordField.setPreferredSize(fieldSize);
+        passwordField.setMaximumSize(fieldSize);
+        passwordField.setMinimumSize(fieldSize);
+        passwordField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        passwordLabel.setFont(font);
+        passwordLabel.setForeground(new Color(10, 10, 40));
+
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(30,30,30,30));
+        JLabel titleLabel = new JLabel("Please enter you Login Information");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setForeground(new Color(10, 10, 40));
+        titleLabel.setPreferredSize(labelSize);
+        topPanel.add(titleLabel);
+        topPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        usernamePanel.setLayout(new BoxLayout(usernamePanel, BoxLayout.Y_AXIS));
+        usernamePanel.add(Box.createRigidArea(new Dimension(0, 20)));
         usernamePanel.add(usernameLabel);
         usernamePanel.add(usernameField);
+        usernamePanel.add(insructionsLabel);
 
+        passwordPanel.setLayout(new BoxLayout(passwordPanel, BoxLayout.Y_AXIS));
+        passwordPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordField);
+       // usernamePanel.add(passwordPanel);
+        topPanel.add(usernamePanel);
+        topPanel.add(passwordPanel);
     }
 
     /**
@@ -255,11 +459,17 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createLoginButtons() {
-        loginButton = new JButton("Login");
-        registerButton = new JButton("Register");
-        goBackButton = new JButton("Go back");
+        loginButton = createStyledButton("Login",70,50);
+        goBackButton = createStyledButton("Go back",70,50);
+
+        loginButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        goBackButton.setFont(new Font("Arial", Font.PLAIN, 18));
+
+        Dimension labelSize = new Dimension(150, 30);
+       // loginButton.setPreferredSize(labelSize);
+        //goBackButton.setPreferredSize(labelSize);
+
         loginButtonPanel.add(loginButton);
-        loginButtonPanel.add(registerButton);
         loginButtonPanel.add(goBackButton);
     }
 
@@ -268,8 +478,12 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createRegisterButtons() {
-        createAccountButton = new JButton("Create");
-        cancelButton = new JButton("Cancel");
+        createAccountButton = createStyledButton("Create",70,50);
+        cancelButton = createStyledButton("Cancel",70,30);
+
+        registerButtonPanel=new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
+        registerButtonPanel.setBorder(BorderFactory.createEmptyBorder(20,0,20,0));
+        registerButtonPanel.setBackground(new Color(255, 249, 163));
         registerButtonPanel.add(createAccountButton);
         registerButtonPanel.add(cancelButton);
     }
@@ -294,7 +508,7 @@ public class LogInFrame extends JFrame {
                     setVisible(false);
                 }
                 else {
-                    JOptionPane.showMessageDialog(mainFrame, "User does not exist or password is incorrect");
+                    JOptionPane.showMessageDialog(mainFrame, "User does not exist");
                 }
             }
             else {
@@ -311,16 +525,20 @@ public class LogInFrame extends JFrame {
                     String confirmedPassword = confirmPasswordField.getText();
                     if (newPassword != null && !newPassword.isEmpty()) {
                         if (newPassword.equals(confirmedPassword)) {
-                            String programCode = (String) programCodeBox.getSelectedItem();
+                            String programCode = programCodeField.getText();
+                            List<String> programCodes=controller.programCodes();
+                            if(programCode != null && !programCode.isEmpty() && programCodes.contains(programCode) ) {
                             boolean success= mainFrame.registerNewUser(newUsername,newPassword,newEmail,programCode);
                             if (success) {
                                 JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
-                            }
-                            else {
+                                clearFields();
+                                setLoginLayout();
+                            }else{
                                 JOptionPane.showMessageDialog(mainPanel, "User already exists");
-                            }
-                        }
-                        else {
+                            }}else {
+                                JOptionPane.showMessageDialog(mainPanel, "Please enter a valid Program Code");
+
+                            }                        } else {
                             JOptionPane.showMessageDialog(mainFrame, "Passwords do not match");
                         }
                     }
@@ -338,11 +556,12 @@ public class LogInFrame extends JFrame {
         });
 
         registerButton.addActionListener(e -> {
+
             setRegisterLayout();
         });
 
         cancelButton.addActionListener(e -> {
-            setLoginLayout();
+            showFirstPage();
             clearFields();
         });
 
