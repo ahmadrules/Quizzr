@@ -95,7 +95,6 @@ public class QuizOptionsFrame extends JFrame {
 
     private void addListeners() {
         generateButton.addActionListener(e -> {
-
             long timerSeconds = 0;
 
             if (timerBox.getSelectedItem() != "No timer") {

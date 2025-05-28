@@ -97,7 +97,7 @@ public class HistoryPanel extends JPanel {
     public void addActionListener() {
         resultButton.addActionListener(e -> {
             Quiz quiz = mainQuizFrame.findHistoryQuiz(selectedQuiz);
-            new QuestionFrame(quiz.getQuestions(), quiz, mainQuizFrame, 0, true);
+            new QuestionFrame(quiz, mainQuizFrame, true);
         });
 
         displayList.addListSelectionListener(e -> {

@@ -221,7 +221,7 @@ public class CenterModulePanel extends JPanel {
         quizButton.addActionListener(e -> {
             //Here we write what happens when we press the quiz button
             //QuizPanel quizPanel = new QuizPanel(selectedModule);
-            MainQuizFrame mainQuizFrame = new MainQuizFrame(selectedProgram, selectedCourse, selectedModule, mainFrame);
+            new MainQuizFrame(selectedCourse, selectedModule, mainFrame);
         });
 
         if (isAdmin) {
@@ -265,7 +265,7 @@ public class CenterModulePanel extends JPanel {
     public void addModule() {
         String moduleName = JOptionPane.showInputDialog("Please enter a module name");
         if (moduleName != null) {
-            if (mainFrame.ifModuleExists(selectedProgram, selectedCourse, moduleName) == false) {
+            if (!mainFrame.ifModuleExists(selectedProgram, selectedCourse, moduleName)) {
                 mainFrame.addNewModule(selectedCourse, moduleName);
                 disableButtons();
                 addModuleButton.setEnabled(true);
@@ -307,7 +307,7 @@ public class CenterModulePanel extends JPanel {
      * @author Ahmad Maarouf
      */
     public void removeModule() {
-        if (mainFrame.deleteConfirmation(selectedModule) == true) {
+        if (mainFrame.deleteConfirmation(selectedModule)) {
             //Here we write what happens when we press the delete button
             mainFrame.deleteModule(selectedCourse, selectedModule);
             disableButtons();

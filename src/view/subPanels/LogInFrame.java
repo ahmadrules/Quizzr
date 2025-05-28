@@ -20,8 +20,6 @@ public class LogInFrame extends JFrame {
     private JTextField usernameField;
     private JPanel loginPanel;
     private JTextField passwordField;
-    private JPanel usernamePanel;
-    private JPanel passwordPanel;
     private JPanel loginButtonPanel;
     private JButton loginButton;
     private JButton registerButton;
@@ -34,13 +32,8 @@ public class LogInFrame extends JFrame {
     private JTextField newPasswordField;
     private JTextField confirmPasswordField;
     private JTextField newEmailField;
-    private JPanel newUserNamePanel;
-    private JPanel newPasswordPanel;
-    private JPanel confirmPasswordPanel;
-    private JPanel newEmailPanel;
     private JPanel registerButtonPanel;
-    private JTextField programCodeField;
-    private JPanel programCodePanel;
+    private JComboBox<String> programCodeBox;
     private JPanel topPanel;
     private Controller controller;
     private JButton adminLoginButton;
@@ -240,7 +233,7 @@ public class LogInFrame extends JFrame {
         newPasswordField.setText("");
         confirmPasswordField.setText("");
         newEmailField.setText("");
-        programCodeField.setText("");
+        programCodeBox.setSelectedIndex(-1);
     }
 
     /**
@@ -275,7 +268,7 @@ public class LogInFrame extends JFrame {
         JLabel newUsernameLabel = new JLabel("Enter username:");
         JLabel newPasswordLabel = new JLabel("Enter password:");
         JLabel confirmPasswordLabel = new JLabel("Confirm password:");
-        JLabel programCodeLabel = new JLabel("Enter program code:");
+        JLabel programCodeLabel = new JLabel("Choose program code:");
 
         newEmailLabel.setFont(font);
         newUsernameLabel.setFont(font);
@@ -293,14 +286,19 @@ public class LogInFrame extends JFrame {
         newPasswordField = new JPasswordField(10);
         confirmPasswordField = new JPasswordField(10);
         newEmailField = new JTextField(10);
-        programCodeField = new JTextField(10);
+        programCodeBox = new JComboBox<String>();
+
+        List<String> programCodes = mainFrame.getProgramCodes();
+        for (String programName : programCodes) {
+            programCodeBox.addItem(programName);
+        }
+        programCodeBox.setSelectedIndex(-1);
 
         newNameField.setFont(font);
         newPasswordField.setFont(font);
         confirmPasswordField.setFont(font);
-        programCodeField.setFont(font);
         newEmailField.setFont(font);
-        programCodeField.setFont(font);
+        programCodeBox.setFont(font);
 
         Dimension labelSize = new Dimension(200, 30);
         newEmailLabel.setPreferredSize(labelSize);
@@ -314,13 +312,13 @@ public class LogInFrame extends JFrame {
         newPasswordField.setPreferredSize(fieldSize);
         confirmPasswordField.setPreferredSize(fieldSize);
         newEmailField.setPreferredSize(fieldSize);
-        programCodeField.setPreferredSize(fieldSize);
+        programCodeBox.setPreferredSize(fieldSize);
 
-        newUserNamePanel = new JPanel();
-        newPasswordPanel = new JPanel();
-        confirmPasswordPanel = new JPanel();
-        newEmailPanel = new JPanel();
-        programCodePanel = new JPanel();
+        JPanel newUserNamePanel = new JPanel();
+        JPanel newPasswordPanel = new JPanel();
+        JPanel confirmPasswordPanel = new JPanel();
+        JPanel newEmailPanel = new JPanel();
+        JPanel programCodePanel = new JPanel();
         registerButtonPanel = new JPanel(new FlowLayout());
 
         newUserNamePanel.setBackground(new Color(255, 249, 163));
@@ -353,7 +351,7 @@ public class LogInFrame extends JFrame {
         programCodePanel.setLayout(new BoxLayout(programCodePanel, BoxLayout.Y_AXIS));
         programCodePanel.add(programCodeLabel);
         programCodePanel.add(Box.createRigidArea(new Dimension(0, 5)));
-        programCodePanel.add(programCodeField);
+        programCodePanel.add(programCodeBox);
 
         JPanel mainRegisterPanel = new JPanel();
         mainRegisterPanel.setLayout(new BoxLayout(mainRegisterPanel, BoxLayout.Y_AXIS));
@@ -386,8 +384,8 @@ public class LogInFrame extends JFrame {
         Font font = new Font("Segoe UI", Font.BOLD, 18);
 
         topPanel = new JPanel();
-        usernamePanel = new JPanel();
-        passwordPanel = new JPanel();
+        JPanel usernamePanel = new JPanel();
+        JPanel passwordPanel = new JPanel();
         loginButtonPanel = new JPanel();
 
         passwordPanel.setBackground(new Color(255, 249, 163));
@@ -525,20 +523,19 @@ public class LogInFrame extends JFrame {
                     String confirmedPassword = confirmPasswordField.getText();
                     if (newPassword != null && !newPassword.isEmpty()) {
                         if (newPassword.equals(confirmedPassword)) {
-                            String programCode = programCodeField.getText();
-                            List<String> programCodes=controller.programCodes();
-                            if(programCode != null && !programCode.isEmpty() && programCodes.contains(programCode) ) {
+                            String programCode = (String) programCodeBox.getSelectedItem();
                             boolean success= mainFrame.registerNewUser(newUsername,newPassword,newEmail,programCode);
+
                             if (success) {
                                 JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
                                 clearFields();
                                 setLoginLayout();
-                            }else{
+                            }
+                            else {
                                 JOptionPane.showMessageDialog(mainPanel, "User already exists");
-                            }}else {
-                                JOptionPane.showMessageDialog(mainPanel, "Please enter a valid Program Code");
-
-                            }                        } else {
+                            }
+                        }
+                        else {
                             JOptionPane.showMessageDialog(mainFrame, "Passwords do not match");
                         }
                     }
@@ -556,7 +553,6 @@ public class LogInFrame extends JFrame {
         });
 
         registerButton.addActionListener(e -> {
-
             setRegisterLayout();
         });
 

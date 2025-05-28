@@ -135,6 +135,10 @@ public class MainFrame extends JFrame {
         return controller.getProgramsNames();
     }
 
+    public List<String> getProgramCodes() {
+        return controller.getProgramCodes();
+    }
+
     /**
      * Returns a list of all available modules names for a selected course
      * @param selectedCourse the currently selected course

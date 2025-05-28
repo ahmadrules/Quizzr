@@ -971,7 +971,7 @@ public class Controller {
      * @return a List of String representing program codes
      * @author Lilas Beirakdar
      */
-    public List<String> programCodes(){
+    public List<String> getProgramCodes(){
         List<String> programCodes = new ArrayList<>();
         for (Program program : programList) {
             programCodes.add(program.getProgramCode());
@@ -1275,28 +1275,38 @@ public class Controller {
     }
 
     public void clearHistory(String selectedModule, String selectedCourse) {
-        List<Quiz> quizList = currentUser.getCreatedQuiz();
+        List<Quiz> quizList = currentUser.getHistory();
+        List<Quiz> toRemove = new ArrayList<>();
 
         for (Quiz quiz : quizList) {
             String relatedModule = quiz.getRelatedModule().getName();
             String relatedCourse = quiz.getRelatedCourse().getName();
 
             if (relatedModule.equals(selectedModule) && relatedCourse.equals(selectedCourse)) {
-                currentUser.removeHistoryQuiz(quiz);
+                toRemove.add(quiz);
             }
+        }
+
+        for (Quiz quiz : toRemove) {
+            currentUser.removeHistoryQuiz(quiz);
         }
     }
 
     public void clearCreatedQuiz(String selectedModule, String selectedCourse) {
         List<Quiz> quizList = currentUser.getCreatedQuiz();
+        List<Quiz> toRemove = new ArrayList<>();
 
         for (Quiz quiz : quizList) {
             String relatedModule = quiz.getRelatedModule().getName();
             String relatedCourse = quiz.getRelatedCourse().getName();
 
             if (relatedModule.equals(selectedModule) && relatedCourse.equals(selectedCourse)) {
-                currentUser.removeQuiz(quiz);
+                toRemove.add(quiz);
             }
+        }
+
+        for (Quiz quiz : toRemove) {
+            currentUser.removeQuiz(quiz);
         }
     }
 

@@ -14,33 +14,43 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class QuestionFrame extends JFrame {
-    private List<Question> questionList;
     private MainQuizFrame mainQuizFrame;
+    private boolean isResult;
+    private Quiz currentQuiz;
+    private List<Question> questionList;
+
     private JPanel mainQuestionPanel;
+    private JPanel topPanel;
+
     private ArrayList<ButtonGroup> buttonGroups;
+    private JButton submitButton;
+    private JButton closeButton;
+    private String previousItem;
+
     private HashMap<Question, ButtonGroup> questionButtonGroupMap;
     private HashMap<Integer, ArrayList<JComboBox>> comboBoxMap;
     private HashMap<Question, ArrayList<JComboBox>> questionComboBoxMap;
     private ItemListener comboBoxListenerSelected;
     private ItemListener comboBoxListenerDeselected;
-    private JButton submitButton;
-    private JButton closeButton;
-    private String previousItem;
-    private Quiz currentQuiz;
-    private JPanel topPanel;
-    private long timerSecondsmount;
+
+    private long timerSecondsAmount;
     private long currentSeconds;
     private long currentMinutes;
     private Timer timer;
-    private boolean isResult;
 
 
-    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, boolean isResult) {
-        this.questionList = questionList;
+
+    public QuestionFrame(Quiz currentQuiz, MainQuizFrame mainQuizFrame, boolean isResult) {
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
-        this.timerSecondsmount = timerSecondsAmount;
         this.isResult = isResult;
+
+        questionList = currentQuiz.getQuestions();
+
+        timerSecondsAmount = currentQuiz.getTimerSeconds();
+        if (isResult) {
+            timerSecondsAmount = 0;
+        }
 
         setTitle("Quiz options");
         setLayout(new BorderLayout());
@@ -48,6 +58,7 @@ public class QuestionFrame extends JFrame {
         if (!isResult) {
             createComboBoxListeners();
         }
+
         setupPanel();
 
         createTopPanel();
@@ -116,9 +127,9 @@ public class QuestionFrame extends JFrame {
     }
 
     public void createTimer() {
-        if (timerSecondsmount > 0) {
-            currentSeconds = timerSecondsmount % 60;
-            currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsmount);
+        if (timerSecondsAmount > 0) {
+            currentSeconds = timerSecondsAmount % 60;
+            currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsAmount);
 
             JLabel timerLabel = new JLabel("Time left: " + currentMinutes + ":00");
             timerLabel.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
@@ -243,7 +254,7 @@ public class QuestionFrame extends JFrame {
         mainQuestionPanel.add(topPanel);
         mainQuestionPanel.add(new JSeparator());
 
-        if (timerSecondsmount > 0) {
+        if (timerSecondsAmount > 0) {
             timer.start();
         }
 
