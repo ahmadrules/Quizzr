@@ -2,6 +2,7 @@ package view.main.CenterPanels;
 
 import model.Hasher;
 import view.main.MainFrame;
+import view.subPanels.PicturesFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,24 +14,29 @@ import java.awt.*;
  * @author Ahmad Maarouf
  */
 public class CenterAccountPanel extends JPanel {
-    private MainFrame mainFrame;
-    private JPanel accountInformationPanel;
-    private JPanel profilePicPanel;
     private String[] currentUserInfo;
+    private MainFrame mainFrame;
+
+    private JPanel accountInformationPanel;
+    private JPanel emptyPanel;
+    private JPanel mainPanel;
+    private JPanel profilePicPanel;
+
     private JButton editNameButton;
     private JButton editEmailButton;
     private JButton editPasswordButton;
-    private JLabel nameLabel;
+    private JButton editProfilePic;
+
     private JLabel emailLabel;
+    private JLabel nameLabel;
     private JLabel passwordLabel;
-    private JPanel emptyPanel;
+    private JLabel profilePicLabel;
 
     public CenterAccountPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         getCurrentUserInfo();
-        createAccountInformationPanel();
-        addActionListeners();
         setLayout();
+        addActionListeners();
         setVisible(true);
     }
 
@@ -41,10 +47,40 @@ public class CenterAccountPanel extends JPanel {
     public void setLayout() {
         setLayout(new BorderLayout());
         JLabel topLabel = new JLabel("Account information", SwingConstants.CENTER);
-        setLayout(new BoxLayout(accountInformationPanel, BoxLayout.PAGE_AXIS));
-        //add(topLabel, BorderLayout.NORTH);
-        //add(accountInformationPanel, BorderLayout.CENTER);
-        //add(emptyPanel, BorderLayout.SOUTH);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        setUpMainPanel();
+        add(topLabel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
+        add(emptyPanel, BorderLayout.SOUTH);
+    }
+
+    public void setUpMainPanel(){
+        accountInformationPanel = new JPanel();
+        createAccountInformationPanel();
+        profilePicPanel = new JPanel();
+        setUpProfilePicPanel();
+        mainPanel.add(profilePicPanel);
+        mainPanel.add(Box.createVerticalStrut(10));
+        mainPanel.add(accountInformationPanel);
+    }
+
+    public void setUpProfilePicPanel(){
+        profilePicPanel.setLayout(new BoxLayout(profilePicPanel, BoxLayout.Y_AXIS));
+        profilePicPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
+        profilePicPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        editProfilePic = new JButton("Change Picture");
+        profilePicLabel = new JLabel("Test");
+
+        editProfilePic.setAlignmentX(Component.CENTER_ALIGNMENT);
+        profilePicLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        //profilePicPanel.add(Box.createVerticalStrut(30));
+        profilePicPanel.add(profilePicLabel);
+        profilePicPanel.add(Box.createVerticalStrut(100));
+        profilePicPanel.add(editProfilePic);
+        profilePicPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
     }
 
     /**
@@ -55,15 +91,19 @@ public class CenterAccountPanel extends JPanel {
     public void createAccountInformationPanel() {
         //Panel to add space to bottom
         emptyPanel = new JPanel();
-        emptyPanel.setBackground(new Color(238, 238, 238));
+        accountInformationPanel.setLayout(new BoxLayout(accountInformationPanel, BoxLayout.X_AXIS));
 
-        //Border displaying information
-        accountInformationPanel = new JPanel();
-        accountInformationPanel.setLayout(new BoxLayout(accountInformationPanel, BoxLayout.Y_AXIS));
-        accountInformationPanel.setBackground(new Color(255, 255, 255));
-        accountInformationPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        createAccountPanel();
+        createAccountButtonsPanel();
+        accountInformationPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }
 
+    public void createAccountPanel(){
 
+        JPanel accountPanel = new JPanel();
+        accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.Y_AXIS));
+
+        // Labels
         nameLabel = new JLabel("Username: " + currentUserInfo[0]);
         nameLabel.setAlignmentX(LEFT_ALIGNMENT);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
@@ -76,21 +116,47 @@ public class CenterAccountPanel extends JPanel {
         passwordLabel.setAlignmentX(LEFT_ALIGNMENT);
         passwordLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
-        editNameButton = new JButton("Edit username");
-        editNameButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        accountPanel.add(nameLabel);
+        accountPanel.add(Box.createVerticalStrut(10));
+        accountPanel.add(emailLabel);
+        accountPanel.add(Box.createVerticalStrut(10));
+        accountPanel.add(passwordLabel);
 
-        editEmailButton = new JButton("Edit email");
-        editEmailButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        accountInformationPanel.add(Box.createHorizontalStrut(5));
+        accountInformationPanel.add(accountPanel);
+    }
 
-        editPasswordButton = new JButton("Change password");
-        editPasswordButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+    public void createAccountButtonsPanel(){
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
-        accountInformationPanel.add(nameLabel);
-        accountInformationPanel.add(editNameButton);
-        accountInformationPanel.add(emailLabel);
-        accountInformationPanel.add(editEmailButton);
-        accountInformationPanel.add(passwordLabel);
-        accountInformationPanel.add(editPasswordButton);
+        //Buttons
+        editNameButton = new JButton("Edit Username");
+        editEmailButton = new JButton("Edit E-mail");
+        editPasswordButton = new JButton("Change Password");
+        Dimension buttonSize = new Dimension(140, 30);
+
+        editNameButton.setPreferredSize(buttonSize);
+        editNameButton.setMaximumSize(buttonSize);
+        editNameButton.setMinimumSize(buttonSize);
+
+        editEmailButton.setPreferredSize(buttonSize);
+        editEmailButton.setMaximumSize(buttonSize);
+        editEmailButton.setMinimumSize(buttonSize);
+
+        editPasswordButton.setPreferredSize(buttonSize);
+        editPasswordButton.setMaximumSize(buttonSize);
+        editPasswordButton.setMinimumSize(buttonSize);
+
+        buttonsPanel.add(Box.createVerticalStrut(20));
+        buttonsPanel.add(editNameButton);
+        buttonsPanel.add(Box.createVerticalStrut(20));
+        buttonsPanel.add(editEmailButton);
+        buttonsPanel.add(Box.createVerticalStrut(20));
+        buttonsPanel.add(editPasswordButton);
+
+        accountInformationPanel.add(Box.createHorizontalStrut(5));
+        accountInformationPanel.add(buttonsPanel);
     }
 
     /**
@@ -190,6 +256,10 @@ public class CenterAccountPanel extends JPanel {
             JOptionPane.showMessageDialog(mainFrame, "Incorrect password");
         }
     }
+    public void changeProfilePicture(){
+        PicturesFrame picturesFrame = new PicturesFrame(mainFrame, this);
+
+    }
 
     /**
      * Adds action listeners to the buttons.
@@ -206,6 +276,10 @@ public class CenterAccountPanel extends JPanel {
 
         editPasswordButton.addActionListener(e -> {
             changePassword();
+        });
+
+        editProfilePic.addActionListener(e->{
+            changeProfilePicture();
         });
     }
 }
