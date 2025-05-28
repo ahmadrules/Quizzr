@@ -1358,5 +1358,4 @@ public class Controller {
         addQuizToAvailableQuizzes(newQuiz);
 
     }
-
 }

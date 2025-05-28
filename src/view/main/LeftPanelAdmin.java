@@ -2,6 +2,7 @@ package view.main;
 
 
 import view.main.CenterPanels.CenterModulePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -9,9 +10,10 @@ import java.util.HashMap;
 /**
  * This class is responsible for displaying the list of available programs and also the list of available courses depending on
  * which program is selected.
+ *
  * @author Ahmad Maarouf
  */
-public class LeftPanel extends JPanel {
+public class LeftPanelAdmin extends JPanel {
     private JList<String> programList;
     private HashMap<String, String[]> coursesListMap;
     private JList<String> coursesList;
@@ -38,7 +40,7 @@ public class LeftPanel extends JPanel {
     private int selectedProgramIndex = -1;
     private int selectedCourseIndex = -1;
 
-    public LeftPanel(CenterModulePanel centerModulePanel, MainFrame mainFrame, boolean isAdmin) {
+    public LeftPanelAdmin(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
         this.centerModulePanel = centerModulePanel;
         this.mainFrame = mainFrame;
 
@@ -46,30 +48,32 @@ public class LeftPanel extends JPanel {
         setupLayout();
         addEventListeners();
 
-        this.add(programsLabel);
-        this.add(programScrollPane);
-        if (isAdmin) {
-            this.add(programButtonPanel);
-        }
+        add(programsLabel);
+        add(programScrollPane);
+        add(programButtonPanel);
 
-        this.add(coursesLabel);
-        this.add(coursesScrollPane);
-        if (isAdmin) {
-            this.add(coursesButtonPanel);
-        }
+        add(coursesLabel);
+        add(coursesScrollPane);
+        add(coursesButtonPanel);
     }
 
     /**
      * This method creates all the data components required for storing the required lists.
      * It also sets up the layout of the lists.
+     *
      * @author Ahmad Maarouf
      */
     public void createDataComponents() {
+        programsLabel = new JLabel();
         //Program data model, program list and program scrollPane created
-        programNames = new String[1];
-        programNames[0] = mainFrame.getCurrentUserProgram();
+        programNames = new String[mainFrame.getProgramsNames().length];
         programListModel = new DefaultListModel<>();
-        for (String category : programNames) programListModel.addElement(category);
+        int i = 0;
+        for (String programName : mainFrame.getProgramsNames()) {
+            programNames[i] = programName;
+            programListModel.addElement(programName);
+            i++;
+        }
         programList = new JList<>(programListModel);
         programList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         programScrollPane = new JScrollPane(programList);
@@ -89,6 +93,7 @@ public class LeftPanel extends JPanel {
 
     /**
      * This method updates the list of available programs and also courses if a program is selected.
+     *
      * @author Ahmad Maarouf
      */
     public void updateLists() {
@@ -123,6 +128,7 @@ public class LeftPanel extends JPanel {
 
     /**
      * Sets up the layout for the left panels as well as labels and buttons.
+     *
      * @author Ahmad Maarouf
      */
     public void setupLayout() {
@@ -130,8 +136,9 @@ public class LeftPanel extends JPanel {
 
         //Create labels for program and course lists
         programsLabel = new JLabel(" Programs");
-        programsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         programsLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        programsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
 
         coursesLabel = new JLabel(" Courses");
         coursesLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -173,6 +180,7 @@ public class LeftPanel extends JPanel {
 
     /**
      * Enable program buttons. Used when a program is selected.
+     *
      * @author Ahmad Maarouf
      */
     public void enableProgramButtons() {
@@ -182,6 +190,7 @@ public class LeftPanel extends JPanel {
 
     /**
      * Disable program buttons. Used when no program is selected.
+     *
      * @author Ahmad Maarouf
      */
     public void disableProgramButtons() {
@@ -191,6 +200,7 @@ public class LeftPanel extends JPanel {
 
     /**
      * Enable course buttons. Used when a course is selected
+     *
      * @author Ahmad Maarouf
      */
     public void enableCourseButtons() {
@@ -201,6 +211,7 @@ public class LeftPanel extends JPanel {
 
     /**
      * Disable course buttons. Used when no course is selected, or a new program is selected.
+     *
      * @author Ahmad Maarouf
      */
     public void disableCourseButtons() {
@@ -211,12 +222,12 @@ public class LeftPanel extends JPanel {
 
     /**
      * Adds event listeners to the lists and buttons contained within the leftPanel.
+     *
      * @author Ahmad Maarouf
      */
     private void addEventListeners() {
         programList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-
                 //Selected program is decided here
                 //Use selectedProgram for communication with Controller
                 selectedProgram = programList.getSelectedValue();
@@ -237,7 +248,7 @@ public class LeftPanel extends JPanel {
 
                 centerModulePanel.disableButtons();
                 centerModulePanel.clearModuleList();
-                
+
                 if (selectedProgramIndex != -1) {
                     enableProgramButtons();
                     disableCourseButtons();
@@ -245,6 +256,7 @@ public class LeftPanel extends JPanel {
                 }
             }
         });
+
 
         coursesList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -294,6 +306,7 @@ public class LeftPanel extends JPanel {
      * Adds a program to the list of available programs.
      * Also adds it to the file which contains all the available programs.
      * This is done through the mainFrame, which contacts the controller.
+     *
      * @author Ahmad Maarouf
      */
     public void addProgram() {
@@ -302,8 +315,7 @@ public class LeftPanel extends JPanel {
         if (programName != null) {
             if (mainFrame.ifProgramExists(programName)) {
                 JOptionPane.showMessageDialog(null, programName + " already exists");
-            }
-            else {
+            } else {
                 mainFrame.addProgramToProgramList(programName, programCode);
                 updateLists();
             }
@@ -314,6 +326,7 @@ public class LeftPanel extends JPanel {
      * Adds a course to the list of available courses for a program.
      * Also adds it to the file which contains all the available courses for that program.
      * This is done through the mainFrame, which contacts the controller.
+     *
      * @author Ahmad Maarouf
      */
     public void addCourse() {
@@ -321,8 +334,7 @@ public class LeftPanel extends JPanel {
         if (courseName != null) {
             if (mainFrame.ifCourseExists(selectedProgram, courseName)) {
                 JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");
-            }
-            else {
+            } else {
                 mainFrame.addNewCourse(selectedProgram, courseName);
                 updateLists();
             }
@@ -333,6 +345,7 @@ public class LeftPanel extends JPanel {
      * Edits a program in the list of available programs.
      * Also edits it in the file which contains all the available programs.
      * This is done through the mainFrame, which contacts the controller.
+     *
      * @author Ahmad Maarouf
      */
     public void editProgram() {
@@ -341,7 +354,7 @@ public class LeftPanel extends JPanel {
             if (programName.equals(selectedProgram)) {
                 //Do nothing if name not changed
             } else if (mainFrame.ifProgramExists(programName)) {
-                JOptionPane.showMessageDialog(null, programName +" already exists! Choose a different program name");
+                JOptionPane.showMessageDialog(null, programName + " already exists! Choose a different program name");
             } else {
                 mainFrame.editProgramName(selectedProgram, programName);
                 updateLists();
@@ -354,6 +367,7 @@ public class LeftPanel extends JPanel {
      * Edits a course in the list of available courses for a program
      * Also edits it in the file which contains all the available courses for that program.
      * This is done through the mainFrame, which contacts the controller.
+     *
      * @author Ahmad Maarouf
      */
     public void editCourse() {
@@ -361,11 +375,9 @@ public class LeftPanel extends JPanel {
         if (courseName != null) {
             if (courseName.equals(selectedCourse)) {
                 //Do nothing if name not changed
-            }
-            else if (mainFrame.ifCourseExists(selectedProgram, courseName)) {
+            } else if (mainFrame.ifCourseExists(selectedProgram, courseName)) {
                 JOptionPane.showMessageDialog(null, courseName + " already exists for " + selectedProgram + "! Choose a different course name");
-            }
-            else {
+            } else {
                 mainFrame.editCourseName(selectedCourse, courseName);
                 updateLists();
                 selectedCourse = courseName;
@@ -377,6 +389,7 @@ public class LeftPanel extends JPanel {
      * Removes a program from the list of available programs.
      * Also removes it from the file which contains all the available programs.
      * This is done through the mainFrame, which contacts the controller.
+     *
      * @author Ahmad Maarouf
      */
     public void removeProgram() {
@@ -394,6 +407,7 @@ public class LeftPanel extends JPanel {
      * Removes a program from the list of available programs.
      * Also removes it from the file which contains all the available programs.
      * This is done through the mainFrame, which contacts the controller.
+     *
      * @author Ahmad Maarouf
      */
     public void removeCourse() {

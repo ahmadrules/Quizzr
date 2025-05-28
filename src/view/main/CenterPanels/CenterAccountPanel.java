@@ -11,6 +11,7 @@ import java.awt.*;
  * This class is responsible for displaying account information in centerPanel
  * for the currently logged in account.
  * It is also responsible for giving options of changing email, username and password of the current user.
+ *
  * @author Ahmad Maarouf
  */
 public class CenterAccountPanel extends JPanel {
@@ -42,6 +43,7 @@ public class CenterAccountPanel extends JPanel {
 
     /**
      * Sets up the layout of the panel.
+     *
      * @author Ahmad Maarouf
      */
     public void setLayout() {
@@ -55,7 +57,7 @@ public class CenterAccountPanel extends JPanel {
         add(emptyPanel, BorderLayout.SOUTH);
     }
 
-    public void setUpMainPanel(){
+    public void setUpMainPanel() {
         accountInformationPanel = new JPanel();
         createAccountInformationPanel();
         profilePicPanel = new JPanel();
@@ -65,7 +67,7 @@ public class CenterAccountPanel extends JPanel {
         mainPanel.add(accountInformationPanel);
     }
 
-    public void setUpProfilePicPanel(){
+    public void setUpProfilePicPanel() {
         profilePicPanel.setLayout(new BoxLayout(profilePicPanel, BoxLayout.Y_AXIS));
         profilePicPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
         profilePicPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -86,6 +88,7 @@ public class CenterAccountPanel extends JPanel {
     /**
      * Creates the panel displaying the information and all related
      * components required.
+     *
      * @author Ahmad Maarouf
      */
     public void createAccountInformationPanel() {
@@ -98,7 +101,7 @@ public class CenterAccountPanel extends JPanel {
         accountInformationPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
-    public void createAccountPanel(){
+    public void createAccountPanel() {
 
         JPanel accountPanel = new JPanel();
         accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.Y_AXIS));
@@ -116,17 +119,23 @@ public class CenterAccountPanel extends JPanel {
         passwordLabel.setAlignmentX(LEFT_ALIGNMENT);
         passwordLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 
+        JLabel programLabel = new JLabel("Your program: " + mainFrame.getStudentProgramName());
+        programLabel.setAlignmentX(LEFT_ALIGNMENT);
+        programLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+
         accountPanel.add(nameLabel);
         accountPanel.add(Box.createVerticalStrut(10));
         accountPanel.add(emailLabel);
         accountPanel.add(Box.createVerticalStrut(10));
         accountPanel.add(passwordLabel);
+        accountPanel.add(Box.createVerticalStrut(10));
+        accountPanel.add(programLabel);
 
         accountInformationPanel.add(Box.createHorizontalStrut(5));
         accountInformationPanel.add(accountPanel);
     }
 
-    public void createAccountButtonsPanel(){
+    public void createAccountButtonsPanel() {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
@@ -154,6 +163,7 @@ public class CenterAccountPanel extends JPanel {
         buttonsPanel.add(editEmailButton);
         buttonsPanel.add(Box.createVerticalStrut(20));
         buttonsPanel.add(editPasswordButton);
+        buttonsPanel.add(Box.createVerticalStrut(20));
 
         accountInformationPanel.add(Box.createHorizontalStrut(5));
         accountInformationPanel.add(buttonsPanel);
@@ -162,6 +172,7 @@ public class CenterAccountPanel extends JPanel {
     /**
      * Fetches the current users information from the mainFrame
      * which calls on controller.
+     *
      * @author Ahmad Maarouf
      */
     public void getCurrentUserInfo() {
@@ -171,6 +182,7 @@ public class CenterAccountPanel extends JPanel {
     /**
      * Updates the current users' information.
      * Called when email, username or password is edited.
+     *
      * @author Ahmad Maarouf
      */
     public void updateUserInfo() {
@@ -182,6 +194,7 @@ public class CenterAccountPanel extends JPanel {
     /**
      * Changes the username according to what the user inputs.
      * Also changes the username stored in a data file.
+     *
      * @author Ahmad Maarouf
      */
     public void changeUsername() {
@@ -189,8 +202,7 @@ public class CenterAccountPanel extends JPanel {
         if (newUsername != null) {
             if (newUsername.equals(currentUserInfo[0])) {
                 //Do nothing if username not changed
-            }
-            else {
+            } else {
                 mainFrame.setNewUsername(newUsername);
                 updateUserInfo();
             }
@@ -201,6 +213,7 @@ public class CenterAccountPanel extends JPanel {
      * Changes the email according to what the user inputs.
      * Also changes the email stored in a data file.
      * New email must be a valid email.
+     *
      * @author Ahmad Maarouf
      */
     public void changeEmail() {
@@ -208,13 +221,11 @@ public class CenterAccountPanel extends JPanel {
         if (mainFrame.isEmailValid(newEmail)) {
             if (newEmail.equals(currentUserInfo[1])) {
                 //Do nothing if email not changed
-            }
-            else {
+            } else {
                 mainFrame.setNewEmail(newEmail);
                 updateUserInfo();
             }
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(mainFrame, "Please enter a valid email");
         }
     }
@@ -222,11 +233,12 @@ public class CenterAccountPanel extends JPanel {
     /**
      * Changes the password according to what the user inputs.
      * Also changes the password stored in a data file.
+     *
      * @author Ahmad Maarouf
      */
     public void changePassword() {
         String currentPassword = JOptionPane.showInputDialog(mainFrame, "Please enter your current password");
-        String hashedPassword= Hasher.hash(currentPassword);
+        String hashedPassword = Hasher.hash(currentPassword);
 
         if (hashedPassword.equals(currentUserInfo[2])) {
             JTextField newPassword = new JPasswordField(10);
@@ -235,7 +247,7 @@ public class CenterAccountPanel extends JPanel {
 
             boolean isFinished = false;
 
-            while(!isFinished) {
+            while (!isFinished) {
                 int choice = JOptionPane.showConfirmDialog(null, options, "Change password", JOptionPane.OK_CANCEL_OPTION);
 
                 if (choice == JOptionPane.OK_OPTION && newPassword.getText().equals(newConfirmPassword.getText())) {
@@ -251,18 +263,19 @@ public class CenterAccountPanel extends JPanel {
                     JOptionPane.showMessageDialog(mainFrame, "Passwords do not match. Try again.");
                 }
             }
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(mainFrame, "Incorrect password");
         }
     }
-    public void changeProfilePicture(){
+
+    public void changeProfilePicture() {
         PicturesFrame picturesFrame = new PicturesFrame(mainFrame, this);
 
     }
 
     /**
      * Adds action listeners to the buttons.
+     *
      * @author Ahmad Maarouf
      */
     public void addActionListeners() {
@@ -278,7 +291,7 @@ public class CenterAccountPanel extends JPanel {
             changePassword();
         });
 
-        editProfilePic.addActionListener(e->{
+        editProfilePic.addActionListener(e -> {
             changeProfilePicture();
         });
     }
