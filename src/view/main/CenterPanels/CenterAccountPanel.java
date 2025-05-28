@@ -16,6 +16,7 @@ public class CenterAccountPanel extends JPanel {
     private MainFrame mainFrame;
     private JPanel accountInformationPanel;
     private JPanel profilePicPanel;
+    private JPanel mainPanel;
     private String[] currentUserInfo;
     private JButton editNameButton;
     private JButton editEmailButton;
@@ -28,7 +29,6 @@ public class CenterAccountPanel extends JPanel {
     public CenterAccountPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         getCurrentUserInfo();
-        createAccountInformationPanel();
         addActionListeners();
         setLayout();
         setVisible(true);
@@ -41,10 +41,27 @@ public class CenterAccountPanel extends JPanel {
     public void setLayout() {
         setLayout(new BorderLayout());
         JLabel topLabel = new JLabel("Account information", SwingConstants.CENTER);
-        setLayout(new BoxLayout(accountInformationPanel, BoxLayout.PAGE_AXIS));
-        //add(topLabel, BorderLayout.NORTH);
-        //add(accountInformationPanel, BorderLayout.CENTER);
-        //add(emptyPanel, BorderLayout.SOUTH);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        setUpMainPanel();
+        add(topLabel, BorderLayout.NORTH);
+        add(mainPanel, BorderLayout.CENTER);
+        add(emptyPanel, BorderLayout.SOUTH);
+    }
+
+    public void setUpMainPanel(){
+        accountInformationPanel = new JPanel();
+        createAccountInformationPanel();
+        profilePicPanel = new JPanel();
+        setUpProfilePicPanel();
+        mainPanel.add(Box.createVerticalStrut(60));
+        mainPanel.add(profilePicPanel);
+        mainPanel.add(Box.createVerticalStrut(60));
+        mainPanel.add(accountInformationPanel);
+    }
+
+    public void setUpProfilePicPanel(){
+
     }
 
     /**
