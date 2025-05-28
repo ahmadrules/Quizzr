@@ -752,6 +752,7 @@ public class Controller {
     }
 
     public void saveUsers() {
+
         userManager.saveUsersToFiles();
     }
 
@@ -932,6 +933,14 @@ public class Controller {
         }
     }
 
+    /**
+     * Returns the program that the current student studies
+     *
+     * @return the program that the current student have given the program code of
+     * When registered into the program
+     * @author Lilas Beirakdar
+     */
+
    public Program getCurrentStudentProgram(){
         String usersProgramCode= currentUser.getProgramCode();
         for (Program program : programList) {
@@ -947,6 +956,7 @@ public class Controller {
      * Returns a list of program codes as String
      * @author Lilas Beirakdar
      * @return a List of String representing program codes
+     * @author Lilas Beirakdar
      */
     public List<String> programCodes(){
         List<String> programCodes = new ArrayList<>();
@@ -992,13 +1002,14 @@ public class Controller {
     }
 
     /**
-     *
-     * @param query
-     * @param alternatives
-     * @param points
-     * @param correctAnswer
-     * @param courseName
-     * @param moduleName
+     * Saves a true or false question to a file
+     * @param query the part of question object representing the question
+     * @param alternatives the alternatives of the question
+     * @param points number of points gained after answering the question correctly
+     * @param correctAnswer the correct answer of the question as String
+     * @param courseName the course that the question is related to
+     * @param moduleName the module that the question is related to
+     * @author Lilas Beirakdar
      */
     public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
@@ -1007,13 +1018,14 @@ public class Controller {
     }
 
     /**
-     *
-     * @param query
-     * @param alternatives
-     * @param points
-     * @param correctAnswer
-     * @param courseName
-     * @param moduleName
+     * Saves a multiple choice question to a file
+     * @param query the part representing the question
+     * @param alternatives the part of question representing the alternatives
+     * @param points number of points earned after answering the question correctly
+     * @param correctAnswer the correct answer of the question
+     * @param courseName the course that the question is related to
+     * @param moduleName the module that the course is related to
+     * @author Lilas Beirakdar
      */
     public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName ) {
         Module module = getModule(courseName,moduleName);
@@ -1022,14 +1034,15 @@ public class Controller {
     }
 
     /**
-     *
-     * @param query
-     * @param statements
-     * @param matches
-     * @param points
-     * @param correctMatches
-     * @param courseName
-     * @param moduleName
+     * Saves a matching question to  a file
+     * @param query the part representing the question
+     * @param statements represents the statements that needs to be matched to another statement
+     * @param matches represents the matches of the given statements
+     * @param points number of points earned after answering the question correctly
+     * @param correctMatches a HashMap representing the statement and the match that matches to it
+     * @param courseName the course that the question is related to
+     * @param moduleName the module that the course is related to
+     * @author Lilas Beirakdar
      */
 
     public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName ) {
@@ -1073,6 +1086,12 @@ public class Controller {
         userManager.saveUsersToFiles();
     }
 
+    /**
+     * Returns the history of quizzes the current user have done
+     *
+     * @return a List of history quizzes the current user have done before
+     * @author Lilas Beirakdar
+     */
     public List<Quiz> getCurrentUsersQuizHistory(){
         List<Quiz> availableQuizList = new ArrayList<>();
         List<Quiz> quizHistory = new ArrayList<>();
@@ -1134,10 +1153,19 @@ public class Controller {
         return backContent;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Quiz> getUsersHistoryQuizzes(){
         return usersHistoryQuizzes;
     }
-    
+
+    /**
+     * Returns a list of created quizzes of the current user
+     * @return a list of quizzes created by the current user
+     * @author Lilas Beirakdar
+     */
     public List<Quiz> getUsersAvailableQuizzes(){
         return currentUser.getCreatedQuiz();
     }
@@ -1162,12 +1190,28 @@ public class Controller {
         return historyQuizNames;
     }
 
+    /**
+     * Adds a quiz to created quizzes list
+     * It sets the date of the quiz to current date
+     * It saves the user after adding the quiz to users file
+     * @param quiz the quiz to be added to the created quizzes list associated with the current student
+     * @author Lilas Beirakdar
+     */
     public void addQuizToAvailableQuizzes(Quiz quiz){
         quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
         this.userAvailableQuizzes=currentUser.getCreatedQuiz();
     }
+
+    /**
+     *
+     * @param quizName
+     * @param questions
+     * @param answers
+     * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     */
 
     public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers){
         Quiz quiz1 = new Quiz(quizName);
