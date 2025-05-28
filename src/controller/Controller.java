@@ -513,6 +513,19 @@ public class Controller {
         return null;
     }
 
+    public Course getCourse(String programName, String courseName) {
+        for (Program program : programs) {
+            if (program.getName().equals(programName)) {
+                for (Course course : program.getCourses()) {
+                    if (course.getName().equals(courseName)) {
+                        return course;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Deletes a {@link Module} from a {@link Course} identified by its name.
      * <p>
@@ -983,7 +996,6 @@ public class Controller {
      * @return
      * @author Lilas Beirakdar
      */
-
     private Module getModule(String courseName, String moduleName) {
         Course currentCourse=null;
         Module module=null;
@@ -1214,7 +1226,6 @@ public class Controller {
      */
 
     public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers, String relatedModule, String relatedCourse){
-        Quiz quiz1 = new Quiz(quizName);
         Module selectedModule = getModule(relatedCourse, relatedModule);
         Course selectedCourse = getCourse(getCurrentStudentProgramName(), relatedCourse);
         Quiz quiz1 = new Quiz(quizName, selectedCourse, selectedModule);
@@ -1222,12 +1233,13 @@ public class Controller {
         quiz1.setDate(currentDate);
         quiz1.setName(currentDate + " " + quizName);
         Map<Question, String> answerMap = new HashMap<>();
-
         for (Question question : questions) {
             answerMap.put(question, answers.get(question));
         }
         quiz1.setQuestions(questions);
         quiz1.setUserAnswers(answerMap);
+
+
         currentUser.addToHistory(quiz1);
         userManager.saveUsersToFiles();
         this.usersHistoryQuizzes=currentUser.getHistory();
