@@ -66,7 +66,8 @@ public class LeftPanel extends JPanel {
      */
     public void createDataComponents() {
         //Program data model, program list and program scrollPane created
-        programNames = mainFrame.getProgramsNames();
+        programNames = new String[1];
+        programNames[0] = mainFrame.getCurrentUserProgram();
         programListModel = new DefaultListModel<>();
         for (String category : programNames) programListModel.addElement(category);
         programList = new JList<>(programListModel);
@@ -92,7 +93,7 @@ public class LeftPanel extends JPanel {
      */
     public void updateLists() {
         //Fetch program names.
-        programNames = mainFrame.getProgramsNames();
+        programNames[0] = mainFrame.getCurrentUserProgram();
         programListModel.clear();
         for (String category : programNames) {
             programListModel.addElement(category);

@@ -10,6 +10,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is responsible for initializing a frame
@@ -74,7 +75,7 @@ public class MainQuizFrame extends JFrame {
      */
     public void createPanels() {
         historyPanel = new HistoryPanel(mainFrame, this);
-        availableQuizPanel = new AvailableQuizPanel(this, mainFrame);
+        availableQuizPanel = new AvailableQuizPanel(this, mainFrame, selectedModule, selectedCourse);
     }
 
     /**
@@ -146,27 +147,8 @@ public class MainQuizFrame extends JFrame {
      * @param timerSeconds the amount of time for the timer(0 if no timer)
      * @author Ahmad Maarouf
      */
-    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds) {
-        Quiz newQuiz = new Quiz(quizName);
-        this.timerSeconds = timerSeconds;
-
-        if (typeOfQuiz.equals("Matching")) {
-            questionsList = currentModule.generateMatchingQuiz(amountOfQuestions);
-        }
-        else if (typeOfQuiz.equals("True/False")) {
-            questionsList = currentModule.generateTrueOrFalseQuiz(amountOfQuestions);
-        }
-        else if (typeOfQuiz.equals("Multiple choice")) {
-            questionsList = currentModule.generateMultipleChoiceQuiz(amountOfQuestions);
-        }
-
-        questionsList.forEach(question -> {
-            newQuiz.addQuestion(question);
-        });
-
-        quizQuestions.put(newQuiz, questionsList);
-
-        mainFrame.addQuizToAvailableQuizzes(newQuiz);
+    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds, String relatedModule, String relatedCourse) {
+        mainFrame.generateQuiz(amountOfQuestions, quizName, typeOfQuiz, timerSeconds, selectedModule, selectedCourse);
         updateList();
     }
 
@@ -176,7 +158,7 @@ public class MainQuizFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void startQuiz(String selectedQuiz) {
-        currentQuiz = mainFrame.findQuiz(selectedQuiz);
+        currentQuiz = mainFrame.findQuiz(selectedQuiz, selectedModule, selectedCourse);
         showQuiz();
         setVisible(false);
     }
@@ -186,8 +168,8 @@ public class MainQuizFrame extends JFrame {
      * @param selectedQuiz name of the quiz to be deleted
      * @author Ahmad Maarouf
      */
-    public void deleteQuiz(String selectedQuiz) {
-        mainFrame.deleteQuiz(selectedQuiz);
+    public void deleteQuiz(String selectedQuiz, String relatedModule, String relatedCourse) {
+        mainFrame.deleteQuiz(selectedQuiz, relatedModule, relatedCourse);
         updateList();
     }
 
@@ -235,15 +217,26 @@ public class MainQuizFrame extends JFrame {
     }
 
     public Quiz findHistoryQuiz(String quizName) {
-        return mainFrame.findHistoryQuiz(quizName);
+        return mainFrame.findHistoryQuiz(quizName, selectedModule, selectedCourse);
     }
 
-    public Quiz findQuiz(String quizName) {
-        return mainFrame.findQuiz(quizName);
+    public Quiz findQuiz(String quizName, String relatedModule, String relatedCourse) {
+        return mainFrame.findQuiz(quizName, relatedModule, relatedCourse);
     }
 
     public void setQuizAsDone(boolean done) {
         mainFrame.setQuizAsDone(done);
     }
 
+    public List<String> getRelatedQuizNames() {
+        return mainFrame.getRelatedQuizNames(selectedModule, selectedCourse);
+    }
+
+    public List<String> getRelatedHistoryQuizNames() {
+        return mainFrame.getRelatedHistoryQuizNames(selectedModule, selectedCourse);
+    }
+
+    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers) {
+        mainFrame.addQuizToHistory(quizName, questions, answers, selectedModule, selectedCourse);
+    }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 public class QuizOptionsFrame extends JFrame {
 
     private MainQuizFrame mainQuizFrame;
+    private String selectedModule;
+    private String selectedCourse;
     private JPanel typePanel;
     private JPanel namePanel;
     private JPanel amountPanel;
@@ -20,8 +22,10 @@ public class QuizOptionsFrame extends JFrame {
     private JComboBox<String> timerBox;
     private JComboBox<String> typeBox;
 
-    public QuizOptionsFrame(MainQuizFrame mainQuizFrame) {
+    public QuizOptionsFrame(MainQuizFrame mainQuizFrame, String selectedModule, String selectedCourse) {
         this.mainQuizFrame = mainQuizFrame;
+        this.selectedModule = selectedModule;
+        this.selectedCourse = selectedCourse;
         setupLayout();
         createCenterPanel();
         addListeners();
@@ -111,12 +115,12 @@ public class QuizOptionsFrame extends JFrame {
 
             String newQuizName = nameField.getText();
             if (newQuizName != null && !newQuizName.isEmpty()) {
-                List<String> quizNames = mainQuizFrame.getQuizNames();
+                List<String> quizNames = mainQuizFrame.getRelatedQuizNames();
                 if (quizNames.contains(newQuizName)) {
                     JOptionPane.showMessageDialog(null, "Name already in use");
                 }
                 else {
-                    mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), newQuizName, typeOfQuiz, timerSeconds);
+                    mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), newQuizName, typeOfQuiz, timerSeconds, selectedModule, selectedCourse);
                     dispose();
                 }
             }

@@ -10,6 +10,7 @@ public class Quiz implements Serializable {
     private int result;
     private Module relatedModule;
     private Course relatedCourse;
+    private long timerSeconds;
     private boolean timer;
     private String userName;
     private String date;
@@ -144,5 +145,13 @@ public class Quiz implements Serializable {
     }
     public void setTimer(boolean timer) {
         this.timer = timer;
+    }
+
+    public long getTimerSeconds() {
+        return timerSeconds;
+    }
+
+    public void setTimerSeconds(long timerSeconds) {
+        this.timerSeconds = timerSeconds;
     }
 }

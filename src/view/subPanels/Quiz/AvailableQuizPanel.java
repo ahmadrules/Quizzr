@@ -15,6 +15,8 @@ import java.util.List;
 public class AvailableQuizPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
     private MainFrame mainFrame;
+    private String relatedCourse;
+    private String relatedModule;
 
     private DefaultListModel<String> quizListModel;
     private JList<String> availableQuizList;
@@ -25,9 +27,11 @@ public class AvailableQuizPanel extends JPanel {
     private String selectedQuiz;
     private JButton clearButton;
 
-    public AvailableQuizPanel(MainQuizFrame mainQuizFrame, MainFrame mainFrame) {
+    public AvailableQuizPanel(MainQuizFrame mainQuizFrame, MainFrame mainFrame, String relatedModule, String relatedCourse) {
         this.mainQuizFrame = mainQuizFrame;
         this.mainFrame = mainFrame;
+        this.relatedCourse = relatedCourse;
+        this.relatedModule = relatedModule;
         setLayout(new BorderLayout());
 
         setNorthLabel();
@@ -53,7 +57,10 @@ public class AvailableQuizPanel extends JPanel {
      */
     public void updateList() {
         quizListModel.clear();
-        for (String quizName : mainQuizFrame.getQuizNames()) {
+        List<String> relatedQuizNames = mainQuizFrame.getRelatedQuizNames();
+
+        for (String quizName : relatedQuizNames) {
+            System.out.println(quizName);
             if (quizName != null && !quizName.isEmpty()) {
                 quizListModel.addElement(quizName);
             }
@@ -114,7 +121,7 @@ public class AvailableQuizPanel extends JPanel {
      */
     public void addActionListeners() {
         generateButton.addActionListener(e -> {
-            new QuizOptionsFrame(mainQuizFrame);
+            new QuizOptionsFrame(mainQuizFrame, relatedModule, relatedCourse);
         });
 
         availableQuizList.addListSelectionListener(e -> {
@@ -132,7 +139,7 @@ public class AvailableQuizPanel extends JPanel {
         });
 
         deleteButton.addActionListener(e -> {
-           mainQuizFrame.deleteQuiz(selectedQuiz);
+           mainQuizFrame.deleteQuiz(selectedQuiz, relatedModule, relatedCourse);
            startQuizButton.setEnabled(false);
            deleteButton.setEnabled(false);
         });
