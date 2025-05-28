@@ -15,6 +15,7 @@ import java.awt.*;
 public class CenterAccountPanel extends JPanel {
     private MainFrame mainFrame;
     private JPanel accountInformationPanel;
+    private JPanel profilePicPanel;
     private String[] currentUserInfo;
     private JButton editNameButton;
     private JButton editEmailButton;
@@ -40,9 +41,10 @@ public class CenterAccountPanel extends JPanel {
     public void setLayout() {
         setLayout(new BorderLayout());
         JLabel topLabel = new JLabel("Account information", SwingConstants.CENTER);
-        add(topLabel, BorderLayout.NORTH);
-        add(accountInformationPanel, BorderLayout.CENTER);
-        add(emptyPanel, BorderLayout.SOUTH);
+        setLayout(new BoxLayout(accountInformationPanel, BoxLayout.PAGE_AXIS));
+        //add(topLabel, BorderLayout.NORTH);
+        //add(accountInformationPanel, BorderLayout.CENTER);
+        //add(emptyPanel, BorderLayout.SOUTH);
     }
 
     /**

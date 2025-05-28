@@ -8,8 +8,6 @@ import view.main.MainFrame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -312,13 +310,13 @@ public class QuestionFrame extends JFrame {
                         if (checkIfCorrectAnswer(question)) {
                             comboBoxPanel.setBackground(new Color(150, 240, 149));
                             alternativesPanel.setBackground(new Color(150, 240, 149));
-                            imagePath = getClass().getResource("/view/picsGIF/greenCheckmark.png").toString();
+                            imagePath = getClass().getResource("/view/pics/greenCheckmark.png").toString();
                         }
 
                         else {
                             comboBoxPanel.setBackground(new Color(240, 149, 149));
                             alternativesPanel.setBackground(new Color(240, 149, 149));
-                            imagePath = getClass().getResource("/view/picsGIF/redCheckmark.png").toString();
+                            imagePath = getClass().getResource("/view/pics/redCheckmark.png").toString();
                         }
 
                         JLabel imageIcon = new JLabel("<html><img src='" + imagePath + "' width='20' height='20'></html>");
@@ -368,10 +366,10 @@ public class QuestionFrame extends JFrame {
                 if (isResult) {
                     String imagePath = "";
                     if (checkIfCorrectAnswer(question)) {
-                        imagePath = getClass().getResource("/view/picsGIF/greenCheckmark.png").toString();
+                        imagePath = getClass().getResource("/view/pics/greenCheckmark.png").toString();
                     }
                     else {
-                        imagePath = getClass().getResource("/view/picsGIF/redCheckmark.png").toString();
+                        imagePath = getClass().getResource("/view/pics/redCheckmark.png").toString();
                     }
 
                     JLabel imageIcon = new JLabel("<html><img src='" + imagePath + "' width='20' height='20'></html>");
