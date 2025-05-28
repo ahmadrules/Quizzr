@@ -14,9 +14,6 @@ import java.util.List;
  */
 public class AvailableQuizPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
-    private MainFrame mainFrame;
-    private String relatedCourse;
-    private String relatedModule;
 
     private DefaultListModel<String> quizListModel;
     private JList<String> availableQuizList;
@@ -27,11 +24,8 @@ public class AvailableQuizPanel extends JPanel {
     private String selectedQuiz;
     private JButton clearButton;
 
-    public AvailableQuizPanel(MainQuizFrame mainQuizFrame, MainFrame mainFrame, String relatedModule, String relatedCourse) {
+    public AvailableQuizPanel(MainQuizFrame mainQuizFrame) {
         this.mainQuizFrame = mainQuizFrame;
-        this.mainFrame = mainFrame;
-        this.relatedCourse = relatedCourse;
-        this.relatedModule = relatedModule;
         setLayout(new BorderLayout());
 
         setNorthLabel();
@@ -102,7 +96,7 @@ public class AvailableQuizPanel extends JPanel {
         startQuizButton = new JButton("Start quiz");
         generateButton = new JButton("Generate quiz");
         deleteButton = new JButton("Delete");
-        clearButton = new JButton("Clear");
+        clearButton = new JButton("Delete all quiz");
 
         startQuizButton.setEnabled(false);
         deleteButton.setEnabled(false);
@@ -121,7 +115,7 @@ public class AvailableQuizPanel extends JPanel {
      */
     public void addActionListeners() {
         generateButton.addActionListener(e -> {
-            new QuizOptionsFrame(mainQuizFrame, relatedModule, relatedCourse);
+            new QuizOptionsFrame(mainQuizFrame);
         });
 
         availableQuizList.addListSelectionListener(e -> {
@@ -139,13 +133,16 @@ public class AvailableQuizPanel extends JPanel {
         });
 
         deleteButton.addActionListener(e -> {
-           mainQuizFrame.deleteQuiz(selectedQuiz, relatedModule, relatedCourse);
+           mainQuizFrame.deleteQuiz(selectedQuiz);
            startQuizButton.setEnabled(false);
            deleteButton.setEnabled(false);
         });
 
         clearButton.addActionListener(e -> {
-           mainFrame.clearCreatedQuiz();
+            int choice = JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                mainQuizFrame.clearCreatedQuiz();
+            }
         });
     }
 }

@@ -15,14 +15,12 @@ import java.util.List;
 public class HistoryPanel extends JPanel {
     private DefaultListModel<String> quizModel;
     private String selectedQuiz;
-    private MainFrame mainFrame;
     private MainQuizFrame mainQuizFrame;
     private JButton resultButton;
     private JButton clearButton;
     private JList<String> displayList;
 
-    public HistoryPanel(MainFrame mainFrame, MainQuizFrame mainQuizFrame) {
-        this.mainFrame = mainFrame;
+    public HistoryPanel(MainQuizFrame mainQuizFrame) {
         this.mainQuizFrame = mainQuizFrame;
 
         setLayout();
@@ -99,7 +97,7 @@ public class HistoryPanel extends JPanel {
     public void addActionListener() {
         resultButton.addActionListener(e -> {
             Quiz quiz = mainQuizFrame.findHistoryQuiz(selectedQuiz);
-            new QuestionFrame(mainFrame, quiz.getQuestions(), quiz, mainQuizFrame, 0, true);
+            new QuestionFrame(quiz.getQuestions(), quiz, mainQuizFrame, 0, true);
         });
 
         displayList.addListSelectionListener(e -> {
@@ -112,7 +110,7 @@ public class HistoryPanel extends JPanel {
         });
 
         clearButton.addActionListener(e -> {
-           mainFrame.clearHistory();
+           mainQuizFrame.clearHistory();
            updateList();
         });
     }

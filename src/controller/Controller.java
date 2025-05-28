@@ -981,12 +981,30 @@ public class Controller {
         return null;
     }
 
-    public void clearHistory() {
-        currentUser.clearHistory();
+    public void clearHistory(String selectedModule, String selectedCourse) {
+        List<Quiz> quizList = currentUser.getCreatedQuiz();
+
+        for (Quiz quiz : quizList) {
+            String relatedModule = quiz.getRelatedModule().getName();
+            String relatedCourse = quiz.getRelatedCourse().getName();
+
+            if (relatedModule.equals(selectedModule) && relatedCourse.equals(selectedCourse)) {
+                currentUser.removeHistoryQuiz(quiz);
+            }
+        }
     }
 
-    public void clearCreatedQuiz() {
-        currentUser.clearCreatedQuiz();
+    public void clearCreatedQuiz(String selectedModule, String selectedCourse) {
+        List<Quiz> quizList = currentUser.getCreatedQuiz();
+
+        for (Quiz quiz : quizList) {
+            String relatedModule = quiz.getRelatedModule().getName();
+            String relatedCourse = quiz.getRelatedCourse().getName();
+
+            if (relatedModule.equals(selectedModule) && relatedCourse.equals(selectedCourse)) {
+                currentUser.removeQuiz(quiz);
+            }
+        }
     }
 
     public List<String> getRelatedQuiz(String relatedModule, String relatedCourse) {

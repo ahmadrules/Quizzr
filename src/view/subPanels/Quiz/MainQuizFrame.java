@@ -74,8 +74,8 @@ public class MainQuizFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createPanels() {
-        historyPanel = new HistoryPanel(mainFrame, this);
-        availableQuizPanel = new AvailableQuizPanel(this, mainFrame, selectedModule, selectedCourse);
+        historyPanel = new HistoryPanel(this);
+        availableQuizPanel = new AvailableQuizPanel(this);
     }
 
     /**
@@ -128,7 +128,7 @@ public class MainQuizFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void showQuiz() {
-        new QuestionFrame(mainFrame, currentQuiz.getQuestions(), currentQuiz, this, timerSeconds, false);
+        new QuestionFrame(currentQuiz.getQuestions(), currentQuiz, this, timerSeconds, false);
     }
 
     /**
@@ -139,6 +139,10 @@ public class MainQuizFrame extends JFrame {
         currentModule = mainFrame.getCurrentModule(selectedProgram, selectedCourse, selectedModule);
     }
 
+    public void clearHistory() {
+        mainFrame.clearHistory(selectedModule, selectedCourse);
+    }
+
     /**
      * Generates a quiz with attributes depending on what the user has chosen
      * @param amountOfQuestions the amount of questions in the quiz
@@ -147,7 +151,7 @@ public class MainQuizFrame extends JFrame {
      * @param timerSeconds the amount of time for the timer(0 if no timer)
      * @author Ahmad Maarouf
      */
-    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds, String relatedModule, String relatedCourse) {
+    public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds) {
         mainFrame.generateQuiz(amountOfQuestions, quizName, typeOfQuiz, timerSeconds, selectedModule, selectedCourse);
         updateList();
     }
@@ -168,8 +172,8 @@ public class MainQuizFrame extends JFrame {
      * @param selectedQuiz name of the quiz to be deleted
      * @author Ahmad Maarouf
      */
-    public void deleteQuiz(String selectedQuiz, String relatedModule, String relatedCourse) {
-        mainFrame.deleteQuiz(selectedQuiz, relatedModule, relatedCourse);
+    public void deleteQuiz(String selectedQuiz) {
+        mainFrame.deleteQuiz(selectedQuiz, selectedModule, selectedCourse);
         updateList();
     }
 
@@ -238,5 +242,9 @@ public class MainQuizFrame extends JFrame {
 
     public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers) {
         mainFrame.addQuizToHistory(quizName, questions, answers, selectedModule, selectedCourse);
+    }
+
+    public void clearCreatedQuiz() {
+        mainFrame.clearCreatedQuiz(selectedModule, selectedCourse);
     }
 }

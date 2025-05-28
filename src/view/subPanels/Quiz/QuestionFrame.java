@@ -35,11 +35,9 @@ public class QuestionFrame extends JFrame {
     private long currentMinutes;
     private Timer timer;
     private boolean isResult;
-    private MainFrame mainFrame;
 
 
-    public QuestionFrame(MainFrame mainFrame, List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, boolean isResult) {
-        this.mainFrame = mainFrame;
+    public QuestionFrame(List<Question> questionList, Quiz currentQuiz, MainQuizFrame mainQuizFrame, long timerSecondsAmount, boolean isResult) {
         this.questionList = questionList;
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;

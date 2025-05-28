@@ -403,12 +403,12 @@ public class MainFrame extends JFrame {
         return controller.findHistoryQuiz(quizName, relatedModule, relatedCourse);
     }
 
-    public void clearHistory() {
-        controller.clearHistory();
+    public void clearHistory(String selectedModule, String selectedCourse) {
+        controller.clearHistory(selectedModule, selectedCourse);
     }
 
-    public void clearCreatedQuiz() {
-        controller.clearCreatedQuiz();
+    public void clearCreatedQuiz(String selectedModule, String selectedCourse) {
+        controller.clearCreatedQuiz(selectedModule, selectedCourse);
     }
 
     public String getCurrentUserProgram() {

@@ -91,9 +91,14 @@ public class User implements Serializable {
     public void removeQuiz(Quiz quiz){
         createdQuiz.remove(quiz);
     }
+
+    public void removeHistoryQuiz(Quiz quiz){
+        history.remove(quiz);
+    }
     public List<Quiz> getHistory() {
         return history;
     }
+
     public void addToHistory(Quiz quiz){
         history.add(quiz);
     }

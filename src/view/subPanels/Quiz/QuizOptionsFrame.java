@@ -7,25 +7,19 @@ import java.util.List;
 public class QuizOptionsFrame extends JFrame {
 
     private MainQuizFrame mainQuizFrame;
-    private String selectedModule;
-    private String selectedCourse;
     private JPanel typePanel;
     private JPanel namePanel;
     private JPanel amountPanel;
     private JPanel timerPanel;
-    private JPanel correctionPanel;
     private JButton generateButton;
-    private String quizName;
     private String amountOfQuestions;
     private JTextField nameField;
     private JComboBox<String> amountBox;
     private JComboBox<String> timerBox;
     private JComboBox<String> typeBox;
 
-    public QuizOptionsFrame(MainQuizFrame mainQuizFrame, String selectedModule, String selectedCourse) {
+    public QuizOptionsFrame(MainQuizFrame mainQuizFrame) {
         this.mainQuizFrame = mainQuizFrame;
-        this.selectedModule = selectedModule;
-        this.selectedCourse = selectedCourse;
         setupLayout();
         createCenterPanel();
         addListeners();
@@ -60,7 +54,6 @@ public class QuizOptionsFrame extends JFrame {
         namePanel = new JPanel(new FlowLayout());
         amountPanel = new JPanel(new FlowLayout());
         timerPanel = new JPanel(new FlowLayout());
-        correctionPanel = new JPanel(new FlowLayout());
 
         JLabel typeLabel = new JLabel("Type of quiz:");
         typeBox = new JComboBox<>();
@@ -120,7 +113,7 @@ public class QuizOptionsFrame extends JFrame {
                     JOptionPane.showMessageDialog(null, "Name already in use");
                 }
                 else {
-                    mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), newQuizName, typeOfQuiz, timerSeconds, selectedModule, selectedCourse);
+                    mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), newQuizName, typeOfQuiz, timerSeconds);
                     dispose();
                 }
             }
