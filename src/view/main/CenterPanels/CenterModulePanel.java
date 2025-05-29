@@ -72,6 +72,7 @@ public class CenterModulePanel extends JPanel {
         JLabel titleLabel = new JLabel();
         titleLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
         titleLabel.setText("Welcome to Quizzr!");
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel tutorialLabel = new JLabel("<html><br/>If you need help getting started in your journey,<br/> please follow the steps below.<br/><br/>" +
                 "1. Select a course from the list on the far left.<br/>" +
@@ -79,11 +80,13 @@ public class CenterModulePanel extends JPanel {
                 "3. Click on either \"Quiz\" or \"Flashcards\".<br/><br/>" +
                 "Have fun and good luck! </html>");
         tutorialLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        tutorialLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
-        tutorialTextPanel.add(titleLabel);
+        tutorialPanel.add(titleLabel, BorderLayout.NORTH);
         tutorialTextPanel.add(tutorialLabel);
 
         tutorialPanel.add(tutorialTextPanel, BorderLayout.CENTER);
+
     }
 
     /**
