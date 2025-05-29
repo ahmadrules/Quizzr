@@ -22,13 +22,9 @@ public class LogInFrame extends JFrame {
     private JPanel loginPanel;
     private JTextField passwordField;
     private JPanel loginButtonPanel;
-    private JButton loginButton;
-    private JButton registerButton;
     private JPanel mainPanel;
     private JLabel topLabel;
     private JPanel registerPanel;
-    private JButton createAccountButton;
-    private JButton cancelButton;
     private JTextField newNameField;
     private JTextField newPasswordField;
     private JTextField confirmPasswordField;
@@ -36,11 +32,15 @@ public class LogInFrame extends JFrame {
     private JPanel registerButtonPanel;
     private JComboBox<String> programCodeBox;
     private JPanel topPanel;
+    private JPanel firstPagePanel;
     private Controller controller;
     private JButton adminLoginButton;
     private JButton studentLoginButton;
     private JButton goBackButton;
-    private JPanel firstPagePanel;
+    private JButton loginButton;
+    private JButton registerButton;
+    private JButton createAccountButton;
+    private JButton cancelButton;
     private JButton testButton;
     private boolean isAdmin;
 
@@ -538,7 +538,6 @@ public class LogInFrame extends JFrame {
                         if (newPassword.equals(confirmedPassword)) {
                             String programCode = (String) programCodeBox.getSelectedItem();
                             boolean success = mainFrame.registerNewUser(newUsername, newPassword, newEmail, programCode);
-
                             if (success) {
                                 JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
                                 clearFields();

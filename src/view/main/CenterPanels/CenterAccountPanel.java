@@ -15,6 +15,7 @@ import java.awt.*;
  * @author Ahmad Maarouf
  */
 public class CenterAccountPanel extends JPanel {
+    private String currentProfilePicPath;
     private String[] currentUserInfo;
     private MainFrame mainFrame;
 
@@ -26,7 +27,7 @@ public class CenterAccountPanel extends JPanel {
     private JButton editNameButton;
     private JButton editEmailButton;
     private JButton editPasswordButton;
-    private JButton editProfilePic;
+    private JButton editProfilePicButton;
 
     private JLabel emailLabel;
     private JLabel nameLabel;
@@ -68,23 +69,32 @@ public class CenterAccountPanel extends JPanel {
         mainPanel.add(profilePicPanel);
         mainPanel.add(Box.createVerticalStrut(10));
         mainPanel.add(accountInformationPanel);
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
     public void setUpProfilePicPanel() {
         profilePicPanel.setLayout(new BoxLayout(profilePicPanel, BoxLayout.Y_AXIS));
-        profilePicPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
+        profilePicPanel.setMaximumSize(new Dimension(130, 200));
         profilePicPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        editProfilePic = new JButton("Change Picture");
-        profilePicLabel = new JLabel("Test");
 
-        editProfilePic.setAlignmentX(Component.CENTER_ALIGNMENT);
+        editProfilePicButton = new JButton("Change Picture");
+        String profilePicPath = mainFrame.getUserProfilePicturePath();
+        if(profilePicPath != null) {
+            profilePicLabel = new JLabel("<html><img src='" + profilePicPath + "' width='130' height='120'></html>");
+        }else{
+            String path = getClass().getResource("/view/pics/default_profile_pic.jpg").toString();
+            profilePicLabel = new JLabel("<html><img src='" + path + "' width='130' height='120'></html>");
+        }
+
+        editProfilePicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         profilePicLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        profilePicLabel.setPreferredSize(new Dimension(110, 110));
+        profilePicLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
 
-        //profilePicPanel.add(Box.createVerticalStrut(30));
+        profilePicPanel.add(Box.createVerticalStrut(10));
         profilePicPanel.add(profilePicLabel);
-        profilePicPanel.add(Box.createVerticalStrut(100));
-        profilePicPanel.add(editProfilePic);
-        profilePicPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        profilePicPanel.add(Box.createVerticalStrut(5));
+        profilePicPanel.add(editProfilePicButton);
 
     }
 
@@ -160,7 +170,7 @@ public class CenterAccountPanel extends JPanel {
         editPasswordButton.setMaximumSize(buttonSize);
         editPasswordButton.setMinimumSize(buttonSize);
 
-        buttonsPanel.add(Box.createVerticalStrut(20));
+        buttonsPanel.add(Box.createVerticalStrut(15));
         buttonsPanel.add(editNameButton);
         buttonsPanel.add(Box.createVerticalStrut(20));
         buttonsPanel.add(editEmailButton);
@@ -272,8 +282,7 @@ public class CenterAccountPanel extends JPanel {
     }
 
     public void changeProfilePicture() {
-        PicturesFrame picturesFrame = new PicturesFrame(mainFrame, this);
-
+        new PicturesFrame(mainFrame, this);
     }
 
     /**
@@ -294,8 +303,21 @@ public class CenterAccountPanel extends JPanel {
             changePassword();
         });
 
-        editProfilePic.addActionListener(e -> {
+        editProfilePicButton.addActionListener(e -> {
             changeProfilePicture();
         });
+    }
+
+    public void profilePictureSelected(String selectedPicPath){
+        currentProfilePicPath = selectedPicPath;
+        profilePicLabel.setPreferredSize(new Dimension(110, 110));
+        profilePicLabel.setText("<html><img src='" + selectedPicPath + "' width='130' height='120'></html>");
+        profilePicLabel.setOpaque(false);
+        profilePicLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        profilePicLabel.setVerticalAlignment(SwingConstants.CENTER);
+        profilePicLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
+        mainPanel.revalidate();
+        mainPanel.repaint();
+        mainFrame.changeProfilePicture(selectedPicPath);
     }
 }
