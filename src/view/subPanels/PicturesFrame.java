@@ -18,7 +18,7 @@ public class PicturesFrame extends JFrame {
     private JLabel pic5;
     private JLabel pic6;
 
-    public PicturesFrame(MainFrame mainFrame, CenterAccountPanel accountPanel){
+    public PicturesFrame(MainFrame mainFrame, CenterAccountPanel accountPanel) {
         this.mainFrame = mainFrame;
         this.accountPanel = accountPanel;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,12 +28,16 @@ public class PicturesFrame extends JFrame {
         mainPanel.setLayout(new BorderLayout());
         setUpPanels();
         add(mainPanel);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+        setIconImage(icon.getImage());
+
         mainPanel.revalidate();
         mainPanel.repaint();
         setVisible(true);
     }
 
-    public void setUpPanels(){
+    public void setUpPanels() {
         JLabel infoLabel = new JLabel("Choose a picture");
 
         //Center
@@ -48,7 +52,7 @@ public class PicturesFrame extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public void setUpPicsPanel(){
+    public void setUpPicsPanel() {
         picsPanel = new JPanel();
         picsPanel.setLayout(new GridLayout(2, 2));
 

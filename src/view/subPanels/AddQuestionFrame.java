@@ -42,6 +42,9 @@ public class AddQuestionFrame extends JFrame {
         addItemListeners();
         setLocationRelativeTo(centerPanel);
 
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+        setIconImage(icon.getImage());
+
         add(scrollPane);
         setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -58,8 +61,7 @@ public class AddQuestionFrame extends JFrame {
 
                 if (choice == JOptionPane.YES_OPTION) {
                     return true;
-                }
-                else {
+                } else {
                     return false;
                 }
             }
@@ -98,26 +100,23 @@ public class AddQuestionFrame extends JFrame {
                 tfAlternatives.add("False");
 
                 for (JTextField textField : tfStatements) {
-                    if (textField.getText() !=null && !textField.getText().isEmpty()) {
+                    if (textField.getText() != null && !textField.getText().isEmpty()) {
                         String currentStatement = textField.getText();
                         String currentAnswer = (String) tfAnswers.getFirst().getSelectedItem();
                         tfAnswers.removeFirst();
                         centerPanel.saveTrueOrFalseQuestion(currentStatement, tfAlternatives, 3, currentAnswer);
-                    }
-
-                    else {
+                    } else {
                         System.out.println("TF empty");
                         tfAnswers.removeFirst();
                     }
                 }
-            }
-            else {
+            } else {
                 System.out.println("No TF");
             }
 
             if (multiQueries != null) {
                 for (JTextField textField : multiQueries) {
-                    if (textField.getText() !=null && !textField.getText().isEmpty()) {
+                    if (textField.getText() != null && !textField.getText().isEmpty()) {
                         String currentQuery = textField.getText();
                         ArrayList<String> currentAlternatives = new ArrayList<>();
 
@@ -133,8 +132,7 @@ public class AddQuestionFrame extends JFrame {
                                 }
                                 multiCorrectBoxes.removeFirst();
                                 break;
-                            }
-                            else {
+                            } else {
                                 currentAlternatives.add(currentAlternative.getText());
                             }
                         }
@@ -148,23 +146,20 @@ public class AddQuestionFrame extends JFrame {
                             multiCorrectBoxes.removeFirst();
                             centerPanel.saveMultipleChoiceToFile(currentQuery, currentAlternatives, 3, correctAnswer);
                         }
-                    }
-
-                    else {
+                    } else {
                         multiCorrectBoxes.removeFirst();
                         for (int j = 0; j < 3; j++) {
                             multiAlternatives.removeFirst();
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 System.out.println("No MC");
             }
 
             if (matchQueries != null) {
                 for (JTextField textField : matchQueries) {
-                    if (textField.getText() !=null && !textField.getText().isEmpty()) {
+                    if (textField.getText() != null && !textField.getText().isEmpty()) {
                         String currentQuery = textField.getText();
                         ArrayList<String> currentAlternatives = new ArrayList<>();
                         ArrayList<String> currentMatches = new ArrayList<>();
@@ -182,20 +177,19 @@ public class AddQuestionFrame extends JFrame {
                                     matchAnswers.removeFirst();
                                 }
                                 break;
-                            }
-                            else {
+                            } else {
                                 currentAlternatives.add(currentAlternative.getText());
                                 currentMatches.add(currentMatch.getText());
                             }
                         }
 
                         if (!isEmpty) {
-                            HashMap<String,Integer> correctMatches = new HashMap<>();
+                            HashMap<String, Integer> correctMatches = new HashMap<>();
 
-                            String[] letters = new String[]{"A", "B" ,"C"};
+                            String[] letters = new String[]{"A", "B", "C"};
 
                             for (int i = 1; i <= 3; i++) {
-                                correctMatches.put(letters[i-1], i);
+                                correctMatches.put(letters[i - 1], i);
                             }
 
                             for (int j = 0; j < 3; j++) {
@@ -205,17 +199,14 @@ public class AddQuestionFrame extends JFrame {
 
                             centerPanel.saveMatchingToFile(currentQuery, currentAlternatives, currentMatches, 6, correctMatches);
                         }
-                    }
-
-                    else {
+                    } else {
                         for (int j = 0; j < 3; j++) {
                             matchAnswers.removeFirst();
                             matchStatements.removeFirst();
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 System.out.println("No MA");
             }
 
@@ -388,12 +379,9 @@ public class AddQuestionFrame extends JFrame {
             submitButton.setEnabled(true);
             if (typeComboBox.getSelectedItem().equals("Multiple Choice")) {
                 createAndShowMultiPanel();
-            }
-            else if (typeComboBox.getSelectedItem().equals("True/False")) {
+            } else if (typeComboBox.getSelectedItem().equals("True/False")) {
                 createAndShowTFPanel();
-            }
-
-            else if (typeComboBox.getSelectedItem().equals("Matching")) {
+            } else if (typeComboBox.getSelectedItem().equals("Matching")) {
                 createAndShowMatchingPanel();
             }
         });

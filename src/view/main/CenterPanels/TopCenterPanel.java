@@ -19,7 +19,7 @@ public class TopCenterPanel extends JPanel {
         setLayout(new BorderLayout());
         setBackground(new Color(230, 230, 230));
         topLabel = new JLabel();
-        topLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        topLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
 
         //Module is default page
         setModuleTopLabel();

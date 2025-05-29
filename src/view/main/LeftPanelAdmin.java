@@ -75,6 +75,7 @@ public class LeftPanelAdmin extends JPanel {
             i++;
         }
         programList = new JList<>(programListModel);
+        programList.setFont(new Font("Montserrat", Font.PLAIN, 12));
         programList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         programScrollPane = new JScrollPane(programList);
         programScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -83,12 +84,11 @@ public class LeftPanelAdmin extends JPanel {
         coursesListMap = new HashMap<>();
         coursesListModel = new DefaultListModel<>();
         coursesList = new JList<>(coursesListModel);
+        coursesList.setFont(new Font("Montserrat", Font.PLAIN, 12));
         coursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         coursesScrollPane = new JScrollPane(coursesList);
         coursesScrollPane.setVisible(true);
         coursesScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-
     }
 
     /**
@@ -136,12 +136,12 @@ public class LeftPanelAdmin extends JPanel {
 
         //Create labels for program and course lists
         programsLabel = new JLabel(" Programs");
-        programsLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        programsLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
         programsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 
         coursesLabel = new JLabel(" Courses");
-        coursesLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        coursesLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
         coursesLabel.setVisible(true);
 
         //Create buttonPanel for program list buttons

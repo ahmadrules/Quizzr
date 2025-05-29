@@ -32,7 +32,7 @@ public class TabPanel extends JPanel {
         listOfTabs = new JList<>(tabOptions);
 
         listOfTabs.setFixedCellWidth(70);
-        listOfTabs.setFont(new Font("Arial", Font.ROMAN_BASELINE, 18));
+        listOfTabs.setFont(new Font("Montserrat", Font.ROMAN_BASELINE, 18));
         listOfTabs.setSelectedIndex(0);
 
         listOfTabs.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -43,24 +43,23 @@ public class TabPanel extends JPanel {
 
     public void createTopLabel() {
         JLabel topLabel = new JLabel("Select a tab");
-        topLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        topLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
         add(topLabel, BorderLayout.NORTH);
     }
 
     public void addListListener() {
         listOfTabs.addListSelectionListener(e -> {
-           if (!e.getValueIsAdjusting()) {
-               if (listOfTabs.getSelectedValue() != null) {
-                   String selectedTab = listOfTabs.getSelectedValue();
+            if (!e.getValueIsAdjusting()) {
+                if (listOfTabs.getSelectedValue() != null) {
+                    String selectedTab = listOfTabs.getSelectedValue();
 
-                   if (selectedTab.equals("Quiz")) {
-                       mainQuizFrame.setAvailableQuizPanel();
-                   }
-                   else if (selectedTab.equals("History")) {
-                       mainQuizFrame.setHistoryPanel();
-                   }
-               }
-           }
+                    if (selectedTab.equals("Quiz")) {
+                        mainQuizFrame.setAvailableQuizPanel();
+                    } else if (selectedTab.equals("History")) {
+                        mainQuizFrame.setHistoryPanel();
+                    }
+                }
+            }
         });
     }
 }

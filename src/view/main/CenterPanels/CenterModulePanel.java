@@ -13,6 +13,7 @@ import java.util.List;
  * This class is responsible for showing a list of modules for the
  * course selected in LeftPanel.
  * It is also responsible for giving options to add,edit and remove modules.
+ *
  * @author Ahmad Maarouf
  */
 public class CenterModulePanel extends JPanel {
@@ -49,10 +50,12 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Sets up the layout of the panel
+     *
      * @author Ahmad Maarouf
      */
     public void setupLayout() {
         JLabel displayLabel = new JLabel("Available modules", SwingConstants.CENTER);
+        displayLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
         add(displayLabel, BorderLayout.NORTH);
         add(moduleScrollPane, BorderLayout.CENTER);
     }
@@ -65,18 +68,21 @@ public class CenterModulePanel extends JPanel {
         mainFrame.saveMultipleChoiceToFile(query, alternatives, points, correctAnswer, selectedCourse, selectedModule);
     }
 
-    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches) {
+    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String, Integer> correctMatches) {
         mainFrame.saveMatchingToFile(query, statements, matches, points, correctMatches, selectedCourse, selectedModule);
     }
+
     /**
      * Creates the necessary data components used to show the list of modules.
      * moduleListMap is used to link modules to a specific course.
+     *
      * @author Ahmad Maarouf
      */
     public void createDataComponents() {
         moduleListMap = new HashMap<>();
         moduleListModel = new DefaultListModel<>();
         moduleList = new JList<>(moduleListModel);
+        moduleList.setFont(new Font("Montserrat", Font.PLAIN, 12));
         moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         moduleScrollPane = new JScrollPane(moduleList);
         moduleScrollPane.setVisible(true);
@@ -86,8 +92,9 @@ public class CenterModulePanel extends JPanel {
     /**
      * Displays the modules available for a selected course within a selected program.
      * Called by leftPanel when a course is selected.
+     *
      * @param selectedProgram a string with the selected programs name
-     * @param selectedCourse a string with the selected courses name
+     * @param selectedCourse  a string with the selected courses name
      * @author Ahmad Maarouf
      */
     public void courseChosen(String selectedProgram, String selectedCourse) {
@@ -114,6 +121,7 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Disables module buttons when a module is not chosen.
+     *
      * @author Ahmad Maarouf
      */
     public void disableButtons() {
@@ -130,6 +138,7 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Enables module buttons when a module is selected.
+     *
      * @author Ahmad Maarouf
      */
     public void enableButtons() {
@@ -147,6 +156,7 @@ public class CenterModulePanel extends JPanel {
     /**
      * Creates the necessary buttons for opening quiz and flashcards for the selected module,
      * as well as adding, editing and removing modules.
+     *
      * @author Ahmad Maarouf
      */
     public void createButtons() {
@@ -180,12 +190,22 @@ public class CenterModulePanel extends JPanel {
             buttonPanel.add(deleteModuleButton);
         }
 
+        quizButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        flashcardsButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        if (isAdmin) {
+            addModuleButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+            editModuleButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+            deleteModuleButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+            addQuestionButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        }
+
         buttonPanel.setVisible(true);
     }
 
     /**
      * Clears the module list.
      * Called when the list of modules needs to be updated.
+     *
      * @author Ahmad Maarouf
      */
     public void clearModuleList() {
@@ -194,6 +214,7 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Updates the current list of modules according to what course is selected in LeftPanel.
+     *
      * @author Ahmad Maarouf
      */
     public void updateList() {
@@ -207,10 +228,11 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Adds event listeners to the buttons and the list.
+     *
      * @author Ahmad Maarouf
      */
     public void addEventListener() {
-         flashcardsButton.addActionListener(e -> {
+        flashcardsButton.addActionListener(e -> {
             if (selectedProgram != null && selectedCourse != null && selectedModule != null) {
                 new view.subPanels.FlashcardPanel(selectedProgram, selectedCourse, selectedModule, mainFrame);
             } else {
@@ -260,6 +282,7 @@ public class CenterModulePanel extends JPanel {
      * Adds a module to the list of available modules for the selected course and also,
      * in the file that stores modules.
      * This is done through mainFrame which calls on controller.
+     *
      * @author Ahmad Maarouf
      */
     public void addModule() {
@@ -270,8 +293,7 @@ public class CenterModulePanel extends JPanel {
                 disableButtons();
                 addModuleButton.setEnabled(true);
                 updateList();
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, moduleName + " already exists for " + selectedCourse + "! Please choose another module name.");
             }
 
@@ -282,6 +304,7 @@ public class CenterModulePanel extends JPanel {
      * Edits a module in the list of available modules for the selected course and also,
      * in the file that stores modules.
      * This is done through mainFrame which calls on controller.
+     *
      * @author Ahmad Maarouf
      */
     public void editModule() {
@@ -304,6 +327,7 @@ public class CenterModulePanel extends JPanel {
      * Removes a module from the list of available modules for the selected course and also,
      * from the file that stores modules.
      * This is done through mainFrame which calls on controller.
+     *
      * @author Ahmad Maarouf
      */
     public void removeModule() {
@@ -313,6 +337,7 @@ public class CenterModulePanel extends JPanel {
             disableButtons();
             addModuleButton.setEnabled(true);
             updateList();
-        };
+        }
+        ;
     }
 }

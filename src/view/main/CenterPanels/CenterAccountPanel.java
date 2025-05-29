@@ -49,11 +49,14 @@ public class CenterAccountPanel extends JPanel {
     public void setLayout() {
         setLayout(new BorderLayout());
         JLabel topLabel = new JLabel("Account information", SwingConstants.CENTER);
+        topLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         setUpMainPanel();
         add(topLabel, BorderLayout.NORTH);
-        add(mainPanel, BorderLayout.CENTER);
+
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        add(scrollPane, BorderLayout.CENTER);
         add(emptyPanel, BorderLayout.SOUTH);
     }
 

@@ -3,7 +3,7 @@ package view.subPanels.Quiz;
 import javax.swing.*;
 import java.awt.*;
 
-public class ResultPanel extends JPanel{
+public class ResultPanel extends JPanel {
     private JPanel pnlNorth;
     private JPanel pnlSouth;
     private JPanel pnlCenter;
@@ -14,7 +14,7 @@ public class ResultPanel extends JPanel{
     private JLabel lblImageIcon;
     private BorderLayout layout;
 
-    public ResultPanel(int userPoints, int totalPoints, double statistics){
+    public ResultPanel(int userPoints, int totalPoints, double statistics) {
         layout = new BorderLayout();
         setLayout(layout);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -25,22 +25,22 @@ public class ResultPanel extends JPanel{
         add(pnlSouth, layout.SOUTH);
     }
 
-    public void createPanels(){
+    public void createPanels() {
         pnlNorth = new JPanel();
-        pnlNorth.setSize(getWidth(), getHeight()*30/100);
+        pnlNorth.setSize(getWidth(), getHeight() * 30 / 100);
 
 
         pnlCenter = new JPanel();
-        pnlCenter.setSize(getWidth(), getHeight()*40/100);
+        pnlCenter.setSize(getWidth(), getHeight() * 40 / 100);
         pnlCenter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         pnlCenter.setBackground(new Color(250, 221, 92));
 
         pnlSouth = new JPanel();
-        pnlSouth.setSize(getWidth(), getHeight()*30/100);
+        pnlSouth.setSize(getWidth(), getHeight() * 30 / 100);
 
     }
 
-    public void setUpCenterPanel(int userPoints, int totalPoints, double statistics){
+    public void setUpCenterPanel(int userPoints, int totalPoints, double statistics) {
         GridBagLayout gbLayout = new GridBagLayout();
         pnlCenter.setLayout(gbLayout);
 
@@ -71,21 +71,21 @@ public class ResultPanel extends JPanel{
 
     }
 
-    public void setUpResultInfoPanel(int userPoints, int totalPoints, double statistics){
+    public void setUpResultInfoPanel(int userPoints, int totalPoints, double statistics) {
 
         //Points
         GridBagLayout gbLayout = new GridBagLayout();
         pnlResultInfo.setLayout(gbLayout);
         lblUserPoints = new JLabel("Your points:   " + userPoints);
-        lblUserPoints.setFont(new Font("Arial", Font.BOLD, 16));
+        lblUserPoints.setFont(new Font("Montserrat", Font.BOLD, 16));
         lblUserPoints.setForeground(Color.WHITE);
 
         lblTotalPoints = new JLabel("Total points:   " + totalPoints);
-        lblTotalPoints.setFont(new Font("Arial", Font.BOLD, 16));
+        lblTotalPoints.setFont(new Font("Montserrat", Font.BOLD, 16));
         lblTotalPoints.setForeground(Color.WHITE);
 
         lblStatistics = new JLabel("You have got " + statistics + "% right answers");
-        lblStatistics.setFont(new Font("Arial", Font.BOLD, 16));
+        lblStatistics.setFont(new Font("Montserrat", Font.BOLD, 16));
         lblStatistics.setForeground(Color.WHITE);
 
         GridBagConstraints c = new GridBagConstraints();
