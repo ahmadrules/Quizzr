@@ -1358,4 +1358,13 @@ public class Controller {
         addQuizToAvailableQuizzes(newQuiz);
 
     }
+
+    public void changeProfilePicture(String selectedPicPath){
+        currentUser.setProfilePicPath(selectedPicPath);
+        saveUsers();
+    }
+
+    public String getUserProfilePicturePath(){
+        return currentUser.getProfilePicPath();
+    }
 }

@@ -8,6 +8,7 @@ public class User implements Serializable {
     private String name;
     private String password;
     private String email;
+    private String profilePicturePath;
     private List<Quiz> createdQuiz;
     private List<FlashCard> flashCards;
     private List<Quiz> history;
@@ -125,4 +126,13 @@ public class User implements Serializable {
             System.out.println(ex.getMessage());;
         }
     }
+
+    public void setProfilePicPath(String selectedPicPath){
+        this.profilePicturePath = selectedPicPath;
+    }
+
+    public String getProfilePicPath(){
+        return profilePicturePath;
+    }
+
 }

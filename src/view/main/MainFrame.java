@@ -475,6 +475,14 @@ public class MainFrame extends JFrame {
     public String getStudentProgramName() {
         return controller.getCurrentStudentProgramName();
     }
+
+    public void changeProfilePicture(String selectedPicPath){
+        controller.changeProfilePicture(selectedPicPath);
+    }
+
+    public String getUserProfilePicturePath(){
+        return controller.getUserProfilePicturePath();
+    }
 }
 
 
