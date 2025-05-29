@@ -5,6 +5,8 @@ import view.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PicturesFrame extends JFrame {
     private MainFrame mainFrame;
@@ -17,29 +19,38 @@ public class PicturesFrame extends JFrame {
     private JLabel pic4;
     private JLabel pic5;
     private JLabel pic6;
+    private JLabel selectedPic;
+    private JLabel[] picLabels;
+    private JButton okButton;
+    private String[] picPaths;
 
-    public PicturesFrame(MainFrame mainFrame, CenterAccountPanel accountPanel){
+    public PicturesFrame(MainFrame mainFrame, CenterAccountPanel accountPanel) {
         this.mainFrame = mainFrame;
         this.accountPanel = accountPanel;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 500);
+        setSize(550, 500);
         setLocationRelativeTo(null);
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         setUpPanels();
         add(mainPanel);
+        addListeners();
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+        setIconImage(icon.getImage());
+
         mainPanel.revalidate();
         mainPanel.repaint();
         setVisible(true);
     }
 
-    public void setUpPanels(){
+    public void setUpPanels() {
         JLabel infoLabel = new JLabel("Choose a picture");
 
         //Center
         setUpPicsPanel();
 
-        JButton okButton = new JButton("OK");
+        okButton = new JButton("OK");
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(okButton);
 
@@ -48,11 +59,12 @@ public class PicturesFrame extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public void setUpPicsPanel(){
+    public void setUpPicsPanel() {
         picsPanel = new JPanel();
         picsPanel.setLayout(new GridLayout(2, 2));
+        picLabels = new JLabel[6];
 
-        String[] paths = {getClass().getResource("/view/pics/pic1.jpg").toString(),
+        picPaths = new String[]{getClass().getResource("/view/pics/pic1.jpg").toString(),
                 getClass().getResource("/view/pics/pic2.jpg").toString(),
                 getClass().getResource("/view/pics/pic3.jpg").toString(),
                 getClass().getResource("/view/pics/pic4.jpg").toString(),
@@ -60,19 +72,23 @@ public class PicturesFrame extends JFrame {
                 getClass().getResource("/view/pics/pic6.jpg").toString()
         };
 
-        pic1 = new JLabel("<html><img src='" + paths[0] + "' width='170' height='200'></html>");
-        pic2 = new JLabel("<html><img src='" + paths[1] + "' width='170' height='200'></html>");
-        pic3 = new JLabel("<html><img src='" + paths[2] + "' width='170' height='200'></html>");
-        pic4 = new JLabel("<html><img src='" + paths[3] + "' width='170' height='200'></html>");
-        pic5 = new JLabel("<html><img src='" + paths[4] + "' width='170' height='200'></html>");
-        pic6 = new JLabel("<html><img src='" + paths[5] + "' width='170' height='200'></html>");
+        pic1 = new JLabel("<html><img src='" + picPaths[0] + "' width='160' height='190'></html>");
+        picLabels[0] = pic1;
+        pic2 = new JLabel("<html><img src='" + picPaths[1] + "' width='160' height='190'></html>");
+        picLabels[1] = pic2;
+        pic3 = new JLabel("<html><img src='" + picPaths[2] + "' width='160' height='190'></html>");
+        picLabels[2] = pic3;
+        pic4 = new JLabel("<html><img src='" + picPaths[3] + "' width='160' height='190'></html>");
+        picLabels[3] = pic4;
+        pic5 = new JLabel("<html><img src='" + picPaths[4] + "' width='160' height='190'></html>");
+        picLabels[4] = pic5;
+        pic6 = new JLabel("<html><img src='" + picPaths[5] + "' width='160' height='190'></html>");
+        picLabels[5] = pic6;
 
-        pic1.setHorizontalAlignment(SwingConstants.CENTER);
-        pic2.setHorizontalAlignment(SwingConstants.CENTER);
-        pic3.setHorizontalAlignment(SwingConstants.CENTER);
-        pic4.setHorizontalAlignment(SwingConstants.CENTER);
-        pic5.setHorizontalAlignment(SwingConstants.CENTER);
-        pic6.setHorizontalAlignment(SwingConstants.CENTER);
+        for(int i = 0; i < picLabels.length; i++) {
+            picLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
+            picLabels[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
 
         picsPanel.add(pic1);
         picsPanel.add(pic2);
@@ -81,5 +97,38 @@ public class PicturesFrame extends JFrame {
         picsPanel.add(pic5);
         picsPanel.add(pic6);
 
+    }
+
+    public void addListeners(){
+        okButton.addActionListener(n->{
+            accountPanel.profilePictureSelected(getPicPath());
+            this.dispose();
+        });
+
+        final JLabel[] chosenLabel = {null};
+        for(int i = 0; i < picLabels.length; i++) {
+            picLabels[i].addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    System.out.println("Label clicked!");
+                    selectedPic = (JLabel) e.getSource();
+                    if (chosenLabel[0] != null) {
+                        chosenLabel[0].setBorder(null);
+                    }
+                    selectedPic.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
+                    chosenLabel[0] = selectedPic;
+                }
+            });
+        }
+    }
+
+    public String getPicPath(){
+        String path = "";
+        for(int i = 0; i < picLabels.length; i++){
+            if (selectedPic == picLabels[i]){
+                path = picPaths[i];
+            }
+        }
+        return path;
     }
 }

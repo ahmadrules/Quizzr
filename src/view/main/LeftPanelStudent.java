@@ -4,8 +4,6 @@ import view.main.CenterPanels.CenterModulePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class LeftPanelStudent extends JPanel {
@@ -15,11 +13,9 @@ public class LeftPanelStudent extends JPanel {
     private DefaultListModel<String> coursesListModel;
     private JScrollPane coursesScrollPane;
     private CenterModulePanel centerModulePanel;
-    private JLabel programsLabel;
     private String studentProgramName;
     private String selectedCourse;
     private MainFrame mainFrame;
-    private String[] courseNames;
 
     public LeftPanelStudent(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
         this.centerModulePanel = centerModulePanel;
@@ -31,7 +27,6 @@ public class LeftPanelStudent extends JPanel {
 
         add(coursesLabel);
         add(coursesScrollPane);
-
     }
 
     /**
@@ -41,15 +36,14 @@ public class LeftPanelStudent extends JPanel {
      * @author Ahmad Maarouf
      */
     public void createDataComponents() {
-        programsLabel = new JLabel();
         studentProgramName = mainFrame.getStudentProgramName();
-        programsLabel.setText(studentProgramName);
 
         //Course data model, course list and course scrollPane created
         coursesNames = List.of(mainFrame.getCoursesNames(studentProgramName));
         coursesListModel = new DefaultListModel<>();
         coursesListModel.addAll(coursesNames);
         coursesList = new JList<>(coursesListModel);
+        coursesList.setFont(new Font("Montserrat", Font.PLAIN, 12));
         coursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         coursesScrollPane = new JScrollPane(coursesList);
         coursesScrollPane.setVisible(true);
@@ -63,12 +57,10 @@ public class LeftPanelStudent extends JPanel {
      */
     public void setupLayout() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        programsLabel = new JLabel(" Programs");
 
         coursesLabel = new JLabel("My Courses");
-        coursesLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        coursesLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
         coursesLabel.setVisible(true);
-
     }
 
     /**

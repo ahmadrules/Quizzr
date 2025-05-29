@@ -16,6 +16,7 @@ import java.util.Map;
  * This class is responsible for initializing a frame
  * This frame is responsible for displaying the panels for available quiz and completed quiz(history)
  * Which panel is displayed depends on what is chosen in the tabPanel
+ *
  * @author Ahmad Maarouf
  */
 public class MainQuizFrame extends JFrame {
@@ -49,11 +50,15 @@ public class MainQuizFrame extends JFrame {
         pack();
         setLocationRelativeTo(mainFrame);
 
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+        setIconImage(icon.getImage());
+
         setVisible(true);
     }
 
     /**
      * Initializes components for storing information about quiz
+     *
      * @author Ahmad Maarouf
      */
     public void createLists() {
@@ -63,6 +68,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Creates the two panels that can be displayed in this frame
+     *
      * @author Ahmad Maarouf
      */
     public void createPanels() {
@@ -72,6 +78,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Sets the currently displayed panel to the history panel
+     *
      * @author Ahmad Maarouf
      */
     public void setHistoryPanel() {
@@ -85,6 +92,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Sets the currently displayed panel to the available quiz panel
+     *
      * @author Ahmad Maarouf
      */
     public void setAvailableQuizPanel() {
@@ -98,6 +106,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Sets the layout and size of the frame
+     *
      * @author Ahmad Maarouf
      */
     public void setLayout() {
@@ -108,6 +117,7 @@ public class MainQuizFrame extends JFrame {
     /**
      * Adds the tabPanel on the east side of the frame
      * The selected item in this tab decides which panel is displayed in the center
+     *
      * @author Ahmad Maarouf
      */
     public void addTabList() {
@@ -117,10 +127,11 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Displays a currently selected quiz and its questions
+     *
      * @author Ahmad Maarouf
      */
     public void showQuiz() {
-        new QuestionFrame(currentQuiz, this,false);
+        new QuestionFrame(currentQuiz, this, false);
     }
 
     public void clearHistory() {
@@ -133,10 +144,11 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Generates a quiz with attributes depending on what the user has chosen
+     *
      * @param amountOfQuestions the amount of questions in the quiz
-     * @param quizName the name of the quiz
-     * @param typeOfQuiz the type of quiz (True/False, Multiple choice or Matching)
-     * @param timerSeconds the amount of time for the timer(0 if no timer)
+     * @param quizName          the name of the quiz
+     * @param typeOfQuiz        the type of quiz (True/False, Multiple choice or Matching)
+     * @param timerSeconds      the amount of time for the timer(0 if no timer)
      * @author Ahmad Maarouf
      */
     public void generateQuiz(int amountOfQuestions, String quizName, String typeOfQuiz, long timerSeconds) {
@@ -146,6 +158,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Finds the quiz instance that needs to be started
+     *
      * @param selectedQuiz the name of the selected quiz
      * @author Ahmad Maarouf
      */
@@ -157,6 +170,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Deletes a selected quiz
+     *
      * @param selectedQuiz name of the quiz to be deleted
      * @author Ahmad Maarouf
      */
@@ -167,6 +181,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Updates both the list of available quiz and completed quiz
+     *
      * @author Ahmad Maarouf
      */
     public void updateList() {
@@ -178,6 +193,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Fetches the list of completed quiz
+     *
      * @return a list of quiz that have been completed
      * @author Ahmad Maarouf
      */
@@ -188,6 +204,7 @@ public class MainQuizFrame extends JFrame {
 
     /**
      * Fetches the list of available quiz
+     *
      * @return a list of generated quiz
      * @author Ahmad Maarouf
      */

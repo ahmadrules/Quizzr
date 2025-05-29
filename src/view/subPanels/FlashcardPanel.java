@@ -1,4 +1,5 @@
 package view.subPanels;
+
 import model.FlashCard;
 import view.main.MainFrame;
 
@@ -13,7 +14,7 @@ import java.awt.event.ActionEvent;
  * FlashcardPanel is a GUI class that displays flashcards associated with
  * a selected module. It allows the user to navigate and view question-answer
  * pairs stored in FlashCard objects.
- *
+ * <p>
  * This panel is triggered from CenterModulePanel and follows the MVC pattern.
  * It fetches data through the MainFrame → Controller → Module structure.
  *
@@ -69,11 +70,11 @@ public class FlashcardPanel extends JFrame {
         setLayout(new BorderLayout());
 
         frontLabel = new JLabel("", SwingConstants.CENTER);
-        frontLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        frontLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
         add(frontLabel, BorderLayout.NORTH);
 
         backLabel = new JLabel("", SwingConstants.CENTER);
-        backLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        backLabel.setFont(new Font("Montserrat", Font.PLAIN, 18));
         add(backLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
@@ -142,8 +143,8 @@ public class FlashcardPanel extends JFrame {
     /**
      * @author Sara
      */
-    private void updateCardDisplayS(){
-        if(!frontContent.isEmpty()) {
+    private void updateCardDisplayS() {
+        if (!frontContent.isEmpty()) {
             if (frontContent.get(currentIndex) != null && !frontContent.get(currentIndex).isEmpty()) {
                 frontLabel.setText("Q: " + frontContent.get(currentIndex));
                 backLabel.setText(""); // Hide answer until requested
@@ -153,7 +154,7 @@ public class FlashcardPanel extends JFrame {
                 showBackButton.setEnabled(false);
                 nextButton.setEnabled(false);
             }
-        }else{
+        } else {
             frontLabel.setText("No flashcards available");
             backLabel.setText("");
             showBackButton.setEnabled(false);
@@ -162,12 +163,11 @@ public class FlashcardPanel extends JFrame {
     }
 
     /**
-     *
      * @param e
      * @author Sara
      */
     private void handleShowAnswerS(ActionEvent e) {
-        if(!backContent.isEmpty()) {
+        if (!backContent.isEmpty()) {
             if (backContent.get(currentIndex) != null && !backContent.get(currentIndex).isEmpty()) {
                 backLabel.setText("A: " + backContent.get(currentIndex));
             }
@@ -177,6 +177,7 @@ public class FlashcardPanel extends JFrame {
     /**
      * Navigates to the next flashcard in the list and updates the display.
      * If at the end of the list, loops back to the beginning.
+     *
      * @author Sara
      */
     private void handleNextS(ActionEvent e) {

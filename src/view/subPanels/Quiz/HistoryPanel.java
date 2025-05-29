@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * This class is responsible for displaying a list of quiz completed by the user
  * It is also responsible for giving the user an option to view the result of a completed quiz
+ *
  * @author Ahmad Maarouf
  */
 public class HistoryPanel extends JPanel {
@@ -31,6 +32,7 @@ public class HistoryPanel extends JPanel {
 
     /**
      * Creates the button panel
+     *
      * @author Ahmad Maarouf
      */
     public void createButtonPanel() {
@@ -45,6 +47,7 @@ public class HistoryPanel extends JPanel {
     /**
      * Disables buttons that affect a selected quiz
      * Used if no quiz is selected
+     *
      * @author Ahmad Maarouf
      */
     public void disableButtons() {
@@ -67,9 +70,10 @@ public class HistoryPanel extends JPanel {
 
     /**
      * Sets the layout of the panel
+     *
      * @author Ahmad Maarouf
      */
-    public void setLayout () {
+    public void setLayout() {
         setLayout(new BorderLayout());
         JLabel northLabel = new JLabel("History of completed quizzes");
         northLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -78,11 +82,13 @@ public class HistoryPanel extends JPanel {
 
     /**
      * Creates the list component used to display completed quiz
+     *
      * @author Ahmad Maarouf
      */
     public void createLists() {
         quizModel = new DefaultListModel<>();
         displayList = new JList(quizModel);
+        displayList.setFont(new Font("Montserrat", Font.PLAIN, 12));
         displayList.setBorder(BorderFactory.createLineBorder(Color.black));
         JScrollPane scrollPane = new JScrollPane(displayList);
         updateList();
@@ -92,6 +98,7 @@ public class HistoryPanel extends JPanel {
 
     /**
      * Adds action listeners to the buttons and a list listener to the list
+     *
      * @author Ahmad Maarouf
      */
     public void addActionListener() {
@@ -110,8 +117,8 @@ public class HistoryPanel extends JPanel {
         });
 
         clearButton.addActionListener(e -> {
-           mainQuizFrame.clearHistory();
-           updateList();
+            mainQuizFrame.clearHistory();
+            updateList();
         });
     }
 }

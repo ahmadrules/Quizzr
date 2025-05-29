@@ -15,7 +15,7 @@ public class QuizzrExample implements Runnable {
         topPanel.setBackground(new Color(230, 230, 230));
 
         JLabel topLabel = new JLabel("Select a program from the left", SwingConstants.LEFT);
-        topLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        topLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
         topPanel.add(topLabel, BorderLayout.WEST);
         topPanel.add(new JSeparator(), BorderLayout.SOUTH);
 
@@ -24,7 +24,7 @@ public class QuizzrExample implements Runnable {
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
         JLabel programsLabel = new JLabel(" Programs");
-        programsLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        programsLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
 
         String[] categories = {"Program 1", "Program 2", "Program 3"};
         DefaultListModel<String> mainListModel = new DefaultListModel<>();
@@ -34,7 +34,7 @@ public class QuizzrExample implements Runnable {
         JScrollPane mainListScrollPane = new JScrollPane(mainList);
 
         JLabel coursesLabel = new JLabel(" Courses");
-        coursesLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        coursesLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
         coursesLabel.setVisible(false);
 
         DefaultListModel<String> sublistModel = new DefaultListModel<>();

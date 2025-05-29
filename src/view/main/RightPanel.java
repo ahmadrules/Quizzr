@@ -6,6 +6,7 @@ import java.awt.*;
 /**
  * This class is responsible for displaying the list of tabs on the right side of the main frame
  * It is also responsible for giving the user an option to log out
+ *
  * @author Ahmad Maarouf
  */
 
@@ -31,7 +32,7 @@ public class RightPanel extends JPanel {
         });
 
         JLabel tabLabel = new JLabel(" Select a tab");
-        tabLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        tabLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
         tabLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         setLayout(new BorderLayout());
@@ -47,6 +48,7 @@ public class RightPanel extends JPanel {
 
     /**
      * Creates the list for displaying the tabs
+     *
      * @author Ahmad Maarouf
      */
     public void createList() {
@@ -57,7 +59,7 @@ public class RightPanel extends JPanel {
         listOfTabs = new JList<>(tabOptions);
 
         listOfTabs.setFixedCellWidth(150);
-        listOfTabs.setFont(new Font("Arial", Font.ROMAN_BASELINE, 24));
+        listOfTabs.setFont(new Font("Montserrat", Font.ROMAN_BASELINE, 24));
         listOfTabs.setSelectedIndex(0);
 
         scrollPane = new JScrollPane(listOfTabs);
@@ -66,6 +68,7 @@ public class RightPanel extends JPanel {
 
     /**
      * Adds event listeners to the list
+     *
      * @author Ahmad Maarouf
      */
     public void addEventListeners() {
@@ -75,9 +78,7 @@ public class RightPanel extends JPanel {
                 if (selectedTab != null) {
                     if (selectedTab == "Modules") {
                         centerContainer.setModuleLayout();
-                    }
-
-                    else if (selectedTab == "Account") {
+                    } else if (selectedTab == "Account") {
                         centerContainer.setAccountLayout();
                     }
                 }

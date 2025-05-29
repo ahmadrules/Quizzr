@@ -24,6 +24,9 @@ public class QuizOptionsFrame extends JFrame {
         createCenterPanel();
         addListeners();
 
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+        setIconImage(icon.getImage());
+
         setSize(220, 220);
         pack();
         setLocationRelativeTo(mainQuizFrame);
@@ -110,13 +113,11 @@ public class QuizOptionsFrame extends JFrame {
                 List<String> quizNames = mainQuizFrame.getRelatedQuizNames();
                 if (quizNames.contains(newQuizName)) {
                     JOptionPane.showMessageDialog(null, "Name already in use");
-                }
-                else {
+                } else {
                     mainQuizFrame.generateQuiz(Integer.parseInt(amountOfQuestions), newQuizName, typeOfQuiz, timerSeconds);
                     dispose();
                 }
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Please enter a valid quiz name");
             }
         });

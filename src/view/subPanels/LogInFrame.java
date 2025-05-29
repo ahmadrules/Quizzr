@@ -22,13 +22,9 @@ public class LogInFrame extends JFrame {
     private JPanel loginPanel;
     private JTextField passwordField;
     private JPanel loginButtonPanel;
-    private JButton loginButton;
-    private JButton registerButton;
     private JPanel mainPanel;
     private JLabel topLabel;
     private JPanel registerPanel;
-    private JButton createAccountButton;
-    private JButton cancelButton;
     private JTextField newNameField;
     private JTextField newPasswordField;
     private JTextField confirmPasswordField;
@@ -36,11 +32,15 @@ public class LogInFrame extends JFrame {
     private JPanel registerButtonPanel;
     private JComboBox<String> programCodeBox;
     private JPanel topPanel;
+    private JPanel firstPagePanel;
     private Controller controller;
     private JButton adminLoginButton;
     private JButton studentLoginButton;
     private JButton goBackButton;
-    private JPanel firstPagePanel;
+    private JButton loginButton;
+    private JButton registerButton;
+    private JButton createAccountButton;
+    private JButton cancelButton;
     private JButton testButton;
     private boolean isAdmin;
 
@@ -48,6 +48,10 @@ public class LogInFrame extends JFrame {
         this.controller = controller;
 
         this.mainFrame = new MainFrame(controller);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+        setIconImage(icon.getImage());
+
         setResizable(false);
         topLabel = new JLabel("", SwingConstants.CENTER);
         mainPanel = new BackgroundPanel("src/background1.jpg");
@@ -109,7 +113,7 @@ public class LogInFrame extends JFrame {
 
         Dimension buttonSize = new Dimension(250, 50);
         int FontSize = 16;
-        Font buttonFont = new Font("Arial", Font.BOLD, FontSize);
+        Font buttonFont = new Font("Montserrat", Font.BOLD, FontSize);
 
         adminLoginButton.setMaximumSize(buttonSize);
         adminLoginButton.setPreferredSize(buttonSize);
@@ -152,7 +156,7 @@ public class LogInFrame extends JFrame {
         JButton button = new JButton(text);
         button.setMaximumSize(new Dimension(width, height));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setFont(new Font("Montserrat", Font.BOLD, 16));
 
         Color baseColor = new Color(25, 25, 70);
         Color haverColor = new Color(90, 140, 230);
@@ -267,9 +271,9 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createdNestedRegisterPanels() {
-        Font font = new Font("Arial", Font.PLAIN, 16);
+        Font font = new Font("Montserrat", Font.PLAIN, 16);
         topLabel.setText("Register a new user");
-        topLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        topLabel.setFont(new Font("Montserrat", Font.BOLD, 16));
 
         JLabel newEmailLabel = new JLabel("Enter email:");
         JLabel newUsernameLabel = new JLabel("Enter username:");
@@ -426,7 +430,7 @@ public class LogInFrame extends JFrame {
         usernameLabel.setForeground(new Color(10, 10, 40));
 
 
-        insructionsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        insructionsLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
         insructionsLabel.setForeground(new Color(10, 10, 40));
 
         passwordField.setPreferredSize(fieldSize);
@@ -439,7 +443,7 @@ public class LogInFrame extends JFrame {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
         topPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         JLabel titleLabel = new JLabel("Please enter you Login Information");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        titleLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
         titleLabel.setForeground(new Color(10, 10, 40));
         titleLabel.setPreferredSize(labelSize);
         topPanel.add(titleLabel);
@@ -469,8 +473,8 @@ public class LogInFrame extends JFrame {
         loginButton = createStyledButton("Login", 70, 50);
         goBackButton = createStyledButton("Go back", 70, 50);
 
-        loginButton.setFont(new Font("Arial", Font.PLAIN, 18));
-        goBackButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        loginButton.setFont(new Font("Montserrat", Font.PLAIN, 18));
+        goBackButton.setFont(new Font("Montserrat", Font.PLAIN, 18));
 
         Dimension labelSize = new Dimension(150, 30);
         // loginButton.setPreferredSize(labelSize);
@@ -534,7 +538,6 @@ public class LogInFrame extends JFrame {
                         if (newPassword.equals(confirmedPassword)) {
                             String programCode = (String) programCodeBox.getSelectedItem();
                             boolean success = mainFrame.registerNewUser(newUsername, newPassword, newEmail, programCode);
-
                             if (success) {
                                 JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
                                 clearFields();

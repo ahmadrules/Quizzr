@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * This class is responsible for displaying the current available quiz the user can complete
  * It is also responsible for giving the user an option to generate a new quiz
+ *
  * @author Ahmad Maarouf
  */
 public class AvailableQuizPanel extends JPanel {
@@ -38,6 +39,7 @@ public class AvailableQuizPanel extends JPanel {
     /**
      * Disables buttons that affect a selected quiz
      * Used when no quiz is selected
+     *
      * @author Ahmad Maarouf
      */
     public void disableButtons() {
@@ -47,6 +49,7 @@ public class AvailableQuizPanel extends JPanel {
 
     /**
      * Updates the list of available quiz by fetching it from MainFrame
+     *
      * @author Ahmad Maarouf
      */
     public void updateList() {
@@ -54,7 +57,6 @@ public class AvailableQuizPanel extends JPanel {
         List<String> relatedQuizNames = mainQuizFrame.getRelatedQuizNames();
 
         for (String quizName : relatedQuizNames) {
-            System.out.println(quizName);
             if (quizName != null && !quizName.isEmpty()) {
                 quizListModel.addElement(quizName);
             }
@@ -65,6 +67,7 @@ public class AvailableQuizPanel extends JPanel {
 
     /**
      * Sets a title for the list
+     *
      * @author Ahmad Maarouf
      */
     public void setNorthLabel() {
@@ -74,11 +77,13 @@ public class AvailableQuizPanel extends JPanel {
 
     /**
      * Creates the list component for displaying the names of available quizzes
+     *
      * @author Ahmad Maarouf
      */
     public void createList() {
         quizListModel = new DefaultListModel<>();
         availableQuizList = new JList<>(quizListModel);
+        availableQuizList.setFont(new Font("Montserrat", Font.PLAIN, 12));
         JScrollPane scrollPane = new JScrollPane(availableQuizList);
 
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -87,6 +92,7 @@ public class AvailableQuizPanel extends JPanel {
 
     /**
      * Creates the button panel related to the list of available quiz
+     *
      * @author Ahmad Maarouf
      */
     public void createButtonPanel() {
@@ -111,6 +117,7 @@ public class AvailableQuizPanel extends JPanel {
 
     /**
      * Adds action listeners to the buttons and a list listener for the list
+     *
      * @author Ahmad Maarouf
      */
     public void addActionListeners() {
@@ -133,9 +140,9 @@ public class AvailableQuizPanel extends JPanel {
         });
 
         deleteButton.addActionListener(e -> {
-           mainQuizFrame.deleteQuiz(selectedQuiz);
-           startQuizButton.setEnabled(false);
-           deleteButton.setEnabled(false);
+            mainQuizFrame.deleteQuiz(selectedQuiz);
+            startQuizButton.setEnabled(false);
+            deleteButton.setEnabled(false);
         });
 
         clearButton.addActionListener(e -> {

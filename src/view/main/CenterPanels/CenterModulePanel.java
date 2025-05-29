@@ -6,6 +6,8 @@ import view.subPanels.Quiz.MainQuizFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
  * This class is responsible for showing a list of modules for the
  * course selected in LeftPanel.
  * It is also responsible for giving options to add,edit and remove modules.
+ *
  * @author Ahmad Maarouf
  */
 public class CenterModulePanel extends JPanel {
@@ -22,6 +25,13 @@ public class CenterModulePanel extends JPanel {
     private JButton addModuleButton;
     private JButton editModuleButton;
     private JButton deleteModuleButton;
+    private JButton tutorialButton;
+
+    private JButton closeButton;
+    private JPanel tutorialPanel;
+    private JPanel centerPanel;
+    private JPanel modulePanel;
+
     private HashMap<String, String[]> moduleListMap;
     private DefaultListModel<String> moduleListModel;
     private JList<String> moduleList;
@@ -33,6 +43,7 @@ public class CenterModulePanel extends JPanel {
     private JButton addQuestionButton;
     private AddQuestionFrame addQuestionFrame;
     private boolean isAdmin;
+    private boolean tutorialOpen = true;
 
     public CenterModulePanel(MainFrame mainFrame, boolean isAdmin) {
         this.mainFrame = mainFrame;
@@ -41,20 +52,82 @@ public class CenterModulePanel extends JPanel {
 
         createDataComponents();
         createButtons();
-        addEventListener();
         setupLayout();
+        addEventListener();
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    public void setupTutorialPanel() {
+        tutorialPanel = new JPanel(new BorderLayout());
+        JPanel tutorialTextPanel = new JPanel();
+        tutorialTextPanel.setLayout(new BoxLayout(tutorialTextPanel, BoxLayout.Y_AXIS));
+
+        tutorialPanel.add(new JSeparator(), BorderLayout.WEST);
+
+        closeButton = new JButton("Close");
+        tutorialPanel.add(closeButton, BorderLayout.SOUTH);
+
+
+        JLabel titleLabel = new JLabel();
+        titleLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
+        titleLabel.setText("Welcome to Quizzr!");
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JLabel tutorialLabel = new JLabel("<html><br/>If you need help getting started in your journey,<br/> please follow the steps below.<br/><br/>" +
+                "1. Select a course from the list on the far left.<br/>" +
+                "2. Select a module from \"Available modules\".<br/>" +
+                "3. Click on either \"Quiz\" or \"Flashcards\".<br/><br/>" +
+                "Have fun and good luck! </html>");
+        tutorialLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        tutorialLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+        tutorialPanel.add(titleLabel, BorderLayout.NORTH);
+        tutorialTextPanel.add(tutorialLabel);
+
+        tutorialPanel.add(tutorialTextPanel, BorderLayout.CENTER);
+
+    }
+
     /**
      * Sets up the layout of the panel
+     *
      * @author Ahmad Maarouf
      */
     public void setupLayout() {
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
+
         JLabel displayLabel = new JLabel("Available modules", SwingConstants.CENTER);
-        add(displayLabel, BorderLayout.NORTH);
-        add(moduleScrollPane, BorderLayout.CENTER);
+        displayLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
+
+        topPanel.add(displayLabel, BorderLayout.CENTER);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/tinylogo1.png"));
+        tutorialButton = new JButton();
+        tutorialButton.setIcon(icon);
+        tutorialButton.setSize(20, 20);
+        tutorialButton.setBorder(BorderFactory.createEmptyBorder());
+        topPanel.add(tutorialButton, BorderLayout.EAST);
+
+
+        //add(displayLabel, BorderLayout.NORTH);
+        //add(moduleScrollPane, BorderLayout.CENTER);
+
+        centerPanel = new JPanel();
+        centerPanel.setLayout(new GridLayout(0, 2));
+
+        modulePanel = new JPanel(new BorderLayout());
+
+        modulePanel.add(topPanel, BorderLayout.NORTH);
+        modulePanel.add(moduleScrollPane, BorderLayout.CENTER);
+
+        setupTutorialPanel();
+
+        centerPanel.add(modulePanel);
+        centerPanel.add(tutorialPanel);
+
+        add(centerPanel, BorderLayout.CENTER);
     }
 
     public void saveTrueOrFalseQuestion(String query, List<String> alternatives, int points, String correctAnswer) {
@@ -65,18 +138,21 @@ public class CenterModulePanel extends JPanel {
         mainFrame.saveMultipleChoiceToFile(query, alternatives, points, correctAnswer, selectedCourse, selectedModule);
     }
 
-    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches) {
+    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String, Integer> correctMatches) {
         mainFrame.saveMatchingToFile(query, statements, matches, points, correctMatches, selectedCourse, selectedModule);
     }
+
     /**
      * Creates the necessary data components used to show the list of modules.
      * moduleListMap is used to link modules to a specific course.
+     *
      * @author Ahmad Maarouf
      */
     public void createDataComponents() {
         moduleListMap = new HashMap<>();
         moduleListModel = new DefaultListModel<>();
         moduleList = new JList<>(moduleListModel);
+        moduleList.setFont(new Font("Montserrat", Font.PLAIN, 12));
         moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         moduleScrollPane = new JScrollPane(moduleList);
         moduleScrollPane.setVisible(true);
@@ -86,8 +162,9 @@ public class CenterModulePanel extends JPanel {
     /**
      * Displays the modules available for a selected course within a selected program.
      * Called by leftPanel when a course is selected.
+     *
      * @param selectedProgram a string with the selected programs name
-     * @param selectedCourse a string with the selected courses name
+     * @param selectedCourse  a string with the selected courses name
      * @author Ahmad Maarouf
      */
     public void courseChosen(String selectedProgram, String selectedCourse) {
@@ -106,7 +183,6 @@ public class CenterModulePanel extends JPanel {
         disableButtons();
         if (isAdmin) {
             addModuleButton.setEnabled(true);
-
         }
         revalidate();
         repaint();
@@ -114,6 +190,7 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Disables module buttons when a module is not chosen.
+     *
      * @author Ahmad Maarouf
      */
     public void disableButtons() {
@@ -130,6 +207,7 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Enables module buttons when a module is selected.
+     *
      * @author Ahmad Maarouf
      */
     public void enableButtons() {
@@ -147,12 +225,18 @@ public class CenterModulePanel extends JPanel {
     /**
      * Creates the necessary buttons for opening quiz and flashcards for the selected module,
      * as well as adding, editing and removing modules.
+     *
      * @author Ahmad Maarouf
      */
     public void createButtons() {
         buttonPanel = new JPanel(new FlowLayout());
         quizButton = new JButton("Quiz");
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/quizIcon.png"));
+        quizButton.setIcon(icon);
+
         flashcardsButton = new JButton("FlashCards");
+        icon = new ImageIcon(getClass().getResource("/view/pics/flashcardIcon.jpg"));
+        flashcardsButton.setIcon(icon);
 
         if (isAdmin) {
             addModuleButton = new JButton("Add module");
@@ -180,12 +264,22 @@ public class CenterModulePanel extends JPanel {
             buttonPanel.add(deleteModuleButton);
         }
 
+        quizButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        flashcardsButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        if (isAdmin) {
+            addModuleButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+            editModuleButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+            deleteModuleButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+            addQuestionButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        }
+
         buttonPanel.setVisible(true);
     }
 
     /**
      * Clears the module list.
      * Called when the list of modules needs to be updated.
+     *
      * @author Ahmad Maarouf
      */
     public void clearModuleList() {
@@ -194,6 +288,7 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Updates the current list of modules according to what course is selected in LeftPanel.
+     *
      * @author Ahmad Maarouf
      */
     public void updateList() {
@@ -207,10 +302,11 @@ public class CenterModulePanel extends JPanel {
 
     /**
      * Adds event listeners to the buttons and the list.
+     *
      * @author Ahmad Maarouf
      */
     public void addEventListener() {
-         flashcardsButton.addActionListener(e -> {
+        flashcardsButton.addActionListener(e -> {
             if (selectedProgram != null && selectedCourse != null && selectedModule != null) {
                 new view.subPanels.FlashcardPanel(selectedProgram, selectedCourse, selectedModule, mainFrame);
             } else {
@@ -244,6 +340,45 @@ public class CenterModulePanel extends JPanel {
             });
         }
 
+        closeButton.addActionListener(e -> {
+            centerPanel.removeAll();
+            centerPanel.setLayout(new BorderLayout());
+            centerPanel.add(modulePanel);
+            tutorialOpen = false;
+            revalidate();
+            repaint();
+        });
+
+        tutorialButton.addActionListener(e -> {
+            if (tutorialOpen) {
+                centerPanel.removeAll();
+                centerPanel.setLayout(new BorderLayout());
+                centerPanel.add(modulePanel);
+                tutorialOpen = false;
+            } else {
+                centerPanel.removeAll();
+                centerPanel.setLayout(new GridLayout(0, 2));
+                centerPanel.add(modulePanel);
+                centerPanel.add(tutorialPanel);
+                tutorialOpen = true;
+            }
+            revalidate();
+            repaint();
+
+        });
+
+        tutorialButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                tutorialButton.setBackground(new Color(72, 173, 240));
+                //tutorialButton.setBorder(BorderFactory.createBevelBorder(0));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                tutorialButton.setBackground(null);
+                //tutorialButton.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
+
 
         moduleList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -260,6 +395,7 @@ public class CenterModulePanel extends JPanel {
      * Adds a module to the list of available modules for the selected course and also,
      * in the file that stores modules.
      * This is done through mainFrame which calls on controller.
+     *
      * @author Ahmad Maarouf
      */
     public void addModule() {
@@ -270,8 +406,7 @@ public class CenterModulePanel extends JPanel {
                 disableButtons();
                 addModuleButton.setEnabled(true);
                 updateList();
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, moduleName + " already exists for " + selectedCourse + "! Please choose another module name.");
             }
 
@@ -282,6 +417,7 @@ public class CenterModulePanel extends JPanel {
      * Edits a module in the list of available modules for the selected course and also,
      * in the file that stores modules.
      * This is done through mainFrame which calls on controller.
+     *
      * @author Ahmad Maarouf
      */
     public void editModule() {
@@ -304,6 +440,7 @@ public class CenterModulePanel extends JPanel {
      * Removes a module from the list of available modules for the selected course and also,
      * from the file that stores modules.
      * This is done through mainFrame which calls on controller.
+     *
      * @author Ahmad Maarouf
      */
     public void removeModule() {
@@ -313,6 +450,7 @@ public class CenterModulePanel extends JPanel {
             disableButtons();
             addModuleButton.setEnabled(true);
             updateList();
-        };
+        }
+        ;
     }
 }

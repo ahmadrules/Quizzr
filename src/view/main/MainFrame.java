@@ -35,10 +35,10 @@ public class MainFrame extends JFrame {
     public void createAndShowGUI(boolean isAdmin) {
         this.setTitle("QuizR");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800, 500);
+        this.setSize(800, 400);
 
         if (isAdmin) {
-            setSize(1000, 500);
+            setSize(1000, 400);
         }
         setLocationRelativeTo(null);
 
@@ -65,6 +65,7 @@ public class MainFrame extends JFrame {
         Here we create a JSplitPane to give some freedom of movement between the left panel and the center container.
         CenterContainer holds all center panels.
          */
+
         JSplitPane splitPane;
 
         if (isAdmin) {
@@ -73,6 +74,9 @@ public class MainFrame extends JFrame {
             splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanelStudent, centerContainer);
         }
         splitPane.setDividerLocation(200);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+        setIconImage(icon.getImage());
 
         this.add(splitPane, BorderLayout.CENTER);
         this.add(rightPanel, BorderLayout.EAST);
@@ -470,6 +474,14 @@ public class MainFrame extends JFrame {
 
     public String getStudentProgramName() {
         return controller.getCurrentStudentProgramName();
+    }
+
+    public void changeProfilePicture(String selectedPicPath){
+        controller.changeProfilePicture(selectedPicPath);
+    }
+
+    public String getUserProfilePicturePath(){
+        return controller.getUserProfilePicturePath();
     }
 }
 
