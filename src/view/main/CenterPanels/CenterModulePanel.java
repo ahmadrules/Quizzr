@@ -6,6 +6,8 @@ import view.subPanels.Quiz.MainQuizFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,6 +25,13 @@ public class CenterModulePanel extends JPanel {
     private JButton addModuleButton;
     private JButton editModuleButton;
     private JButton deleteModuleButton;
+    private JButton tutorialButton;
+
+    private JButton closeButton;
+    private JPanel tutorialPanel;
+    private JPanel centerPanel;
+    private JPanel modulePanel;
+
     private HashMap<String, String[]> moduleListMap;
     private DefaultListModel<String> moduleListModel;
     private JList<String> moduleList;
@@ -34,6 +43,7 @@ public class CenterModulePanel extends JPanel {
     private JButton addQuestionButton;
     private AddQuestionFrame addQuestionFrame;
     private boolean isAdmin;
+    private boolean tutorialOpen = true;
 
     public CenterModulePanel(MainFrame mainFrame, boolean isAdmin) {
         this.mainFrame = mainFrame;
@@ -42,10 +52,38 @@ public class CenterModulePanel extends JPanel {
 
         createDataComponents();
         createButtons();
-        addEventListener();
         setupLayout();
+        addEventListener();
 
         add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    public void setupTutorialPanel() {
+        tutorialPanel = new JPanel(new BorderLayout());
+        JPanel tutorialTextPanel = new JPanel();
+        tutorialTextPanel.setLayout(new BoxLayout(tutorialTextPanel, BoxLayout.Y_AXIS));
+
+        tutorialPanel.add(new JSeparator(), BorderLayout.WEST);
+
+        closeButton = new JButton("Close");
+        tutorialPanel.add(closeButton, BorderLayout.SOUTH);
+
+
+        JLabel titleLabel = new JLabel();
+        titleLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
+        titleLabel.setText("Welcome to Quizzr!");
+
+        JLabel tutorialLabel = new JLabel("<html><br/>If you need help getting started in your journey,<br/> please follow the steps below.<br/><br/>" +
+                "1. Select a course from the list on the far left.<br/>" +
+                "2. Select a module from \"Available modules\".<br/>" +
+                "3. Click on either \"Quiz\" or \"Flashcards\".<br/><br/>" +
+                "Have fun and good luck! </html>");
+        tutorialLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+
+        tutorialTextPanel.add(titleLabel);
+        tutorialTextPanel.add(tutorialLabel);
+
+        tutorialPanel.add(tutorialTextPanel, BorderLayout.CENTER);
     }
 
     /**
@@ -54,10 +92,39 @@ public class CenterModulePanel extends JPanel {
      * @author Ahmad Maarouf
      */
     public void setupLayout() {
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
+
         JLabel displayLabel = new JLabel("Available modules", SwingConstants.CENTER);
         displayLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
-        add(displayLabel, BorderLayout.NORTH);
-        add(moduleScrollPane, BorderLayout.CENTER);
+
+        topPanel.add(displayLabel, BorderLayout.CENTER);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/tinylogo1.png"));
+        tutorialButton = new JButton();
+        tutorialButton.setIcon(icon);
+        tutorialButton.setSize(20, 20);
+        tutorialButton.setBorder(BorderFactory.createEmptyBorder());
+        topPanel.add(tutorialButton, BorderLayout.EAST);
+
+
+        //add(displayLabel, BorderLayout.NORTH);
+        //add(moduleScrollPane, BorderLayout.CENTER);
+
+        centerPanel = new JPanel();
+        centerPanel.setLayout(new GridLayout(0, 2));
+
+        modulePanel = new JPanel(new BorderLayout());
+
+        modulePanel.add(topPanel, BorderLayout.NORTH);
+        modulePanel.add(moduleScrollPane, BorderLayout.CENTER);
+
+        setupTutorialPanel();
+
+        centerPanel.add(modulePanel);
+        centerPanel.add(tutorialPanel);
+
+        add(centerPanel, BorderLayout.CENTER);
     }
 
     public void saveTrueOrFalseQuestion(String query, List<String> alternatives, int points, String correctAnswer) {
@@ -113,7 +180,6 @@ public class CenterModulePanel extends JPanel {
         disableButtons();
         if (isAdmin) {
             addModuleButton.setEnabled(true);
-
         }
         revalidate();
         repaint();
@@ -162,7 +228,12 @@ public class CenterModulePanel extends JPanel {
     public void createButtons() {
         buttonPanel = new JPanel(new FlowLayout());
         quizButton = new JButton("Quiz");
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/quizIcon.png"));
+        quizButton.setIcon(icon);
+
         flashcardsButton = new JButton("FlashCards");
+        icon = new ImageIcon(getClass().getResource("/view/pics/flashcardIcon.jpg"));
+        flashcardsButton.setIcon(icon);
 
         if (isAdmin) {
             addModuleButton = new JButton("Add module");
@@ -265,6 +336,45 @@ public class CenterModulePanel extends JPanel {
                 addQuestionFrame = new AddQuestionFrame(this);
             });
         }
+
+        closeButton.addActionListener(e -> {
+            centerPanel.removeAll();
+            centerPanel.setLayout(new BorderLayout());
+            centerPanel.add(modulePanel);
+            tutorialOpen = false;
+            revalidate();
+            repaint();
+        });
+
+        tutorialButton.addActionListener(e -> {
+            if (tutorialOpen) {
+                centerPanel.removeAll();
+                centerPanel.setLayout(new BorderLayout());
+                centerPanel.add(modulePanel);
+                tutorialOpen = false;
+            } else {
+                centerPanel.removeAll();
+                centerPanel.setLayout(new GridLayout(0, 2));
+                centerPanel.add(modulePanel);
+                centerPanel.add(tutorialPanel);
+                tutorialOpen = true;
+            }
+            revalidate();
+            repaint();
+
+        });
+
+        tutorialButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                tutorialButton.setBackground(new Color(72, 173, 240));
+                //tutorialButton.setBorder(BorderFactory.createBevelBorder(0));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                tutorialButton.setBackground(null);
+                //tutorialButton.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
 
 
         moduleList.addListSelectionListener(e -> {
