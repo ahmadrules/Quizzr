@@ -43,7 +43,6 @@ public class CenterModulePanel extends JPanel {
     private JButton addQuestionButton;
     private AddQuestionFrame addQuestionFrame;
     private boolean isAdmin;
-    private boolean tutorialOpen = true;
 
     public CenterModulePanel(MainFrame mainFrame, boolean isAdmin) {
         this.mainFrame = mainFrame;
@@ -103,11 +102,13 @@ public class CenterModulePanel extends JPanel {
 
         topPanel.add(displayLabel, BorderLayout.CENTER);
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/tinylogo1.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/questionMarkIcon.png"));
         tutorialButton = new JButton();
         tutorialButton.setIcon(icon);
         tutorialButton.setSize(20, 20);
         tutorialButton.setBorder(BorderFactory.createEmptyBorder());
+        tutorialButton.setVisible(false);
+        tutorialButton.setContentAreaFilled(false);
         topPanel.add(tutorialButton, BorderLayout.EAST);
 
 
@@ -344,36 +345,30 @@ public class CenterModulePanel extends JPanel {
             centerPanel.removeAll();
             centerPanel.setLayout(new BorderLayout());
             centerPanel.add(modulePanel);
-            tutorialOpen = false;
+            tutorialButton.setVisible(true);
             revalidate();
             repaint();
         });
 
         tutorialButton.addActionListener(e -> {
-            if (tutorialOpen) {
-                centerPanel.removeAll();
-                centerPanel.setLayout(new BorderLayout());
-                centerPanel.add(modulePanel);
-                tutorialOpen = false;
-            } else {
-                centerPanel.removeAll();
-                centerPanel.setLayout(new GridLayout(0, 2));
-                centerPanel.add(modulePanel);
-                centerPanel.add(tutorialPanel);
-                tutorialOpen = true;
-            }
+            centerPanel.removeAll();
+            centerPanel.setLayout(new GridLayout(0, 2));
+            centerPanel.add(modulePanel);
+            centerPanel.add(tutorialPanel);
+            tutorialButton.setVisible(false);
             revalidate();
             repaint();
-
         });
 
         tutorialButton.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
+                tutorialButton.setContentAreaFilled(true);
                 tutorialButton.setBackground(new Color(72, 173, 240));
                 //tutorialButton.setBorder(BorderFactory.createBevelBorder(0));
             }
 
             public void mouseExited(MouseEvent e) {
+                tutorialButton.setContentAreaFilled(false);
                 tutorialButton.setBackground(null);
                 //tutorialButton.setBorder(BorderFactory.createEmptyBorder());
             }

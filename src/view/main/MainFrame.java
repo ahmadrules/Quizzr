@@ -33,12 +33,12 @@ public class MainFrame extends JFrame {
      * @param isAdmin if the user logged in is an admin or not
      */
     public void createAndShowGUI(boolean isAdmin) {
-        this.setTitle("QuizR");
+        this.setTitle("Quizzr");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800, 400);
 
         if (isAdmin) {
-            setSize(1000, 400);
+            setSize(1100, 400);
         }
         setLocationRelativeTo(null);
 
@@ -476,11 +476,11 @@ public class MainFrame extends JFrame {
         return controller.getCurrentStudentProgramName();
     }
 
-    public void changeProfilePicture(String selectedPicPath){
+    public void changeProfilePicture(String selectedPicPath) {
         controller.changeProfilePicture(selectedPicPath);
     }
 
-    public String getUserProfilePicturePath(){
+    public String getUserProfilePicturePath() {
         return controller.getUserProfilePicturePath();
     }
 }
