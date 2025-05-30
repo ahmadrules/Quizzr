@@ -463,15 +463,13 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createLoginButtons() {
-        loginButton = createStyledButton("Login",70,50);
+        loginButton = createStyledButton("Log in",70,50);
         goBackButton = createStyledButton("Go back",70,50);
 
         loginButton.setFont(new Font("Arial", Font.PLAIN, 18));
         goBackButton.setFont(new Font("Arial", Font.PLAIN, 18));
 
-        Dimension labelSize = new Dimension(150, 30);
-       // loginButton.setPreferredSize(labelSize);
-        //goBackButton.setPreferredSize(labelSize);
+        getRootPane().setDefaultButton(loginButton);
 
         loginButtonPanel.add(loginButton);
         loginButtonPanel.add(goBackButton);
@@ -506,7 +504,6 @@ public class LogInFrame extends JFrame {
             if (!username.isEmpty() && !password.isEmpty()) {
                 boolean success= controller.loginUser(username, password);
                 if (success) {
-                    JOptionPane.showMessageDialog(mainFrame, "Logged in successfully");
                     mainFrame.createAndShowGUI(isAdmin);
                     controller.setMainFrame(mainFrame);
                     setVisible(false);
