@@ -537,14 +537,18 @@ public class LogInFrame extends JFrame {
                     if (newPassword != null && !newPassword.isEmpty()) {
                         if (newPassword.equals(confirmedPassword)) {
                             String programCode = (String) programCodeBox.getSelectedItem();
-                            boolean success = mainFrame.registerNewUser(newUsername, newPassword, newEmail, programCode);
-                            if (success) {
-                                JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
-                                clearFields();
-                                setLoginLayout();
-                                isAdmin = false;
+                            if (programCode == null) {
+                                JOptionPane.showMessageDialog(mainFrame, "Please select a program code");
                             } else {
-                                JOptionPane.showMessageDialog(mainPanel, "User already exists");
+                                boolean success = mainFrame.registerNewUser(newUsername, newPassword, newEmail, programCode);
+                                if (success) {
+                                    JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
+                                    clearFields();
+                                    setLoginLayout();
+                                    isAdmin = false;
+                                } else {
+                                    JOptionPane.showMessageDialog(mainPanel, "User already exists");
+                                }
                             }
                         } else {
                             JOptionPane.showMessageDialog(mainFrame, "Passwords do not match");
