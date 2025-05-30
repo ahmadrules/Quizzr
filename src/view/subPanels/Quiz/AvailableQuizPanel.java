@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class AvailableQuizPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
+    private MainFrame mainFrame;
 
     private DefaultListModel<String> quizListModel;
     private JList<String> availableQuizList;
@@ -24,9 +25,11 @@ public class AvailableQuizPanel extends JPanel {
     private JButton deleteButton;
     private String selectedQuiz;
     private JButton clearButton;
+    private JButton goBackButton;
 
-    public AvailableQuizPanel(MainQuizFrame mainQuizFrame) {
+    public AvailableQuizPanel(MainQuizFrame mainQuizFrame, MainFrame mainFrame) {
         this.mainQuizFrame = mainQuizFrame;
+        this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
         setNorthLabel();
@@ -103,6 +106,7 @@ public class AvailableQuizPanel extends JPanel {
         generateButton = createStyledButton("Generate quiz");
         deleteButton = createStyledButton("Delete");
         clearButton = createStyledButton("Delete all");
+        goBackButton = createStyledButton("Go back");
 
         startQuizButton.setEnabled(false);
         deleteButton.setEnabled(false);
@@ -111,6 +115,7 @@ public class AvailableQuizPanel extends JPanel {
         buttonPanel.add(generateButton);
         buttonPanel.add(deleteButton);
         buttonPanel.add(clearButton);
+        buttonPanel.add(goBackButton);
 
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         buttonPanel.setBackground(new Color(255, 249, 163));
@@ -134,9 +139,8 @@ public class AvailableQuizPanel extends JPanel {
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setContentAreaFilled(true);
-        //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         Border lineBorder= BorderFactory.createLineBorder(borderColor,1);
-        Border emptyBorder = BorderFactory.createEmptyBorder(2, 5, 2, 5);
+        Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
         button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
         return button;
     }
@@ -175,6 +179,10 @@ public class AvailableQuizPanel extends JPanel {
             if (choice == JOptionPane.YES_OPTION) {
                 mainQuizFrame.clearCreatedQuiz();
             }
+        });
+        goBackButton.addActionListener(e -> {
+            mainFrame.setVisible(true);
+            SwingUtilities.getWindowAncestor(AvailableQuizPanel.this).dispose();
         });
     }
 }

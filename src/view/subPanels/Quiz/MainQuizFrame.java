@@ -51,9 +51,7 @@ public class MainQuizFrame extends JFrame {
 
         setTitle("Quiz Panel");
 
-       // createLists();
         addTabList();
-       // pack();
         setLocationRelativeTo(mainFrame);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
@@ -79,7 +77,7 @@ public class MainQuizFrame extends JFrame {
      */
     public void createPanels() {
         historyPanel = new HistoryPanel(this);
-        availableQuizPanel = new AvailableQuizPanel(this);
+        availableQuizPanel = new AvailableQuizPanel(this,mainFrame);
 
         historyWrapperPanel = warpWithPadding(historyPanel);
         availableWrapperPanel = warpWithPadding(availableQuizPanel);
@@ -125,7 +123,7 @@ public class MainQuizFrame extends JFrame {
      */
     public void setLayout() {
         setLayout(new BorderLayout());
-        setSize(650, 500);
+        setSize(800, 400);
     }
 
     /**
