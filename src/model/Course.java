@@ -16,35 +16,60 @@ public class Course implements Serializable {
         this.packageName = packageName;
         createPackage();
     }
+
     public Course(String name, String packageName){
         this.name = name;
         this.modules = new ArrayList<>();
         this.packageName = packageName;
 
     }
+
     public String getName() {
         return name;
     }
+
     public String getPackageName(){
         return packageName;
     }
+
     public void setName(String name){
         this.name = name;
     }
+
     public List<Module> getModules() {
         return modules;
     }
+
     public void setModules(ArrayList<Module> modules) {
         this.modules = modules;
     }
+
     public void addModule(Module module) {
         this.modules.add(module);
     }
+
     public void createPackage(){
         File directory = new File("src/model/files/" + packageName);
         if (!directory.exists()) {
             boolean created = directory.mkdirs();
         }
+    }
+
+    public void removePackage(){
+        File directory = new File("src/model/files/" + packageName);
+        if(directory.exists()) {
+            deleteDirectory(directory);
+        }
+    }
+
+    public void deleteDirectory(File dir){
+        File[] files = dir.listFiles();
+        if(files != null){
+            for(File file : files){
+                deleteDirectory(file);
+            }
+        }
+        dir.delete();
     }
 
 }

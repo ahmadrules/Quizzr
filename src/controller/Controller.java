@@ -472,7 +472,7 @@ public class Controller {
                     Course currentCourse = currentProgram.getCourses().get(c);
                     if (currentCourse.getName().equals(courseName)) {
                         currentProgram.getCourses().remove(c);
-                        //TODO remove the package for the course
+                        currentCourse.removePackage();
                         courses.remove(currentCourse);
                         break;
                     }
@@ -546,6 +546,7 @@ public class Controller {
                 if (currentProgram.getCourses().get(c).getName().equals(courseName)) {
                     for (int m = 0; m < currentProgram.getCourses().get(c).getModules().size(); m++) {
                         if (currentProgram.getCourses().get(c).getModules().get(m).getName().equals(moduleName)) {
+                            currentProgram.getCourses().get(c).getModules().get(m).removePackage();
                             currentProgram.getCourses().get(c).getModules().remove(m);
                         }
                     }
