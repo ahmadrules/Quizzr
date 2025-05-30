@@ -212,7 +212,6 @@ public class QuestionFrame extends JFrame {
         closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
-
         add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -264,6 +263,7 @@ public class QuestionFrame extends JFrame {
                 JPanel questionPanel = new JPanel(new BorderLayout());
 
                 JPanel topPanel = new JPanel(new BorderLayout());
+                topPanel.setBackground(Color.YELLOW);
 
                 JLabel query = new JLabel(questionId++ + ". " + question.getQuery());
                 query.setFont(new Font("Montserrat", Font.BOLD, 16));
