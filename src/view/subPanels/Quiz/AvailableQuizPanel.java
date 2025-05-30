@@ -150,12 +150,13 @@ public class AvailableQuizPanel extends JPanel {
         return button;
     }
 
-        /**
-         * Adds action listeners to the buttons and a list listener for the list
-         * @author Ahmad Maarouf
-         */
+    /**
+     * Adds action listeners to the buttons and a list listener for the list
+     * @author Ahmad Maarouf
+     */
     public void addActionListeners() {
         generateButton.addActionListener(e -> {
+            this.mainQuizFrame.setVisible(false);
             new QuizOptionsFrame(mainQuizFrame);
         });
 

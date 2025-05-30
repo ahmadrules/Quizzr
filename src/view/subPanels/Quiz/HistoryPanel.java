@@ -25,9 +25,11 @@ public class HistoryPanel extends JPanel {
     public HistoryPanel(MainQuizFrame mainQuizFrame) {
         this.mainQuizFrame = mainQuizFrame;
 
+
         setLayout();
         createLists();
         createButtonPanel();
+        disableButtons();
         addActionListener();
     }
 
