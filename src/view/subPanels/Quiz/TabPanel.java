@@ -10,6 +10,7 @@ import java.awt.*;
 public class TabPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
     private JList<String> listOfTabs;
+    private JLabel topLabel;
 
     public TabPanel(MainQuizFrame mainQuizFrame) {
         this.mainQuizFrame = mainQuizFrame;
@@ -32,7 +33,7 @@ public class TabPanel extends JPanel {
         listOfTabs = new JList<>(tabOptions);
 
         listOfTabs.setFixedCellWidth(70);
-        listOfTabs.setFont(new Font("Montserrat", Font.ROMAN_BASELINE, 18));
+        listOfTabs.setFont(new Font("Georgia", Font.ROMAN_BASELINE, 30));
         listOfTabs.setSelectedIndex(0);
 
         listOfTabs.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -42,8 +43,11 @@ public class TabPanel extends JPanel {
     }
 
     public void createTopLabel() {
-        JLabel topLabel = new JLabel("Select a tab");
-        topLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        topLabel = new JLabel("Click to see your History ");
+        topLabel.setFont(new Font("Georgia", Font.BOLD, 15));
+        topLabel.setForeground(new Color(25, 25, 70));
+        topLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        topLabel.setBorder(BorderFactory.createEmptyBorder(30, 0, 40, 0));
         add(topLabel, BorderLayout.NORTH);
     }
 
@@ -54,8 +58,10 @@ public class TabPanel extends JPanel {
                     String selectedTab = listOfTabs.getSelectedValue();
 
                     if (selectedTab.equals("Quiz")) {
+                        topLabel.setText("Click to see your History!");
                         mainQuizFrame.setAvailableQuizPanel();
                     } else if (selectedTab.equals("History")) {
+                        topLabel.setText("Click to see all Quizzes!");
                         mainQuizFrame.setHistoryPanel();
                     }
                 }

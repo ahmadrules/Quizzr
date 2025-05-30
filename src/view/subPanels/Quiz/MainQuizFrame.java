@@ -27,6 +27,11 @@ public class MainQuizFrame extends JFrame {
 
     private AvailableQuizPanel availableQuizPanel;
     private HistoryPanel historyPanel;
+    private JPanel availableWrapperPanel;
+    private JPanel historyWrapperPanel;
+    private JPanel currentCenterPanel;
+    private TabPanel tabPanel;
+
 
     private List<Quiz> quizList;
     private List<Quiz> historyList;
@@ -37,6 +42,7 @@ public class MainQuizFrame extends JFrame {
         this.selectedModule = selectedModule;
         this.mainFrame = mainFrame;
 
+        createLists();
         createPanels();
         setLayout();
 
@@ -45,15 +51,14 @@ public class MainQuizFrame extends JFrame {
 
         setTitle("Quiz Panel");
 
-        createLists();
         addTabList();
-        pack();
         setLocationRelativeTo(mainFrame);
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
         setIconImage(icon.getImage());
 
         setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     /**
@@ -73,7 +78,11 @@ public class MainQuizFrame extends JFrame {
      */
     public void createPanels() {
         historyPanel = new HistoryPanel(this);
-        availableQuizPanel = new AvailableQuizPanel(this);
+        availableQuizPanel = new AvailableQuizPanel(this,mainFrame);
+
+        historyWrapperPanel = warpWithPadding(historyPanel);
+        availableWrapperPanel = warpWithPadding(availableQuizPanel);
+
     }
 
     /**
@@ -82,10 +91,12 @@ public class MainQuizFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void setHistoryPanel() {
-        availableQuizPanel.disableButtons();
-        remove(availableQuizPanel);
+        if (currentCenterPanel != null) {
+            getContentPane().remove(currentCenterPanel);
+        }
         historyPanel.updateList();
-        add(historyPanel, BorderLayout.CENTER);
+        add(historyWrapperPanel, BorderLayout.CENTER);
+        currentCenterPanel = historyWrapperPanel;
         revalidate();
         repaint();
     }
@@ -96,10 +107,12 @@ public class MainQuizFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void setAvailableQuizPanel() {
-        historyPanel.disableButtons();
-        remove(historyPanel);
+        if (currentCenterPanel != null) {
+            getContentPane().remove(currentCenterPanel);
+        }
         availableQuizPanel.updateList();
-        add(availableQuizPanel, BorderLayout.CENTER);
+        add(availableWrapperPanel, BorderLayout.CENTER);
+        currentCenterPanel = availableWrapperPanel;
         revalidate();
         repaint();
     }
@@ -111,7 +124,7 @@ public class MainQuizFrame extends JFrame {
      */
     public void setLayout() {
         setLayout(new BorderLayout());
-        setSize(400, 200);
+        setSize(800, 400);
     }
 
     /**
@@ -121,7 +134,11 @@ public class MainQuizFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void addTabList() {
-        TabPanel tabPanel = new TabPanel(this);
+        tabPanel = new TabPanel(this);
+        tabPanel.setPreferredSize(new Dimension(200, 250));
+        tabPanel.setMaximumSize(new Dimension(200, 250));
+        tabPanel.setMinimumSize(new Dimension(200, 250));
+        tabPanel.setBackground(new Color(255, 249, 163));
         add(tabPanel, BorderLayout.EAST);
     }
 
@@ -228,4 +245,13 @@ public class MainQuizFrame extends JFrame {
     public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers) {
         mainFrame.addQuizToHistory(quizName, questions, answers, selectedModule, selectedCourse);
     }
+
+    public JPanel warpWithPadding(JPanel innerpanel) {
+        JPanel outerPanel=new JPanel(new BorderLayout());
+        outerPanel.setBackground(new Color(255, 249, 163));
+        outerPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        outerPanel.add(innerpanel, BorderLayout.CENTER);
+        return outerPanel;
+    }
+
 }

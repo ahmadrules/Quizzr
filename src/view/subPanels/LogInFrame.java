@@ -13,7 +13,6 @@ import java.util.List;
  * This class is responsible for offering and validating options
  * to log in to and register an account.
  * To validate the login information it calls on mainFrame which calls on controller.
- *
  * @author Ahmad Maarouf
  */
 public class LogInFrame extends JFrame {
@@ -22,9 +21,13 @@ public class LogInFrame extends JFrame {
     private JPanel loginPanel;
     private JTextField passwordField;
     private JPanel loginButtonPanel;
+    private JButton loginButton;
+    private JButton registerButton;
     private JPanel mainPanel;
     private JLabel topLabel;
     private JPanel registerPanel;
+    private JButton createAccountButton;
+    private JButton cancelButton;
     private JTextField newNameField;
     private JTextField newPasswordField;
     private JTextField confirmPasswordField;
@@ -32,53 +35,44 @@ public class LogInFrame extends JFrame {
     private JPanel registerButtonPanel;
     private JComboBox<String> programCodeBox;
     private JPanel topPanel;
-    private JPanel firstPagePanel;
     private Controller controller;
     private JButton adminLoginButton;
     private JButton studentLoginButton;
     private JButton goBackButton;
-    private JButton loginButton;
-    private JButton registerButton;
-    private JButton createAccountButton;
-    private JButton cancelButton;
+    private JPanel firstPagePanel;
     private JButton testButton;
     private boolean isAdmin;
 
-    public LogInFrame(Controller controller) {
-        this.controller = controller;
+    public LogInFrame( Controller controller ) {
+     this.controller = controller;
 
-        this.mainFrame = new MainFrame(controller);
+     this.mainFrame = new MainFrame(controller);
+     setResizable(false);
+     topLabel = new JLabel("", SwingConstants.CENTER);
+     mainPanel = new BackgroundPanel("src/background4.jpg");
+     mainPanel.setBackground(new Color(255, 249, 163));
+     add(mainPanel);
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
-        setIconImage(icon.getImage());
+     createLoginLayout();
+     createRegisterLayout();
+     createFirstPage();
 
-        setResizable(false);
-        topLabel = new JLabel("", SwingConstants.CENTER);
-        mainPanel = new BackgroundPanel("src/background1.jpg");
-        mainPanel.setBackground(new Color(255, 249, 163));
-        add(mainPanel);
+     //Login layout is default layout
+     showFirstPage();
 
-        createLoginLayout();
-        createRegisterLayout();
-        createFirstPage();
+     addActionListeners();
 
-        //Login layout is default layout
-        showFirstPage();
-
-        addActionListeners();
-
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     setLocationRelativeTo(null);
+     setVisible(true);
+     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     /**
      * Creates the layout for the "Register" panel.
-     *
      * @author Ahmad Maarouf
      */
     public void createRegisterLayout() {
-        registerPanel = new BackgroundPanel("src/background1.jpg");
+        registerPanel = new BackgroundPanel("src/background4.jpg");
         registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.PAGE_AXIS));
         createdNestedRegisterPanels();
         createRegisterButtons();
@@ -87,18 +81,18 @@ public class LogInFrame extends JFrame {
     }
 
     public void createFirstPage() {
-        firstPagePanel = new BackgroundPanel("src/background1.jpg");
+        firstPagePanel = new BackgroundPanel("src/background4.jpg");
         firstPagePanel.setLayout(new BorderLayout());
         firstPagePanel.setBackground(new Color(255, 249, 163));
         firstPagePanel.setBorder(BorderFactory.createLineBorder(new Color(255, 249, 163)));
 
-        JLabel firstPageLabel = new JLabel("<html><div style='text-align: center;'>"
+        JLabel firstPageLabel = new JLabel( "<html><div style='text-align: center;'>"
                 + "<span style='color: #1A237E;'>Welcome to </span>"
                 + "<span style='color: rgb(250,155,22); font-weight: bold;'>Quizzr</span>"
                 + "</div></html", SwingConstants.CENTER);
         firstPageLabel.setFont(new Font("Georgia", Font.BOLD, 32));
         firstPagePanel.setForeground(Color.WHITE);
-        firstPageLabel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+        firstPageLabel.setBorder(BorderFactory.createEmptyBorder(30,10,30,10));
         firstPagePanel.add(firstPageLabel, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel();
@@ -106,14 +100,14 @@ public class LogInFrame extends JFrame {
         buttonPanel.setBackground(new Color(255, 249, 163));
         buttonPanel.setOpaque(false);
 
-        adminLoginButton = createStyledButton("Admin Login", 260, 50);
-        studentLoginButton = createStyledButton("Student Login", 260, 50);
-        testButton = createStyledButton("Test login", 260, 50);
-        registerButton = createStyledButton("Register new student", 260, 50);
+        adminLoginButton = createStyledButton("Admin Login",260,50);
+        studentLoginButton = createStyledButton("Student Login",260,50);
+        testButton = createStyledButton("Test login",260,50);
+        registerButton=createStyledButton("Register new student",260,50);
 
         Dimension buttonSize = new Dimension(250, 50);
         int FontSize = 16;
-        Font buttonFont = new Font("Montserrat", Font.BOLD, FontSize);
+        Font buttonFont = new Font("Arial", Font.BOLD, FontSize);
 
         adminLoginButton.setMaximumSize(buttonSize);
         adminLoginButton.setPreferredSize(buttonSize);
@@ -156,7 +150,7 @@ public class LogInFrame extends JFrame {
         JButton button = new JButton(text);
         button.setMaximumSize(new Dimension(width, height));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setFont(new Font("Montserrat", Font.BOLD, 16));
+        button.setFont(new Font("Arial",Font.BOLD,16));
 
         Color baseColor = new Color(25, 25, 70);
         Color haverColor = new Color(90, 140, 230);
@@ -167,7 +161,7 @@ public class LogInFrame extends JFrame {
         button.setFocusPainted(false);
         button.setContentAreaFilled(true);
         //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        Border lineBorder = BorderFactory.createLineBorder(borderColor, 4);
+        Border lineBorder= BorderFactory.createLineBorder(borderColor,4);
         Border emptyBorder = BorderFactory.createEmptyBorder(10, 20, 10, 20);
         button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
 
@@ -179,7 +173,6 @@ public class LogInFrame extends JFrame {
                         BorderFactory.createEmptyBorder(10, 20, 10, 20)
                 ));
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 button.setBackground(baseColor);
                 button.setBorder(BorderFactory.createCompoundBorder(
@@ -199,17 +192,16 @@ public class LogInFrame extends JFrame {
         registerButton.setEnabled(true);
         mainPanel.revalidate();
         mainPanel.repaint();
-        setSize(600, 500);
+        setSize(600,500);
         setLocationRelativeTo(null);
     }
 
     /**
      * Creates the layout for the "Login" panel.
-     *
      * @author Ahmad Maarouf
      */
     public void createLoginLayout() {
-        loginPanel = new BackgroundPanel("src/background1.jpg");
+        loginPanel = new BackgroundPanel("src/background4.jpg");
         loginPanel.setLayout(new BorderLayout());
         createNestedLoginPanels();
         createLoginButtons();
@@ -220,11 +212,10 @@ public class LogInFrame extends JFrame {
     /**
      * Sets the layout to the "Register" layout.
      * Called when the user presses the "Register" button.
-     *
      * @author Ahmad Maarouf
      */
     public void setRegisterLayout() {
-        setSize(600, 500);
+        setSize(600,500);
         setTitle("Register");
         mainPanel.removeAll();
         topLabel.setText("Register a new account");
@@ -249,14 +240,13 @@ public class LogInFrame extends JFrame {
      * Sets the layout to the "Login" layout.
      * Called when the user first opens the program or
      * if the users presses "Cancel" while on the "Register" layout.
-     *
      * @author Ahmad Maarouf
      */
     public void setLoginLayout() {
-        setSize(600, 500);
+        setSize(600,500);
         setTitle("Login");
         mainPanel.removeAll();
-        // mainPanel.add(topLabel);
+       // mainPanel.add(topLabel);
         mainPanel.add(loginPanel);
 
         revalidate();
@@ -267,13 +257,12 @@ public class LogInFrame extends JFrame {
      * Creates the panels required to display the register layout correctly.
      * The main panel uses flowlayout and the panels created here each account for
      * one row in the main panel.
-     *
      * @author Ahmad Maarouf
      */
     public void createdNestedRegisterPanels() {
-        Font font = new Font("Montserrat", Font.PLAIN, 16);
+        Font font= new Font("Arial", Font.PLAIN, 16);
         topLabel.setText("Register a new user");
-        topLabel.setFont(new Font("Montserrat", Font.BOLD, 16));
+        topLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel newEmailLabel = new JLabel("Enter email:");
         JLabel newUsernameLabel = new JLabel("Enter username:");
@@ -325,6 +314,12 @@ public class LogInFrame extends JFrame {
         newEmailField.setPreferredSize(fieldSize);
         programCodeBox.setPreferredSize(fieldSize);
 
+        newNameField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        newPasswordField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        confirmPasswordField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        newEmailField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        programCodeBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         JPanel newUserNamePanel = new JPanel();
         JPanel newPasswordPanel = new JPanel();
         JPanel confirmPasswordPanel = new JPanel();
@@ -366,7 +361,7 @@ public class LogInFrame extends JFrame {
 
         JPanel mainRegisterPanel = new JPanel();
         mainRegisterPanel.setLayout(new BoxLayout(mainRegisterPanel, BoxLayout.Y_AXIS));
-        mainRegisterPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
+        mainRegisterPanel.setBorder(BorderFactory.createEmptyBorder(20,50,20,50));
         mainRegisterPanel.setBackground(new Color(255, 249, 163));
 
         mainRegisterPanel.add(newEmailPanel);
@@ -389,7 +384,6 @@ public class LogInFrame extends JFrame {
      * Creates the panels required to display the login layout correctly.
      * The main panel uses flowlayout and the panels created here each account for
      * one row in the main panel.
-     *
      * @author Ahmad Maarouf
      */
     public void createNestedLoginPanels() {
@@ -430,7 +424,7 @@ public class LogInFrame extends JFrame {
         usernameLabel.setForeground(new Color(10, 10, 40));
 
 
-        insructionsLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        insructionsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         insructionsLabel.setForeground(new Color(10, 10, 40));
 
         passwordField.setPreferredSize(fieldSize);
@@ -441,9 +435,9 @@ public class LogInFrame extends JFrame {
         passwordLabel.setForeground(new Color(10, 10, 40));
 
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(30,30,30,30));
         JLabel titleLabel = new JLabel("Please enter you Login Information");
-        titleLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         titleLabel.setForeground(new Color(10, 10, 40));
         titleLabel.setPreferredSize(labelSize);
         topPanel.add(titleLabel);
@@ -459,26 +453,23 @@ public class LogInFrame extends JFrame {
         passwordPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         passwordPanel.add(passwordLabel);
         passwordPanel.add(passwordField);
-        // usernamePanel.add(passwordPanel);
+       // usernamePanel.add(passwordPanel);
         topPanel.add(usernamePanel);
         topPanel.add(passwordPanel);
     }
 
     /**
      * Creates the buttons required to display the login layout correctly.
-     *
      * @author Ahmad Maarouf
      */
     public void createLoginButtons() {
-        loginButton = createStyledButton("Login", 70, 50);
-        goBackButton = createStyledButton("Go back", 70, 50);
+        loginButton = createStyledButton("Log in",70,50);
+        goBackButton = createStyledButton("Go back",70,50);
 
-        loginButton.setFont(new Font("Montserrat", Font.PLAIN, 18));
-        goBackButton.setFont(new Font("Montserrat", Font.PLAIN, 18));
+        loginButton.setFont(new Font("Arial", Font.PLAIN, 18));
+        goBackButton.setFont(new Font("Arial", Font.PLAIN, 18));
 
-        Dimension labelSize = new Dimension(150, 30);
-        // loginButton.setPreferredSize(labelSize);
-        //goBackButton.setPreferredSize(labelSize);
+        getRootPane().setDefaultButton(loginButton);
 
         loginButtonPanel.add(loginButton);
         loginButtonPanel.add(goBackButton);
@@ -486,15 +477,14 @@ public class LogInFrame extends JFrame {
 
     /**
      * Creates the buttons required to display the register layout correctly.
-     *
      * @author Ahmad Maarouf
      */
     public void createRegisterButtons() {
-        createAccountButton = createStyledButton("Create", 70, 50);
-        cancelButton = createStyledButton("Cancel", 70, 30);
+        createAccountButton = createStyledButton("Create",70,50);
+        cancelButton = createStyledButton("Cancel",70,30);
 
-        registerButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        registerButtonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
+        registerButtonPanel=new JPanel(new FlowLayout(FlowLayout.CENTER,20,10));
+        registerButtonPanel.setBorder(BorderFactory.createEmptyBorder(20,0,20,0));
         registerButtonPanel.setBackground(new Color(255, 249, 163));
         registerButtonPanel.add(createAccountButton);
         registerButtonPanel.add(cancelButton);
@@ -504,7 +494,6 @@ public class LogInFrame extends JFrame {
      * Adds action listeners to the buttons pressed when the user
      * wants to log in to an account or create a new one.
      * Here we validate the input before sending it to mainFrame which sends it to controller.
-     *
      * @author Ahmad Maarouf
      */
     public void addActionListeners() {
@@ -513,16 +502,17 @@ public class LogInFrame extends JFrame {
             String password = passwordField.getText().trim();
             System.out.println("Trying to log in with: " + username + ", " + password);
             if (!username.isEmpty() && !password.isEmpty()) {
-                boolean success = controller.loginUser(username, password);
+                boolean success= controller.loginUser(username, password);
                 if (success) {
-                    JOptionPane.showMessageDialog(mainFrame, "Logged in successfully");
                     mainFrame.createAndShowGUI(isAdmin);
                     controller.setMainFrame(mainFrame);
                     setVisible(false);
-                } else {
+                }
+                else {
                     JOptionPane.showMessageDialog(mainFrame, "User does not exist");
                 }
-            } else {
+            }
+            else {
                 JOptionPane.showMessageDialog(mainFrame, "Username and password required");
             }
         });
@@ -537,25 +527,30 @@ public class LogInFrame extends JFrame {
                     if (newPassword != null && !newPassword.isEmpty()) {
                         if (newPassword.equals(confirmedPassword)) {
                             String programCode = (String) programCodeBox.getSelectedItem();
-                            boolean success = mainFrame.registerNewUser(newUsername, newPassword, newEmail, programCode);
+                            boolean success= mainFrame.registerNewUser(newUsername,newPassword,newEmail,programCode);
+
                             if (success) {
                                 JOptionPane.showMessageDialog(mainPanel, "User successfully registered");
                                 clearFields();
                                 setLoginLayout();
-                                isAdmin = false;
-                            } else {
+                            }
+                            else {
                                 JOptionPane.showMessageDialog(mainPanel, "User already exists");
                             }
-                        } else {
+                        }
+                        else {
                             JOptionPane.showMessageDialog(mainFrame, "Passwords do not match");
                         }
-                    } else {
+                    }
+                    else {
                         JOptionPane.showMessageDialog(mainFrame, "Your password cannot be empty");
                     }
-                } else {
+                }
+                else {
                     JOptionPane.showMessageDialog(mainFrame, "Please enter a valid username");
                 }
-            } else {
+            }
+            else {
                 JOptionPane.showMessageDialog(this, "Please enter a valid email");
             }
         });
@@ -570,9 +565,9 @@ public class LogInFrame extends JFrame {
         });
 
         studentLoginButton.addActionListener(e -> {
-            setLoginLayout();
-            isAdmin = false;
-            registerButton.setEnabled(true);
+           setLoginLayout();
+           isAdmin = false;
+           registerButton.setEnabled(true);
         });
 
         adminLoginButton.addActionListener(e -> {

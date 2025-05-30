@@ -317,7 +317,9 @@ public class CenterModulePanel extends JPanel {
         quizButton.addActionListener(e -> {
             //Here we write what happens when we press the quiz button
             //QuizPanel quizPanel = new QuizPanel(selectedModule);
+
             new MainQuizFrame(selectedCourse, selectedModule, mainFrame);
+            this.mainFrame.setVisible(false);
         });
 
         if (isAdmin) {
