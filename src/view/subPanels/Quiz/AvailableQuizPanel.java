@@ -4,13 +4,13 @@ import model.Quiz;
 import view.main.MainFrame;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.List;
 
 /**
  * This class is responsible for displaying the current available quiz the user can complete
  * It is also responsible for giving the user an option to generate a new quiz
- *
  * @author Ahmad Maarouf
  */
 public class AvailableQuizPanel extends JPanel {
@@ -39,7 +39,6 @@ public class AvailableQuizPanel extends JPanel {
     /**
      * Disables buttons that affect a selected quiz
      * Used when no quiz is selected
-     *
      * @author Ahmad Maarouf
      */
     public void disableButtons() {
@@ -49,7 +48,6 @@ public class AvailableQuizPanel extends JPanel {
 
     /**
      * Updates the list of available quiz by fetching it from MainFrame
-     *
      * @author Ahmad Maarouf
      */
     public void updateList() {
@@ -57,6 +55,7 @@ public class AvailableQuizPanel extends JPanel {
         List<String> relatedQuizNames = mainQuizFrame.getRelatedQuizNames();
 
         for (String quizName : relatedQuizNames) {
+            System.out.println(quizName);
             if (quizName != null && !quizName.isEmpty()) {
                 quizListModel.addElement(quizName);
             }
@@ -67,23 +66,25 @@ public class AvailableQuizPanel extends JPanel {
 
     /**
      * Sets a title for the list
-     *
      * @author Ahmad Maarouf
      */
     public void setNorthLabel() {
         JLabel quizLabel = new JLabel("Available quiz", SwingConstants.CENTER);
+        quizLabel.setOpaque(true);
+        quizLabel.setForeground(new Color(10, 15, 40));
+        quizLabel.setBackground(new Color(255, 249, 163));
+        quizLabel.setFont(new Font("Georgia", Font.BOLD, 20));
+        quizLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 30, 0));
         add(quizLabel, BorderLayout.NORTH);
     }
 
     /**
      * Creates the list component for displaying the names of available quizzes
-     *
      * @author Ahmad Maarouf
      */
     public void createList() {
         quizListModel = new DefaultListModel<>();
         availableQuizList = new JList<>(quizListModel);
-        availableQuizList.setFont(new Font("Montserrat", Font.PLAIN, 12));
         JScrollPane scrollPane = new JScrollPane(availableQuizList);
 
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -92,17 +93,16 @@ public class AvailableQuizPanel extends JPanel {
 
     /**
      * Creates the button panel related to the list of available quiz
-     *
      * @author Ahmad Maarouf
      */
     public void createButtonPanel() {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
-        startQuizButton = new JButton("Start quiz");
-        generateButton = new JButton("Generate quiz");
-        deleteButton = new JButton("Delete");
-        clearButton = new JButton("Delete all quiz");
+        startQuizButton = createStyledButton("Start quiz");
+        generateButton = createStyledButton("Generate quiz");
+        deleteButton = createStyledButton("Delete");
+        clearButton = createStyledButton("Delete all");
 
         startQuizButton.setEnabled(false);
         deleteButton.setEnabled(false);
@@ -112,14 +112,39 @@ public class AvailableQuizPanel extends JPanel {
         buttonPanel.add(deleteButton);
         buttonPanel.add(clearButton);
 
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        buttonPanel.setBackground(new Color(255, 249, 163));
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    /**
-     * Adds action listeners to the buttons and a list listener for the list
-     *
-     * @author Ahmad Maarouf
-     */
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(100, 35));
+        button.setMaximumSize(new Dimension(100, 35));
+        button.setMinimumSize(new Dimension(100, 35));
+
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setFont(new Font("Arial",Font.BOLD,13));
+
+        Color baseColor = new Color(25, 25, 70);
+        Color haverColor = new Color(90, 140, 230);
+        Color borderColor = baseColor.darker();
+
+        button.setBackground(baseColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        Border lineBorder= BorderFactory.createLineBorder(borderColor,1);
+        Border emptyBorder = BorderFactory.createEmptyBorder(2, 5, 2, 5);
+        button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+        return button;
+    }
+
+        /**
+         * Adds action listeners to the buttons and a list listener for the list
+         * @author Ahmad Maarouf
+         */
     public void addActionListeners() {
         generateButton.addActionListener(e -> {
             new QuizOptionsFrame(mainQuizFrame);
@@ -140,9 +165,9 @@ public class AvailableQuizPanel extends JPanel {
         });
 
         deleteButton.addActionListener(e -> {
-            mainQuizFrame.deleteQuiz(selectedQuiz);
-            startQuizButton.setEnabled(false);
-            deleteButton.setEnabled(false);
+           mainQuizFrame.deleteQuiz(selectedQuiz);
+           startQuizButton.setEnabled(false);
+           deleteButton.setEnabled(false);
         });
 
         clearButton.addActionListener(e -> {
