@@ -78,19 +78,19 @@ public class Controller {
         createAndAddPrograms();
         createAndAddCourses();
 
-        SwingUtilities.invokeLater(()->new LogInFrame(this));
+        SwingUtilities.invokeLater(() -> new LogInFrame(this));
     }
 
     public void setMainFrame(MainFrame mainFrame) {
-        this.view=mainFrame;
+        this.view = mainFrame;
     }
 
 
     public void createAndAddPrograms() {
         //Creating test programs and adding them to the list
-        programs.add(new Program("Computer System Developer","TGSYA"));
-        programs.add(new Program("Game Development","TGSPA"));
-        programs.add(new Program("Data Technology","TCDAT"));
+        programs.add(new Program("Computer System Developer", "TGSYA"));
+        programs.add(new Program("Game Development", "TGSPA"));
+        programs.add(new Program("Data Technology", "TCDAT"));
     }
 
     public void createAndAddCourses() {
@@ -151,7 +151,7 @@ public class Controller {
      * reads until an {@link EOFException} is thrown, which signals the end of the file.
      * </p>
      *
-     * @throws IOException if there is a problem reading the file
+     * @throws IOException            if there is a problem reading the file
      * @throws ClassNotFoundException if the {@link Program} class cannot be found during deserialization
      * @author Sara Sheikho
      */
@@ -396,7 +396,7 @@ public class Controller {
      * </p>
      *
      * @param programName the name of the program to which the new course should be added
-     * @param courseName the name (and code) of the new course to be created
+     * @param courseName  the name (and code) of the new course to be created
      * @author Sara Sheikho
      */
 
@@ -442,7 +442,7 @@ public class Controller {
                 }
             }
         }
-        
+
         if (requestedCourse != null) {
             Module newModule = new Module(moduleName, requestedCourse.getPackageName());
             requestedCourse.addModule(newModule);
@@ -453,7 +453,7 @@ public class Controller {
     /**
      * Deletes a course from a specific program
      *
-     *  <p>
+     * <p>
      * This method searches through the {@code programList} to locate the {@link Program} with the given name.
      * Once the program is found, it searches for the {@link Course} with the specified name and removes it
      * from both the program's course list and the general {@code courses} list.
@@ -461,7 +461,7 @@ public class Controller {
      * </p>
      *
      * @param programName the name of the program from which the course should be deleted
-     * @param courseName courseName the name of the course to be removed
+     * @param courseName  courseName the name of the course to be removed
      * @author Sara Sheikho
      */
     public void deleteCourse(String programName, String courseName) {
@@ -491,8 +491,8 @@ public class Controller {
      * </p>
      *
      * @param programName the name of the program containing the course
-     * @param courseName the name of the course containing the module
-     * @param moduleName the name of the module to retrieve
+     * @param courseName  the name of the course containing the module
+     * @param moduleName  the name of the module to retrieve
      * @return the matching {@link Module}, or {@code null} if not found
      * @author Ahmad Maarouf
      **/
@@ -573,7 +573,7 @@ public class Controller {
      * to persist the name change.
      * </p>
      *
-     * @param oldProgramName the current name of the program
+     * @param oldProgramName     the current name of the program
      * @param updatedProgramName the new name to assign to the program
      * @author Sara Sheikho
      **/
@@ -594,7 +594,7 @@ public class Controller {
      * Finally, it updates the file storing the list of programs to persist the changes.
      * </p>
      *
-     * @param oldCourseName the current name of the course
+     * @param oldCourseName     the current name of the course
      * @param updatedCourseName the new name to assign to the course
      * @author Sara Sheikho
      **/
@@ -628,8 +628,8 @@ public class Controller {
      * Finally, it updates the file storing the list of programs to persist the changes.
      * </p>
      *
-     * @param courseName the name of the course containing the module
-     * @param oldModuleName the current name of the module
+     * @param courseName        the name of the course containing the module
+     * @param oldModuleName     the current name of the module
      * @param updatedModuleName the new name to assign to the module
      * @author Sara Sheikho
      **/
@@ -718,7 +718,7 @@ public class Controller {
     }
 
     public void setNewPassword(String password) {
-        String hashedPassword=Hasher.hash(password);
+        String hashedPassword = Hasher.hash(password);
         currentUser.setPassword(hashedPassword);
         userManager.saveUsersToFiles();
     }
@@ -745,10 +745,10 @@ public class Controller {
         boolean success = userManager.loginUser(username, password);
         if (success) {
             currentUser = userManager.getCurrentUser();
-            this.usersHistoryQuizzes=currentUser.getHistory();
-            this.userAvailableQuizzes =currentUser.getCreatedQuiz();
+            this.usersHistoryQuizzes = currentUser.getHistory();
+            this.userAvailableQuizzes = currentUser.getCreatedQuiz();
             System.out.println("Quizzes have been loaded");
-            this.currentStudentProgram=getCurrentStudentProgram();
+            this.currentStudentProgram = getCurrentStudentProgram();
         }
 
         return success;
@@ -756,11 +756,11 @@ public class Controller {
 
     public void logoutUser() {
         userManager.logoutUser();
-        if (view!=null){
+        if (view != null) {
             view.dispose();
-            view=null;
+            view = null;
         }
-        SwingUtilities.invokeLater(()-> {
+        SwingUtilities.invokeLater(() -> {
             new LogInFrame(this);
         });
     }
@@ -771,6 +771,7 @@ public class Controller {
 
     /**
      * Javadoc test
+     *
      * @param selectedCourse
      * @param selectedModule
      * @param nbrOfQuestions
@@ -937,8 +938,8 @@ public class Controller {
             Quiz currentQuiz = currentUser.getCreatedQuiz().get(i);
             String relatedCourse = currentQuiz.getRelatedCourse().getName();
             String relatedModule = currentQuiz.getRelatedModule().getName();
-            if(relatedCourse.equals(selectedCourse) && relatedModule.equals(selectedModule)){
-                if(currentQuiz.getName().equals(selectedQuiz)){
+            if (relatedCourse.equals(selectedCourse) && relatedModule.equals(selectedModule)) {
+                if (currentQuiz.getName().equals(selectedQuiz)) {
                     this.onGoingQuiz = currentQuiz;
                     this.currentModule = currentQuiz.getRelatedModule();
                 }
@@ -954,8 +955,8 @@ public class Controller {
      * @author Lilas Beirakdar
      */
 
-   public Program getCurrentStudentProgram(){
-        String usersProgramCode= currentUser.getProgramCode();
+    public Program getCurrentStudentProgram() {
+        String usersProgramCode = currentUser.getProgramCode();
         for (Program program : programList) {
             if (program.getProgramCode().equals(usersProgramCode)) {
                 this.currentStudentProgram = program;
@@ -963,15 +964,16 @@ public class Controller {
             }
         }
         return this.currentStudentProgram;
-   }
+    }
 
     /**
      * Returns a list of program codes as String
-     * @author Lilas Beirakdar
+     *
      * @return a List of String representing program codes
      * @author Lilas Beirakdar
+     * @author Lilas Beirakdar
      */
-    public List<String> getProgramCodes(){
+    public List<String> getProgramCodes() {
         List<String> programCodes = new ArrayList<>();
         for (Program program : programList) {
             programCodes.add(program.getProgramCode());
@@ -981,28 +983,30 @@ public class Controller {
 
     /**
      * Returns program name of the current student as String
+     *
      * @return program name as String
      * @author Lilas Beirakdar
      */
 
-    public String getCurrentStudentProgramName(){
+    public String getCurrentStudentProgramName() {
         return currentStudentProgram.getName();
     }
 
     /**
      * Returns the module depending on course name and module name given in the GUI
+     *
      * @param courseName the course name of the course that includes the module
      * @param moduleName the name of the wanted module
      * @return
      * @author Lilas Beirakdar
      */
     private Module getModule(String courseName, String moduleName) {
-        Course currentCourse=null;
-        Module module=null;
-        for (int c=0; c<courses.size(); c++){
+        Course currentCourse = null;
+        Module module = null;
+        for (int c = 0; c < courses.size(); c++) {
             if (courses.get(c).getName().equals(courseName)) {
                 currentCourse = courses.get(c);
-                for (int m=0; m<currentCourse.getModules().size(); m++){
+                for (int m = 0; m < currentCourse.getModules().size(); m++) {
                     if (currentCourse.getModules().get(m).getName().equals(moduleName)) {
                         module = currentCourse.getModules().get(m);
                     }
@@ -1015,85 +1019,89 @@ public class Controller {
 
     /**
      * Saves a true or false question to a file
-     * @param query the part of question object representing the question
-     * @param alternatives the alternatives of the question
-     * @param points number of points gained after answering the question correctly
+     *
+     * @param query         the part of question object representing the question
+     * @param alternatives  the alternatives of the question
+     * @param points        number of points gained after answering the question correctly
      * @param correctAnswer the correct answer of the question as String
-     * @param courseName the course that the question is related to
-     * @param moduleName the module that the question is related to
+     * @param courseName    the course that the question is related to
+     * @param moduleName    the module that the question is related to
      * @author Lilas Beirakdar
      */
-    public void saveTrueOrFalseQuestion(String query, List<String> alternatives,int points, String correctAnswer ,String courseName, String moduleName ) {
-        Module module = getModule(courseName,moduleName);
-        TrueOrFalse trueOrFalse= new TrueOrFalse(query,alternatives,points,correctAnswer);
+    public void saveTrueOrFalseQuestion(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName) {
+        Module module = getModule(courseName, moduleName);
+        TrueOrFalse trueOrFalse = new TrueOrFalse(query, alternatives, points, correctAnswer);
         module.saveTrueOrFalseQuestionToFile(trueOrFalse);
     }
 
     /**
      * Saves a multiple choice question to a file
-     * @param query the part representing the question
-     * @param alternatives the part of question representing the alternatives
-     * @param points number of points earned after answering the question correctly
+     *
+     * @param query         the part representing the question
+     * @param alternatives  the part of question representing the alternatives
+     * @param points        number of points earned after answering the question correctly
      * @param correctAnswer the correct answer of the question
-     * @param courseName the course that the question is related to
-     * @param moduleName the module that the course is related to
+     * @param courseName    the course that the question is related to
+     * @param moduleName    the module that the course is related to
      * @author Lilas Beirakdar
      */
-    public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName ) {
-        Module module = getModule(courseName,moduleName);
-        MultipleChoice multipleChoice= new MultipleChoice(query,alternatives,correctAnswer,points);
+    public void saveMultipleChoiceToFile(String query, List<String> alternatives, int points, String correctAnswer, String courseName, String moduleName) {
+        Module module = getModule(courseName, moduleName);
+        MultipleChoice multipleChoice = new MultipleChoice(query, alternatives, correctAnswer, points);
         module.saveMultiChoiceQuestionToFile(multipleChoice);
     }
 
     /**
      * Saves a matching question to  a file
-     * @param query the part representing the question
-     * @param statements represents the statements that needs to be matched to another statement
-     * @param matches represents the matches of the given statements
-     * @param points number of points earned after answering the question correctly
+     *
+     * @param query          the part representing the question
+     * @param statements     represents the statements that needs to be matched to another statement
+     * @param matches        represents the matches of the given statements
+     * @param points         number of points earned after answering the question correctly
      * @param correctMatches a HashMap representing the statement and the match that matches to it
-     * @param courseName the course that the question is related to
-     * @param moduleName the module that the course is related to
+     * @param courseName     the course that the question is related to
+     * @param moduleName     the module that the course is related to
      * @author Lilas Beirakdar
      */
 
-    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String,Integer> correctMatches, String courseName, String moduleName ) {
-        Module module = getModule(courseName,moduleName);
-        Matching matching= new Matching(query,statements,matches,points,correctMatches);
+    public void saveMatchingToFile(String query, List<String> statements, List<String> matches, int points, HashMap<String, Integer> correctMatches, String courseName, String moduleName) {
+        Module module = getModule(courseName, moduleName);
+        Matching matching = new Matching(query, statements, matches, points, correctMatches);
         module.saveMatchingQuestionToFile(matching);
     }
 
-    public void setQuizDone(boolean isDone){
+    public void setQuizDone(boolean isDone) {
         onGoingQuiz.setDone(isDone);
     }
 
-    public List<Quiz> getCurrentUsersQuizList(){
+    public List<Quiz> getCurrentUsersQuizList() {
         List<Quiz> quizList = new ArrayList<>();
-        for(User user: users){
-            if (currentUser.getName().equals(user.getName())){
-                this.userAvailableQuizzes =user.getCreatedQuiz();
+        for (User user : users) {
+            if (currentUser.getName().equals(user.getName())) {
+                this.userAvailableQuizzes = user.getCreatedQuiz();
                 return userAvailableQuizzes;
             }
         }
         return new ArrayList<>();
     }
 
-    public void saveCurrentUserQuiz(Quiz quiz){
+    public void saveCurrentUserQuiz(Quiz quiz) {
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
     }
-    public List<FlashCard> getUsersFlashCards(){
+
+    public List<FlashCard> getUsersFlashCards() {
         List<FlashCard> flashCards = new ArrayList<>();
-        for(User user: users){
-            if (currentUser.getName().equals(user.getName())){
-                flashCards=user.getFlashCards();
+        for (User user : users) {
+            if (currentUser.getName().equals(user.getName())) {
+                flashCards = user.getFlashCards();
                 return flashCards;
             }
         }
         return new ArrayList<>();
     }
 
-    public void saveUsersFlashCards(FlashCard flashCard){
+    public void saveUsersFlashCards(FlashCard flashCard) {
         currentUser.addToCreatedFlashcards(flashCard);
         userManager.saveUsersToFiles();
     }
@@ -1104,14 +1112,14 @@ public class Controller {
      * @return a List of history quizzes the current user have done before
      * @author Lilas Beirakdar
      */
-    public List<Quiz> getCurrentUsersQuizHistory(){
+    public List<Quiz> getCurrentUsersQuizHistory() {
         List<Quiz> availableQuizList = new ArrayList<>();
         List<Quiz> quizHistory = new ArrayList<>();
-        for(User user: users){
-            if (currentUser.getName().equals(user.getName())){
-                availableQuizList=user.getCreatedQuiz();
-                for(Quiz quiz: availableQuizList){
-                    if (quiz.getDone()){
+        for (User user : users) {
+            if (currentUser.getName().equals(user.getName())) {
+                availableQuizList = user.getCreatedQuiz();
+                for (Quiz quiz : availableQuizList) {
+                    if (quiz.getDone()) {
                         quizHistory.add(quiz);
                     }
                 }
@@ -1121,44 +1129,44 @@ public class Controller {
         return new ArrayList<>();
     }
 
-/**
- * Retrieves the front content of all {@link FlashCard}s for a specific {@link Course} and {@link Module}.
- * <p>
- * This method filters the current user's flashcards by matching the given course and module names,
- * then collects and returns the front content of each flashcard.
- * </p>
- *
- * @param selectedCourse the name of the course associated with the flashcards
- * @param selectedModule the name of the module associated with the flashcards
- * @return a list of front content strings from matching flashcards
- * @author Sara Sheikho
- **/
-    public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule){
+    /**
+     * Retrieves the front content of all {@link FlashCard}s for a specific {@link Course} and {@link Module}.
+     * <p>
+     * This method filters the current user's flashcards by matching the given course and module names,
+     * then collects and returns the front content of each flashcard.
+     * </p>
+     *
+     * @param selectedCourse the name of the course associated with the flashcards
+     * @param selectedModule the name of the module associated with the flashcards
+     * @return a list of front content strings from matching flashcards
+     * @author Sara Sheikho
+     **/
+    public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule) {
         List<String> frontContent = new ArrayList<>();
-        for(FlashCard flashCard : currentUser.getFlashCards()){
-            if(flashCard.getRelatedCourse().getName().equals(selectedCourse) && flashCard.getRelatedModule().getName().equals(selectedModule)){
+        for (FlashCard flashCard : currentUser.getFlashCards()) {
+            if (flashCard.getRelatedCourse().getName().equals(selectedCourse) && flashCard.getRelatedModule().getName().equals(selectedModule)) {
                 frontContent.add(flashCard.getFrontContent());
             }
         }
         return frontContent;
     }
 
-/**
- * Retrieves the back content of all {@link FlashCard}s for a specific {@link Course} and {@link Module}.
- * <p>
- * This method filters the current user's flashcards by matching the given course and module names,
- * then collects and returns the back content of each flashcard.
- * </p>
- *
- * @param selectedCourse the name of the course associated with the flashcards
- * @param selectedModule the name of the module associated with the flashcards
- * @return a list of back content strings from matching flashcards
- * @author Sara Sheikho
- **/
-    public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule){
+    /**
+     * Retrieves the back content of all {@link FlashCard}s for a specific {@link Course} and {@link Module}.
+     * <p>
+     * This method filters the current user's flashcards by matching the given course and module names,
+     * then collects and returns the back content of each flashcard.
+     * </p>
+     *
+     * @param selectedCourse the name of the course associated with the flashcards
+     * @param selectedModule the name of the module associated with the flashcards
+     * @return a list of back content strings from matching flashcards
+     * @author Sara Sheikho
+     **/
+    public List<String> getFlashCardsBackContent(String selectedCourse, String selectedModule) {
         List<String> backContent = new ArrayList<>();
-        for(FlashCard flashCard : currentUser.getFlashCards()){
-            if(flashCard.getRelatedCourse().getName().equals(selectedCourse) && flashCard.getRelatedModule().getName().equals(selectedModule)){
+        for (FlashCard flashCard : currentUser.getFlashCards()) {
+            if (flashCard.getRelatedCourse().getName().equals(selectedCourse) && flashCard.getRelatedModule().getName().equals(selectedModule)) {
                 backContent.add(flashCard.getBackContent());
             }
         }
@@ -1166,19 +1174,19 @@ public class Controller {
     }
 
     /**
-     *
      * @return
      */
-    public List<Quiz> getUsersHistoryQuizzes(){
+    public List<Quiz> getUsersHistoryQuizzes() {
         return usersHistoryQuizzes;
     }
 
     /**
      * Returns a list of created quizzes of the current user
+     *
      * @return a list of quizzes created by the current user
      * @author Lilas Beirakdar
      */
-    public List<Quiz> getUsersAvailableQuizzes(){
+    public List<Quiz> getUsersAvailableQuizzes() {
         return currentUser.getCreatedQuiz();
     }
 
@@ -1186,7 +1194,7 @@ public class Controller {
         List<String> availableQuizNames = new ArrayList<>();
 
         List<Quiz> availableQuiz = getUsersAvailableQuizzes();
-        for(Quiz quiz: availableQuiz){
+        for (Quiz quiz : availableQuiz) {
             availableQuizNames.add(quiz.getName());
         }
         return availableQuizNames;
@@ -1196,7 +1204,7 @@ public class Controller {
         List<String> historyQuizNames = new ArrayList<>();
 
         List<Quiz> historyQuiz = getUsersHistoryQuizzes();
-        for(Quiz quiz: historyQuiz){
+        for (Quiz quiz : historyQuiz) {
             historyQuizNames.add(quiz.getName());
         }
         return historyQuizNames;
@@ -1206,18 +1214,18 @@ public class Controller {
      * Adds a quiz to created quizzes list
      * It sets the date of the quiz to current date
      * It saves the user after adding the quiz to users file
+     *
      * @param quiz the quiz to be added to the created quizzes list associated with the current student
      * @author Lilas Beirakdar
      */
-    public void addQuizToAvailableQuizzes(Quiz quiz){
+    public void addQuizToAvailableQuizzes(Quiz quiz) {
         quiz.setDate(DateTimeFormatter.ISO_LOCAL_DATE.format(LocalDate.now()));
         currentUser.addToCreatedQuiz(quiz);
         userManager.saveUsersToFiles();
-        this.userAvailableQuizzes=currentUser.getCreatedQuiz();
+        this.userAvailableQuizzes = currentUser.getCreatedQuiz();
     }
 
     /**
-     *
      * @param quizName
      * @param questions
      * @param answers
@@ -1225,7 +1233,7 @@ public class Controller {
      * @author Lilas Beirakdar
      */
 
-    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers, String relatedModule, String relatedCourse){
+    public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers, String relatedModule, String relatedCourse) {
         Module selectedModule = getModule(relatedCourse, relatedModule);
         Course selectedCourse = getCourse(getCurrentStudentProgramName(), relatedCourse);
         Quiz quiz1 = new Quiz(quizName, selectedCourse, selectedModule);
@@ -1242,7 +1250,7 @@ public class Controller {
 
         currentUser.addToHistory(quiz1);
         userManager.saveUsersToFiles();
-        this.usersHistoryQuizzes=currentUser.getHistory();
+        this.usersHistoryQuizzes = currentUser.getHistory();
     }
 
     public void deleteQuiz(String quizName, String relatedModule, String relatedCourse) {
@@ -1251,7 +1259,7 @@ public class Controller {
         userManager.saveUsersToFiles();
     }
 
-    public Quiz findQuiz (String quizName, String relatedModule, String relatedCourse) {
+    public Quiz findQuiz(String quizName, String relatedModule, String relatedCourse) {
         List<Quiz> quizList = currentUser.getCreatedQuiz();
         for (Quiz quiz : quizList) {
             String moduleName = quiz.getRelatedModule().getName();
@@ -1264,7 +1272,7 @@ public class Controller {
         return null;
     }
 
-    public Quiz findHistoryQuiz (String quizName, String relatedModule, String relatedCourse) {
+    public Quiz findHistoryQuiz(String quizName, String relatedModule, String relatedCourse) {
         List<Quiz> quizList = currentUser.getHistory();
         for (Quiz quiz : quizList) {
             if (quiz.getName().equals(quizName)) {
@@ -1342,11 +1350,9 @@ public class Controller {
 
         if (typeOfQuiz.equals("Matching")) {
             questionsList = currentModule.generateMatchingQuiz(amountOfQuestions);
-        }
-        else if (typeOfQuiz.equals("True/False")) {
+        } else if (typeOfQuiz.equals("True/False")) {
             questionsList = currentModule.generateTrueOrFalseQuiz(amountOfQuestions);
-        }
-        else if (typeOfQuiz.equals("Multiple choice")) {
+        } else if (typeOfQuiz.equals("Multiple choice")) {
             questionsList = currentModule.generateMultipleChoiceQuiz(amountOfQuestions);
         }
 
@@ -1359,12 +1365,12 @@ public class Controller {
 
     }
 
-    public void changeProfilePicture(String selectedPicPath){
+    public void changeProfilePicture(String selectedPicPath) {
         currentUser.setProfilePicPath(selectedPicPath);
         saveUsers();
     }
 
-    public String getUserProfilePicturePath(){
+    public String getUserProfilePicturePath() {
         return currentUser.getProfilePicPath();
     }
 }
