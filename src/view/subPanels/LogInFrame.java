@@ -49,7 +49,7 @@ public class LogInFrame extends JFrame {
      this.mainFrame = new MainFrame(controller);
      setResizable(false);
      topLabel = new JLabel("", SwingConstants.CENTER);
-     mainPanel = new BackgroundPanel("src/background1.jpg");
+     mainPanel = new BackgroundPanel("src/background4.jpg");
      mainPanel.setBackground(new Color(255, 249, 163));
      add(mainPanel);
 
@@ -72,7 +72,7 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createRegisterLayout() {
-        registerPanel = new BackgroundPanel("src/background1.jpg");
+        registerPanel = new BackgroundPanel("src/background4.jpg");
         registerPanel.setLayout(new BoxLayout(registerPanel, BoxLayout.PAGE_AXIS));
         createdNestedRegisterPanels();
         createRegisterButtons();
@@ -81,7 +81,7 @@ public class LogInFrame extends JFrame {
     }
 
     public void createFirstPage() {
-        firstPagePanel = new BackgroundPanel("src/background1.jpg");
+        firstPagePanel = new BackgroundPanel("src/background4.jpg");
         firstPagePanel.setLayout(new BorderLayout());
         firstPagePanel.setBackground(new Color(255, 249, 163));
         firstPagePanel.setBorder(BorderFactory.createLineBorder(new Color(255, 249, 163)));
@@ -201,7 +201,7 @@ public class LogInFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createLoginLayout() {
-        loginPanel = new BackgroundPanel("src/background1.jpg");
+        loginPanel = new BackgroundPanel("src/background4.jpg");
         loginPanel.setLayout(new BorderLayout());
         createNestedLoginPanels();
         createLoginButtons();

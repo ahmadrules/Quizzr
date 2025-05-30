@@ -4,6 +4,7 @@ import model.Quiz;
 import view.main.MainFrame;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.List;
 
@@ -69,6 +70,11 @@ public class AvailableQuizPanel extends JPanel {
      */
     public void setNorthLabel() {
         JLabel quizLabel = new JLabel("Available quiz", SwingConstants.CENTER);
+        quizLabel.setOpaque(true);
+        quizLabel.setForeground(new Color(10, 15, 40));
+        quizLabel.setBackground(new Color(255, 249, 163));
+        quizLabel.setFont(new Font("Georgia", Font.BOLD, 20));
+        quizLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 30, 0));
         add(quizLabel, BorderLayout.NORTH);
     }
 
@@ -93,10 +99,10 @@ public class AvailableQuizPanel extends JPanel {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
-        startQuizButton = new JButton("Start quiz");
-        generateButton = new JButton("Generate quiz");
-        deleteButton = new JButton("Delete");
-        clearButton = new JButton("Delete all quiz");
+        startQuizButton = createStyledButton("Start quiz");
+        generateButton = createStyledButton("Generate quiz");
+        deleteButton = createStyledButton("Delete");
+        clearButton = createStyledButton("Delete all");
 
         startQuizButton.setEnabled(false);
         deleteButton.setEnabled(false);
@@ -106,13 +112,39 @@ public class AvailableQuizPanel extends JPanel {
         buttonPanel.add(deleteButton);
         buttonPanel.add(clearButton);
 
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        buttonPanel.setBackground(new Color(255, 249, 163));
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    /**
-     * Adds action listeners to the buttons and a list listener for the list
-     * @author Ahmad Maarouf
-     */
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(100, 35));
+        button.setMaximumSize(new Dimension(100, 35));
+        button.setMinimumSize(new Dimension(100, 35));
+
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setFont(new Font("Arial",Font.BOLD,13));
+
+        Color baseColor = new Color(25, 25, 70);
+        Color haverColor = new Color(90, 140, 230);
+        Color borderColor = baseColor.darker();
+
+        button.setBackground(baseColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        Border lineBorder= BorderFactory.createLineBorder(borderColor,1);
+        Border emptyBorder = BorderFactory.createEmptyBorder(2, 5, 2, 5);
+        button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+        return button;
+    }
+
+        /**
+         * Adds action listeners to the buttons and a list listener for the list
+         * @author Ahmad Maarouf
+         */
     public void addActionListeners() {
         generateButton.addActionListener(e -> {
             new QuizOptionsFrame(mainQuizFrame);
