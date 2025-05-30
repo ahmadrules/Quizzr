@@ -91,6 +91,7 @@ public class AvailableQuizPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(availableQuizList);
 
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
+        availableQuizList.setFont(new Font("Segoe UI", Font.BOLD, 18));
         add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -107,6 +108,10 @@ public class AvailableQuizPanel extends JPanel {
         deleteButton = createStyledButton("Delete");
         clearButton = createStyledButton("Delete all");
         goBackButton = createStyledButton("Go back");
+
+        startQuizButton.setToolTipText("mark a quiz to start!");
+        generateButton.setToolTipText("Click to generate your own quiz!");
+        goBackButton.setToolTipText("Click to go back to main frame");
 
         startQuizButton.setEnabled(false);
         deleteButton.setEnabled(false);
