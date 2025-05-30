@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+//Color yellow 255, 249, 163
 public class QuestionFrame extends JFrame {
     private MainQuizFrame mainQuizFrame;
     private boolean isResult;
