@@ -74,7 +74,7 @@ public class AvailableQuizPanel extends JPanel {
     public void setNorthLabel() {
         JLabel quizLabel = new JLabel("Available quiz", SwingConstants.CENTER);
         quizLabel.setOpaque(true);
-        quizLabel.setForeground(new Color(10, 15, 40));
+        quizLabel.setForeground(new Color(25, 25, 70));
         quizLabel.setBackground(new Color(255, 249, 163));
         quizLabel.setFont(new Font("Georgia", Font.BOLD, 20));
         quizLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 30, 0));

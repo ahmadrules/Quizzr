@@ -58,6 +58,7 @@ public class MainQuizFrame extends JFrame {
         setIconImage(icon.getImage());
 
         setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     /**
@@ -134,6 +135,10 @@ public class MainQuizFrame extends JFrame {
      */
     public void addTabList() {
         tabPanel = new TabPanel(this);
+        tabPanel.setPreferredSize(new Dimension(200, 250));
+        tabPanel.setMaximumSize(new Dimension(200, 250));
+        tabPanel.setMinimumSize(new Dimension(200, 250));
+        tabPanel.setBackground(new Color(255, 249, 163));
         add(tabPanel, BorderLayout.EAST);
     }
 
