@@ -314,6 +314,12 @@ public class LogInFrame extends JFrame {
         newEmailField.setPreferredSize(fieldSize);
         programCodeBox.setPreferredSize(fieldSize);
 
+        newNameField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        newPasswordField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        confirmPasswordField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        newEmailField.setAlignmentX(Component.LEFT_ALIGNMENT);
+        programCodeBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+
         JPanel newUserNamePanel = new JPanel();
         JPanel newPasswordPanel = new JPanel();
         JPanel confirmPasswordPanel = new JPanel();

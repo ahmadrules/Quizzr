@@ -91,7 +91,7 @@ public class AvailableQuizPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(availableQuizList);
 
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.black));
-        availableQuizList.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        availableQuizList.setFont(new Font("Segoe UI", Font.BOLD, 16));
         add(scrollPane, BorderLayout.CENTER);
     }
 
