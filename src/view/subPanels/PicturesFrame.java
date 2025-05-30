@@ -27,7 +27,6 @@ public class PicturesFrame extends JFrame {
     public PicturesFrame(MainFrame mainFrame, CenterAccountPanel accountPanel) {
         this.mainFrame = mainFrame;
         this.accountPanel = accountPanel;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(550, 500);
         setLocationRelativeTo(null);
         mainPanel = new JPanel();
