@@ -27,7 +27,6 @@ public class PicturesFrame extends JFrame {
     public PicturesFrame(MainFrame mainFrame, CenterAccountPanel accountPanel) {
         this.mainFrame = mainFrame;
         this.accountPanel = accountPanel;
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(550, 500);
         setLocationRelativeTo(null);
         mainPanel = new JPanel();
@@ -85,7 +84,7 @@ public class PicturesFrame extends JFrame {
         pic6 = new JLabel("<html><img src='" + picPaths[5] + "' width='160' height='190'></html>");
         picLabels[5] = pic6;
 
-        for(int i = 0; i < picLabels.length; i++) {
+        for (int i = 0; i < picLabels.length; i++) {
             picLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
             picLabels[i].setCursor(new Cursor(Cursor.HAND_CURSOR));
         }
@@ -99,14 +98,14 @@ public class PicturesFrame extends JFrame {
 
     }
 
-    public void addListeners(){
-        okButton.addActionListener(n->{
+    public void addListeners() {
+        okButton.addActionListener(n -> {
             accountPanel.profilePictureSelected(getPicPath());
             this.dispose();
         });
 
         final JLabel[] chosenLabel = {null};
-        for(int i = 0; i < picLabels.length; i++) {
+        for (int i = 0; i < picLabels.length; i++) {
             picLabels[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -122,10 +121,10 @@ public class PicturesFrame extends JFrame {
         }
     }
 
-    public String getPicPath(){
+    public String getPicPath() {
         String path = "";
-        for(int i = 0; i < picLabels.length; i++){
-            if (selectedPic == picLabels[i]){
+        for (int i = 0; i < picLabels.length; i++) {
+            if (selectedPic == picLabels[i]) {
                 path = picPaths[i];
             }
         }

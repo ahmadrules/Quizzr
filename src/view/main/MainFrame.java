@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
         this.setSize(800, 400);
 
         if (isAdmin) {
-            setSize(1000, 400);
+            setSize(1050, 400);
         }
         setLocationRelativeTo(null);
 
@@ -476,11 +476,11 @@ public class MainFrame extends JFrame {
         return controller.getCurrentStudentProgramName();
     }
 
-    public void changeProfilePicture(String selectedPicPath){
+    public void changeProfilePicture(String selectedPicPath) {
         controller.changeProfilePicture(selectedPicPath);
     }
 
-    public String getUserProfilePicturePath(){
+    public String getUserProfilePicturePath() {
         return controller.getUserProfilePicturePath();
     }
 }

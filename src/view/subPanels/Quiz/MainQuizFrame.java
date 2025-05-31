@@ -59,6 +59,7 @@ public class MainQuizFrame extends JFrame {
 
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
     }
 
     /**
@@ -78,7 +79,7 @@ public class MainQuizFrame extends JFrame {
      */
     public void createPanels() {
         historyPanel = new HistoryPanel(this);
-        availableQuizPanel = new AvailableQuizPanel(this,mainFrame);
+        availableQuizPanel = new AvailableQuizPanel(this, mainFrame);
 
         historyWrapperPanel = warpWithPadding(historyPanel);
         availableWrapperPanel = warpWithPadding(availableQuizPanel);
@@ -247,7 +248,7 @@ public class MainQuizFrame extends JFrame {
     }
 
     public JPanel warpWithPadding(JPanel innerpanel) {
-        JPanel outerPanel=new JPanel(new BorderLayout());
+        JPanel outerPanel = new JPanel(new BorderLayout());
         outerPanel.setBackground(new Color(255, 249, 163));
         outerPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
         outerPanel.add(innerpanel, BorderLayout.CENTER);
