@@ -704,20 +704,45 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Returns current user's information like username, email and password as String
+     * @return An array of String representing current user's information
+     * @author Ahmad Maarouf
+     */
     public String[] getCurrentUserInfo() {
         return currentUser.userInfoToString();
     }
 
+    /**
+     * Sets a new username for the current user
+     * After setting the new username it saves users changes to the file
+     * @param username the new username entered by the user as String
+     * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     */
     public void setNewUsername(String username) {
         currentUser.setName(username);
         userManager.saveUsersToFiles();
     }
 
+    /**
+     * Used to set a new email for the current user
+     * After setting the new password it saves users changes to the file
+     * @param email New email entered by the user as String
+     * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     */
     public void setNewEmail(String email) {
         currentUser.setEmail(email);
         userManager.saveUsersToFiles();
     }
 
+    /**
+     * Sets a new password for current user
+     * @param password new password Entered by the user as String
+     * @author Lilas Beirakdar
+     * @author Ahmad Maarouf
+     */
     public void setNewPassword(String password) {
         String hashedPassword=Hasher.hash(password);
         currentUser.setPassword(hashedPassword);
@@ -790,7 +815,6 @@ public class Controller {
      * @author Lilas Beirakdar
      *
      */
-
     public void logoutUser() {
         userManager.logoutUser();
         if (view!=null){
@@ -995,7 +1019,6 @@ public class Controller {
      * When registered into the program
      * @author Lilas Beirakdar
      */
-
    public Program getCurrentStudentProgram(){
         String usersProgramCode= currentUser.getProgramCode();
         for (Program program : programList) {

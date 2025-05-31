@@ -77,6 +77,11 @@ public class User implements Serializable {
         return flashCards;
     }
 
+    /**
+     * Returns user's information as email,username and password
+     * @return An array of Strings containing user's information
+     * @author Ahmad Maarouf
+     */
     public String[] userInfoToString(){
         String[] info = new String[3];
         info[0] = name;
