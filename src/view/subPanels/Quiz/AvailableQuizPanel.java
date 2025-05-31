@@ -147,6 +147,23 @@ public class AvailableQuizPanel extends JPanel {
         Border lineBorder= BorderFactory.createLineBorder(borderColor,1);
         Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
         button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(haverColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(haverColor.darker(), 2),
+                        BorderFactory.createEmptyBorder(2, 2, 2, 2)
+                ));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(borderColor, 2),
+                        BorderFactory.createEmptyBorder(2, 2, 2, 2)
+                ));
+            }
+        });
+
         return button;
     }
 

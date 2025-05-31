@@ -2,6 +2,8 @@ package view.subPanels.Quiz;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class QuizOptionsFrame extends JFrame {
         buttonsPanel.add(generateButton);
         buttonsPanel.add(goBackButton);
 
-        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 40, 0));
+        buttonsPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
         buttonsPanel.setBackground(new Color(255, 249, 163));
 
         add(buttonsPanel, BorderLayout.SOUTH);
@@ -90,12 +92,32 @@ public class QuizOptionsFrame extends JFrame {
         Border lineBorder= BorderFactory.createLineBorder(borderColor,1);
         Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
         button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(haverColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(haverColor.darker(), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(borderColor, 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+        });
+
         return button;
     }
 
     public void createCenterLinePanels() {
         int labelWidth=140;
         int labelHeight= 30;
+        Color labelFontColor = new Color(25, 25, 70);
+        Font labelFont= new Font("Segoe UI",Font.BOLD,16);
 
         typePanel = new JPanel();
         typePanel.setLayout(new BoxLayout(typePanel,BoxLayout.Y_AXIS));
@@ -103,14 +125,18 @@ public class QuizOptionsFrame extends JFrame {
         typePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel typeLabel = new JLabel("Type of quiz:");
+        typeLabel.setFont(labelFont);
+        typeLabel.setForeground(labelFontColor);
         typeLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
         typeLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         typeBox = new JComboBox<>();
+        createBordersAndColorsJComponents(typeBox);
+        typeBox.setForeground(labelFontColor);
         typeBox.addItem("Multiple choice");
         typeBox.addItem("True/False");
         typeBox.addItem("Matching");
-        typeBox.setMaximumSize(new Dimension(200, 30));
+        typeBox.setMaximumSize(new Dimension(250, 30));
         typeBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         typePanel.add(typeLabel);
@@ -124,13 +150,18 @@ public class QuizOptionsFrame extends JFrame {
         namePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel nameLabel = new JLabel("Quiz name:");
+        nameLabel.setFont(labelFont);
+        nameLabel.setForeground(labelFontColor);
         nameLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
         nameLabel.setMaximumSize(new Dimension(labelWidth, labelHeight));
         nameLabel.setMinimumSize(new Dimension(labelWidth, labelHeight));
         nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         nameField = new JTextField();
-        nameField.setPreferredSize(new Dimension(200, 30));
+        nameField.setBorder(BorderFactory.createLineBorder(labelFontColor, 2));
+        nameField.setPreferredSize(new Dimension(250, 30));
+        nameField.setMaximumSize(new Dimension(250, 30));
+        nameField.setMinimumSize(new Dimension(250, 30));
         nameField.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         namePanel.add(nameLabel);
@@ -143,15 +174,17 @@ public class QuizOptionsFrame extends JFrame {
         amountPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel amountLabel = new JLabel("Amount of questions:");
+        amountLabel.setForeground(labelFontColor);
         amountLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
         amountLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         amountBox = new JComboBox<>();
+        createBordersAndColorsJComponents(amountBox);
 
         for (int i = 5; i < 31; i++) {
             amountBox.addItem(Integer.toString(i));
         }
-        amountBox.setMaximumSize(new Dimension(200, 30));
+        amountBox.setMaximumSize(new Dimension(250, 30));
         amountBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         amountPanel.add(amountLabel);
@@ -163,12 +196,15 @@ public class QuizOptionsFrame extends JFrame {
         timerPanel.setBackground(new Color(255, 249, 163));
         timerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JLabel timerLabel = new JLabel("Timer(minutes):");
+        JLabel timerLabel = new JLabel("<html>Timer (<span style='color:red;'>minutes</span>):</html>");
+        timerLabel.setFont(labelFont);
+        timerLabel.setForeground(labelFontColor);
         timerLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
         timerLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         timerBox = new JComboBox<>();
-        timerBox.setMaximumSize(new Dimension(200, 30));
+        createBordersAndColorsJComponents(timerBox);
+        timerBox.setMaximumSize(new Dimension(250, 30));
         timerBox.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         timerBox.addItem("No timer");
@@ -181,7 +217,32 @@ public class QuizOptionsFrame extends JFrame {
         timerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         timerPanel.add(timerBox);
     }
+    public void createBordersAndColorsJComponents(JComboBox comboBox) {
+        Color customColor = new Color(25, 25, 70);
+        Font labelFont= new Font("Segoe UI",Font.PLAIN,14);
+        comboBox.setFont(labelFont);
+        comboBox.setBorder(BorderFactory.createLineBorder(customColor,2));
+        comboBox.setUI(new BasicComboBoxUI(){
+            @Override
+            protected JButton createArrowButton() {
+                JButton arrowButton = new BasicArrowButton(
+                        BasicArrowButton.SOUTH,
+                        Color.WHITE,
+                        customColor,
+                        customColor,
+                        customColor
+                );
+                arrowButton.setBorder(BorderFactory.createLineBorder(customColor,1));
+                arrowButton.setBackground(Color.WHITE);
+                return arrowButton;
+            }
+        }
+        );
+    }
 
+    /**
+     *
+     */
     private void addListeners() {
         generateButton.addActionListener(e -> {
             long timerSeconds = 0;
