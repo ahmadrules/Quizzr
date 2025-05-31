@@ -3,6 +3,8 @@ package view.main;
 import controller.Controller;
 import model.*;
 import model.Module;
+import view.subPanels.Quiz.MainQuizFrame;
+import view.subPanels.Quiz.QuestionFrame;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -35,7 +37,7 @@ public class MainFrame extends JFrame {
     public void createAndShowGUI(boolean isAdmin) {
         this.setTitle("QuizR");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800, 400);
+        this.setSize(850, 400);
 
         if (isAdmin) {
             setSize(1050, 400);
@@ -482,6 +484,11 @@ public class MainFrame extends JFrame {
 
     public String getUserProfilePicturePath() {
         return controller.getUserProfilePicturePath();
+    }
+
+    public void generateGeneralQuiz() {
+        Quiz quiz = controller.generateGeneralCourseQuiz(leftPanelStudent.getSelectedCourse());
+        new QuestionFrame(quiz, this);
     }
 }
 

@@ -32,7 +32,6 @@ public class MainQuizFrame extends JFrame {
     private JPanel currentCenterPanel;
     private TabPanel tabPanel;
 
-
     private List<Quiz> quizList;
     private List<Quiz> historyList;
     private Quiz currentQuiz;
@@ -254,5 +253,4 @@ public class MainQuizFrame extends JFrame {
         outerPanel.add(innerpanel, BorderLayout.CENTER);
         return outerPanel;
     }
-
 }

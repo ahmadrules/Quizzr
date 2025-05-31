@@ -26,6 +26,7 @@ public class CenterModulePanel extends JPanel {
     private JButton editModuleButton;
     private JButton deleteModuleButton;
     private JButton tutorialButton;
+    private JButton generalQuizButton;
 
     private JButton closeButton;
     private JPanel tutorialPanel;
@@ -181,6 +182,7 @@ public class CenterModulePanel extends JPanel {
 
         moduleScrollPane.setVisible(true);
         disableButtons();
+        generalQuizButton.setEnabled(true);
         if (isAdmin) {
             addModuleButton.setEnabled(true);
         }
@@ -196,6 +198,7 @@ public class CenterModulePanel extends JPanel {
     public void disableButtons() {
         quizButton.setEnabled(false);
         flashcardsButton.setEnabled(false);
+        generalQuizButton.setEnabled(false);
         if (isAdmin) {
             addModuleButton.setEnabled(false);
             editModuleButton.setEnabled(false);
@@ -213,6 +216,7 @@ public class CenterModulePanel extends JPanel {
     public void enableButtons() {
         quizButton.setEnabled(true);
         flashcardsButton.setEnabled(true);
+        generalQuizButton.setEnabled(true);
         if (isAdmin) {
             addModuleButton.setEnabled(true);
             editModuleButton.setEnabled(true);
@@ -238,24 +242,21 @@ public class CenterModulePanel extends JPanel {
         icon = new ImageIcon(getClass().getResource("/view/pics/flashcardIcon.jpg"));
         flashcardsButton.setIcon(icon);
 
+        generalQuizButton = new JButton("Generate course quiz");
+        icon = new ImageIcon(getClass().getResource("/view/pics/tinylogo1.png"));
+        generalQuizButton.setIcon(icon);
+
         if (isAdmin) {
             addModuleButton = new JButton("Add module");
             editModuleButton = new JButton("Edit");
             deleteModuleButton = new JButton("Delete");
             addQuestionButton = new JButton("Add question");
-
-            addModuleButton.setEnabled(false);
-            editModuleButton.setEnabled(false);
-            deleteModuleButton.setEnabled(false);
-            addQuestionButton.setEnabled(false);
         }
 
-
-        quizButton.setEnabled(false);
-        flashcardsButton.setEnabled(false);
-
+        disableButtons();
         buttonPanel.add(quizButton);
         buttonPanel.add(flashcardsButton);
+        buttonPanel.add(generalQuizButton);
 
         if (isAdmin) {
             buttonPanel.add(addQuestionButton);
@@ -266,6 +267,7 @@ public class CenterModulePanel extends JPanel {
 
         quizButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
         flashcardsButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        generalQuizButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
         if (isAdmin) {
             addModuleButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
             editModuleButton.setFont(new Font("Montserrat", Font.PLAIN, 14));
@@ -379,6 +381,10 @@ public class CenterModulePanel extends JPanel {
                 tutorialButton.setBackground(null);
                 //tutorialButton.setBorder(BorderFactory.createEmptyBorder());
             }
+        });
+
+        generalQuizButton.addActionListener(e -> {
+            mainFrame.generateGeneralQuiz();
         });
 
 
