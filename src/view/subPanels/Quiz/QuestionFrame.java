@@ -25,6 +25,7 @@ public class QuestionFrame extends JFrame {
 
     private JPanel mainQuestionPanel;
     private JPanel topPanel;
+    private JPanel bottomPanel;
 
     private ArrayList<ButtonGroup> buttonGroups;
     private JButton submitButton;
@@ -63,8 +64,8 @@ public class QuestionFrame extends JFrame {
         }
 
         setupPanel();
-
         createTopPanel();
+        add(topPanel, BorderLayout.NORTH);
         createTimer();
 
         setupQuestions(isResult);
@@ -90,9 +91,21 @@ public class QuestionFrame extends JFrame {
         eastPanel.setBackground(new Color(255, 249, 163));
         eastPanel.setLayout(new BoxLayout(eastPanel, BoxLayout.Y_AXIS));
 
-        JLabel amountOfQuestionsLabel = new JLabel("Amount of questions: " + questionList.size());
-        amountOfQuestionsLabel.setFont(new Font("Montserrat", Font.ROMAN_BASELINE, 18));
-        eastPanel.add(amountOfQuestionsLabel);
+        JPanel amountOfQuestionsPanel = new JPanel(new BorderLayout());
+        amountOfQuestionsPanel.setBackground(new Color(52,69,140));
+
+        JLabel amountOfQuestionsLabel = new JLabel("Total questions: " + questionList.size());
+        amountOfQuestionsLabel.setFont(new Font("Montserrat", Font.BOLD, 16));
+        amountOfQuestionsLabel.setForeground(Color.WHITE);
+
+        amountOfQuestionsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        amountOfQuestionsLabel.setPreferredSize(new Dimension(175, 30));
+        amountOfQuestionsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        amountOfQuestionsPanel.add(amountOfQuestionsLabel, BorderLayout.CENTER);
+        eastPanel.add(amountOfQuestionsPanel);
+
+        topPanel.setBorder(BorderFactory.createEmptyBorder(15, 7, 15, 10));
 
         if (isResult) {
             String[] parts = currentQuiz.getDate().split("-");
@@ -139,7 +152,8 @@ public class QuestionFrame extends JFrame {
             currentMinutes = TimeUnit.SECONDS.toMinutes(timerSecondsAmount);
 
             JLabel timerLabel = new JLabel("Time left: " + currentMinutes + ":00");
-            timerLabel.setFont(new Font("Montserrat", Font.ROMAN_BASELINE, 18));
+            timerLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
+            timerLabel.setForeground(new Color(44, 58, 117));
             topPanel.add(timerLabel, BorderLayout.WEST);
 
             timer = new Timer(1000, new ActionListener() {
@@ -152,6 +166,10 @@ public class QuestionFrame extends JFrame {
                         if (currentSeconds < 0) {
                             currentMinutes -= 1;
                             currentSeconds = 59;
+                        }
+
+                        if(currentMinutes == 0 && currentSeconds <= 30){
+                            timerLabel.setForeground(new Color(199, 23,30));
                         }
 
                         if (currentSeconds < 10) {
@@ -270,8 +288,7 @@ public class QuestionFrame extends JFrame {
 
         buttonGroups = new ArrayList<>();
         comboBoxMap = new HashMap<>();
-
-        mainQuestionPanel.add(topPanel);
+        
         mainQuestionPanel.add(new JSeparator());
 
         if (timerSecondsAmount > 0) {
