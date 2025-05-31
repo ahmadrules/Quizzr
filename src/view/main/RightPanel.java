@@ -21,17 +21,21 @@ public class RightPanel extends JPanel {
         this.mainFrame = mainFrame;
         this.centerContainer = centerContainer;
 
-        setBorder(BorderFactory.createLineBorder(Color.black));
+        //setBorder(BorderFactory.createLineBorder(Color.black));
+        setBorder(BorderFactory.createBevelBorder(1));
 
         createList();
         addEventListeners();
         JButton logOutButton = new JButton("Log Out");
+        logOutButton.setBackground(new Color(25, 25, 70));
+        logOutButton.setForeground(Color.WHITE);
         logOutButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         logOutButton.addActionListener(e -> {
             mainFrame.logOut();
         });
 
         JLabel tabLabel = new JLabel(" Select a tab");
+        tabLabel.setBackground(new Color(236, 130, 21));
         tabLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
         tabLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -57,6 +61,7 @@ public class RightPanel extends JPanel {
         //-----------------------------------------
 
         listOfTabs = new JList<>(tabOptions);
+        listOfTabs.setBackground(new Color(251, 187, 41));
 
         listOfTabs.setFixedCellWidth(150);
         listOfTabs.setFont(new Font("Montserrat", Font.ROMAN_BASELINE, 24));

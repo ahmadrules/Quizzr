@@ -55,6 +55,8 @@ public class LeftPanelAdmin extends JPanel {
         add(coursesLabel);
         add(coursesScrollPane);
         add(coursesButtonPanel);
+        setBackground(new Color(236, 130, 21));
+        setBorder(BorderFactory.createBevelBorder(1));
     }
 
     /**
@@ -75,7 +77,10 @@ public class LeftPanelAdmin extends JPanel {
             i++;
         }
         programList = new JList<>(programListModel);
+
         programList.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        programList.setBackground(new Color(251, 187, 41));
+
         programList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         programScrollPane = new JScrollPane(programList);
         programScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -84,7 +89,10 @@ public class LeftPanelAdmin extends JPanel {
         coursesListMap = new HashMap<>();
         coursesListModel = new DefaultListModel<>();
         coursesList = new JList<>(coursesListModel);
+
         coursesList.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        coursesList.setBackground(new Color(251, 187, 41));
+
         coursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         coursesScrollPane = new JScrollPane(coursesList);
         coursesScrollPane.setVisible(true);
@@ -150,8 +158,13 @@ public class LeftPanelAdmin extends JPanel {
 
         //Create buttons for program list
         addProgramButton = new JButton("Add");
+        styleButton(addProgramButton);
+
         removeProgramButton = new JButton("Delete");
+        styleButton(removeProgramButton);
+
         editProgramButton = new JButton("Edit");
+        styleButton(editProgramButton);
         disableProgramButtons();
 
         //Add buttons to panel
@@ -165,11 +178,15 @@ public class LeftPanelAdmin extends JPanel {
 
         //Create buttons for course list
         addCourseButton = new JButton("Add");
+        styleButton(addCourseButton);
+
         removeCourseButton = new JButton("Delete");
+        styleButton(removeCourseButton);
+
         editCourseButton = new JButton("Edit");
-        addCourseButton.setEnabled(false);
-        removeCourseButton.setEnabled(false);
-        editCourseButton.setEnabled(false);
+        styleButton(editCourseButton);
+
+        disableCourseButtons();
 
         //Add buttons to panel
         coursesButtonPanel.add(addCourseButton);
@@ -186,6 +203,11 @@ public class LeftPanelAdmin extends JPanel {
     public void enableProgramButtons() {
         editProgramButton.setEnabled(true);
         removeProgramButton.setEnabled(true);
+    }
+
+    public void styleButton(JButton button) {
+        button.setBackground(new Color(25, 25, 70));
+        button.setForeground(Color.WHITE);
     }
 
     /**

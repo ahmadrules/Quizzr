@@ -59,18 +59,24 @@ public class CenterModulePanel extends JPanel {
 
     public void setupTutorialPanel() {
         tutorialPanel = new JPanel(new BorderLayout());
+        tutorialPanel.setBackground(new Color(90, 140, 230));
+
         JPanel tutorialTextPanel = new JPanel();
+        tutorialTextPanel.setBackground(new Color(90, 140, 230));
         tutorialTextPanel.setLayout(new BoxLayout(tutorialTextPanel, BoxLayout.Y_AXIS));
 
         tutorialPanel.add(new JSeparator(), BorderLayout.WEST);
 
         closeButton = new JButton("Close");
+        closeButton.setBackground(new Color(25, 25, 70));
+        closeButton.setForeground(Color.WHITE);
         tutorialPanel.add(closeButton, BorderLayout.SOUTH);
 
 
         JLabel titleLabel = new JLabel();
         titleLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
         titleLabel.setText("Welcome to Quizzr!");
+        titleLabel.setForeground(Color.WHITE);
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         JLabel tutorialLabel = new JLabel("<html><br/>If you need help getting started in your journey,<br/> please follow the steps below.<br/><br/>" +
@@ -79,6 +85,7 @@ public class CenterModulePanel extends JPanel {
                 "3. Click on either \"Quiz\" or \"Flashcards\".<br/><br/>" +
                 "Have fun and good luck! </html>");
         tutorialLabel.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        tutorialLabel.setForeground(Color.WHITE);
         tutorialLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
         tutorialPanel.add(titleLabel, BorderLayout.NORTH);
@@ -98,6 +105,7 @@ public class CenterModulePanel extends JPanel {
         topPanel.setLayout(new BorderLayout());
 
         JLabel displayLabel = new JLabel("Available modules", SwingConstants.CENTER);
+        displayLabel.setBackground(new Color(236, 130, 21));
         displayLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
 
         topPanel.add(displayLabel, BorderLayout.CENTER);
@@ -110,6 +118,8 @@ public class CenterModulePanel extends JPanel {
         tutorialButton.setVisible(false);
         tutorialButton.setContentAreaFilled(false);
         topPanel.add(tutorialButton, BorderLayout.EAST);
+
+        topPanel.setBackground(new Color(236, 130, 21));
 
 
         //add(displayLabel, BorderLayout.NORTH);
@@ -153,7 +163,10 @@ public class CenterModulePanel extends JPanel {
         moduleListMap = new HashMap<>();
         moduleListModel = new DefaultListModel<>();
         moduleList = new JList<>(moduleListModel);
+
         moduleList.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        moduleList.setBackground(new Color(251, 187, 41));
+
         moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         moduleScrollPane = new JScrollPane(moduleList);
         moduleScrollPane.setVisible(true);
@@ -223,6 +236,11 @@ public class CenterModulePanel extends JPanel {
 
     }
 
+    public void styleButton(JButton button) {
+        button.setBackground(new Color(25, 25, 70));
+        button.setForeground(Color.WHITE);
+    }
+
     /**
      * Creates the necessary buttons for opening quiz and flashcards for the selected module,
      * as well as adding, editing and removing modules.
@@ -231,19 +249,30 @@ public class CenterModulePanel extends JPanel {
      */
     public void createButtons() {
         buttonPanel = new JPanel(new FlowLayout());
+
+
         quizButton = new JButton("Quiz");
         ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/quizIcon.png"));
         quizButton.setIcon(icon);
+        styleButton(quizButton);
 
         flashcardsButton = new JButton("FlashCards");
         icon = new ImageIcon(getClass().getResource("/view/pics/flashcardIcon.jpg"));
         flashcardsButton.setIcon(icon);
+        styleButton(flashcardsButton);
 
         if (isAdmin) {
             addModuleButton = new JButton("Add module");
+            styleButton(addModuleButton);
+
             editModuleButton = new JButton("Edit");
+            styleButton(editModuleButton);
+
             deleteModuleButton = new JButton("Delete");
+            styleButton(deleteModuleButton);
+
             addQuestionButton = new JButton("Add question");
+            styleButton(addQuestionButton);
 
             addModuleButton.setEnabled(false);
             editModuleButton.setEnabled(false);

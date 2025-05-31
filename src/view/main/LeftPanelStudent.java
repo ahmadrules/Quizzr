@@ -27,6 +27,8 @@ public class LeftPanelStudent extends JPanel {
 
         add(coursesLabel);
         add(coursesScrollPane);
+        setBackground(new Color(236, 130, 21));
+        setBorder(BorderFactory.createBevelBorder(1));
     }
 
     /**
@@ -43,7 +45,11 @@ public class LeftPanelStudent extends JPanel {
         coursesListModel = new DefaultListModel<>();
         coursesListModel.addAll(coursesNames);
         coursesList = new JList<>(coursesListModel);
+
+
         coursesList.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        coursesList.setBackground(new Color(251, 187, 41));
+
         coursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         coursesScrollPane = new JScrollPane(coursesList);
         coursesScrollPane.setVisible(true);
