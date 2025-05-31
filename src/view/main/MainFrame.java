@@ -5,6 +5,7 @@ import model.*;
 import model.Module;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.awt.*;
@@ -482,6 +483,10 @@ public class MainFrame extends JFrame {
 
     public String getUserProfilePicturePath() {
         return controller.getUserProfilePicturePath();
+    }
+
+    public ArrayList<Question> getMixedQuestions() {
+        return controller.getMixedQuizQuestions();
     }
 }
 

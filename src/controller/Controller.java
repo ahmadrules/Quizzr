@@ -472,7 +472,7 @@ public class Controller {
                     Course currentCourse = currentProgram.getCourses().get(c);
                     if (currentCourse.getName().equals(courseName)) {
                         currentProgram.getCourses().remove(c);
-                        //TODO remove the package for the course
+                        currentCourse.removePackage();
                         courses.remove(currentCourse);
                         break;
                     }
@@ -546,6 +546,7 @@ public class Controller {
                 if (currentProgram.getCourses().get(c).getName().equals(courseName)) {
                     for (int m = 0; m < currentProgram.getCourses().get(c).getModules().size(); m++) {
                         if (currentProgram.getCourses().get(c).getModules().get(m).getName().equals(moduleName)) {
+                            currentProgram.getCourses().get(c).getModules().get(m).removePackage();
                             currentProgram.getCourses().get(c).getModules().remove(m);
                         }
                     }
@@ -703,26 +704,63 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Returns current user's information like username, email and password as String
+     *
+     * @return An array of String representing current user's information
+     * @author Ahmad Maarouf
+     */
     public String[] getCurrentUserInfo() {
         return currentUser.userInfoToString();
     }
 
+    /**
+     * Sets a new username for the current user
+     * After setting the new username it saves users changes to the file
+     *
+     * @param username the new username entered by the user as String
+     * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     */
     public void setNewUsername(String username) {
         currentUser.setName(username);
         userManager.saveUsersToFiles();
     }
 
+    /**
+     * Used to set a new email for the current user
+     * After setting the new password it saves users changes to the file
+     *
+     * @param email New email entered by the user as String
+     * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     */
     public void setNewEmail(String email) {
         currentUser.setEmail(email);
         userManager.saveUsersToFiles();
     }
 
+    /**
+     * Sets a new password for current user
+     *
+     * @param password new password Entered by the user as String
+     * @author Lilas Beirakdar
+     * @author Ahmad Maarouf
+     */
     public void setNewPassword(String password) {
         String hashedPassword = Hasher.hash(password);
         currentUser.setPassword(hashedPassword);
         userManager.saveUsersToFiles();
     }
 
+    /**
+     * Checks if the email is written as abs@abc.com
+     * If not it returns false else it returns true
+     *
+     * @param email the Email entered by the user as a String
+     * @return boolean value indicating whether the entered email is valid or not
+     * @author Ahmad Maarouf
+     */
     //Code taken from https://www.geeksforgeeks.org/check-email-address-valid-not-java/
     public boolean isEmailValid(String email) {
 
@@ -737,9 +775,33 @@ public class Controller {
         return email != null && p.matcher(email).matches();
     }
 
+    /**
+     * Used to register a new student in the program
+     *
+     * @param username    Entered username by the user as a String
+     * @param password    Entered password by the user as a String
+     * @param email       the entered email by the user as a String
+     * @param programCode the program code of the program the student wants to practice on
+     * @return boolean value indicating if the registering process has been done successfully
+     * @author Lilas Beirakdar
+     */
+
     public boolean registerNewUser(String username, String password, String email, String programCode) {
         return userManager.registerNewUser(username, password, email, programCode);
     }
+
+    /**
+     * Loggs in the registered user in the program
+     * It gets the username and password
+     * Checks if they matchs to the data existed in the file
+     * If the user exist it loads all quizzes related to the user
+     * Else it returns false
+     *
+     * @param username the name of the user as a String
+     * @param password the password entered by the user
+     * @return boolean indicating whether logging in has succeeded or not
+     * @author Lilas Beirakdar
+     */
 
     public boolean loginUser(String username, String password) {
         boolean success = userManager.loginUser(username, password);
@@ -754,6 +816,12 @@ public class Controller {
         return success;
     }
 
+    /**
+     * Used to log out the current user
+     * It sets the current user to null, closes the mainframe and starts Login frame
+     *
+     * @author Lilas Beirakdar
+     */
     public void logoutUser() {
         userManager.logoutUser();
         if (view != null) {
@@ -765,7 +833,13 @@ public class Controller {
         });
     }
 
+    /**
+     * Saves the changed the current user makes to the file
+     *
+     * @author Lilas Beirakdar
+     */
     public void saveUsers() {
+
         userManager.saveUsersToFiles();
     }
 
@@ -954,7 +1028,6 @@ public class Controller {
      * When registered into the program
      * @author Lilas Beirakdar
      */
-
     public Program getCurrentStudentProgram() {
         String usersProgramCode = currentUser.getProgramCode();
         for (Program program : programList) {
@@ -1372,5 +1445,9 @@ public class Controller {
 
     public String getUserProfilePicturePath() {
         return currentUser.getProfilePicPath();
+    }
+
+    public ArrayList<Question> getMixedQuizQuestions() {
+        return currentModule.generateGeneralQuiz(getCourse("Computer System Developer", "Object-Oriented Programming"), currentModule, 10);
     }
 }
