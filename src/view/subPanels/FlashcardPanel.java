@@ -135,7 +135,7 @@ public class FlashcardPanel extends JFrame {
         flashcardPanel.add(contentLabel, BorderLayout.CENTER);
         JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
         wrapper.setBackground(new Color(255, 249, 163));
-        wrapper.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40)); // vänster/höger padding
+        wrapper.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
         wrapper.add(flashcardPanel);
 
         componentsPanel.add(wrapper);
@@ -229,12 +229,19 @@ public class FlashcardPanel extends JFrame {
 
         createFlashcardButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                backButton.setBackground(new Color(90, 140, 230));
-                backButton.setBorder(BorderFactory.createCompoundBorder(
+                createFlashcardButton.setBackground(new Color(90, 140, 230));
+                createFlashcardButton.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
                         BorderFactory.createEmptyBorder(10, 20, 10, 20)
                 ));
 
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                createFlashcardButton.setBackground(new Color(52, 69,140));
+                createFlashcardButton.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(52, 69,140), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
             }
         });
     }
@@ -278,7 +285,7 @@ public class FlashcardPanel extends JFrame {
     private void updateCardDisplay(){
         if(!frontContent.isEmpty()) {
             if (frontContent.get(currentIndex) != null && !frontContent.get(currentIndex).isEmpty()) {
-                contentLabel.setText("Q: " + frontContent.get(currentIndex));
+                contentLabel.setText(frontContent.get(currentIndex));
             } else {
                 infoLabel.setText("No flashcards available");
                 contentLabel.setText("");
@@ -298,9 +305,17 @@ public class FlashcardPanel extends JFrame {
      * @param e
      */
     private void handleShowAnswer(MouseEvent e) {
-        if(!backContent.isEmpty()) {
-            if (backContent.get(currentIndex) != null && !backContent.get(currentIndex).isEmpty()) {
-                contentLabel.setText(backContent.get(currentIndex));
+        if(!frontContent.isEmpty()) {
+            if (contentLabel.getText().equals(frontContent.get(currentIndex))) {
+                if (!backContent.isEmpty()) {
+                    if (backContent.get(currentIndex) != null && !backContent.get(currentIndex).isEmpty()) {
+                        contentLabel.setText(backContent.get(currentIndex));
+                        flashcardPanel.setBackground(new Color(61, 80, 163));
+                    }
+                }
+            } else {
+                contentLabel.setText(frontContent.get(currentIndex));
+                flashcardPanel.setBackground(new Color(52, 69, 140));
             }
         }
     }
