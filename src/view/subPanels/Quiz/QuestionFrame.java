@@ -15,9 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-//Color yellow 255, 249, 163
-//Color baseColor = new Color(25, 25, 70);
-//Color haverColor = new Color(90, 140, 230);
 public class QuestionFrame extends JFrame {
     private MainQuizFrame mainQuizFrame;
     private boolean isResult;
@@ -306,11 +303,11 @@ public class QuestionFrame extends JFrame {
         closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
-        scrollPane.setBackground(new Color(25, 25, 70));
+        scrollPane.setBackground(new Color(52,69,140));
         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
-                this.thumbColor = new Color(25, 25, 70);
+                this.thumbColor = new Color(52,69,140);
                 this.trackColor = new Color(255, 249, 163);
             }
         });
