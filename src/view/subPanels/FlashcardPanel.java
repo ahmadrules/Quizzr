@@ -61,13 +61,14 @@ public class FlashcardPanel extends JFrame {
         this.mainFrame = mainFrame;
 
         setTitle("Flashcards");
-        setSize(new Dimension(400, 300));
+        setSize(new Dimension(800, 600));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         setUpPanels();
         loadFlashcards();
         updateCardDisplay();
+        add(mainPanel);
 
         setVisible(true);
     }
@@ -120,9 +121,9 @@ public class FlashcardPanel extends JFrame {
     }
 
     public void setUpFlashcardsPanel(){
-        flashcardPanel.setPreferredSize(new Dimension(750, 400));
-        flashcardPanel.setMaximumSize(new Dimension(750, 400));
-        flashcardPanel.setMinimumSize(new Dimension(750, 400));
+        flashcardPanel.setPreferredSize(new Dimension(700, 400));
+        flashcardPanel.setMaximumSize(new Dimension(700, 400));
+        flashcardPanel.setMinimumSize(new Dimension(700, 400));
 
         contentLabel = new JLabel("");
         contentLabel.setAlignmentX(SwingConstants.CENTER);
