@@ -23,9 +23,15 @@ public class MainFrame extends JFrame {
     private LeftPanelStudent leftPanelStudent;
     private RightPanel rightPanel;
     private Controller controller;
+    private boolean isAdmin;
 
     public MainFrame(Controller controller) {
+        this.isAdmin = isAdmin;
         this.controller = controller;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     /**
@@ -35,6 +41,7 @@ public class MainFrame extends JFrame {
      * @param isAdmin if the user logged in is an admin or not
      */
     public void createAndShowGUI(boolean isAdmin) {
+        this.isAdmin = isAdmin;
         this.setTitle("QuizR");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(850, 400);
@@ -487,7 +494,14 @@ public class MainFrame extends JFrame {
     }
 
     public void generateGeneralQuiz() {
-        Quiz quiz = controller.generateGeneralCourseQuiz(leftPanelStudent.getSelectedCourse());
+        Quiz quiz;
+        if (isAdmin) {
+            quiz = controller.generateGeneralCourseQuiz(leftPanelAdmin.getSelectedCourse());
+
+        } else {
+            quiz = controller.generateGeneralCourseQuiz(leftPanelStudent.getSelectedCourse());
+
+        }
         new QuestionFrame(quiz, this);
     }
 }
