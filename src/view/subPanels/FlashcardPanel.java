@@ -13,15 +13,15 @@ import java.awt.event.ActionEvent;
 /**
  * FlashcardPanel is a GUI class that displays flashcards associated with
  * a selected module. It allows the user to navigate and view question-answer
- * pairs stored in FlashCard objects.
- * <p>
+ * pairs stored in FlashCard objects. Includes a button to create a new flashcard.
+ *
  * This panel is triggered from CenterModulePanel and follows the MVC pattern.
  * It fetches data through the MainFrame → Controller → Module structure.
  *
  * @author Salman Warsame
  */
 public class FlashcardPanel extends JFrame {
-    private List<FlashCard> flashCards;       //model classes should not be imported to view
+    private List<FlashCard> flashCards;
     private List<String> frontContent;
     private List<String> backContent;
     private int currentIndex;
@@ -29,6 +29,7 @@ public class FlashcardPanel extends JFrame {
     private JLabel backLabel;
     private JButton showBackButton;
     private JButton nextButton;
+    private JButton addFlashcardButton;
 
     private String selectedProgram;
     private String selectedCourse;
@@ -65,28 +66,32 @@ public class FlashcardPanel extends JFrame {
     /**
      * Sets up the layout, buttons, and text display areas.
      * Adds event listeners to the navigation buttons.
+     * Includes an Add Flashcard button to open creation form.
      */
     private void setupComponents() {
         setLayout(new BorderLayout());
 
         frontLabel = new JLabel("", SwingConstants.CENTER);
-        frontLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
+        frontLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(frontLabel, BorderLayout.NORTH);
 
         backLabel = new JLabel("", SwingConstants.CENTER);
-        backLabel.setFont(new Font("Montserrat", Font.PLAIN, 18));
+        backLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         add(backLabel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
         showBackButton = new JButton("Show Answer");
         nextButton = new JButton("Next");
+        addFlashcardButton = new JButton("Add Flashcard");
 
         buttonPanel.add(showBackButton);
         buttonPanel.add(nextButton);
+        buttonPanel.add(addFlashcardButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         showBackButton.addActionListener(this::handleShowAnswerS);
         nextButton.addActionListener(this::handleNextS);
+        addFlashcardButton.addActionListener(e -> new CreateFlashcardFrame(selectedCourse, selectedModule, mainFrame));
     }
 
     /**
@@ -94,57 +99,16 @@ public class FlashcardPanel extends JFrame {
      * Data is fetched from the controller through MainFrame.
      */
     private void loadFlashcards() {
-        //Use 2 String list one for the front content and one for the back
-        //instead of array of FlashCard object (Do Not use classes from model in view classes)
         this.frontContent = mainFrame.getFlashCardsFrontContent(selectedCourse, selectedModule);
         this.backContent = mainFrame.getFlashCardsBackContent(selectedCourse, selectedModule);
         currentIndex = 0;
     }
 
     /**
-     * Updates the display with the current flashcard's question (front side).
-     * Hides the answer initially.
-     */
 
-    private void updateCardDisplay() {
-        if (flashCards != null && !flashCards.isEmpty()) {
-            FlashCard current = flashCards.get(currentIndex);
-            frontLabel.setText("Q: " + current.getFrontContent());
-            backLabel.setText(""); // Hide answer until requested
-        } else {
-            frontLabel.setText("No flashcards available");
-            backLabel.setText("");
-            showBackButton.setEnabled(false);
-            nextButton.setEnabled(false);
-        }
-    }
-
-    /**
-     * Reveals the answer (back content) of the current flashcard.
      */
-    private void handleShowAnswer(ActionEvent e) {
-        if (!flashCards.isEmpty()) {
-            FlashCard current = flashCards.get(currentIndex);
-            backLabel.setText("A: " + current.getBackContent());
-        }
-    }
-
-    /**
-     * Navigates to the next flashcard in the list and updates the display.
-     * If at the end of the list, loops back to the beginning.
-     */
-    private void handleNext(ActionEvent e) {
-        if (!flashCards.isEmpty()) {
-            currentIndex = (currentIndex + 1) % flashCards.size();
-            updateCardDisplay();
-        }
-    }
-
-    /**
-     * @author Sara
-     */
-    private void updateCardDisplayS() {
-        if (!frontContent.isEmpty()) {
+    private void updateCardDisplayS(){
+        if(!frontContent.isEmpty()) {
             if (frontContent.get(currentIndex) != null && !frontContent.get(currentIndex).isEmpty()) {
                 frontLabel.setText("Q: " + frontContent.get(currentIndex));
                 backLabel.setText(""); // Hide answer until requested
@@ -154,7 +118,7 @@ public class FlashcardPanel extends JFrame {
                 showBackButton.setEnabled(false);
                 nextButton.setEnabled(false);
             }
-        } else {
+        }else{
             frontLabel.setText("No flashcards available");
             backLabel.setText("");
             showBackButton.setEnabled(false);
@@ -163,11 +127,11 @@ public class FlashcardPanel extends JFrame {
     }
 
     /**
+     *
      * @param e
-     * @author Sara
      */
     private void handleShowAnswerS(ActionEvent e) {
-        if (!backContent.isEmpty()) {
+        if(!backContent.isEmpty()) {
             if (backContent.get(currentIndex) != null && !backContent.get(currentIndex).isEmpty()) {
                 backLabel.setText("A: " + backContent.get(currentIndex));
             }
@@ -177,15 +141,9 @@ public class FlashcardPanel extends JFrame {
     /**
      * Navigates to the next flashcard in the list and updates the display.
      * If at the end of the list, loops back to the beginning.
-     *
-     * @author Sara
      */
     private void handleNextS(ActionEvent e) {
         currentIndex = (currentIndex + 1) % frontContent.size();
         updateCardDisplayS();
     }
 }
-
-
-
-
