@@ -584,6 +584,7 @@ public class LogInFrame extends JFrame {
         testButton.addActionListener(e -> {
             controller.loginUser("test", "123");
             mainFrame.createAndShowGUI(true);
+            mainFrame.setIsAdmin(true);
 
             controller.setMainFrame(mainFrame);
             setVisible(false);

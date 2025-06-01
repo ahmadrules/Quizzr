@@ -2,6 +2,8 @@ package view.subPanels.Quiz;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ResultPanel extends JPanel {
     private JPanel pnlNorth;
@@ -13,13 +15,16 @@ public class ResultPanel extends JPanel {
     private JLabel lblStatistics;
     private JLabel lblImageIcon;
     private BorderLayout layout;
+    private QuestionFrame questionFrame;
 
-    public ResultPanel(int userPoints, int totalPoints, double statistics) {
+    public ResultPanel(int userPoints, int totalPoints, double statistics, QuestionFrame questionFrame) {
         layout = new BorderLayout();
+        this.questionFrame = questionFrame;
         setLayout(layout);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         createPanels();
         setUpCenterPanel(userPoints, totalPoints, statistics);
+        setUpSouthPanel();
         add(pnlNorth, layout.NORTH);
         add(pnlCenter, layout.CENTER);
         add(pnlSouth, layout.SOUTH);
@@ -28,7 +33,6 @@ public class ResultPanel extends JPanel {
     public void createPanels() {
         pnlNorth = new JPanel();
         pnlNorth.setSize(getWidth(), getHeight() * 30 / 100);
-
 
         pnlCenter = new JPanel();
         pnlCenter.setSize(getWidth(), getHeight() * 40 / 100);
@@ -104,5 +108,16 @@ public class ResultPanel extends JPanel {
         c.gridy = 2;
         c.insets = new Insets(10, 10, 30, 10);
         pnlResultInfo.add(lblStatistics, c);
+    }
+
+    public void setUpSouthPanel() {
+        JPanel buttonPanel = new JPanel();
+        JButton resultButton = new JButton("Show result");
+        buttonPanel.add(resultButton);
+        pnlSouth.add(buttonPanel);
+
+        resultButton.addActionListener(e -> {
+            questionFrame.viewResult();
+        });
     }
 }

@@ -420,4 +420,8 @@ public class LeftPanelAdmin extends JPanel {
             updateLists();
         }
     }
+
+    public String getSelectedCourse() {
+        return selectedCourse;
+    }
 }
