@@ -65,9 +65,9 @@ public class FlashcardPanel extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        setupComponents();
+        setUpPanels();
         loadFlashcards();
-        updateCardDisplayS();
+        updateCardDisplay();
 
         setVisible(true);
     }
@@ -274,7 +274,7 @@ public class FlashcardPanel extends JFrame {
     /**
 
      */
-    private void updateCardDisplayS(){
+    private void updateCardDisplay(){
         if(!frontContent.isEmpty()) {
             if (frontContent.get(currentIndex) != null && !frontContent.get(currentIndex).isEmpty()) {
                 contentLabel.setText("Q: " + frontContent.get(currentIndex));
@@ -296,7 +296,7 @@ public class FlashcardPanel extends JFrame {
      *
      * @param e
      */
-    private void handleShowAnswerS(ActionEvent e) {
+    private void handleShowAnswer(MouseEvent e) {
         if(!backContent.isEmpty()) {
             if (backContent.get(currentIndex) != null && !backContent.get(currentIndex).isEmpty()) {
                 contentLabel.setText(backContent.get(currentIndex));
@@ -310,6 +310,26 @@ public class FlashcardPanel extends JFrame {
      */
     private void handleNextS(ActionEvent e) {
         currentIndex = (currentIndex + 1) % frontContent.size();
-        updateCardDisplayS();
+        updateCardDisplay();
+    }
+
+    public void showPreviousFlashcard(ActionEvent e){
+        if (!frontContent.isEmpty()) {
+            currentIndex = (currentIndex - 1 + frontContent.size()) % frontContent.size();
+            updateCardDisplay();
+        }
+
+    }
+
+    /**
+     * Navigates to the next flashcard in the list and updates the display.
+     * If at the end of the list, loops back to the beginning.
+     *
+     * @author Sara
+     * @author Salman
+     */
+    private void showNextFlashcard(ActionEvent e) {
+        currentIndex = (currentIndex + 1) % frontContent.size();
+        updateCardDisplay();
     }
 }
