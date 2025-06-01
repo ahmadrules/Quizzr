@@ -26,7 +26,6 @@ public class QuestionFrame extends JFrame {
 
     private JPanel mainQuestionPanel;
     private JPanel topPanel;
-    private JPanel bottomPanel;
 
     private ArrayList<ButtonGroup> buttonGroups;
     private JButton submitButton;
@@ -237,9 +236,30 @@ public class QuestionFrame extends JFrame {
         mainQuestionPanel.setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
 
         submitButton = new JButton("Submit");
-        submitButton.setBackground(new Color(25, 25, 70));
+        submitButton.setBackground(new Color(52, 69,140));
         submitButton.setForeground(Color.WHITE);
         submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        submitButton.setPreferredSize(new Dimension(110, 50));
+        submitButton.setMaximumSize(submitButton.getPreferredSize());
+        submitButton.setMinimumSize(submitButton.getPreferredSize());
+        submitButton.setFont(new Font("Montserrat", Font.BOLD, 14));
+        submitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                submitButton.setBackground(new Color(90, 140, 230));
+                submitButton.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                submitButton.setBackground(new Color(52, 69,140));
+                submitButton.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(52, 69,140), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+        });
 
         closeButton = new JButton("Close");
         closeButton.setBackground(new Color(25, 25, 70));
@@ -453,21 +473,34 @@ public class QuestionFrame extends JFrame {
                 ButtonGroup buttonGroup = new ButtonGroup();
                 buttonGroups.add(buttonGroup);
 
-                JPanel alternativesPanel = new JPanel();
-                alternativesPanel.setLayout(new BoxLayout(alternativesPanel, BoxLayout.Y_AXIS));
+                JPanel alternativesPanel = new JPanel(new GridBagLayout());
                 alternativesPanel.setBackground(Color.WHITE);
+                alternativesPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+                alternativesPanel.setAlignmentX(SwingConstants.LEFT);
+                alternativesPanel.setMaximumSize(questionPanel.getMaximumSize());
 
-
-                questionPanel.add(alternativesPanel);
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.anchor = GridBagConstraints.WEST;
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                gbc.insets = new Insets(5, 5, 5, 5);
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                gbc.weightx = 1;
 
                 for (String alternative : question.getAlternatives()) {
                     JRadioButton checkBox = new JRadioButton(alternative);
                     checkBox.setFont(new Font("Montserrat", Font.PLAIN, 16));
                     checkBox.setBackground(Color.WHITE);
+                    checkBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    checkBox.setAlignmentX(SwingConstants.LEFT);
                     checkBox.setActionCommand(alternative);
                     buttonGroup.add(checkBox);
-                    alternativesPanel.add(checkBox);
+
+                    alternativesPanel.add(checkBox, gbc);
+                    gbc.gridy++;
                 }
+
+                questionPanel.add(alternativesPanel);
 
                 if (isResult) {
                     String correctAnswer = question.getCorrectAnswer();
@@ -492,11 +525,13 @@ public class QuestionFrame extends JFrame {
                 mainQuestionPanel.add(Box.createVerticalStrut(30));
             }
         }
+        mainQuestionPanel.add(Box.createVerticalStrut(20));
         if (isResult) {
             mainQuestionPanel.add(closeButton);
         } else {
             mainQuestionPanel.add(submitButton);
         }
+        mainQuestionPanel.add(Box.createVerticalStrut(40));
         invalidate();
         validate();
         repaint();
