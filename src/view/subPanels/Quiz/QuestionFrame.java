@@ -271,36 +271,7 @@ public class QuestionFrame extends JFrame {
         mainQuestionPanel.setBackground(new Color(255, 249, 163));
         mainQuestionPanel.setLayout(new BoxLayout(mainQuestionPanel, BoxLayout.Y_AXIS));
 
-        submitButton = new JButton("Submit");
-        submitButton.setBackground(new Color(52, 69,140));
-        submitButton.setForeground(Color.WHITE);
-        submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        submitButton.setPreferredSize(new Dimension(110, 50));
-        submitButton.setMaximumSize(submitButton.getPreferredSize());
-        submitButton.setMinimumSize(submitButton.getPreferredSize());
-        submitButton.setFont(new Font("Montserrat", Font.BOLD, 14));
-        submitButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                submitButton.setBackground(new Color(90, 140, 230));
-                submitButton.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
-                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
-                ));
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                submitButton.setBackground(new Color(52, 69,140));
-                submitButton.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(new Color(52, 69,140), 2),
-                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
-                ));
-            }
-        });
-
-        closeButton = new JButton("Close");
-        closeButton.setBackground(new Color(25, 25, 70));
-        closeButton.setForeground(Color.WHITE);
-        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        createButtons();
 
         JScrollPane scrollPane = new JScrollPane(mainQuestionPanel);
         scrollPane.setBackground(new Color(52,69,140));
@@ -615,6 +586,65 @@ public class QuestionFrame extends JFrame {
 
         closeButton.addActionListener(e -> {
             dispose();
+        });
+    }
+
+    public void createButtons(){
+        submitButton = new JButton("Submit");
+        submitButton.setBackground(new Color(52, 69,140));
+        submitButton.setForeground(Color.WHITE);
+        submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        submitButton.setPreferredSize(new Dimension(110, 50));
+        submitButton.setMaximumSize(submitButton.getPreferredSize());
+        submitButton.setMinimumSize(submitButton.getPreferredSize());
+        submitButton.setFont(new Font("Montserrat", Font.BOLD, 14));
+
+        closeButton = new JButton("Close");
+        closeButton.setBackground(new Color(52, 69,140));
+        closeButton.setForeground(Color.WHITE);
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        closeButton.setPreferredSize(new Dimension(110, 50));
+        closeButton.setMaximumSize(closeButton.getPreferredSize());
+        closeButton.setMinimumSize(closeButton.getPreferredSize());
+
+        addMouseEvents();
+    }
+
+    public void addMouseEvents(){
+        submitButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                submitButton.setBackground(new Color(90, 140, 230));
+                submitButton.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                submitButton.setBackground(new Color(52, 69,140));
+                submitButton.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(52, 69,140), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+        });
+
+        closeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeButton.setBackground(new Color(90, 140, 230));
+                closeButton.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeButton.setBackground(new Color(52, 69,140));
+                closeButton.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(52, 69,140), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
         });
     }
 }
