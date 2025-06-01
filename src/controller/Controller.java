@@ -1463,4 +1463,24 @@ public class Controller {
         }
         return newQuiz;
     }
+    /**
+     * Retrieves a Course object based on a given program and course name.
+     *
+     * @param programName the name of the program the course belongs to
+     * @param courseName the name of the course
+     * @return the matching Course object, or null if not found
+     * @author Salman Warsame
+     */
+    public Course getCourseByName(String programName, String courseName) {
+        for (Program program : programList) {
+            if (program.getName().equals(programName)) {
+                for (Course course : program.getCourses()) {
+                    if (course.getName().equals(courseName)) {
+                        return course;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }
