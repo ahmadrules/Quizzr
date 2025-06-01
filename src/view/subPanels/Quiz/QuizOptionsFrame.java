@@ -81,7 +81,7 @@ public class QuizOptionsFrame extends JFrame {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setFont(new Font("Arial",Font.BOLD,13));
 
-        Color baseColor = new Color(25, 25, 70);
+        Color baseColor = new Color(25, 25, 130);
         Color haverColor = new Color(90, 140, 230);
         Color borderColor = baseColor.darker();
 
