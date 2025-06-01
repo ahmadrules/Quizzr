@@ -6,6 +6,7 @@ import model.Quiz;
 import view.main.MainFrame;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
@@ -48,6 +49,7 @@ public class QuestionFrame extends JFrame {
         this.mainQuizFrame = mainQuizFrame;
         this.currentQuiz = currentQuiz;
         this.isResult = isResult;
+        setBackground(new Color(255, 249, 163));
 
         questionList = currentQuiz.getQuestions();
 
@@ -80,6 +82,7 @@ public class QuestionFrame extends JFrame {
         ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
         setIconImage(icon.getImage());
 
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
     }
 
@@ -290,6 +293,7 @@ public class QuestionFrame extends JFrame {
         comboBoxMap = new HashMap<>();
         
         mainQuestionPanel.add(new JSeparator());
+        mainQuestionPanel.setMaximumSize(new Dimension(1000, Integer.MAX_VALUE));
 
         if (timerSecondsAmount > 0) {
             timer.start();
@@ -307,9 +311,17 @@ public class QuestionFrame extends JFrame {
                 JPanel topPanel = new JPanel(new BorderLayout());
                 topPanel.setBackground(new Color(255, 249, 163));
 
-                JLabel query = new JLabel(questionId++ + ". " + question.getQuery());
-                query.setFont(new Font("Montserrat", Font.BOLD, 18));
-                topPanel.add(query, BorderLayout.CENTER);
+
+                JLabel queryLabel = new JLabel(questionId++ + ". " + question.getQuery());
+                queryLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
+                queryLabel.setForeground(Color.BLACK);
+                queryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                queryLabel.setPreferredSize(new Dimension(200, 30));
+                queryLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+                topPanel.setBorder(BorderFactory.createEmptyBorder(15, 7, 15, 10));
+
+                topPanel.add(queryLabel, BorderLayout.CENTER);
 
                 questionPanel.add(topPanel, BorderLayout.NORTH);
 
@@ -403,13 +415,22 @@ public class QuestionFrame extends JFrame {
 
             //True/false and multiple choice questions are set up here.
             else {
-                JPanel questionPanel = new JPanel(new BorderLayout());
-                questionPanel.setBackground(new Color(255, 249, 163));
+                JPanel questionPanel = new JPanel();
+                questionPanel.setLayout(new BoxLayout(questionPanel, BoxLayout.Y_AXIS));
+                questionPanel.setBackground(Color.WHITE);
+                questionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                questionPanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
 
                 JPanel topPanel = new JPanel(new BorderLayout());
-                topPanel.setBackground(new Color(255, 249, 163));
-                JLabel query = new JLabel(questionId++ + ". " + question.getQuery());
-                query.setFont(new Font("Montserrat", Font.BOLD, 16));
+                topPanel.setBackground(new Color(52, 69,140));
+                topPanel.setPreferredSize(new Dimension(900, 50));
+
+
+                JLabel queryLabel = new JLabel(questionId++ + ". " + question.getQuery());
+                queryLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
+                queryLabel.setForeground(Color.WHITE);
+                queryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                queryLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
                 if (isResult) {
                     String imagePath = "";
@@ -424,8 +445,10 @@ public class QuestionFrame extends JFrame {
                 }
 
 
-                topPanel.add(query, BorderLayout.CENTER);
-                questionPanel.add(topPanel, BorderLayout.NORTH);
+                questionPanel.setMaximumSize(new Dimension(900, 500));
+                topPanel.add(queryLabel, BorderLayout.CENTER);
+                questionPanel.add(Box.createVerticalStrut(15));
+                questionPanel.add(topPanel);
 
                 ButtonGroup buttonGroup = new ButtonGroup();
                 buttonGroups.add(buttonGroup);
@@ -434,7 +457,8 @@ public class QuestionFrame extends JFrame {
                 alternativesPanel.setLayout(new BoxLayout(alternativesPanel, BoxLayout.Y_AXIS));
                 alternativesPanel.setBackground(Color.WHITE);
 
-                questionPanel.add(alternativesPanel, BorderLayout.CENTER);
+
+                questionPanel.add(alternativesPanel);
 
                 for (String alternative : question.getAlternatives()) {
                     JRadioButton checkBox = new JRadioButton(alternative);
@@ -465,6 +489,7 @@ public class QuestionFrame extends JFrame {
 
                 questionButtonGroupMap.put(question, buttonGroup);
                 mainQuestionPanel.add(questionPanel);
+                mainQuestionPanel.add(Box.createVerticalStrut(30));
             }
         }
         if (isResult) {
