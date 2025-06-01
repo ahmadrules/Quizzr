@@ -490,6 +490,36 @@ public class MainFrame extends JFrame {
         Quiz quiz = controller.generateGeneralCourseQuiz(leftPanelStudent.getSelectedCourse());
         new QuestionFrame(quiz, this);
     }
+
+    /**
+     * Saves a flashcard object for the currently logged-in user.
+     *
+     * @param flashCard the FlashCard to save
+     * @author Salman Warsame
+     */
+    public void saveUserFlashCard(FlashCard flashCard) {
+        controller.saveUsersFlashCards(flashCard);
+    }
+    /**
+     * Fetches a Course object based on the given program and course name.
+     * Delegates the logic to the Controller class.
+     *
+     * @param programName the name of the program the course belongs to
+     * @param courseName the name of the course
+     * @return a Course object matching the given program and course
+     */
+    public Course getCourseByName(String programName, String courseName) {
+        return controller.getCourseByName(programName, courseName);
+    }
+    /**
+     * Returns the name of the program currently associated with the logged-in student.
+     *
+     * @return program name of the current student user
+     * @author Salman Warsame
+     */
+    public String getCurrentStudentProgramName() {
+        return controller.getCurrentStudentProgramName();
+    }
 }
 
 
