@@ -78,6 +78,43 @@ public class QuestionFrame extends JFrame {
         setVisible(true);
     }
 
+    public QuestionFrame(Quiz currentQuiz, MainFrame mainFrame) {
+        this.currentQuiz = currentQuiz;
+
+        questionList = currentQuiz.getQuestions();
+
+        timerSecondsAmount = 0;
+        if (isResult) {
+            timerSecondsAmount = 0;
+        }
+
+        setTitle("Quiz options");
+        setLayout(new BorderLayout());
+
+        if (!isResult) {
+            createComboBoxListeners();
+        }
+
+        setupPanel();
+
+        createTopPanel();
+        createTimer();
+
+        setupQuestions(false);
+
+        setOnClose();
+        addListeners();
+
+        pack();
+        setSize(getWidth() + 50, 600);
+        setLocationRelativeTo(mainFrame);
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+        setIconImage(icon.getImage());
+
+        setVisible(true);
+    }
+
     public void createTopPanel() {
         topPanel = new JPanel(new BorderLayout());
 
@@ -107,7 +144,7 @@ public class QuestionFrame extends JFrame {
 
     public void timerEnded() {
         timer.stop();
-        JOptionPane.showMessageDialog(mainQuizFrame, "Times up!");
+        JOptionPane.showMessageDialog(null, "Times up!");
         getUserAnswers();
         getTotalPoints();
     }
@@ -118,7 +155,9 @@ public class QuestionFrame extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                mainQuizFrame.setVisible(true);
+                if (mainQuizFrame != null) {
+                    mainQuizFrame.setVisible(true);
+                }
                 if (timer != null && timer.isRunning()) {
                     timer.stop();
                 }
@@ -198,7 +237,7 @@ public class QuestionFrame extends JFrame {
             }
         }
 
-        if (!isResult) {
+        if (!isResult && mainQuizFrame != null) {
             mainQuizFrame.addQuizToHistory(currentQuiz.getName(), currentQuiz.getQuestions(), currentQuiz.getUserAnswers());
         }
     }
@@ -262,6 +301,7 @@ public class QuestionFrame extends JFrame {
                 ArrayList<JComboBox> comboBoxes = new ArrayList<>();
 
                 JPanel questionPanel = new JPanel(new BorderLayout());
+                questionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
 
                 JPanel topPanel = new JPanel(new BorderLayout());
 

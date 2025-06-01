@@ -29,6 +29,10 @@ public class LeftPanelStudent extends JPanel {
         add(coursesScrollPane);
     }
 
+    public String getSelectedCourse() {
+        return selectedCourse;
+    }
+
     /**
      * This method creates all the data components required for storing the required lists.
      * It also sets up the layout of the lists.
