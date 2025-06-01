@@ -17,9 +17,10 @@ public class TopCenterPanel extends JPanel {
     public TopCenterPanel(boolean isAdmin) {
         this.isAdmin = isAdmin;
         setLayout(new BorderLayout());
-        setBackground(new Color(230, 230, 230));
+        setBackground(new Color(25, 25, 70));
         topLabel = new JLabel();
         topLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        topLabel.setForeground(Color.WHITE);
 
         //Module is default page
         setModuleTopLabel();

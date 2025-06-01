@@ -5,6 +5,7 @@ import view.subPanels.AddQuestionFrame;
 import view.subPanels.Quiz.MainQuizFrame;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -98,9 +99,11 @@ public class CenterModulePanel extends JPanel {
     public void setupLayout() {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
-
+        topPanel.setBackground(new Color(255, 249, 163));
+        topPanel.setPreferredSize(new Dimension(getWidth(), getHeight()+30));
         JLabel displayLabel = new JLabel("Available modules", SwingConstants.CENTER);
-        displayLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        displayLabel.setFont(new Font("Gorgia", Font.BOLD, 20));
+        displayLabel.setForeground(new Color(10, 10, 40));
 
         topPanel.add(displayLabel, BorderLayout.CENTER);
 
@@ -153,7 +156,7 @@ public class CenterModulePanel extends JPanel {
         moduleListMap = new HashMap<>();
         moduleListModel = new DefaultListModel<>();
         moduleList = new JList<>(moduleListModel);
-        moduleList.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        moduleList.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         moduleScrollPane = new JScrollPane(moduleList);
         moduleScrollPane.setVisible(true);
@@ -234,23 +237,25 @@ public class CenterModulePanel extends JPanel {
      */
     public void createButtons() {
         buttonPanel = new JPanel(new FlowLayout());
-        quizButton = new JButton("Quiz");
+        buttonPanel.setBackground(new Color(255, 249, 163));
+        buttonPanel.setPreferredSize(new Dimension(getPreferredSize().width, 80));
+        quizButton = createStyledButton("Quiz");
         ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/quizIcon.png"));
         quizButton.setIcon(icon);
 
-        flashcardsButton = new JButton("FlashCards");
+        flashcardsButton = createStyledButton("FlashCards");
         icon = new ImageIcon(getClass().getResource("/view/pics/flashcardIcon.jpg"));
         flashcardsButton.setIcon(icon);
 
-        generalQuizButton = new JButton("Generate course quiz");
+        generalQuizButton = createStyledButton("Generate course quiz");
         icon = new ImageIcon(getClass().getResource("/view/pics/tinylogo1.png"));
         generalQuizButton.setIcon(icon);
 
         if (isAdmin) {
-            addModuleButton = new JButton("Add module");
-            editModuleButton = new JButton("Edit");
-            deleteModuleButton = new JButton("Delete");
-            addQuestionButton = new JButton("Add question");
+            addModuleButton = createStyledButton("Add module");
+            editModuleButton = createStyledButton("Edit");
+            deleteModuleButton = createStyledButton("Delete");
+            addQuestionButton = createStyledButton("Add question");
         }
 
         disableButtons();
@@ -460,5 +465,42 @@ public class CenterModulePanel extends JPanel {
             updateList();
         }
         ;
+    }
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setFont(new Font("Arial",Font.BOLD,14));
+
+        Color baseColor = new Color(20,20,50);
+        Color haverColor = new Color(90, 140, 230);
+        Color borderColor = baseColor.darker();
+
+        button.setBackground(baseColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        Border lineBorder= BorderFactory.createLineBorder(borderColor,4);
+        Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+        button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(haverColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(haverColor.darker(), 2),
+                        BorderFactory.createEmptyBorder(2, 2,2, 2)
+                ));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(borderColor, 2),
+                        BorderFactory.createEmptyBorder(2, 2, 2, 2)
+                ));
+            }
+        });
+
+        return button;
     }
 }

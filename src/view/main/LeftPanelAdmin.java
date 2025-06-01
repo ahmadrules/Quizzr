@@ -4,6 +4,7 @@ package view.main;
 import view.main.CenterPanels.CenterModulePanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -42,6 +43,7 @@ public class LeftPanelAdmin extends JPanel {
 
     public LeftPanelAdmin(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
         this.centerModulePanel = centerModulePanel;
+        this.centerModulePanel.setBackground(new Color(255, 249, 163));
         this.mainFrame = mainFrame;
 
         createDataComponents();
@@ -75,7 +77,7 @@ public class LeftPanelAdmin extends JPanel {
             i++;
         }
         programList = new JList<>(programListModel);
-        programList.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        programList.setFont(new Font("Segoe UI", Font.BOLD, 14));
         programList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         programScrollPane = new JScrollPane(programList);
         programScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -84,7 +86,7 @@ public class LeftPanelAdmin extends JPanel {
         coursesListMap = new HashMap<>();
         coursesListModel = new DefaultListModel<>();
         coursesList = new JList<>(coursesListModel);
-        coursesList.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        coursesList.setFont(new Font("Segoe UI", Font.BOLD, 14));
         coursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         coursesScrollPane = new JScrollPane(coursesList);
         coursesScrollPane.setVisible(true);
@@ -136,22 +138,32 @@ public class LeftPanelAdmin extends JPanel {
 
         //Create labels for program and course lists
         programsLabel = new JLabel(" Programs");
-        programsLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
+        programsLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        programsLabel.setOpaque(true);
+        programsLabel.setBackground(new Color(255, 249, 163));
+        programsLabel.setMaximumSize(new Dimension(new Dimension(Integer.MAX_VALUE,40)));
         programsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        programsLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
 
         coursesLabel = new JLabel(" Courses");
-        coursesLabel.setFont(new Font("Montserrat", Font.BOLD, 14));
+        coursesLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        coursesLabel.setOpaque(true);
+        coursesLabel.setBackground(new Color(255, 249, 163));
+        coursesLabel.setMaximumSize(new Dimension(new Dimension(Integer.MAX_VALUE,40)));
+        coursesLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        coursesLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         coursesLabel.setVisible(true);
 
         //Create buttonPanel for program list buttons
         programButtonPanel = new JPanel(new FlowLayout());
+        programButtonPanel.setBackground(new Color(255, 249, 163));
         programButtonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         //Create buttons for program list
-        addProgramButton = new JButton("Add");
-        removeProgramButton = new JButton("Delete");
-        editProgramButton = new JButton("Edit");
+        addProgramButton = createStyledButton("Add");
+        removeProgramButton = createStyledButton("Delete");
+        editProgramButton = createStyledButton("Edit");
         disableProgramButtons();
 
         //Add buttons to panel
@@ -162,11 +174,11 @@ public class LeftPanelAdmin extends JPanel {
         //Create buttonPanel for course list buttons
         coursesButtonPanel = new JPanel(new FlowLayout());
         coursesButtonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+        coursesButtonPanel.setBackground(new Color(255, 249, 163));
         //Create buttons for course list
-        addCourseButton = new JButton("Add");
-        removeCourseButton = new JButton("Delete");
-        editCourseButton = new JButton("Edit");
+        addCourseButton = createStyledButton("Add");
+        removeCourseButton = createStyledButton("Delete");
+        editCourseButton = createStyledButton("Edit");
         addCourseButton.setEnabled(false);
         removeCourseButton.setEnabled(false);
         editCourseButton.setEnabled(false);
@@ -419,5 +431,42 @@ public class LeftPanelAdmin extends JPanel {
             addCourseButton.setEnabled(true);
             updateLists();
         }
+    }
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setFont(new Font("Arial",Font.BOLD,14));
+
+        Color baseColor = new Color(25, 25, 70);
+        Color haverColor = new Color(90, 140, 230);
+        Color borderColor = baseColor.darker();
+
+        button.setBackground(baseColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        Border lineBorder= BorderFactory.createLineBorder(borderColor,4);
+        Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+        button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(haverColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(haverColor.darker(), 2),
+                        BorderFactory.createEmptyBorder(2, 2,2, 2)
+                ));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(borderColor, 2),
+                        BorderFactory.createEmptyBorder(2, 2, 2, 2)
+                ));
+            }
+        });
+
+        return button;
     }
 }

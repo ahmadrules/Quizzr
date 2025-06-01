@@ -5,6 +5,7 @@ import view.main.MainFrame;
 import view.subPanels.PicturesFrame;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 /**
@@ -52,6 +53,7 @@ public class CenterAccountPanel extends JPanel {
         JLabel topLabel = new JLabel("Account information", SwingConstants.CENTER);
         topLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
         mainPanel = new JPanel();
+        mainPanel.setBackground(new Color(255, 249, 163));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         setUpMainPanel();
         add(topLabel, BorderLayout.NORTH);
@@ -63,13 +65,15 @@ public class CenterAccountPanel extends JPanel {
 
     public void setUpMainPanel() {
         accountInformationPanel = new JPanel();
+        accountInformationPanel.setBackground(Color.WHITE);
         createAccountInformationPanel();
         profilePicPanel = new JPanel();
+        profilePicPanel.setBackground(new Color(255, 249, 163));
         setUpProfilePicPanel();
         mainPanel.add(profilePicPanel);
         mainPanel.add(Box.createVerticalStrut(10));
         mainPanel.add(accountInformationPanel);
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
     public void setUpProfilePicPanel() {
@@ -77,7 +81,7 @@ public class CenterAccountPanel extends JPanel {
         profilePicPanel.setMaximumSize(new Dimension(130, 200));
         profilePicPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        editProfilePicButton = new JButton("Change Picture");
+        editProfilePicButton = createStyledButton("Change Picture");
         String profilePicPath = mainFrame.getUserProfilePicturePath();
         if(profilePicPath != null) {
             profilePicLabel = new JLabel("<html><img src='" + profilePicPath + "' width='130' height='120'></html>");
@@ -107,6 +111,7 @@ public class CenterAccountPanel extends JPanel {
     public void createAccountInformationPanel() {
         //Panel to add space to bottom
         emptyPanel = new JPanel();
+        emptyPanel.setBackground(Color.white);
         accountInformationPanel.setLayout(new BoxLayout(accountInformationPanel, BoxLayout.X_AXIS));
 
         createAccountPanel();
@@ -115,26 +120,36 @@ public class CenterAccountPanel extends JPanel {
     }
 
     public void createAccountPanel() {
-
+        Font labelFont= new Font("Segoe UI", Font.BOLD, 14);
+        Color fontColor =  new Color(25, 25, 70);
         JPanel accountPanel = new JPanel();
+        accountPanel.setBackground(Color.WHITE);
         accountPanel.setLayout(new BoxLayout(accountPanel, BoxLayout.Y_AXIS));
 
         // Labels
         nameLabel = new JLabel("Username: " + currentUserInfo[0]);
         nameLabel.setAlignmentX(LEFT_ALIGNMENT);
         nameLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        nameLabel.setFont(labelFont);
+        nameLabel.setForeground(fontColor);
 
         emailLabel = new JLabel("Email: " + currentUserInfo[1]);
         emailLabel.setAlignmentX(LEFT_ALIGNMENT);
         emailLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        emailLabel.setFont(labelFont);
+        emailLabel.setForeground(fontColor);
 
         passwordLabel = new JLabel("Password: ●●●●●●●");
         passwordLabel.setAlignmentX(LEFT_ALIGNMENT);
         passwordLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        passwordLabel.setFont(labelFont);
+        passwordLabel.setForeground(fontColor);
 
         JLabel programLabel = new JLabel("Your program: " + mainFrame.getStudentProgramName());
         programLabel.setAlignmentX(LEFT_ALIGNMENT);
         programLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+        programLabel.setFont(labelFont);
+        programLabel.setForeground(fontColor);
 
         accountPanel.add(nameLabel);
         accountPanel.add(Box.createVerticalStrut(10));
@@ -150,12 +165,13 @@ public class CenterAccountPanel extends JPanel {
 
     public void createAccountButtonsPanel() {
         JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setBackground(Color.WHITE);
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 
         //Buttons
-        editNameButton = new JButton("Edit Username");
-        editEmailButton = new JButton("Edit E-mail");
-        editPasswordButton = new JButton("Change Password");
+        editNameButton = createStyledButton("Edit Username");
+        editEmailButton = createStyledButton("Edit E-mail");
+        editPasswordButton = createStyledButton("Change Password");
         Dimension buttonSize = new Dimension(140, 30);
 
         editNameButton.setPreferredSize(buttonSize);
@@ -319,5 +335,42 @@ public class CenterAccountPanel extends JPanel {
         mainPanel.revalidate();
         mainPanel.repaint();
         mainFrame.changeProfilePicture(selectedPicPath);
+    }
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setFont(new Font("Arial",Font.BOLD,14));
+
+        Color baseColor = new Color(25, 25, 70);
+        Color haverColor = new Color(90, 140, 230);
+        Color borderColor = baseColor.darker();
+
+        button.setBackground(baseColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        Border lineBorder= BorderFactory.createLineBorder(borderColor,2);
+        Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+        button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(haverColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(haverColor.darker(), 2),
+                        BorderFactory.createEmptyBorder(2, 2,2, 2)
+                ));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(borderColor, 2),
+                        BorderFactory.createEmptyBorder(2, 2, 2, 2)
+                ));
+            }
+        });
+
+        return button;
     }
 }
