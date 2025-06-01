@@ -36,7 +36,7 @@ public class FlashcardPanel extends JFrame {
     private JLabel contentLabel;
     private JLabel infoLabel;
 
-    private JButton showBackButton;
+    private JButton createFlashcardButton;
     private JButton nextButton;
     private JButton backButton;
 
@@ -94,9 +94,6 @@ public class FlashcardPanel extends JFrame {
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
         buttonsPanel.setBackground(new Color(255, 249, 163));
         buttonsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonsPanel.setPreferredSize(new Dimension(550, 100));
-        buttonsPanel.setMaximumSize(new Dimension(550, 100));
-        buttonsPanel.setMinimumSize(new Dimension(550, 100));
 
         setUpInfoPanel();
         componentsPanel.add(infoPanel);
@@ -156,21 +153,32 @@ public class FlashcardPanel extends JFrame {
         nextButton = new JButton("Next");
         nextButton.setBackground(new Color(52, 69,140));
         nextButton.setForeground(Color.WHITE);
-        nextButton.setPreferredSize(new Dimension(110, 50));
-        nextButton.setMaximumSize(nextButton.getPreferredSize());
-        nextButton.setMinimumSize(nextButton.getPreferredSize());
+        nextButton.setPreferredSize(new Dimension(100, 50));
+        nextButton.setMaximumSize(new Dimension(100, 50));
+        nextButton.setMinimumSize(new Dimension(100, 50));
         nextButton.setFont(new Font("Montserrat", Font.BOLD, 14));
+
+        createFlashcardButton = new JButton("Create flashcards");
+        createFlashcardButton.setBackground(new Color(52, 69,140));
+        createFlashcardButton.setForeground(Color.WHITE);
+        createFlashcardButton.setPreferredSize(new Dimension(250, 50));
+        createFlashcardButton.setMaximumSize(new Dimension(250, 50));
+        createFlashcardButton.setMinimumSize(new Dimension(250, 50));
+        createFlashcardButton.setFont(new Font("Montserrat", Font.BOLD, 14));
 
         backButton = new JButton("Back");
         backButton.setBackground(new Color(52, 69,140));
         backButton.setForeground(Color.WHITE);
-        backButton.setPreferredSize(new Dimension(110, 50));
-        backButton.setMaximumSize(nextButton.getPreferredSize());
-        backButton.setMinimumSize(nextButton.getPreferredSize());
+        backButton.setPreferredSize(new Dimension(100, 50));
+        backButton.setMaximumSize(new Dimension(100, 50));
+        backButton.setMinimumSize(new Dimension(100, 50));
         backButton.setFont(new Font("Montserrat", Font.BOLD, 14));
 
+
         buttonsPanel.add(backButton);
-        buttonsPanel.add(Box.createHorizontalStrut(300));
+        buttonsPanel.add(Box.createHorizontalStrut(150));
+        buttonsPanel.add(createFlashcardButton);
+        buttonsPanel.add(Box.createHorizontalStrut(150));
         buttonsPanel.add(nextButton);
 
         addButtonEvents();
@@ -181,11 +189,13 @@ public class FlashcardPanel extends JFrame {
     public void addButtonEvents(){
         nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                nextButton.setBackground(new Color(90, 140, 230));
-                nextButton.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
-                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
-                ));
+                if(nextButton.isEnabled()) {
+                    nextButton.setBackground(new Color(90, 140, 230));
+                    nextButton.setBorder(BorderFactory.createCompoundBorder(
+                            BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
+                            BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                    ));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -199,11 +209,13 @@ public class FlashcardPanel extends JFrame {
 
         backButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                backButton.setBackground(new Color(90, 140, 230));
-                backButton.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
-                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
-                ));
+                if(backButton.isEnabled()) {
+                    backButton.setBackground(new Color(90, 140, 230));
+                    backButton.setBorder(BorderFactory.createCompoundBorder(
+                            BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
+                            BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                    ));
+                }
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
@@ -263,6 +275,7 @@ public class FlashcardPanel extends JFrame {
         } else {
             infoLabel.setText("No flashcards available");
             nextButton.setEnabled(false);
+            backButton.setEnabled(false);
         }
     }
 
@@ -286,10 +299,13 @@ public class FlashcardPanel extends JFrame {
             } else {
                 contentLabel.setText("No flashcards available");
                 nextButton.setEnabled(false);
+                backButton.setEnabled(false);
             }
         } else {
             contentLabel.setText("No flashcards available");
+            backButton.setEnabled(false);
             nextButton.setEnabled(false);
+
         }
     }
 
