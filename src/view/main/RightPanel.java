@@ -1,6 +1,7 @@
 package view.main;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 /**
@@ -25,15 +26,19 @@ public class RightPanel extends JPanel {
 
         createList();
         addEventListeners();
-        JButton logOutButton = new JButton("Log Out");
+        JButton logOutButton = createStyledButton("Log Out");
         logOutButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         logOutButton.addActionListener(e -> {
             mainFrame.logOut();
         });
 
         JLabel tabLabel = new JLabel(" Select a tab");
-        tabLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
+        tabLabel.setFont(new Font("Gorgia", Font.PLAIN, 16));
+        tabLabel.setOpaque(true);
+        tabLabel.setBackground(new Color(255, 249, 163));
         tabLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tabLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        tabLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         setLayout(new BorderLayout());
         setSize(150, 400);
@@ -59,8 +64,9 @@ public class RightPanel extends JPanel {
         listOfTabs = new JList<>(tabOptions);
 
         listOfTabs.setFixedCellWidth(150);
-        listOfTabs.setFont(new Font("Montserrat", Font.ROMAN_BASELINE, 24));
+        listOfTabs.setFont(new Font("Georgia", Font.ROMAN_BASELINE, 34));
         listOfTabs.setSelectedIndex(0);
+        listOfTabs.setForeground(new Color(10, 10, 40));
 
         scrollPane = new JScrollPane(listOfTabs);
         scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -84,5 +90,42 @@ public class RightPanel extends JPanel {
                 }
             }
         });
+    }
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setFont(new Font("Arial",Font.BOLD,14));
+
+        Color baseColor = new Color(52, 69,140);
+        Color haverColor = new Color(90, 140, 230);
+        Color borderColor = baseColor.darker();
+
+        button.setBackground(baseColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
+        Border lineBorder= BorderFactory.createLineBorder(borderColor,4);
+        Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+        button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
+
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(haverColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(haverColor.darker(), 2),
+                        BorderFactory.createEmptyBorder(2, 2,2, 2)
+                ));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(baseColor);
+                button.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(borderColor, 2),
+                        BorderFactory.createEmptyBorder(2, 2, 2, 2)
+                ));
+            }
+        });
+
+        return button;
     }
 }

@@ -58,7 +58,7 @@ public class HistoryPanel extends JPanel {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setFont(new Font("Arial",Font.BOLD,13));
 
-        Color baseColor = new Color(25, 25, 70);
+        Color baseColor = new Color(52, 69,140);
         Color haverColor = new Color(90, 140, 230);
         Color borderColor = baseColor.darker();
 
