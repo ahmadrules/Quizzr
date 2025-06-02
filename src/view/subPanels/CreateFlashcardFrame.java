@@ -17,10 +17,17 @@ import java.awt.event.ActionListener;
  * @author Salman Warsame
  */
 public class CreateFlashcardFrame extends JFrame {
+    private MainFrame mainFrame;
+
     private JTextField frontField;
     private JTextField backField;
+
+    private JPanel mainPanel;
+    private JPanel frontPanel;
+    private JPanel backPanel;
+
     private JButton saveButton;
-    private MainFrame mainFrame;
+
     private String selectedCourse;
     private String selectedModule;
 
@@ -38,21 +45,103 @@ public class CreateFlashcardFrame extends JFrame {
         this.mainFrame = mainFrame;
 
         setTitle("Create New Flashcard");
-        setSize(400, 200);
+        setSize(700, 490);
+        setResizable(false);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(3, 2, 10, 10));
 
-        add(new JLabel("Front (Question):"));
+        createPanels();
+
+        JLabel frontLabel = new JLabel("Front content: ");
+        frontLabel.setForeground(Color.WHITE);
+        frontLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
+        frontLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        frontLabel.setAlignmentX(SwingConstants.CENTER);
+
+        JLabel backLabel = new JLabel("Back content: ");
+        backLabel.setForeground(Color.WHITE);
+        backLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
+        backLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        backLabel.setAlignmentX(SwingConstants.CENTER);
+
+
         frontField = new JTextField();
-        add(frontField);
+        frontField.setPreferredSize(new Dimension(600, 60));
+        frontField.setMaximumSize(new Dimension(600, 60));
+        frontField.setMaximumSize(new Dimension(600, 60));
+        frontField.setFont(new Font("Montserrat", Font.PLAIN, 18));
 
-        add(new JLabel("Back (Answer):"));
         backField = new JTextField();
-        add(backField);
+        backField.setPreferredSize(new Dimension(600, 60));
+        backField.setMaximumSize(new Dimension(600, 60));
+        backField.setMaximumSize(new Dimension(600, 60));
+        backField.setFont(new Font("Montserrat", Font.PLAIN, 18));
 
+        frontPanel.add(frontLabel);
+        backPanel.add(backLabel);
+
+        createButton();
+
+        JPanel frontWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        frontWrapper.setBackground(mainPanel.getBackground());
+        frontWrapper.setMaximumSize(new Dimension(700, 50));
+        frontWrapper.add(frontPanel);
+
+        JPanel backWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        backWrapper.setBackground(mainPanel.getBackground());
+        backWrapper.setMaximumSize(new Dimension(700, 50));
+        backWrapper.add(backPanel);
+
+
+        mainPanel.add(Box.createVerticalStrut(45));
+        mainPanel.add(frontWrapper);
+        mainPanel.add(Box.createVerticalStrut(2));
+        mainPanel.add(frontField);
+        mainPanel.add(Box.createVerticalStrut(55));
+        mainPanel.add(backWrapper);
+        mainPanel.add(Box.createVerticalStrut(2));
+        mainPanel.add(backField);
+        mainPanel.add(Box.createVerticalStrut(65));
+        mainPanel.add(saveButton);
+        JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        wrapper.setBackground(new Color(255, 249, 163));
+        wrapper.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+        wrapper.add(mainPanel);
+
+        add(wrapper);
+        setVisible(true);
+    }
+
+    public void createPanels(){
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBackground(new Color(255, 249, 163));
+
+        frontPanel = new JPanel();
+        frontPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        backPanel = new JPanel();
+        backPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        frontPanel.setMaximumSize(new Dimension(160, 50));
+        frontPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 10));
+
+        backPanel.setMaximumSize(new Dimension(165, 50));
+        backPanel.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 10));
+
+        frontPanel.setBackground(new Color(52, 69,140));
+        backPanel.setBackground(new Color(52, 69,140));
+
+    }
+
+    public void createButton(){
         saveButton = new JButton("Save Flashcard");
-        add(new JLabel()); // spacer
-        add(saveButton);
+        saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        saveButton.setBackground(new Color(52, 69,140));
+        saveButton.setForeground(Color.WHITE);
+        saveButton.setPreferredSize(new Dimension(170, 50));
+        saveButton.setMaximumSize(new Dimension(170, 50));
+        saveButton.setMinimumSize(new Dimension(170, 50));
+        saveButton.setFont(new Font("Montserrat", Font.BOLD, 16));
+
 
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -60,8 +149,25 @@ public class CreateFlashcardFrame extends JFrame {
                 saveFlashcard();
             }
         });
+        saveButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                if(saveButton.isEnabled()) {
+                    saveButton.setBackground(new Color(90, 140, 230));
+                    saveButton.setBorder(BorderFactory.createCompoundBorder(
+                            BorderFactory.createLineBorder(new Color(90, 140, 230).darker(), 2),
+                            BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                    ));
+                }
+            }
 
-        setVisible(true);
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                saveButton.setBackground(new Color(52, 69,140));
+                saveButton.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(52, 69,140), 2),
+                        BorderFactory.createEmptyBorder(10, 20, 10, 20)
+                ));
+            }
+        });
     }
 
     /**
