@@ -10,7 +10,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -66,7 +68,7 @@ public class QuestionFrame extends JFrame {
         add(topPanel, BorderLayout.NORTH);
         createTimer();
 
-        setupQuestions(isResult);
+        setupQuestions();
 
         setOnClose();
         addListeners();
@@ -104,7 +106,7 @@ public class QuestionFrame extends JFrame {
         createTopPanel();
         createTimer();
 
-        setupQuestions(false);
+        setupQuestions();
 
         setOnClose();
         addListeners();
@@ -117,6 +119,27 @@ public class QuestionFrame extends JFrame {
         setIconImage(icon.getImage());
 
         setVisible(true);
+    }
+
+    public void viewResult() {
+        getContentPane().removeAll();
+        isResult = true;
+        timerSecondsAmount = 0;
+        String currentDate = new SimpleDateFormat("yyyy/MM/dd-HH:mm").format(Calendar.getInstance().getTime());
+        currentQuiz.setDate(currentDate);
+
+        setLayout(new BorderLayout());
+        setupPanel();
+        createTopPanel();
+        setupQuestions();
+        setOnClose();
+        addListeners();
+        pack();
+        setSize(getWidth() + 50, 600);
+        setLocationRelativeTo(mainQuizFrame);
+
+        revalidate();
+        repaint();
     }
 
     public void createTopPanel() {
@@ -226,7 +249,7 @@ public class QuestionFrame extends JFrame {
         int totalPoints = currentQuiz.getTotalPoints();
         double statistics = ((double) userPoints / totalPoints) * 100;
 
-        ResultPanel resultPanel = new ResultPanel(userPoints, totalPoints, statistics);
+        ResultPanel resultPanel = new ResultPanel(userPoints, totalPoints, statistics, this);
         resultPanel.setSize(getWidth() - 50, getHeight());
         resultPanel.setBackground(new Color(255, 249, 163));
 
@@ -309,7 +332,7 @@ public class QuestionFrame extends JFrame {
         return false;
     }
 
-    public void setupQuestions(boolean isResult) {
+    public void setupQuestions() {
         int questionId = 1;
         int mapCounter = 0;
 
@@ -327,7 +350,6 @@ public class QuestionFrame extends JFrame {
         }
 
         for (Question question : questionList) {
-
             //Matching questions are set up here.
             if (question instanceof Matching) {
                 int counter = 0;
@@ -361,6 +383,7 @@ public class QuestionFrame extends JFrame {
                 String[] letters = new String[]{"A", "B", "C"};
 
                 String[] userAnswers = new String[3];
+                boolean correctAnswer = true;
 
                 if (isResult) {
                     userAnswers = currentQuiz.getUserAnswers().get(question).split(",");
@@ -375,8 +398,10 @@ public class QuestionFrame extends JFrame {
                     comboBox.setActionCommand(Integer.toString(mapCounter));
 
                     //Add listeners
-                    comboBox.addItemListener(comboBoxListenerSelected);
-                    comboBox.addItemListener(comboBoxListenerDeselected);
+                    if (!isResult) {
+                        comboBox.addItemListener(comboBoxListenerSelected);
+                        comboBox.addItemListener(comboBoxListenerDeselected);
+                    }
 
                     JPanel comboBoxPanel = new JPanel(new BorderLayout());
                     comboBoxPanel.setBackground(Color.WHITE);
@@ -404,6 +429,7 @@ public class QuestionFrame extends JFrame {
                             comboBoxPanel.setBackground(new Color(240, 149, 149));
                             alternativesPanel.setBackground(new Color(240, 149, 149));
                             imagePath = getClass().getResource("/view/pics/redCheckmark.png").toString();
+                            correctAnswer = false;
                         }
 
                         JLabel imageIcon = new JLabel("<html><img src='" + imagePath + "' width='20' height='20'></html>");
@@ -432,6 +458,24 @@ public class QuestionFrame extends JFrame {
                         }
                     }
                     counter++;
+                }
+
+                if (!correctAnswer) {
+                    HashMap<String, Integer> correctMap = ((Matching) question).getCorrectMatches();
+                    String correctCombo ="Correct answer: ";
+                    for (String letter : letters) {
+                        int number = correctMap.get(letter);
+                        correctCombo += letter + ":" + number;
+                        if (!letter.equals("C")) {
+                            correctCombo += ",";
+                        }
+                    }
+                    JLabel correctLabel = new JLabel(correctCombo);
+                    correctLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    correctLabel.setFont(new Font("Montserrat", Font.PLAIN, 16));
+                    correctLabel.setOpaque(true);
+                    correctLabel.setBackground(new Color(150, 240, 149));
+                    alternativesPanel.add(correctLabel);
                 }
 
                 comboBoxMap.put(mapCounter++, comboBoxes);
@@ -585,6 +629,9 @@ public class QuestionFrame extends JFrame {
         });
 
         closeButton.addActionListener(e -> {
+            if (mainQuizFrame != null) {
+                mainQuizFrame.setVisible(true);
+            }
             dispose();
         });
     }
