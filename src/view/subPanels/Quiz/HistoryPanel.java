@@ -20,10 +20,13 @@ public class HistoryPanel extends JPanel {
     private MainQuizFrame mainQuizFrame;
     private JButton resultButton;
     private JButton clearButton;
+    private JButton goBackButton;
     private JList<String> displayList;
+    private MainFrame mainFrame;
 
-    public HistoryPanel(MainQuizFrame mainQuizFrame) {
+    public HistoryPanel(MainQuizFrame mainQuizFrame, MainFrame mainFrame) {
         this.mainQuizFrame = mainQuizFrame;
+        this.mainFrame = mainFrame;
 
 
         setLayout();
@@ -44,8 +47,10 @@ public class HistoryPanel extends JPanel {
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         resultButton = createStyledButton("Show result");
         clearButton = createStyledButton("Clear history");
+        goBackButton = createStyledButton("Go back");
         buttonPanel.add(resultButton);
         buttonPanel.add(clearButton);
+        buttonPanel.add(goBackButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -152,6 +157,10 @@ public class HistoryPanel extends JPanel {
         clearButton.addActionListener(e -> {
             mainQuizFrame.clearHistory();
             updateList();
+        });
+        goBackButton.addActionListener(e -> {
+            mainFrame.setVisible(true);
+            SwingUtilities.getWindowAncestor(HistoryPanel.this).dispose();
         });
     }
 }

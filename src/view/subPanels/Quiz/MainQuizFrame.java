@@ -77,7 +77,7 @@ public class MainQuizFrame extends JFrame {
      * @author Ahmad Maarouf
      */
     public void createPanels() {
-        historyPanel = new HistoryPanel(this);
+        historyPanel = new HistoryPanel(this,mainFrame);
         availableQuizPanel = new AvailableQuizPanel(this, mainFrame);
 
         historyWrapperPanel = warpWithPadding(historyPanel);
