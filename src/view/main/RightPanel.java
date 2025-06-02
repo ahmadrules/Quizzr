@@ -96,7 +96,7 @@ public class RightPanel extends JPanel {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setFont(new Font("Arial",Font.BOLD,14));
 
-        Color baseColor = new Color(20,20,50);
+        Color baseColor = new Color(52, 69,140);
         Color haverColor = new Color(90, 140, 230);
         Color borderColor = baseColor.darker();
 

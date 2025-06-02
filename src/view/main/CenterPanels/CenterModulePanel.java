@@ -6,6 +6,7 @@ import view.subPanels.Quiz.MainQuizFrame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -159,6 +160,14 @@ public class CenterModulePanel extends JPanel {
         moduleList.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         moduleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         moduleScrollPane = new JScrollPane(moduleList);
+        moduleScrollPane.setBackground(new Color(52,69,140));
+        moduleScrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = new Color(52,69,140);
+                this.trackColor = new Color(255, 249, 163);
+            }
+        });
         moduleScrollPane.setVisible(true);
     }
 
@@ -471,7 +480,7 @@ public class CenterModulePanel extends JPanel {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setFont(new Font("Arial",Font.BOLD,14));
 
-        Color baseColor = new Color(20,20,50);
+        Color baseColor = new Color(52, 69,140);
         Color haverColor = new Color(90, 140, 230);
         Color borderColor = baseColor.darker();
 
