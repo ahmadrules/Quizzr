@@ -469,4 +469,8 @@ public class LeftPanelAdmin extends JPanel {
 
         return button;
     }
+
+    public String getSelectedCourse() {
+        return selectedCourse;
+    }
 }
