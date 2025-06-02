@@ -247,7 +247,7 @@ public class CenterModulePanel extends JPanel {
     public void createButtons() {
         buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.setBackground(new Color(255, 249, 163));
-        buttonPanel.setPreferredSize(new Dimension(getPreferredSize().width, 80));
+        buttonPanel.setPreferredSize(new Dimension(getPreferredSize().width, 50));
         quizButton = createStyledButton("Quiz");
         ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/quizIcon.png"));
         quizButton.setIcon(icon);

@@ -36,9 +36,9 @@ public class RightPanel extends JPanel {
         tabLabel.setFont(new Font("Gorgia", Font.PLAIN, 16));
         tabLabel.setOpaque(true);
         tabLabel.setBackground(new Color(255, 249, 163));
-        tabLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        tabLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         tabLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-        tabLabel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        tabLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         setLayout(new BorderLayout());
         setSize(150, 400);
