@@ -93,7 +93,7 @@ public class LeftPanelAdmin extends JPanel {
         coursesScrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
-                this.thumbColor = new Color(52,69,140);
+                this.thumbColor = new Color(52, 69, 140);
                 this.trackColor = new Color(255, 249, 163);
             }
         });
@@ -108,7 +108,7 @@ public class LeftPanelAdmin extends JPanel {
      */
     public void updateLists() {
         //Fetch program names.
-        programNames[0] = mainFrame.getCurrentUserProgram();
+        programNames = mainFrame.getProgramsNames();
         programListModel.clear();
         for (String category : programNames) {
             programListModel.addElement(category);
@@ -149,18 +149,18 @@ public class LeftPanelAdmin extends JPanel {
         programsLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         programsLabel.setOpaque(true);
         programsLabel.setBackground(new Color(255, 249, 163));
-        programsLabel.setMaximumSize(new Dimension(new Dimension(Integer.MAX_VALUE,40)));
+        programsLabel.setMaximumSize(new Dimension(new Dimension(Integer.MAX_VALUE, 40)));
         programsLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        programsLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        programsLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 
         coursesLabel = new JLabel(" Courses");
         coursesLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
         coursesLabel.setOpaque(true);
         coursesLabel.setBackground(new Color(255, 249, 163));
-        coursesLabel.setMaximumSize(new Dimension(new Dimension(Integer.MAX_VALUE,40)));
+        coursesLabel.setMaximumSize(new Dimension(new Dimension(Integer.MAX_VALUE, 40)));
         coursesLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        coursesLabel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        coursesLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         coursesLabel.setVisible(true);
 
         //Create buttonPanel for program list buttons
@@ -440,12 +440,13 @@ public class LeftPanelAdmin extends JPanel {
             updateLists();
         }
     }
+
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setFont(new Font("Arial",Font.BOLD,14));
+        button.setFont(new Font("Arial", Font.BOLD, 14));
 
-        Color baseColor = new Color(52, 69,140);
+        Color baseColor = new Color(52, 69, 140);
         Color haverColor = new Color(90, 140, 230);
         Color borderColor = baseColor.darker();
 
@@ -454,7 +455,7 @@ public class LeftPanelAdmin extends JPanel {
         button.setFocusPainted(false);
         button.setContentAreaFilled(true);
         //button.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
-        Border lineBorder= BorderFactory.createLineBorder(borderColor,4);
+        Border lineBorder = BorderFactory.createLineBorder(borderColor, 4);
         Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
         button.setBorder(BorderFactory.createCompoundBorder(lineBorder, emptyBorder));
 
@@ -463,9 +464,10 @@ public class LeftPanelAdmin extends JPanel {
                 button.setBackground(haverColor);
                 button.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(haverColor.darker(), 2),
-                        BorderFactory.createEmptyBorder(2, 2,2, 2)
+                        BorderFactory.createEmptyBorder(2, 2, 2, 2)
                 ));
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 button.setBackground(baseColor);
                 button.setBorder(BorderFactory.createCompoundBorder(
