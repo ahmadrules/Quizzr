@@ -86,6 +86,7 @@ public class MainFrame extends JFrame {
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
         setIconImage(icon.getImage());
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         this.add(splitPane, BorderLayout.CENTER);
         this.add(rightPanel, BorderLayout.EAST);

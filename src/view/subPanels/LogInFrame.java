@@ -63,6 +63,8 @@ public class LogInFrame extends JFrame {
      addActionListeners();
 
      setLocationRelativeTo(null);
+     ImageIcon icon = new ImageIcon(getClass().getResource("/view/pics/Quizzr-logo.png"));
+     setIconImage(icon.getImage());
      setVisible(true);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
