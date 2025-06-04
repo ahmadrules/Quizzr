@@ -23,9 +23,11 @@ public class LogInFrame extends JFrame {
     private JPanel loginButtonPanel;
     private JButton loginButton;
     private JButton registerButton;
+
     private JPanel mainPanel;
     private JLabel topLabel;
     private JPanel registerPanel;
+
     private JButton createAccountButton;
     private JButton cancelButton;
     private JTextField newNameField;
@@ -40,7 +42,6 @@ public class LogInFrame extends JFrame {
     private JButton studentLoginButton;
     private JButton goBackButton;
     private JPanel firstPagePanel;
-    private JButton testButton;
     private boolean isAdmin;
 
     public LogInFrame( Controller controller ) {
@@ -104,7 +105,6 @@ public class LogInFrame extends JFrame {
 
         adminLoginButton = createStyledButton("Admin Login",260,50);
         studentLoginButton = createStyledButton("Student Login",260,50);
-        testButton = createStyledButton("Test login",260,50);
         registerButton=createStyledButton("Register new student",260,50);
 
         Dimension buttonSize = new Dimension(250, 50);
@@ -121,11 +121,6 @@ public class LogInFrame extends JFrame {
         studentLoginButton.setMinimumSize(buttonSize);
         studentLoginButton.setFont(buttonFont);
 
-        testButton.setMaximumSize(buttonSize);
-        testButton.setPreferredSize(buttonSize);
-        testButton.setMinimumSize(buttonSize);
-        testButton.setFont(buttonFont);
-
         registerButton.setMaximumSize(buttonSize);
         registerButton.setPreferredSize(buttonSize);
         registerButton.setMinimumSize(buttonSize);
@@ -133,16 +128,13 @@ public class LogInFrame extends JFrame {
 
         adminLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         studentLoginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        testButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         registerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        buttonPanel.add(Box.createVerticalStrut(30));
+        buttonPanel.add(Box.createVerticalStrut(50));
         buttonPanel.add(adminLoginButton);
-        buttonPanel.add(Box.createVerticalStrut(30));
+        buttonPanel.add(Box.createVerticalStrut(35));
         buttonPanel.add(studentLoginButton);
-        buttonPanel.add(Box.createVerticalStrut(30));
-        buttonPanel.add(testButton);
-        buttonPanel.add(Box.createVerticalStrut(30));
+        buttonPanel.add(Box.createVerticalStrut(35));
         buttonPanel.add(registerButton);
 
         firstPagePanel.add(buttonPanel, BorderLayout.CENTER);
@@ -583,6 +575,7 @@ public class LogInFrame extends JFrame {
             clearFields();
         });
 
+        /*
         testButton.addActionListener(e -> {
             controller.loginUser("test", "123");
             mainFrame.createAndShowGUI(true);
@@ -591,6 +584,8 @@ public class LogInFrame extends JFrame {
             controller.setMainFrame(mainFrame);
             setVisible(false);
         });
+
+         */
 
     }
 }
