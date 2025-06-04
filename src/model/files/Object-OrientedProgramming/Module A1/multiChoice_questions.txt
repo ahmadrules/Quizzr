@@ -12,7 +12,7 @@ What is a class in Java?;An instance of an object;A blueprint for objects;An ins
 
 What is the purpose of a constructor in a class?;To initialize objects;To inherit properties from another class;To define a static method;To initialize objects;3
 
-Which of the following is true about instance variables?;They are declared inside methods;Each object has its own copy;They are static;They can only be used in static methods;3
+Which of the following is true about instance variables?;They are declared inside methods;Each object has its own copy;They can only be used in static methods;They can only be used in static methods;3
 
 What is the correct way to define a class in Java?;define class Car {};class Car {};public object Car {};class Car {};3
 

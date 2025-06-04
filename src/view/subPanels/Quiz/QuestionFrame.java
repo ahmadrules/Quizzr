@@ -90,9 +90,6 @@ public class QuestionFrame extends JFrame {
         questionList = currentQuiz.getQuestions();
 
         timerSecondsAmount = 0;
-        if (isResult) {
-            timerSecondsAmount = 0;
-        }
 
         setTitle("Quiz options");
         setLayout(new BorderLayout());

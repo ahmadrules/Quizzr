@@ -17,3 +17,8 @@ Which of the following is considered a good coding guideline?;Use global variabl
 Which guideline helps improve readability?;Avoid indentation;Mixing tabs and spaces;Using descriptive variable names;Using descriptive variable names;3
 
 A cyclomatic complexity value of 10 suggests;There are 10 classes;There are 10 possible execution paths;The function must be rewritten;There are 10 possible execution paths;3
+
+How do you stop a for-loop from proceeding?;With break;;With stop;;With cancel;;With break;;3
+
+
+test;1;2;3;1;3
