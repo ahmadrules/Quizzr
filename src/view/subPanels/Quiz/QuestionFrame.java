@@ -623,6 +623,10 @@ public class QuestionFrame extends JFrame {
             //mainQuizFrame.setQuizAsDone(true);
             getUserAnswers();
             getTotalPoints();
+
+            if (timer != null && timerSecondsAmount != 0) {
+                timer.stop();
+            }
         });
 
         closeButton.addActionListener(e -> {
