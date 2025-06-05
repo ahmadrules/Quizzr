@@ -67,7 +67,6 @@ public class Controller {
     private List<Quiz> userAvailableQuizzes;
     private List<Quiz> usersHistoryQuizzes;
     private Program currentStudentProgram;
-    private List<FlashCard> currentFlashCards;
 
     public Controller() {
         programs = new ArrayList<>();
@@ -874,153 +873,6 @@ public class Controller {
         }
     }
 
-    public void generateMultipleChoiceQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {
-        ArrayList<Question> questions = new ArrayList<>();
-        Course relatedCourse = null;
-        Module relatedModule = null;
-        for (int p = 0; p < programList.size(); p++) {
-            for (int c = 0; c < programList.get(p).getCourses().size(); c++) {
-                Course currentCourse = programList.get(p).getCourses().get(c);
-                if (currentCourse.getName().equals(selectedCourse)) {
-                    relatedCourse = currentCourse;
-                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
-                        Module currentModule = currentCourse.getModules().get(m);
-                        if (currentModule.getName().equals(selectedModule)) {
-                            relatedModule = currentModule;
-                            this.currentModule = currentModule;
-                            questions = currentModule.generateMultipleChoiceQuiz(relatedCourse, relatedModule, nbrOfQuestions);
-                            this.onGoingQuiz = currentModule.getCurrentQuiz();
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void generateMatchingQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {
-        ArrayList<Question> questions = new ArrayList<>();
-        Course relatedCourse = null;
-        Module relatedModule = null;
-        for (int p = 0; p < programList.size(); p++) {
-            for (int c = 0; c < programList.get(p).getCourses().size(); c++) {
-                Course currentCourse = programList.get(p).getCourses().get(c);
-                if (currentCourse.getName().equals(selectedCourse)) {
-                    relatedCourse = currentCourse;
-                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
-                        Module currentModule = currentCourse.getModules().get(m);
-                        if (currentModule.getName().equals(selectedModule)) {
-                            relatedModule = currentModule;
-                            this.currentModule = currentModule;
-                            questions = currentModule.generateMatchingQuiz(relatedCourse, relatedModule, nbrOfQuestions);
-                            this.onGoingQuiz = currentModule.getCurrentQuiz();
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    public void generateGeneralQuiz(String selectedCourse, String selectedModule, int nbrOfQuestions) {
-        ArrayList<Question> questions = new ArrayList<>();
-        Course relatedCourse = null;
-        Module relatedModule = null;
-        for (int p = 0; p < programList.size(); p++) {
-            for (int c = 0; c < programList.get(p).getCourses().size(); c++) {
-                Course currentCourse = programList.get(p).getCourses().get(c);
-                if (currentCourse.getName().equals(selectedCourse)) {
-                    relatedCourse = currentCourse;
-                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
-                        Module currentModule = currentCourse.getModules().get(m);
-                        if (currentModule.getName().equals(selectedModule)) {
-                            relatedModule = currentModule;
-                            this.currentModule = currentModule;
-                            questions = currentModule.generateGeneralQuiz(relatedCourse, relatedModule, nbrOfQuestions);
-                            this.onGoingQuiz = currentModule.getCurrentQuiz();
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @return List of queries for the current selected quiz
-     * @author Sara Sheikho
-     */
-    public List<String> getQueryList() {
-        List<String> queryList = new ArrayList<>();
-        for (int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++) {
-            queryList.add(currentModule.getCurrentQuiz().getQuestions().get(i).getQuery());
-        }
-        return queryList;
-    }
-
-    /**
-     * @param query This parameter has been sent by view to get the list of alternatives for the send query
-     * @return List of alternatives soe the query
-     * @author Sara Sheikho
-     */
-    public List<String> getAlternativeList(String query) {
-        List<String> alternatives = new ArrayList<>();
-        for (int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++) {
-            Question currentQuestion = currentModule.getCurrentQuiz().getQuestions().get(i);
-            if (currentQuestion.getQuery().equals(query)) {
-                alternatives = currentQuestion.getAlternatives();
-            }
-        }
-        return alternatives;
-    }
-
-    /**
-     * @return A list of correct answers for the list of questions for the current selected quiz
-     * @author Sara Sheikho
-     */
-    public List<String> getCorrectAnswers() {
-        List<String> correctAnswers = new ArrayList<>();
-        for (int i = 0; i < currentModule.getCurrentQuiz().getQuestions().size(); i++) {
-            correctAnswers.add(currentModule.getCurrentQuiz().getQuestions().get(i).getCorrectAnswer());
-        }
-        return correctAnswers;
-    }
-
-    /**
-     * @param questionIndex that view will send to get the matches of the current question
-     * @return list of the question matches
-     */
-    public List<String> getMatches(int questionIndex) {
-        return currentModule.getCurrentQuiz().getQuestions().get(questionIndex).getMatches();
-    }
-
-    public List<String> getQuizHistory(String selectedCourse, String selectedModule) {
-        List<String> createdQuizNames = new ArrayList<>();
-        for (int i = 0; i < currentUser.getCreatedQuiz().size(); i++) {
-            Quiz currentQuiz = currentUser.getCreatedQuiz().get(i);
-            String relatedCourse = currentQuiz.getRelatedCourse().getName();
-            String relatedModule = currentQuiz.getRelatedModule().getName();
-            if (relatedCourse.equals(selectedCourse) && relatedModule.equals(selectedModule)) {
-                createdQuizNames.add(currentQuiz.getName());
-            }
-        }
-        return createdQuizNames;
-    }
-
-    public void reDoQuiz(String selectedCourse, String selectedModule, String selectedQuiz) {
-        for (int i = 0; i < currentUser.getCreatedQuiz().size(); i++) {
-            Quiz currentQuiz = currentUser.getCreatedQuiz().get(i);
-            String relatedCourse = currentQuiz.getRelatedCourse().getName();
-            String relatedModule = currentQuiz.getRelatedModule().getName();
-            if (relatedCourse.equals(selectedCourse) && relatedModule.equals(selectedModule)) {
-                if (currentQuiz.getName().equals(selectedQuiz)) {
-                    this.onGoingQuiz = currentQuiz;
-                    this.currentModule = currentQuiz.getRelatedModule();
-                }
-            }
-        }
-    }
-
     /**
      * Returns the program that the current student studies
      *
@@ -1462,5 +1314,26 @@ public class Controller {
             newQuiz.addQuestion(question);
         }
         return newQuiz;
+    }
+
+    /**
+     * Retrieves a Course object based on a given program and course name.
+     *
+     * @param programName the name of the program the course belongs to
+     * @param courseName  the name of the course
+     * @return the matching Course object, or null if not found
+     * @author Salman Warsame
+     */
+    public Course getCourseByName(String programName, String courseName) {
+        for (Program program : programList) {
+            if (program.getName().equals(programName)) {
+                for (Course course : program.getCourses()) {
+                    if (course.getName().equals(courseName)) {
+                        return course;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

@@ -19,6 +19,7 @@ public class LeftPanelStudent extends JPanel {
 
     public LeftPanelStudent(CenterModulePanel centerModulePanel, MainFrame mainFrame) {
         this.centerModulePanel = centerModulePanel;
+        this.centerModulePanel.setBackground(new Color(255, 249, 163));
         this.mainFrame = mainFrame;
 
         createDataComponents();
@@ -46,9 +47,12 @@ public class LeftPanelStudent extends JPanel {
         coursesNames = List.of(mainFrame.getCoursesNames(studentProgramName));
         coursesListModel = new DefaultListModel<>();
         coursesListModel.addAll(coursesNames);
+
         coursesList = new JList<>(coursesListModel);
-        coursesList.setFont(new Font("Montserrat", Font.PLAIN, 12));
+        coursesList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        coursesList.setFont(new Font("Segoe UI", Font.BOLD, 14));
         coursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         coursesScrollPane = new JScrollPane(coursesList);
         coursesScrollPane.setVisible(true);
         coursesScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -63,7 +67,12 @@ public class LeftPanelStudent extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         coursesLabel = new JLabel("My Courses");
-        coursesLabel.setFont(new Font("Montserrat", Font.BOLD, 18));
+        coursesLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        coursesLabel.setOpaque(true);
+        coursesLabel.setBackground(new Color(255, 249, 163));
+        coursesLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        coursesLabel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        coursesLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         coursesLabel.setVisible(true);
     }
 
