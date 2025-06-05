@@ -53,12 +53,9 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getProgramCode() {
         return programCode;
-    }
-
-    public void setProgramCode(String programCode) {
-        this.programCode = programCode;
     }
 
     public void addToCreatedQuiz(Quiz newQuiz){
@@ -90,10 +87,6 @@ public class User implements Serializable {
         return info;
     }
 
-    public void removeFlashCard(FlashCard flashCard){
-        flashCards.remove(flashCard);
-    }
-
     public void removeQuiz(Quiz quiz){
         createdQuiz.remove(quiz);
     }
@@ -101,35 +94,13 @@ public class User implements Serializable {
     public void removeHistoryQuiz(Quiz quiz){
         history.remove(quiz);
     }
+
     public List<Quiz> getHistory() {
         return history;
     }
 
     public void addToHistory(Quiz quiz){
         history.add(quiz);
-    }
-
-    public void clearHistory() {
-        List<Quiz> toRemove = history;
-        history.removeAll(toRemove);
-    }
-
-    public void clearCreatedQuiz() {
-        List<Quiz> toRemove = createdQuiz;
-        createdQuiz.removeAll(toRemove);
-    }
-
-    public void loadCreatedQuizes(){
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(quizFilePath))) {
-            while (true) {
-                Quiz quiz = (Quiz) ois.readObject();
-                createdQuiz.add(quiz);
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } catch (ClassNotFoundException ex) {
-            System.out.println(ex.getMessage());;
-        }
     }
 
     public void setProfilePicPath(String selectedPicPath){

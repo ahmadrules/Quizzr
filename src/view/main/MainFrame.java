@@ -321,11 +321,6 @@ public class MainFrame extends JFrame {
         }
     }
 
-
-    public List<FlashCard> getFlashcards(String program, String course, String module) {
-        return null;//(List<FlashCard>) controller.getFlashcards(program, course, module);
-    }
-
     /**
      * Returns a list of instances of Quiz that have answers already added to them
      * This is used to show the user the result of quiz they've completed previously
@@ -395,19 +390,11 @@ public class MainFrame extends JFrame {
         return controller.registerNewUser(username, password, email, programCode);
     }
 
-    public boolean loginUser(String username, String password) {
-        return controller.loginUser(username, password);
-    }
-
     /**
      * Logs out the user
      */
     public void logOut() {
         controller.logoutUser();
-    }
-
-    public void setQuizAsDone(boolean done) {
-        controller.setQuizDone(done);
     }
 
     public List<String> getFlashCardsFrontContent(String selectedCourse, String selectedModule) {
@@ -418,28 +405,12 @@ public class MainFrame extends JFrame {
         return controller.getFlashCardsBackContent(selectedCourse, selectedModule);
     }
 
-    public List<Quiz> getUsersHistoryQuizzes() {
-        return controller.getUsersHistoryQuizzes();
-    }
-
     public List<Quiz> getUsersAvailableQuizes() {
         return controller.getUsersAvailableQuizzes();
     }
 
-    public void addQuizToAvailableQuizzes(Quiz quiz) {
-        controller.addQuizToAvailableQuizzes(quiz);
-    }
-
     public void addQuizToHistory(String quizName, List<Question> questions, Map<Question, String> answers, String relatedModule, String relatedQuiz) {
         controller.addQuizToHistory(quizName, questions, answers, relatedModule, relatedQuiz);
-    }
-
-    public List<String> getQuizNames() {
-        return controller.getAvailableQuizNames();
-    }
-
-    public List<String> getHistoryQuizNames() {
-        return controller.getHistoryQuizNames();
     }
 
     public void deleteQuiz(String quizName, String relatedModule, String relatedCourse) {
@@ -460,14 +431,6 @@ public class MainFrame extends JFrame {
 
     public void clearCreatedQuiz(String selectedModule, String selectedCourse) {
         controller.clearCreatedQuiz(selectedModule, selectedCourse);
-    }
-
-    public String getCurrentUserProgram() {
-        return controller.getCurrentStudentProgramName();
-    }
-
-    public void addUserAnswer(Question question, String answer) {
-
     }
 
     public List<String> getRelatedQuizNames(String relatedModule, String relatedCourse) {

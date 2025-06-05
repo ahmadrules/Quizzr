@@ -37,14 +37,7 @@ public class Matching extends Question {
     public HashMap<String, Integer> getCorrectMatches() {
         return correctMatches;
     }
-    /**
-     * Sets the correct matches of a matching question
-     * @param correctMatches a hashmap representing the correct matches
-     * @author Lilas Beirakdar
-     */
-    public void setCorrectMatches(HashMap<String, Integer> correctMatches) {
-        this.correctMatches = correctMatches;
-    }
+
     /**
      * Returns the list of matches
      * @return a list of matching statements
@@ -70,13 +63,7 @@ public class Matching extends Question {
         }
         return 0;
     }
-    /**
-     * Returns the number of incorrect matches made by the user.
-     * @return the number of wrong matches
-     */
-    public int getNumberOfWrongMatches() {
-        return numberOfWrongMatches;
-    }
+
     /**
      *Sets the number of incorrect matches made by the user
      * @param numberOfWrongMatches numberOfWrongMatches the number of incorrect matches

@@ -280,7 +280,7 @@ public class LogInFrame extends JFrame {
         newPasswordField = new JPasswordField(10);
         confirmPasswordField = new JPasswordField(10);
         newEmailField = new JTextField(10);
-        programCodeBox = new JComboBox<String>();
+        programCodeBox = new JComboBox();
 
         List<String> programCodes = mainFrame.getProgramCodes();
         for (String programName : programCodes) {

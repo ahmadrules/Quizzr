@@ -19,9 +19,7 @@ public class MultipleChoice extends Question {
     public MultipleChoice(String query, List<String> alternatives , String correctAnswer, int points) {
         super(query,alternatives,points, correctAnswer);
     }
-    public void addAlternative(String alternative) {
-        this.alternatives.add(alternative);
-    }
+
     /**
      * Method used to retrieve the correct answer of a specific question
      * @return correctAnswer a String representing the correct answer

@@ -7,12 +7,9 @@ public class Quiz implements Serializable {
     private List<Question> questions;
     private Map<Question,String> userAnswers;
     private String name;
-    private int result;
     private Module relatedModule;
     private Course relatedCourse;
     private long timerSeconds;
-    private boolean timer;
-    private String userName;
     private String date;
     private boolean isDone;
     /**
@@ -24,18 +21,15 @@ public class Quiz implements Serializable {
     public Quiz(String name, Course relatedCourse, Module relatedModule) {
         this.questions = new ArrayList<>();
         this.name = name;
-        this.result = 0;
         this.userAnswers = new LinkedHashMap<>();
         this.relatedCourse = relatedCourse;
         this.relatedModule = relatedModule;
-        this.timer = false;
         this.isDone = false;
     }
 
     public Quiz(String name) {
         this.questions = new ArrayList<>();
         this.name = name;
-        this.result = 0;
         this.userAnswers = new LinkedHashMap<>();
     }
     public void setDone(boolean done){
@@ -51,13 +45,6 @@ public class Quiz implements Serializable {
 
     public String getDate() {
         return date;
-    }
-
-    public void setResult(int result) {
-        this.result = result;
-    }
-    public int getResult() {
-        return result;
     }
 
     public Map<Question, String> getUserAnswers() {
@@ -96,7 +83,6 @@ public class Quiz implements Serializable {
                 total+=question.calculatePoints();
             }
         }
-        result = total;
         return total;
     }
 
@@ -126,25 +112,12 @@ public class Quiz implements Serializable {
         return total;
     }
 
-    public int getNumberOfCorrectAnswers() {
-        int correctAnswers = 0;
-        for (Map.Entry<Question,String> entry : userAnswers.entrySet()) {
-            if (entry.getKey().checkAnswer(entry.getValue())) {
-                correctAnswers++;
-            }
-        }
-        return correctAnswers;
-    }
-
     public Module getRelatedModule() {
         return relatedModule;
     }
 
     public Course getRelatedCourse() {
         return relatedCourse;
-    }
-    public void setTimer(boolean timer) {
-        this.timer = timer;
     }
 
     public long getTimerSeconds() {

@@ -14,20 +14,16 @@ public class Module implements Serializable{
     private final String multiChoiceFileName = "multiChoice_questions.txt";
     private final String trueOrFalseFileName = "trueFalse_questions.txt";
     private final String flashCardFileName = "flashcards.dat";
-    private final String quizFileName = "quiz.dat";
     private File multiChoiceFile;
     private File trueOrFalseFile;
     private File matchingFile;
     private File flashCardFile;
-    private File quizFile;
     private File directory;
     FileHandler fileHandler = new FileHandler();
-    private ArrayList<Quiz> quizList;
 
     public Module(String name, String coursePackageName) {
         this.name = name;
         this.flashCards = new ArrayList<>();
-        this.quizList = new ArrayList<>();
         createPackage(coursePackageName);
         createFiles();
     }
@@ -48,57 +44,6 @@ public class Module implements Serializable{
      */
     public void setName(String name) {
         this.name = name;
-    }
-    public List<FlashCard> getFlashCards() {
-        return flashCards;
-    }
-    public void addFlashCard(FlashCard flashCard) {
-        this.flashCards.add(flashCard);
-    }
-    public ArrayList<FlashCard> loadFlashCardsFromFile(String filename) {
-        FileHandler fileHandler = new FileHandler();
-        this.flashCards= fileHandler.loadFlashcardsFromFile(filename);
-        return flashCards;
-    }
-    public void saveFlashCardsToFile(String filename) {
-        FileHandler fileHandler = new FileHandler();
-        fileHandler.saveFlashcardToFile(filename, flashCards);
-    }
-
-    /**
-     *
-     * @param selectedCourse
-     * @param selectedModule
-     */
-    public void saveQuizToFile(Course selectedCourse, Module selectedModule, Quiz selectedQuiz) {
-        if (quizList==null){
-        quizList = new ArrayList<>();
-        }
-        quizList.add(selectedQuiz);
-        fileHandler.saveQuizToFile(quizFile.getPath(),quizList);
-    }
-    public ArrayList<Quiz> getQuizList() {
-        this.quizList=fileHandler.loadQuizFromFile(quizFile.getPath());
-        return quizList;
-    }
-
-
-    public void saveQuiz(Quiz quiz){
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(quizFileName))){
-            oos.writeObject(quiz);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
-    public void loadQuizFromFile() {
-        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(quizFileName))){
-            Quiz readQuiz = (Quiz) ois.readObject();
-            currentQuiz = readQuiz;
-        }catch(IOException e){
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -122,21 +67,6 @@ public class Module implements Serializable{
         return allQuestions;
     }
 
-    public ArrayList<Question> generateGeneralQuiz(Course selectedCourse, Module selectedModule, int numberOfQuestions) {
-        //Will be called by controller
-        currentQuiz = new Quiz("General quiz", selectedCourse, selectedModule);
-        ArrayList<Question> allQuestions= new ArrayList<>();
-        ArrayList<Question> mc= generateMultipleChoiceQuiz(selectedCourse, selectedModule, numberOfQuestions/3);
-        ArrayList<Question> matching= generateMatchingQuiz(selectedCourse, selectedModule, numberOfQuestions/3);
-        ArrayList<Question> tf= generateTrueOrFalseQuiz(selectedCourse, selectedModule, numberOfQuestions/3);
-        allQuestions.addAll(mc);
-        allQuestions.addAll(matching);
-        allQuestions.addAll(tf);
-        Collections.shuffle(allQuestions);
-        currentQuiz.setQuestions(allQuestions);
-        return allQuestions;
-    }
-
     /**
      * Generate a quiz that consists of multiple choice questions
      * @param numberOfQuestions the number of questions to include in the generated quiz
@@ -145,15 +75,6 @@ public class Module implements Serializable{
      */
     public ArrayList<Question> generateMultipleChoiceQuiz(int numberOfQuestions) {
         currentQuiz = new Quiz("multiChoiceQuiz");
-        MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
-        ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(multiChoiceFile.getPath(),multipleChoice);
-        currentQuiz.setQuestions(multipleChoiceQuestion);
-        return generateRandomQuiz(multipleChoiceQuestion,numberOfQuestions);
-    }
-
-    public ArrayList<Question> generateMultipleChoiceQuiz(Course selectedCourse,Module selectedModule, int numberOfQuestions) {
-        //Will be called by controller
-        currentQuiz = new Quiz("multiChoiceQuiz", selectedCourse, selectedModule);
         MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
         ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(multiChoiceFile.getPath(),multipleChoice);
         currentQuiz.setQuestions(multipleChoiceQuestion);
@@ -174,14 +95,6 @@ public class Module implements Serializable{
         return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
     }
 
-    public ArrayList<Question> generateTrueOrFalseQuiz(Course selectedCourse, Module selectedModule, int numberOfQuestions){
-        //Will be called by controller
-        currentQuiz = new Quiz("trueOrFalseQuiz", selectedCourse, selectedModule);
-        TrueOrFalse trueOrFalse= new TrueOrFalse("", Collections.singletonList(""),0,"");
-        ArrayList<Question> trueOrFalseQuestion = fileHandler.loadQuestions(trueOrFalseFile.getPath(),trueOrFalse);
-        currentQuiz.setQuestions(trueOrFalseQuestion);
-        return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
-    }
     /**
      * Generate a quiz that consists of matching questions
      * @param numberOfQuestions the number of questions to include in the generated quiz
@@ -197,28 +110,6 @@ public class Module implements Serializable{
         return generateRandomQuiz(matchingQuestion,numberOfQuestions);
     }
 
-    /**
-     * Generates a matching type {@link Quiz} for a given {@link Course} and {@link Module}.
-     * <p>
-     * This method initializes a new quiz of type "matching", loads all matching-type {@link Question}
-     * from the matching file and sets the loaded questions into the current quiz.
-     * </p>
-     *
-     * @param selectedCourse the course to which the quiz is related
-     * @param selectedModule the module to which the quiz is related
-     * @param numberOfQuestions the number of questions to include in the quiz
-     * @return a randomly selected list of questions {@link Question}for the matching quiz
-     * @author Sara Sheikho
-     **/
-    public ArrayList<Question> generateMatchingQuiz(Course selectedCourse, Module selectedModule, int numberOfQuestions){
-        //Will be called by controller
-        currentQuiz = new Quiz("matching", selectedCourse, selectedModule);
-        HashMap<String,Integer> matches=new HashMap<>();
-        Matching matching= new Matching("", Collections.singletonList(""), Collections.singletonList(""),0 ,matches);
-        ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(matchingFile.getPath(),matching);
-        currentQuiz.setQuestions(matchingQuestion);
-        return generateRandomQuiz(matchingQuestion,numberOfQuestions);
-    }
     /**
      *Generates a randomized quiz by shuffling the provided list of questions and selecting a subset.
      * @param questions a list of questions to select from
@@ -259,10 +150,6 @@ public class Module implements Serializable{
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
-    }
-
-    public Quiz getCurrentQuiz() {
-        return currentQuiz;
     }
 
     public void saveMultiChoiceQuestionToFile(MultipleChoice multiChoiceQuestion){
