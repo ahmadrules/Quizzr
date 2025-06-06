@@ -56,9 +56,7 @@ public class Module implements Serializable{
     public ArrayList<Question> generateGeneralQuiz(int numberOfQuestions) {
         currentQuiz = new Quiz("General quiz");
         ArrayList<Question> allQuestions= new ArrayList<>();
-        ArrayList<Question> mc= generateMultipleChoiceQuiz(numberOfQuestions/3);
-        ArrayList<Question> matching= generateMatchingQuiz(numberOfQuestions/3);
-        ArrayList<Question> tf= generateTrueOrFalseQuiz(numberOfQuestions/3);
+       
         allQuestions.addAll(mc);
         allQuestions.addAll(matching);
         allQuestions.addAll(tf);
