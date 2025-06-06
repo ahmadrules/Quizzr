@@ -162,7 +162,9 @@ public class UserManager {
             users= (List<User>) ois.readObject();
 
         } catch (IOException e) {
+            System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
         }
         return users;
     }
