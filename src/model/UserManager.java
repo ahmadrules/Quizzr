@@ -82,7 +82,6 @@ public class UserManager {
      * @return boolean value indicating whether the user has been added successfully to user list or not
      * @author Lilas Beirakdar
      */
-
     public boolean registerNewUser(String name, String password, String email, String programCode) {
         if (!doesUserEmailExist(email) && !doesUsernameExist(name)) {
             String hashedPassword=Hasher.hash(password);
@@ -163,9 +162,7 @@ public class UserManager {
             users= (List<User>) ois.readObject();
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
         } catch (ClassNotFoundException e) {
-            System.out.println(e.getMessage());
         }
         return users;
     }

@@ -152,14 +152,29 @@ public class Module implements Serializable{
         }
     }
 
+    /**
+     * Saves a multiple choice question to the file
+     * @param multiChoiceQuestion the multipleChoice question to be saved to file as an object
+     * @author Lilas Beirakdar
+     */
     public void saveMultiChoiceQuestionToFile(MultipleChoice multiChoiceQuestion){
         fileHandler.saveMultipleChoiceToFile(multiChoiceFile.getPath(),multiChoiceQuestion);
     }
 
+    /**
+     * Saves a true or false question to the file
+     * @param trueOrFalseQuestion the true or false question to be saved to the file as an object
+     * @author Lilas Beirakdar
+     */
     public void saveTrueOrFalseQuestionToFile(TrueOrFalse trueOrFalseQuestion){
         fileHandler.saveTrueOrFalseQuestionToFile(trueOrFalseFile.getPath(),trueOrFalseQuestion);
     }
 
+    /**
+     * Saves a matching question to the file
+     * @param matching the matching question to be saved to the file as an object
+     * @author Lilas Beirakdar
+     */
     public void saveMatchingQuestionToFile(Matching matching){
         fileHandler.saveMatchingQuestionToFile(matchingFile.getPath(),matching);
     }

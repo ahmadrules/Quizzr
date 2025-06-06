@@ -67,6 +67,7 @@ public class Matching extends Question {
     /**
      *Sets the number of incorrect matches made by the user
      * @param numberOfWrongMatches numberOfWrongMatches the number of incorrect matches
+     * @author Lilas Beirakdar
      */
     public void setNumberOfWrongMatches(int numberOfWrongMatches) {
         this.numberOfWrongMatches = numberOfWrongMatches;
@@ -76,6 +77,7 @@ public class Matching extends Question {
      * @param usersAnswer  the user's submitted answer
      * @return boolean values, true if the user made at least one right matching
      * returns false if all user answers is wrong
+     * @author Lilas Beirakdar
      */
     @Override
     public boolean checkAnswer(String usersAnswer) {
@@ -143,7 +145,6 @@ public class Matching extends Question {
         for (String key : correctMatches.keySet()) {
             correctList.add(key + ":" + correctMatches.get(key));
         }
-        // String correctMatchesStr = String.join(",", correctList);
 
         return getQuery() + "\n" + alternativesStr + "\n" + matchesStr + "\n" + getPoints()+"\n";
     }
