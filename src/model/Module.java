@@ -105,7 +105,7 @@ public class Module implements Serializable{
         currentQuiz = new Quiz("matching");
         HashMap<String,Integer> matches=new HashMap<>();
         Matching matching= new Matching("", Collections.singletonList(""), Collections.singletonList(""),0 ,matches);
-        ArrayList<Question> matchingQuestion = fileHandler.loadQuestions(matchingFile.getPath(),matching);
+       
         currentQuiz.setQuestions(matchingQuestion);
         return generateRandomQuiz(matchingQuestion,numberOfQuestions);
     }
