@@ -115,6 +115,7 @@ public class Matching extends Question {
      * @param line a String expected to follow a specific format, with parts separated by semicolons
      *
      * @return a new object of matching question
+     * @author Lilas Beirakdar
      */
     @Override
     public Question fromString(String line) {
