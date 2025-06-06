@@ -90,7 +90,6 @@ public class Module implements Serializable{
     public ArrayList<Question> generateTrueOrFalseQuiz(int numberOfQuestions){
         currentQuiz = new Quiz("trueOrFalseQuiz");
         TrueOrFalse trueOrFalse= new TrueOrFalse("", Collections.singletonList(""),0,"");
-        ArrayList<Question> trueOrFalseQuestion = fileHandler.loadQuestions(trueOrFalseFile.getPath(),trueOrFalse);
         currentQuiz.setQuestions(trueOrFalseQuestion);
         return generateRandomQuiz(trueOrFalseQuestion,numberOfQuestions);
     }
