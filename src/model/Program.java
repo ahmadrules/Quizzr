@@ -15,7 +15,6 @@ public class Program implements Serializable {
     public Program(String name, ArrayList<Course> courses) {
         this.name = name;
         this.courses = courses;
-
     }
 
     public Program(String name, String programCode) {
@@ -24,12 +23,23 @@ public class Program implements Serializable {
         this.programCode = programCode;
     }
 
+    /**
+     * Returns the name of a program
+     * @return the name of a program as a String
+     * @author Lilas Beirakdar
+     */
     public String getName() {
         return name;
     }
     public void setName(String name){
         this.name = name;
     }
+
+    /**
+     * Returns the list of courses related to a specific program
+     * @return List of courses
+     * @author Lilas Beirakdar
+     */
     public List<Course> getCourses() {
         return courses;
     }
@@ -39,6 +49,12 @@ public class Program implements Serializable {
     public void setCourses(List<Course> courses){
         this.courses = courses;
     }
+
+    /**
+     * Returns the programCode of a specific program
+     * @return programCode as a String
+     * @author Lilas Beirakdar
+     */
     public String getProgramCode() {
         return programCode;
     }
