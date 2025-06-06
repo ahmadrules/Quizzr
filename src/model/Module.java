@@ -76,6 +76,7 @@ public class Module implements Serializable{
     public ArrayList<Question> generateMultipleChoiceQuiz(int numberOfQuestions) {
         currentQuiz = new Quiz("multiChoiceQuiz");
         MultipleChoice multipleChoice= new MultipleChoice("", Collections.singletonList(""),"",0);
+        ArrayList<Question> multipleChoiceQuestion = fileHandler.loadQuestions(multiChoiceFile.getPath(),multipleChoice);
         currentQuiz.setQuestions(multipleChoiceQuestion);
         return generateRandomQuiz(multipleChoiceQuestion,numberOfQuestions);
     }
