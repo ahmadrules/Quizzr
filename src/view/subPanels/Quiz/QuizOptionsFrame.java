@@ -143,7 +143,6 @@ public class QuizOptionsFrame extends JFrame {
         typePanel.add(Box.createRigidArea(new Dimension(0, 10)));
         typePanel.add(typeBox);
 
-
         namePanel = new JPanel();
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.Y_AXIS));
         namePanel.setBackground(new Color(255, 249, 163));

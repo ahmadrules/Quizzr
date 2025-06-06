@@ -32,9 +32,21 @@ public class Quiz implements Serializable {
         this.name = name;
         this.userAnswers = new LinkedHashMap<>();
     }
+
+    /**
+     * Sets the quiz as done
+     * @param done boolean indicating that the quiz is done
+     * @author Lilas Beirakdar
+     */
     public void setDone(boolean done){
         isDone = done;
     }
+
+    /**
+     * Returns a boolean value indicating that the quiz is totally done
+     * @return boolean value indicating that the quiz is done
+     * @author Lilas Beirakdar
+     */
     public boolean getDone(){
         return isDone;
     }
@@ -63,6 +75,11 @@ public class Quiz implements Serializable {
         this.name = name;
     }
 
+    /**
+     * Return quizzes name as a String
+     * @return quiz name as a String
+     * @author Ahmad Maarouf
+     */
     public String getName() {
         return name;
     }
@@ -104,6 +121,11 @@ public class Quiz implements Serializable {
         userAnswers.put(question,answer);
     }
 
+    /**
+     * Returns the total number of points earned when answering all the question correctly
+     * @return total number of pints of a quiz as an integer
+     * @author Lilas Beirakdar
+     */
     public int getTotalPoints(){
         int total = 0;
         for (Question question : questions) {

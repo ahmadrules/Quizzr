@@ -207,24 +207,4 @@ public class FileHandler implements Serializable {
         }
         return flashCards;
     }
-    public void saveQuizToFile(String filename, List<Quiz> quizzes) {
-        try(ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream(filename))) {
-            oos.writeObject(quizzes);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    public ArrayList<Quiz> loadQuizFromFile(String filename) {
-        ArrayList<Quiz> quizzes= new ArrayList<>();
-        try(ObjectInputStream ois=new ObjectInputStream(new FileInputStream(filename))) {
-            quizzes=(ArrayList<Quiz>) ois.readObject();
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found"+filename);
-        } catch (IOException e) {
-            System.out.println("Error loading quizzes from file");;
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return quizzes;
-    }
 }

@@ -193,6 +193,7 @@ public class LogInFrame extends JFrame {
     /**
      * Creates the layout for the "Login" panel.
      * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
      */
     public void createLoginLayout() {
         loginPanel = new BackgroundPanel("src/background4.jpg");
@@ -252,6 +253,7 @@ public class LogInFrame extends JFrame {
      * The main panel uses flowlayout and the panels created here each account for
      * one row in the main panel.
      * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
      */
     public void createdNestedRegisterPanels() {
         Font font= new Font("Arial", Font.PLAIN, 16);
@@ -455,6 +457,7 @@ public class LogInFrame extends JFrame {
     /**
      * Creates the buttons required to display the login layout correctly.
      * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
      */
     public void createLoginButtons() {
         loginButton = createStyledButton("Log in",70,50);
@@ -472,6 +475,7 @@ public class LogInFrame extends JFrame {
     /**
      * Creates the buttons required to display the register layout correctly.
      * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
      */
     public void createRegisterButtons() {
         createAccountButton = createStyledButton("Create",70,50);
