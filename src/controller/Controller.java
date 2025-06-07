@@ -608,6 +608,7 @@ public class Controller {
                 Course currentCourse = programList.get(p).getCourses().get(c);
                 if (currentCourse.getName().equals(oldCourseName)) {
                     currentCourse.setName(updatedCourseName);
+                    currentCourse.renamePackage();
                 }
             }
         }
@@ -644,6 +645,7 @@ public class Controller {
                         Module currentModule = currentCourse.getModules().get(m);
                         if (currentModule.getName().equals(oldModuleName)) {
                             currentModule.setName(updatedModuleName);
+                            currentModule.renameModuleDirectory(currentCourse.getPackageName());
                             break;
                         }
                     }
@@ -898,15 +900,17 @@ public class Controller {
     private Module getModule(String courseName, String moduleName) {
         Course currentCourse = null;
         Module module = null;
-        for (int c = 0; c < courses.size(); c++) {
-            if (courses.get(c).getName().equals(courseName)) {
-                currentCourse = courses.get(c);
-                for (int m = 0; m < currentCourse.getModules().size(); m++) {
-                    if (currentCourse.getModules().get(m).getName().equals(moduleName)) {
-                        module = currentCourse.getModules().get(m);
+        for(Program program : programList) {
+            for (int c = 0; c < program.getCourses().size(); c++) {
+                currentCourse = program.getCourses().get(c);
+                if (currentCourse.getName().equals(courseName)) {
+                    for (int m = 0; m < currentCourse.getModules().size(); m++) {
+                        if (currentCourse.getModules().get(m).getName().equals(moduleName)) {
+                            module = currentCourse.getModules().get(m);
+                        }
                     }
-                }
 
+                }
             }
         }
         return module;
@@ -1257,25 +1261,5 @@ public class Controller {
             newQuiz.addQuestion(question);
         }
         return newQuiz;
-    }
-    /**
-     * Retrieves a Course object based on a given program and course name.
-     *
-     * @param programName the name of the program the course belongs to
-     * @param courseName the name of the course
-     * @return the matching Course object, or null if not found
-     * @author Salman Warsame
-     */
-    public Course getCourseByName(String programName, String courseName) {
-        for (Program program : programList) {
-            if (program.getName().equals(programName)) {
-                for (Course course : program.getCourses()) {
-                    if (course.getName().equals(courseName)) {
-                        return course;
-                    }
-                }
-            }
-        }
-        return null;
     }
 }

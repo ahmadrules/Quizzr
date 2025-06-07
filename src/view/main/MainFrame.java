@@ -487,7 +487,7 @@ public class MainFrame extends JFrame {
      * @return a Course object matching the given program and course
      */
     public Course getCourseByName(String programName, String courseName) {
-        return controller.getCourseByName(programName, courseName);
+        return controller.getCourse(programName, courseName);
     }
     /**
      * Returns the name of the program currently associated with the logged-in student.

@@ -71,4 +71,18 @@ public class Course implements Serializable {
         }
         dir.delete();
     }
+
+    public void renamePackage() {
+        File oldDir = new File("src/model/files/" + packageName);
+        File newDir = new File("src/model/files/" + name.trim());
+
+        if (oldDir.exists()) {
+            oldDir.renameTo(newDir);
+        }
+        this.packageName = name.trim();
+
+        for (Module module : modules) {
+            module.updateDirectory(packageName);
+        }
+    }
 }

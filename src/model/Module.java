@@ -17,7 +17,6 @@ public class Module implements Serializable{
     private File multiChoiceFile;
     private File trueOrFalseFile;
     private File matchingFile;
-    private File flashCardFile;
     private File directory;
     FileHandler fileHandler = new FileHandler();
 
@@ -140,13 +139,11 @@ public class Module implements Serializable{
         this.multiChoiceFile = new File(directory, multiChoiceFileName);
         this.trueOrFalseFile = new File(directory, trueOrFalseFileName);
         this.matchingFile = new File(directory, matchingFileName);
-        this.flashCardFile = new File(directory, flashCardFileName);
 
         try {
             multiChoiceFile.createNewFile();
             trueOrFalseFile.createNewFile();
             matchingFile.createNewFile();
-            flashCardFile.createNewFile();
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
@@ -198,4 +195,31 @@ public class Module implements Serializable{
         }
         dir.delete();
     }
+
+    public void updateDirectory(String newCoursePackageName) {
+        File oldDir = this.directory;
+        File newDir = new File("src/model/files/" + newCoursePackageName + "/" + name.trim());
+
+        if (oldDir.exists()) {
+            oldDir.renameTo(newDir);
+        }
+
+        this.directory = newDir;
+        this.multiChoiceFile = new File(directory, multiChoiceFileName);
+        this.trueOrFalseFile = new File(directory, trueOrFalseFileName);
+        this.matchingFile = new File(directory, matchingFileName);
+    }
+
+    public void renameModuleDirectory(String coursePackageName) {
+        File newDir = new File("src/model/files/" + coursePackageName + "/" + name.trim());
+        if (directory.exists()) {
+            directory.renameTo(newDir);
+        }
+
+        this.directory = newDir;
+        this.multiChoiceFile = new File(directory, multiChoiceFileName);
+        this.trueOrFalseFile = new File(directory, trueOrFalseFileName);
+        this.matchingFile = new File(directory, matchingFileName);
+    }
+
 }
