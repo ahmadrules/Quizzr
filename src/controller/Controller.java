@@ -1080,26 +1080,6 @@ public class Controller {
         return currentUser.getCreatedQuiz();
     }
 
-    public List<String> getAvailableQuizNames() {
-        List<String> availableQuizNames = new ArrayList<>();
-
-        List<Quiz> availableQuiz = getUsersAvailableQuizzes();
-        for (Quiz quiz : availableQuiz) {
-            availableQuizNames.add(quiz.getName());
-        }
-        return availableQuizNames;
-    }
-
-    public List<String> getHistoryQuizNames() {
-        List<String> historyQuizNames = new ArrayList<>();
-
-        List<Quiz> historyQuiz = getUsersHistoryQuizzes();
-        for (Quiz quiz : historyQuiz) {
-            historyQuizNames.add(quiz.getName());
-        }
-        return historyQuizNames;
-    }
-
     /**
      * Adds a quiz to created quizzes list
      * It sets the date of the quiz to current date
@@ -1255,11 +1235,23 @@ public class Controller {
 
     }
 
+    /**
+     * Changes the profile picture for the current user.
+     *
+     * @param selectedPicPath The file path to the selected image.
+     * @author Sara Sheikho
+     */
     public void changeProfilePicture(String selectedPicPath) {
         currentUser.setProfilePicPath(selectedPicPath);
         saveUsers();
     }
 
+    /**
+     * Retrieves the file path of the current user's profile picture.
+     *
+     * @return A string representing the path to the profile picture.
+     * @author Sara Sheikho
+     */
     public String getUserProfilePicturePath() {
         return currentUser.getProfilePicPath();
     }

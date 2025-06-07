@@ -139,6 +139,13 @@ public class QuestionFrame extends JFrame {
         repaint();
     }
 
+    /**
+     * Creates and configures the topPanel which displays the total number of questions,
+     * and if showing results, also displays the date and time of the quiz.
+     * Depending on the mode (result or not), it positions the info panel on the left or right.
+     * @author Ahmad Maarouf
+     * @author Sara Sheikho
+     */
     public void createTopPanel() {
         topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(new Color(255, 249, 163));
@@ -204,6 +211,14 @@ public class QuestionFrame extends JFrame {
         });
     }
 
+    /**
+     * Creates a countdown timer starting from timerSecondsAmount.
+     * Displays the remaining time in "Time left: mm:ss" format within the topPanel.
+     * Changes the timer color to red when less than 30 seconds remain.
+     * Calls timerEnded() when the countdown reaches zero.
+     * @author Ahmad Maarouf
+     * @author Sara Sheikho
+     */
     public void createTimer() {
         if (timerSecondsAmount > 0) {
             currentSeconds = timerSecondsAmount % 60;
@@ -241,6 +256,13 @@ public class QuestionFrame extends JFrame {
         }
     }
 
+    /**
+     * Calculates and displays the user's total points and statistics after the quiz.
+     * Creates a ResultPanel with the score and percentage statistics,
+     * and replaces the current content pane with the results display.
+     * @author Sara Sheikho
+     * @author Ahmad Maarouf
+     */
     public void getTotalPoints() {
         int userPoints = currentQuiz.CalculateTestResult();
         int totalPoints = currentQuiz.getTotalPoints();
@@ -286,6 +308,13 @@ public class QuestionFrame extends JFrame {
         }
     }
 
+    /**
+     * Sets up the mainQuestionPanel which holds the quiz questions.
+     * Wraps the panel in a JScrollPane with customized scrollbar colors.
+     * Adds the scroll pane to the center of the window using BorderLayout.
+     * @author Sara Sheikho
+     * @author Ahmad Maarouf
+     */
     public void setupPanel() {
         mainQuestionPanel = new JPanel();
         mainQuestionPanel.setBackground(new Color(255, 249, 163));
@@ -329,6 +358,38 @@ public class QuestionFrame extends JFrame {
         return false;
     }
 
+
+    /**
+     * Initializes and populates the mainQuestionPanel with question components based on the type of each question.
+     *
+     * <p>For Matching questions:
+     * <ul>
+     *   <li>Creates a panel displaying the question text and combo boxes for matching alternatives.</li>
+     *   <li>Sets up combo boxes with selectable letters (A, B, C) and associates listeners if not in result mode.</li>
+     *   <li>If in result mode, disables combo boxes and colors the panel green or red based on correctness,
+     *       showing appropriate checkmark icons.</li>
+     *   <li>If any answers are incorrect, displays the correct answers.</li>
+     * </ul>
+     * </p>
+     *
+     * <p>For True/False and Multiple Choice questions:
+     * <ul>
+     *   <li>Creates a panel with the question text and a group of radio buttons for alternatives.</li>
+     *   <li>If in result mode, disables radio buttons, colors them green or red based on correctness,
+     *       and selects the user's answer.</li>
+     * </ul>
+     * </p>
+     *
+     * <p>Additional behavior:
+     * <ul>
+     *   <li>Starts the timer if timerSecondsAmount is greater than zero.</li>
+     *   <li>Adds vertical spacing and appropriate submit or close buttons depending on the mode.</li>
+     *   <li>Calls validate and repaint to update the GUI.</li>
+     * </ul>
+     * </p>
+     * @author Ahmad Maarouf
+     * @author Sara Sheikho
+     */
     public void setupQuestions() {
         int questionId = 1;
         int mapCounter = 0;
@@ -637,6 +698,21 @@ public class QuestionFrame extends JFrame {
         });
     }
 
+    /**
+     * Creates and styles the submit and close buttons used in the quiz interface.
+     *
+     * <p>
+     *     The buttons are customized with specific background and foreground colors,
+     *     font styles, alignment, and fixed preferred, maximum, and minimum sizes.
+     * </p>
+     *
+     * <p>
+     *     After creation, mouse event listeners are added to each button to provide
+     *     hover effects (color and border changes).
+     * </p>
+     *
+     * @author Sara Sheikho
+     */
     public void createButtons(){
         submitButton = new JButton("Submit");
         submitButton.setBackground(new Color(52, 69,140));
@@ -658,6 +734,20 @@ public class QuestionFrame extends JFrame {
         addMouseEvents();
     }
 
+    /**
+     * Adds mouse listeners to the submit and close buttons to handle hover effects.
+     *
+     * <p>
+     *     When the mouse enters a button, its background color changes to a lighter blue,
+     *     and its border is updated to a compound border with a darker blue outline and padding.
+     * </p>
+     *
+     * <p>
+     *     When the mouse exits, the button returns to its original darker blue background and border.
+     * </p>
+     *
+     * @author Sara Sheikho
+     */
     public void addMouseEvents(){
         submitButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {

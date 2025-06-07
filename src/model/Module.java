@@ -176,12 +176,26 @@ public class Module implements Serializable{
         fileHandler.saveMatchingQuestionToFile(matchingFile.getPath(),matching);
     }
 
+    /**
+     * Removes the entire module directory from the file system.
+     * <p>
+     * This method checks if the module's directory exists and deletes it
+     * along with all of its contents using a recursive method.
+     * </p>
+     * @author Sara Sheikho
+     */
     public void removePackage(){
         if(directory.exists()) {
             deleteDirectory(directory);
         }
     }
 
+    /**
+     * Recursively deletes a directory and all files and subdirectories within it.
+     *
+     * @param dir The directory to be deleted.
+     * @author Sara Sheikho
+     */
     public void deleteDirectory(File dir){
         File[] files = dir.listFiles();
         if (files != null) {
@@ -196,6 +210,16 @@ public class Module implements Serializable{
         dir.delete();
     }
 
+    /**
+     * Updates the module's directory location based on a new course package name.
+     * <p>
+     * The method moves the directory to the new course folder, then updates
+     * all internal file paths (question files) accordingly.
+     * </p>
+     *
+     * @param newCoursePackageName The new parent directory for this module.
+     * @author Sara Sheikho
+     */
     public void updateDirectory(String newCoursePackageName) {
         File oldDir = this.directory;
         File newDir = new File("src/model/files/" + newCoursePackageName + "/" + name.trim());
@@ -210,6 +234,16 @@ public class Module implements Serializable{
         this.matchingFile = new File(directory, matchingFileName);
     }
 
+    /**
+     * Renames the module's directory using the module's current name and course package name.
+     * <p>
+     * This method is used when the module is renamed and its directory must reflect
+     * the new name while preserving existing files.
+     * </p>
+     *
+     * @param coursePackageName The course folder under which this module resides.
+     * @author Sara Sheikho
+     */
     public void renameModuleDirectory(String coursePackageName) {
         File newDir = new File("src/model/files/" + coursePackageName + "/" + name.trim());
         if (directory.exists()) {

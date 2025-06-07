@@ -17,6 +17,16 @@ public class ResultPanel extends JPanel {
     private BorderLayout layout;
     private QuestionFrame questionFrame;
 
+    /**
+     * Constructs the ResultPanel to display the user's quiz results.
+     *
+     * @param userPoints the points scored by the user
+     * @param totalPoints the total possible points
+     * @param statistics the percentage of correct answers
+     * @param questionFrame the parent frame containing this panel
+     * @author Sara Sheikho
+     * @author Ahmad Maarouf
+     */
     public ResultPanel(int userPoints, int totalPoints, double statistics, QuestionFrame questionFrame) {
         layout = new BorderLayout();
         this.questionFrame = questionFrame;
@@ -30,6 +40,11 @@ public class ResultPanel extends JPanel {
         add(pnlSouth, layout.SOUTH);
     }
 
+    /**
+     * Initializes the north, center, and south panels with appropriate sizes,
+     * colors, and borders for the result display.
+     * @author Sara Sheikho
+     */
     public void createPanels() {
         pnlNorth = new JPanel();
         pnlNorth.setSize(getWidth(), getHeight() * 30 / 100);
@@ -41,9 +56,16 @@ public class ResultPanel extends JPanel {
 
         pnlSouth = new JPanel();
         pnlSouth.setSize(getWidth(), getHeight() * 30 / 100);
-
     }
 
+    /**
+     * Sets up the center panel layout to show the user's results and a congratulatory image.
+     *
+     * @param userPoints the points scored by the user
+     * @param totalPoints the total possible points
+     * @param statistics the percentage of correct answers
+     * @author Sara Sheikho
+     */
     public void setUpCenterPanel(int userPoints, int totalPoints, double statistics) {
         GridBagLayout gbLayout = new GridBagLayout();
         pnlCenter.setLayout(gbLayout);
@@ -75,6 +97,15 @@ public class ResultPanel extends JPanel {
 
     }
 
+    /**
+     * Configures the panel displaying the user's score details.
+     *
+     * @param userPoints the points scored by the user
+     * @param totalPoints the total possible points
+     * @param statistics the percentage of correct answers
+     * @author Sara Sheikho
+     * @author Ahmad Maarouf
+     */
     public void setUpResultInfoPanel(int userPoints, int totalPoints, double statistics) {
 
         //Points
@@ -87,8 +118,7 @@ public class ResultPanel extends JPanel {
         lblTotalPoints = new JLabel("Total points:   " + totalPoints);
         lblTotalPoints.setFont(new Font("Montserrat", Font.BOLD, 16));
         lblTotalPoints.setForeground(Color.WHITE);
-
-        lblStatistics = new JLabel("You have got " + statistics + "% right answers");
+        lblStatistics = new JLabel("You have got " + String.format("%.1f", statistics) + "% right answers");
         lblStatistics.setFont(new Font("Montserrat", Font.BOLD, 16));
         lblStatistics.setForeground(Color.WHITE);
 

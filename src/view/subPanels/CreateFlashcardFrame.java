@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
  * Flashcard content is saved via MainFrame → Controller.
  *
  * @author Salman Warsame
+ * @author Sara Sheikho
  */
 public class CreateFlashcardFrame extends JFrame {
     private MainFrame mainFrame;
@@ -32,11 +33,15 @@ public class CreateFlashcardFrame extends JFrame {
     private String selectedModule;
 
     /**
-     * Initializes the flashcard creation UI.
+     * Constructs the CreateFlashcardFrame to allow the user to create a new flashcard.
+     * Initializes the frame size, title, layout, and components including text fields
+     * for front and back content, and a save button.
+     * The frame is centered on the screen and not resizable.
      *
-     * @param selectedCourse the course name the flashcard belongs to
-     * @param selectedModule the module name the flashcard belongs to
-     * @param mainFrame reference to the main application frame
+     * @param selectedCourse the course name selected for which the flashcard is created
+     * @param selectedModule the module name selected for which the flashcard is created
+     * @param mainFrame the main application frame used for context and data access
+     * @author Sara Sheikho
      * @author Salman Warsame
      */
     public CreateFlashcardFrame(String selectedCourse, String selectedModule, MainFrame mainFrame) {
@@ -63,18 +68,7 @@ public class CreateFlashcardFrame extends JFrame {
         backLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         backLabel.setAlignmentX(SwingConstants.CENTER);
 
-
-        frontField = new JTextField();
-        frontField.setPreferredSize(new Dimension(600, 60));
-        frontField.setMaximumSize(new Dimension(600, 60));
-        frontField.setMaximumSize(new Dimension(600, 60));
-        frontField.setFont(new Font("Montserrat", Font.PLAIN, 18));
-
-        backField = new JTextField();
-        backField.setPreferredSize(new Dimension(600, 60));
-        backField.setMaximumSize(new Dimension(600, 60));
-        backField.setMaximumSize(new Dimension(600, 60));
-        backField.setFont(new Font("Montserrat", Font.PLAIN, 18));
+        createTextFields();
 
         frontPanel.add(frontLabel);
         backPanel.add(backLabel);
@@ -111,6 +105,12 @@ public class CreateFlashcardFrame extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Creates and configures the main, front, and back panels used
+     * to layout the components inside the frame.
+     * Sets background colors, borders, and layout managers.
+     * @author Sara Sheikho
+     */
     public void createPanels(){
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -132,6 +132,33 @@ public class CreateFlashcardFrame extends JFrame {
 
     }
 
+    /**
+     * Creates and configures the text fields for entering the front and back
+     * content of the flashcard.
+     * Sets their preferred size and font style.
+     * @author Sara Sheikho
+     */
+    public void createTextFields(){
+        frontField = new JTextField();
+        frontField.setPreferredSize(new Dimension(600, 60));
+        frontField.setMaximumSize(new Dimension(600, 60));
+        frontField.setMaximumSize(new Dimension(600, 60));
+        frontField.setFont(new Font("Montserrat", Font.PLAIN, 18));
+
+        backField = new JTextField();
+        backField.setPreferredSize(new Dimension(600, 60));
+        backField.setMaximumSize(new Dimension(600, 60));
+        backField.setMaximumSize(new Dimension(600, 60));
+        backField.setFont(new Font("Montserrat", Font.PLAIN, 18));
+    }
+
+    /**
+     * Creates and configures the "Save Flashcard" button.
+     * Sets its size, colors, font, and adds event listeners for
+     * clicking and mouse hover effects.
+     * @author Sara Sheikho
+     * @author Lilas Beirakdar
+     */
     public void createButton(){
         saveButton = new JButton("Save Flashcard");
         saveButton.setAlignmentX(Component.CENTER_ALIGNMENT);
