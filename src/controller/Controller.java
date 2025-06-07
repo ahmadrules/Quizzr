@@ -401,12 +401,30 @@ public class Controller {
      */
 
     public void addNewCourse(String programName, String courseName) {
-        for (int p = 0; p < programList.size(); p++) {
-            Program currentProgram = programList.get(p);
-            if (currentProgram.getName().equals(programName)) {
-                Course newCourse = new Course(courseName, courseName.trim());
-                currentProgram.addNewCourse(newCourse);
-                courses.add(newCourse);
+        Course course = null;
+        for(Program program : programList){
+            for(Course currentCourse : program.getCourses()){
+                if(currentCourse.getName().equals(courseName)){
+                    course = currentCourse;
+                }
+            }
+        }
+
+        if(course == null) {
+            for (int p = 0; p < programList.size(); p++) {
+                Program currentProgram = programList.get(p);
+                if (currentProgram.getName().equals(programName)) {
+                    Course newCourse = new Course(courseName, courseName.trim());
+                    currentProgram.addNewCourse(newCourse);
+                    courses.add(newCourse);
+                }
+            }
+        }else{
+            for (int p = 0; p < programList.size(); p++) {
+                Program currentProgram = programList.get(p);
+                if (currentProgram.getName().equals(programName)) {
+                    currentProgram.addNewCourse(course);
+                }
             }
         }
         updateProgramsInFile();
