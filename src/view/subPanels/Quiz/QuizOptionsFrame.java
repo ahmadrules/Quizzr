@@ -72,6 +72,13 @@ public class QuizOptionsFrame extends JFrame {
         add(centerPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * customize the button with a specific dimensions, font, colors and alignment
+     * to ensure a consistent and modern user interface design.
+     * @param text the name of the button as a String
+     * @return JButton a new customized button
+     * @author Lilas Beirakdar
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(100, 35));
@@ -216,6 +223,13 @@ public class QuizOptionsFrame extends JFrame {
         timerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         timerPanel.add(timerBox);
     }
+
+    /**
+     * Applies custom styling to a JComboBox element including font, border
+     * and arrow button appearance
+     * @param comboBox JComboBox to style
+     * @author Lilas Beirakdar
+     */
     public void createBordersAndColorsJComponents(JComboBox comboBox) {
         Color customColor = new Color(25, 25, 70);
         Font labelFont= new Font("Segoe UI",Font.PLAIN,14);
@@ -239,9 +253,7 @@ public class QuizOptionsFrame extends JFrame {
         );
     }
 
-    /**
-     *
-     */
+
     private void addListeners() {
         generateButton.addActionListener(e -> {
             long timerSeconds = 0;
