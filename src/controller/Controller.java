@@ -40,8 +40,6 @@ import java.util.regex.Pattern;
  *   <li><code>programList</code> - all programs read from file</li>
  *   <li><code>programsFileName</code> - path to the file storing program data</li>
  *   <li><code>currentUser</code> - the user currently logged in</li>
- *   <li><code>currentModule</code> - the module currently being selected</li>
- *   <li><code>onGoingQuiz</code> - the quiz currently in progress</li>
  *   <li><code>userManager</code> - manager class for all user-related logic</li>
  *   <li><code>usersQuizzes</code> - list of quizzes attempted by the current user</li>
  *   <li><code>currentStudentProgram</code> - the program currently enrolled by the student</li>
@@ -60,8 +58,6 @@ public class Controller {
     private List<Program> programList;  //All the applications programs (from the file)
     private final String programsFileName = "src/model/files/programs.dat";
     private User currentUser;
-    private Module currentModule;
-    private Quiz onGoingQuiz;
     private UserManager userManager;
     private List<User> users;
     private List<Quiz> userAvailableQuizzes;
@@ -402,15 +398,15 @@ public class Controller {
 
     public void addNewCourse(String programName, String courseName) {
         Course course = null;
-        for(Program program : programList){
-            for(Course currentCourse : program.getCourses()){
-                if(currentCourse.getName().equals(courseName)){
+        for (Program program : programList) {
+            for (Course currentCourse : program.getCourses()) {
+                if (currentCourse.getName().equals(courseName)) {
                     course = currentCourse;
                 }
             }
         }
 
-        if(course == null) {
+        if (course == null) {
             for (int p = 0; p < programList.size(); p++) {
                 Program currentProgram = programList.get(p);
                 if (currentProgram.getName().equals(programName)) {
@@ -419,7 +415,7 @@ public class Controller {
                     courses.add(newCourse);
                 }
             }
-        }else{
+        } else {
             for (int p = 0; p < programList.size(); p++) {
                 Program currentProgram = programList.get(p);
                 if (currentProgram.getName().equals(programName)) {
@@ -918,7 +914,7 @@ public class Controller {
     private Module getModule(String courseName, String moduleName) {
         Course currentCourse = null;
         Module module = null;
-        for(Program program : programList) {
+        for (Program program : programList) {
             for (int c = 0; c < program.getCourses().size(); c++) {
                 currentCourse = program.getCourses().get(c);
                 if (currentCourse.getName().equals(courseName)) {
@@ -985,10 +981,6 @@ public class Controller {
         Module module = getModule(courseName, moduleName);
         Matching matching = new Matching(query, statements, matches, points, correctMatches);
         module.saveMatchingQuestionToFile(matching);
-    }
-
-    public void setQuizDone(boolean isDone) {
-        onGoingQuiz.setDone(isDone);
     }
 
     public void saveUsersFlashCards(FlashCard flashCard) {
