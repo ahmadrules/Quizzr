@@ -133,7 +133,13 @@ public class AvailableQuizPanel extends JPanel {
         buttonPanel.setBackground(new Color(255, 249, 163));
         add(buttonPanel, BorderLayout.SOUTH);
     }
-
+    /**
+     * customize the button with a specific dimensions, font, colors and alignment
+     * to ensure a consistent and modern user interface design.
+     * @param text the name of the button as a String
+     * @return JButton a new customized button
+     * @author Lilas Beirakdar
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(100, 35));

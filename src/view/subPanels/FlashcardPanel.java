@@ -1,6 +1,5 @@
 package view.subPanels;
 
-import model.FlashCard;
 import view.main.MainFrame;
 
 import javax.swing.*;
@@ -53,6 +52,8 @@ public class FlashcardPanel extends JFrame {
      * @param selectedCourse  the name of the selected course
      * @param selectedModule  the name of the selected module
      * @param mainFrame       reference to MainFrame for controller access
+     * @author Salman Warsame
+     * @author Sara Sheikho
      */
     public FlashcardPanel(String selectedProgram, String selectedCourse, String selectedModule, MainFrame mainFrame) {
         this.selectedProgram = selectedProgram;
@@ -73,6 +74,15 @@ public class FlashcardPanel extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Initializes and lays out all major panels of the flashcard interface.
+     * <p>
+     * This includes the main layout panel, info panel, flashcard panel, and
+     * the button panel. It also sets component alignments, colors, spacing,
+     * and calls helper methods for flashcard and button setup.
+     * </p>
+     * @author Sara Sheikho
+     */
     public void setUpPanels(){
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(255, 249, 163));
@@ -108,6 +118,13 @@ public class FlashcardPanel extends JFrame {
         mainPanel.add(componentsPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Configures the information panel that displays instructions or tips.
+     * <p>
+     * Sets the font, alignment, border spacing, and adds the label to the info panel.
+     * </p>
+     * @author Sara Sheikho
+     */
     public void setUpInfoPanel(){
         infoLabel = new JLabel("Click on flashcard to flip it!");
         infoLabel.setFont(new Font("Montserrat", Font.BOLD, 20));
@@ -120,6 +137,15 @@ public class FlashcardPanel extends JFrame {
         infoPanel.setMaximumSize(new Dimension(400, 70));
     }
 
+    /**
+     * Sets up the main flashcard display area.
+     * <p>
+     * Initializes size constraints and appearance of the flashcard panel,
+     * creates the content label, centers it, and wraps it in a FlowLayout panel.
+     * Adds the final wrapped panel to the components panel.
+     * </p>
+     * @author Sara Sheikho
+     */
     public void setUpFlashcardsPanel(){
         flashcardPanel.setPreferredSize(new Dimension(700, 400));
         flashcardPanel.setMaximumSize(new Dimension(700, 400));
@@ -142,8 +168,10 @@ public class FlashcardPanel extends JFrame {
     }
 
     /**
-     * Sets up the layout, buttons, and text display areas.
-     * Adds event listeners to the navigation buttons.
+     * Creates and configures the buttons used in the UI, including
+     * the "Next", "Back", and "Create flashcards" buttons.
+     * Sets their colors, sizes, fonts, and adds them to the buttons panel.
+     * Also attaches action listeners to handle button click events.
      *
      * @author Sara Sheikho
      * @author Salman Warsame
@@ -186,6 +214,13 @@ public class FlashcardPanel extends JFrame {
         createFlashcardButton.addActionListener(e -> new CreateFlashcardFrame(selectedCourse, selectedModule, mainFrame));
     }
 
+    /**
+     * Adds mouse event listeners to the buttons to provide
+     * hover effects, changing their background color and border
+     * when the mouse enters or exits the button area.
+     *
+     * @author Sara Sheikho
+     */
     public void addButtonEvents(){
         nextButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -246,6 +281,16 @@ public class FlashcardPanel extends JFrame {
         });
     }
 
+    /**
+     * Sets mouse listeners on the flashcard panel to handle
+     * mouse movements and clicks:
+     * <ul>
+     *   <li>Changes background color on mouse movement over the panel.</li>
+     *   <li>Resets background color when the mouse exits the panel.</li>
+     *   <li>Handles clicks on the flashcard to show the answer.</li>
+     * </ul>
+     * @author Sara Sheikho
+     */
     public void setListenersForFlashcards() {
         flashcardPanel.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -272,6 +317,8 @@ public class FlashcardPanel extends JFrame {
     /**
      * Loads the list of flashcards for the selected module.
      * Data is fetched from the controller through MainFrame.
+     * @author Salman Warsame
+     * @author Sara Sheikho
      */
     private void loadFlashcards() {
         this.frontContent = mainFrame.getFlashCardsFrontContent(selectedCourse, selectedModule);
@@ -280,7 +327,12 @@ public class FlashcardPanel extends JFrame {
     }
 
     /**
-
+     * Updates the display of the flashcard content based on the current index.
+     * <p>
+     * If there is valid content on the front side of the current flashcard,
+     * it sets the contentLabel text accordingly. Otherwise, it shows a message
+     * indicating no flashcards are available and disables navigation buttons.
+     * @author Sara Sheikho
      */
     private void updateCardDisplay(){
         if(!frontContent.isEmpty()) {
@@ -301,8 +353,15 @@ public class FlashcardPanel extends JFrame {
     }
 
     /**
+     * Handles the mouse click event to show the answer side of the flashcard.
+     * <p>
+     * If the current displayed text is the front content, this method switches
+     * the display to the back content (the answer) and changes the flashcard
+     * panel background color to indicate the answer side.
+     * If the back content is already showing, it switches back to the front content.
      *
-     * @param e
+     * @param e the MouseEvent triggered by clicking the flashcard panel
+     * @author Sara Sheikho
      */
     private void handleShowAnswer(MouseEvent e) {
         if(!frontContent.isEmpty()) {
@@ -321,14 +380,15 @@ public class FlashcardPanel extends JFrame {
     }
 
     /**
-     * Navigates to the next flashcard in the list and updates the display.
-     * If at the end of the list, loops back to the beginning.
+     * Displays the previous flashcard by updating the current index
+     * to the previous position in the flashcard list.
+     * <p>
+     * The index wraps around to the last flashcard if currently at the first one.
+     * Then updates the displayed content accordingly.
+     *
+     * @param e the ActionEvent triggered by clicking the "Back" button
+     * @author Sara Sheikho
      */
-    private void handleNextS(ActionEvent e) {
-        currentIndex = (currentIndex + 1) % frontContent.size();
-        updateCardDisplay();
-    }
-
     public void showPreviousFlashcard(ActionEvent e){
         if (!frontContent.isEmpty()) {
             currentIndex = (currentIndex - 1 + frontContent.size()) % frontContent.size();
@@ -341,8 +401,8 @@ public class FlashcardPanel extends JFrame {
      * Navigates to the next flashcard in the list and updates the display.
      * If at the end of the list, loops back to the beginning.
      *
-     * @author Sara
-     * @author Salman
+     * @author Sara Sheikho
+     * @author Salman Warsame
      */
     private void showNextFlashcard(ActionEvent e) {
         currentIndex = (currentIndex + 1) % frontContent.size();

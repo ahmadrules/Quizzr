@@ -63,10 +63,22 @@ public class FlashCard implements Serializable{
         this.frontContent = frontContent;
     }
 
+    /**
+     * Gets the course related to this object.
+     *
+     * @return A {@link Course} object, or null if none is assigned.
+     * @author Sara Sheikho
+     */
     public Course getRelatedCourse() {
         return relatedCourse;
     }
 
+    /**
+     * Gets the module related to this object.
+     *
+     * @return A {@link Module} object, or null if none is assigned.
+     * @author Sara Sheikho
+     */
     public Module getRelatedModule() {
         return relatedModule;
     }
@@ -78,4 +90,5 @@ public class FlashCard implements Serializable{
      */
     public String toString(){
         return frontContent+" "+backContent;
-    }}
+    }
+}

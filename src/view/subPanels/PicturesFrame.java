@@ -8,6 +8,14 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * A JFrame that allows the user to select a profile picture from a set of predefined images.
+ * Displays several pictures in a grid layout, lets the user select one,
+ * and confirms the selection with an OK button.
+ * Updates the profile picture in the associated CenterAccountPanel and MainFrame.
+ *
+ * @author Sara Sheikho
+ */
 public class PicturesFrame extends JFrame {
     private MainFrame mainFrame;
     private CenterAccountPanel accountPanel;
@@ -24,6 +32,16 @@ public class PicturesFrame extends JFrame {
     private JButton okButton;
     private String[] picPaths;
 
+    /**
+     * Constructs a PicturesFrame tied to the given MainFrame and CenterAccountPanel.
+     * Sets up the UI components including the picture selection grid and OK button.
+     * The frame is centered and made visible immediately.
+     *
+     * @param mainFrame The main application frame, used for context and image path retrieval.
+     * @param accountPanel The CenterAccountPanel to update the selected profile picture.
+     * @author Sara Sheikho
+     * @author Ahmad Maarouf
+     */
     public PicturesFrame(MainFrame mainFrame, CenterAccountPanel accountPanel) {
         this.mainFrame = mainFrame;
         this.accountPanel = accountPanel;
@@ -43,6 +61,11 @@ public class PicturesFrame extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Sets up the main panels in the frame, including an information label,
+     * the pictures panel with selectable images, and the OK button panel.
+     * @author Sara Sheikho
+     */
     public void setUpPanels() {
         JLabel infoLabel = new JLabel("Choose a picture");
 
@@ -58,6 +81,11 @@ public class PicturesFrame extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Sets up the pictures panel with a grid layout containing selectable picture labels.
+     * Loads the image paths from resources and adds the images as clickable labels.
+     * @author Sara Sheikho
+     */
     public void setUpPicsPanel() {
         picsPanel = new JPanel();
         picsPanel.setLayout(new GridLayout(2, 2));
@@ -98,6 +126,12 @@ public class PicturesFrame extends JFrame {
 
     }
 
+    /**
+     * Adds action listeners to the OK button and mouse listeners to each picture label.
+     * The OK button confirms the selection and updates the profile picture.
+     * Clicking a picture label highlights the selection with a blue border.
+     * @author Sara Sheikho
+     */
     public void addListeners() {
         okButton.addActionListener(n -> {
             accountPanel.profilePictureSelected(getPicPath());
@@ -109,7 +143,6 @@ public class PicturesFrame extends JFrame {
             picLabels[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    System.out.println("Label clicked!");
                     selectedPic = (JLabel) e.getSource();
                     if (chosenLabel[0] != null) {
                         chosenLabel[0].setBorder(null);
@@ -121,6 +154,13 @@ public class PicturesFrame extends JFrame {
         }
     }
 
+    /**
+     * Returns the file path of the currently selected picture.
+     * If no picture is selected, returns an empty string.
+     *
+     * @return the String path of the selected picture image.
+     * @author Sara Sheikho
+     */
     public String getPicPath() {
         String path = "";
         for (int i = 0; i < picLabels.length; i++) {

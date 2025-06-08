@@ -35,6 +35,15 @@ public class CenterAccountPanel extends JPanel {
     private JLabel passwordLabel;
     private JLabel profilePicLabel;
 
+    /**
+     * Constructs the CenterAccountPanel and initializes its components.
+     * Retrieves current user information, sets up the layout,
+     * adds action listeners, and makes the panel visible.
+     *
+     * @param mainFrame the main application frame used for accessing user data and context
+     * @author Ahmad Maarouf
+     * @author Sara Sheikho
+     */
     public CenterAccountPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         getCurrentUserInfo();
@@ -44,9 +53,13 @@ public class CenterAccountPanel extends JPanel {
     }
 
     /**
-     * Sets up the layout of the panel.
+     * Sets up the layout of the panel including a top label,
+     * a main panel wrapped in a scroll pane, and an empty panel at the bottom.
+     * The main panel uses a vertical BoxLayout and is styled with background color and border.
      *
      * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     * @author Sara Sheikho
      */
     public void setLayout() {
         setLayout(new BorderLayout());
@@ -63,6 +76,13 @@ public class CenterAccountPanel extends JPanel {
         add(emptyPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Configures the main panel by setting up the account information
+     * and profile picture panels, arranging them vertically,
+     * and adding a border around the main panel.
+     * @author Sara Sheikho
+     * @author Lilas Beirakdar
+     */
     public void setUpMainPanel() {
         accountInformationPanel = new JPanel();
         accountInformationPanel.setBackground(Color.WHITE);
@@ -76,6 +96,16 @@ public class CenterAccountPanel extends JPanel {
         mainPanel.setBorder(BorderFactory.createLineBorder(Color.black));
     }
 
+    /**
+     * Sets up the profile picture panel by arranging components vertically,
+     * defining size constraints, and adding the profile picture and
+     * the button to change the picture.
+     * <p>
+     * If the user has a profile picture path, it is displayed; otherwise, a default
+     * profile picture is shown.
+     * @author Sara Sheikho
+     * @author Lilas Beirakdar
+     */
     public void setUpProfilePicPanel() {
         profilePicPanel.setLayout(new BoxLayout(profilePicPanel, BoxLayout.Y_AXIS));
         profilePicPanel.setMaximumSize(new Dimension(130, 200));
@@ -103,10 +133,13 @@ public class CenterAccountPanel extends JPanel {
     }
 
     /**
-     * Creates the panel displaying the information and all related
-     * components required.
+     * Creates the panel that displays the account information and
+     * related components such as labels and buttons.
+     * The panel layout is set and border is applied.
      *
+     * @author Sara Sheikho
      * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
      */
     public void createAccountInformationPanel() {
         //Panel to add space to bottom
@@ -119,6 +152,14 @@ public class CenterAccountPanel extends JPanel {
         accountInformationPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
+    /**
+     * Creates the account details panel containing labels for username,
+     * email, password placeholder, and the user's program.
+     * Styles the labels with font, color, and spacing.
+     * @author Sara Sheikho
+     * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     */
     public void createAccountPanel() {
         Font labelFont= new Font("Segoe UI", Font.BOLD, 14);
         Color fontColor =  new Color(25, 25, 70);
@@ -163,6 +204,14 @@ public class CenterAccountPanel extends JPanel {
         accountInformationPanel.add(accountPanel);
     }
 
+    /**
+     * Creates the panel containing buttons for editing account information:
+     * username, email, and password.
+     * Sets the preferred size for each button and arranges them vertically with spacing.
+     * @author Sara Sheikho
+     * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
+     */
     public void createAccountButtonsPanel() {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBackground(Color.WHITE);
@@ -264,6 +313,7 @@ public class CenterAccountPanel extends JPanel {
      * Also changes the password stored in a data file.
      *
      * @author Ahmad Maarouf
+     * @author Lilas Beirakdar
      */
     public void changePassword() {
         String currentPassword = JOptionPane.showInputDialog(mainFrame, "Please enter your current password");
@@ -305,6 +355,7 @@ public class CenterAccountPanel extends JPanel {
      * Adds action listeners to the buttons.
      *
      * @author Ahmad Maarouf
+     * @author Sara Sheikho
      */
     public void addActionListeners() {
         editNameButton.addActionListener(e -> {
@@ -324,6 +375,16 @@ public class CenterAccountPanel extends JPanel {
         });
     }
 
+    /**
+     * Updates the profile picture display with the selected image path.
+     * <p>
+     * Sets the label to show the new profile picture with specified dimensions,
+     * adjusts label alignment and border, and refreshes the main panel UI.
+     * Also notifies the main frame to update the user's profile picture.
+     *
+     * @param selectedPicPath the file path or URL of the selected profile picture
+     * @author Sara Sheikho
+     */
     public void profilePictureSelected(String selectedPicPath){
         currentProfilePicPath = selectedPicPath;
         profilePicLabel.setPreferredSize(new Dimension(110, 110));
@@ -336,6 +397,7 @@ public class CenterAccountPanel extends JPanel {
         mainPanel.repaint();
         mainFrame.changeProfilePicture(selectedPicPath);
     }
+
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setAlignmentX(Component.CENTER_ALIGNMENT);

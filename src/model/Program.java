@@ -1,22 +1,40 @@
 package model;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an educational program consisting of multiple courses.
+ * Implements Serializable to allow object persistence.
+ * @author Lilas Beirakdar
+ * @author Sara Sheiho
+ */
 public class Program implements Serializable {
     private String name;
     private List<Course> courses;
     private String programCode;
 
+    /**
+     * Constructs a Program with a name and a predefined list of courses.
+     *
+     * @param name    the name of the program
+     * @param courses the list of courses in the program
+     * @author Lilas Beirakdar
+     */
     public Program(String name, ArrayList<Course> courses) {
         this.name = name;
         this.courses = courses;
     }
 
+    /**
+     * Constructs a Program with a name and a program code. Initializes an empty course list.
+     *
+     * @param name the name of the program
+     * @param programCode the unique code for the program
+     * @author Lilas Beirakdar
+     * @author Sara Sheiho
+     */
     public Program(String name, String programCode) {
         this.name = name;
         courses = new ArrayList<>();
